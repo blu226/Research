@@ -1,5 +1,17 @@
-from constants import *
+import numpy
 from createSTBGraph import *
+
+
+# Print 5D adjacency matrix for the STB graph
+def printADJ(ADJ_E, V, S, T, tau):
+    print ("i j s ts te E")
+    for i in range(V):
+        for j in range(V):
+            for s in range(S):
+                for ts in range(0,T,tau):
+                    for te in range(ts+tau, T, tau):
+                        if i != j:
+                            print(str(i) + " " + str(j) + " "  + str(s) + " " + str(ts) + " "  + str(te) +" = " + str(ADJ_E[i,j,s,ts,te]))
 
 def print4d(adj):
     print("i j ts te x")
@@ -10,14 +22,16 @@ def print4d(adj):
                     if(adj[i,j,ts,te] != -1 and adj[i,j,ts,te] != math.inf):
                         print(str(i) + " " + str(j) +  " " + str(ts) + " "  + str(te) +" = " + str(adj[i,j,ts,te]))
 
-def shortestPathADJ(ADJ, V, S, T, tau):
 
-    ShortestPath = numpy.empty(shape=(V, V, T, T))
-    ShortestPath.fill(-1)
-    parent = numpy.empty(shape=(V, V, T, T))
-    parent.fill(-1)
-    spectrum = numpy.empty(shape=(V, V, T, T))
-    spectrum.fill(-1)
+# Determines the Least Energy Cost (LEC) Path for all messages in the STB graph
+def LEC_PATH_ADJ(ADJ, V, S, T, tau):
+    #LEC = Least Energy Cost Path
+    LEC_PATH = numpy.empty(shape=(V, V, T, T))
+    LEC_PATH.fill(-1)
+    Parent = numpy.empty(shape=(V, V, T, T))
+    Parent.fill(-1)
+    Spectrum = numpy.empty(shape=(V, V, T, T))
+    Spectrum.fill(-1)
 
     for k in range(V):
         for i in range(V):
@@ -25,40 +39,26 @@ def shortestPathADJ(ADJ, V, S, T, tau):
                 for s1 in range(S):
                     for s2 in range(S):
                         for s3 in range(S):
-                            for ts in range(0,T,tau):
-                                for te in range(ts+tau, T, tau):
-                                    for t in range(ts+tau, te, tau):
+                            for ts in range(0, T - tau  - 1, tau):
+                                for te in range(ts + tau, T - 1, tau):
+                                    for t in range(tau, te - tau, tau):
+                                        if ts + t > te:             #Not a valid intermediate time interval
+                                            continue
+
                                         if ( i != j):
                                             dcurr = ADJ[i][j][s1][ts][te]
+                                            # print ("ts: " + str(t) + " ts+t: " +  str(ts + t))
                                             d1 = ADJ[i][k][s2][ts][ts + t]
                                             d2 = ADJ[k][j][s3][ts + t][te]
                                         
                                             if (dcurr > d1 + d2):
-                                                ShortestPath[i][j][ts][te] = d1 + d2
-                                                spectrum[i][k][ts][ts +t] = s2
-                                                spectrum[k][j][ts + t][te] = s3
-                                                parent[i][j][ts][te] = parent[k][j][ts][te]
+                                                LEC_PATH[i][j][ts][te] = d1 + d2
+                                                Spectrum[i][k][ts][ts +t] = s2
+                                                Spectrum[k][j][ts + t][te] = s3
+                                                Parent[i][j][ts][te] = Parent[k][j][ts][te]
                                             else:
-                                                ShortestPath[i][j][ts][te] = dcurr
-                                                parent[i][j][ts][te] = i
-                                                spectrum[i][j][ts][te] = s1
-    print("Shortest Path")
-    print4d(ShortestPath)
-    print("Parent")
-    print4d(parent)
-    print("Spectrum")
-    print4d(spectrum)
+                                                LEC_PATH[i][j][ts][te] = dcurr
+                                                Parent[i][j][ts][te] = i
+                                                Spectrum[i][j][ts][te] = s1
 
-    return ShortestPath
-
-V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
-specBW = numpy.zeros(shape =(V, V, S, T))
-ADJ_E = numpy.empty(shape=(V, V, S, T, T))
-ADJ_E.fill(math.inf)
-ADJ_E = initializeADJ(ADJ_E, V, S, T, tau)
-
-
-print("ADJ_E")
-printADJ(ADJ_E, V, S, T, tau)
-
-minPath = shortestPathADJ(ADJ_E, V, S, T, tau)
+    return LEC_PATH, Parent, Spectrum

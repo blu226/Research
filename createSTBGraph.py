@@ -1,19 +1,5 @@
-import random
-import numpy
 import math
-
 from constants import *
-
-# Print 5D adjacency matrix for the STB graph
-def printADJ(ADJ_E, V, S, T, tau):
-    print ("i j s ts te E")
-    for i in range(V):
-        for j in range(V):
-            for s in range(S):
-                for ts in range(0,T,tau):
-                    for te in range(ts+tau, T, tau):
-                        print(str(i) + " " + str(j) + " "  + str(s) + " " + str(ts) + " "  + str(te) +" = " + str(ADJ_E[i,j,s,ts,te]))
-
 
 # Compute tau defined as the least message transmission delay in transmitting a message of least size over the spectrum band with
 # highest bandwidth across all times t = 0, 1, .... T
@@ -64,7 +50,7 @@ def getSpecBW(specBW, V, S, T):
                         specBW[i, j, s, t] = 0
                     else:
                         specBW[i, j, s, t] = getMinBWFromDMFiles(i, j, s, t)
-                        print ("i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
+                        # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
     return specBW
 
 # Check if a pair of nodes i and j are sufficienctly in communication range over any band type s, starting at time ts until time te
@@ -87,7 +73,7 @@ def linkExists(i, j, s, ts , te):
 # Assumption 1: Spectrum power and transmission range does not change
 # Assumption 2: Only Spectrum bandwidth changes over time and location (i.e., at different nodes)
 # Assumption 3: However given a bandwidth of a certain band at time t, it remains constant for the duration of transmission delay for any message
-def initializeADJ(ADJ_E, V, S, T, tau):
+def initializeADJ(ADJ_E, V, S, T, tau, specBW):
     for i in range(V):
         for j in range(V):
             for s in range(S):
@@ -101,24 +87,23 @@ def initializeADJ(ADJ_E, V, S, T, tau):
                             if te >= T:
                                 break
                             else:
-                                consEnergy = msgTransDelay * specPower[s] * tau
-
+                                consEnergy = msgTransDelay * spectPower[s] * tau
                                 if linkExists(i, j, s, ts, te) == True:
                                     ADJ_E[i,j,s,ts,te] =  consEnergy            # spatial link
 
     return ADJ_E
 
 
-V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
-specBW = numpy.zeros(shape =(V, V, S, T))
-ADJ_E = numpy.empty(shape=(V, V, S, T, T))
-ADJ_E.fill(math.inf)
+# V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
+# specBW = numpy.zeros(shape =(V, V, S, T))
+# ADJ_E = numpy.empty(shape=(V, V, S, T, T))
+# ADJ_E.fill(math.inf)
+#
+# tau = computeTau()
+# specBW = getSpecBW(specBW, V, S, T)
 
-tau = computeTau()
-specBW = getSpecBW(specBW, V, S, T)
-
-ADJ_E = initializeADJ(ADJ_E, V, S, T, tau)
-printADJ(ADJ_E, V, S, T, tau)
+# ADJ_E = initializeADJ(ADJ_E, V, S, T, tau)
+# printADJ(ADJ_E, V, S, T, tau)
 
 
 
