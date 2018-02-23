@@ -5,7 +5,7 @@ import math
 def print_3Dmatrix(adj):
     for i in range(len(adj)):
         for j in range(len(adj)):
-            print(adj[i][j], " ", end="")
+            print(adj[i][j], " ")
         print()
 #--------------------------------------------------------------------------------------------------------------------------------
 def print_networkmap(adj):                                                              #function to clearly show the details of the

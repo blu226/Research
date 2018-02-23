@@ -1,4 +1,4 @@
-T = 10                       # Simulation time
+T = 5                     # Simulation time
 M = [1, 10, 20, 50]              # Set of messages
 
 NoOfDMs = 3                 # Total number of data mules (or DSA nodes)

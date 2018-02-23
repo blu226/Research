@@ -2,27 +2,45 @@ import numpy
 import math
 from STB_help import *
 
-V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
-tau = computeTau()                              # Get the discrete time interval period
 
 #Initialization
+
+V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
+
 specBW = numpy.zeros(shape =(V, V, S, T))       # Initialize the dynamic spectrum bandwidth
-ADJ_E = numpy.empty(shape=(V, V, S, T, T))      # Initialize the Adjacency matrix
+
+ADJ = numpy.empty(shape=(V, V, S, T, T))      # Initialize the Adjacency matrix - Just either links exists or not
+ADJ.fill(math.inf)
+
+ADJ_E = numpy.empty(shape=(V, V, S, T, T))      # Initialize the Adjacency matrix - Energy part
 ADJ_E.fill(math.inf)
 
+ADJ_MSG    = numpy.empty(shape = (V, V, S, T, len(M))) # Adjacency matrix that holds message transmission delay for each message for each node pair
+ADJ_MSG.fill(math.inf)
+
+# MODULES
+
+tau = computeTau()                              # Get the discrete time interval period
 specBW = getSpecBW(specBW, V, S, T)                     # Get the dynamic spectrum bandwidth
-ADJ_E = initializeADJ(ADJ_E, V, S, T, tau, specBW)      #Initialize the 5D adjacency matrix
-print("ADJ_E MATRIX")
-printADJ(ADJ_E, V, S, T, tau)
 
-LEC_Path, Parent, Spectrum = LEC_PATH_ADJ(ADJ_E, V, S, T, tau)
+ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
+#printADJ(ADJ, V, S, T, tau)
 
-print("Shortest Path")
-print4d(LEC_Path)
+ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau)
+# printADJ_MSG(ADJ_MSG, V, S, T, M, tau)
 
-print("Parent")
-print4d(Parent)
+# ADJ_E = initializeADJ2(ADJ_E, V, S, T, tau, specBW, specBW)      #Initialize the 5D adjacency matrix
+# print("ADJ_E MATRIX")
+# printADJ(ADJ_E, V, S, T, tau)
+#
+LLC_Path, Parent, Spectrum = LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau)
 
-print("Spectrum")
-print4d(Spectrum)
+print("Least Latency Cost Path")
+printADJ_3D(LLC_Path, V, M)
+#
+# print("Parent")
+# print4d(Parent)
+#
+# print("Spectrum")
+# print4d(Spectrum)
 
