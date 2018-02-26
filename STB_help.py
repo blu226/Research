@@ -1,11 +1,12 @@
 import numpy
 from createSTBGraph import *
 
-def printADJ_3D (ADJ, V, M):
+def printADJ_4D (ADJ, V, T, M):
     for i in range(V):
         for j in range(V):
-           for m in range(len(M)):
-               print(str(i) + " " + str(j) + " " + str(M[m]) + " = " + str(ADJ[i, j, m]))
+            for t in range(T):
+               for m in range(len(M)):
+                   print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " = " + str(ADJ[i, j, t, m]))
 
 
 # Print Message Matrix
@@ -115,6 +116,7 @@ def initializeADJ(ADJ, V, S, T, tau, specBW):
                             # here the message transmission delay is equivalent to z (discussed in the paper)
                             msgTransDelay = math.ceil(m / (tau * specBW[i, j, s, ts]))
                             te = ts + msgTransDelay * tau  # End time epoch for current message m
+                            # print ("M: " + str(m) + "  " + str(te))
 
                             if te >= T:
                                 break
@@ -163,14 +165,14 @@ def computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau):
                 for s in range(S):
                     for m in range(len(M)):
                         # print (str(i) + " " + str(j) + " " + str(s) + " " + str(t) + " " + str(m) + " "+ str(specBW[i, j, s, t]))
-                        consTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+                        consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
                         if i == j:
-                            consTime = tau
+                            consumedTime = tau
 
-                        if (t + consTime < T) and ADJ[i, j, s, t, (t + consTime)] == 1:
-                            ADJ_MSG[i, j, s, t, m] = consTime
+                        if (t + consumedTime < T) and ADJ[i, j, s, t, (t + consumedTime)] == 1:
+                            ADJ_MSG[i, j, s, t, m] = consumedTime
                         elif (t + tau) < T and ADJ_MSG[i, j, s, (t + tau), m] != math.inf:
-                            ADJ_MSG[i, j, s, t, m] = ADJ_MSG[i, j, s, (t + 1), m] + 1
+                            ADJ_MSG[i, j, s, t, m] = ADJ_MSG[i, j, s, (t + tau), m] + tau
                         else:
                             ADJ_MSG[i, j, s, t, m] = math.inf
     return ADJ_MSG
@@ -221,11 +223,11 @@ def LEC_PATH_ADJ(ADJ, V, S, T, tau):
 def LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau):
 
     # LLC = Least Latency Cost Path
-    LLC_PATH = numpy.empty(shape=(V, V, len(M)))
-    LLC_PATH.fill(-1)
-    Parent = numpy.empty(shape=(V, V, len(M)))
+    LLC_PATH = numpy.empty(shape=(V, V, T, len(M)))
+    LLC_PATH.fill(math.inf)
+    Parent = numpy.empty(shape=(V, V, T, len(M)))
     Parent.fill(-1)
-    Spectrum = numpy.empty(shape=(V, V, len(M)))
+    Spectrum = numpy.empty(shape=(V, V, T, len(M)))
     Spectrum.fill(-1)
 
     for m in range(len(M)):
@@ -233,27 +235,34 @@ def LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau):
             for i in range(V):
                 for j in range(V):
                     for t in range(0, T, tau):
+                        leastTime = math.inf
                         for s1 in range(S):
                             for s2 in range(S):
                                 for s3 in range(S):
 
-
                                     dcurr = ADJ_MSG[i, j, s1, t, m]
                                     d1 = ADJ_MSG[i, k, s2, t, m]
-                                    if t + d1 > T:
+                                    if d1 == math.inf or (d1 != math.inf and t + d1 > T):
                                         d2 = math.inf
                                     else:
-                                        d2 = ADJ_MSG[k, j, s3, (t + d1), m]
+                                        d2 = ADJ_MSG[k, j, s3, (t + int(d1)), m]
 
+                                    dalt = d1 + d2
+                                    # print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2))
 
-                                    if (dcurr > d1 + d2):
-                                        LLC_PATH[i, j, m] = d1 + d2
-                                        Spectrum[i, k, m] = s2
-                                        Spectrum[k, j, m] = s3
-                                        Parent[i, j, m] = Parent[k, j, m]
-                                    else:
-                                        LLC_PATH[i, j, m] = dcurr
-                                        Parent[i, j, m] = i
-                                        Spectrum[i, j, m] = s1
+                                    if dalt <= dcurr and dalt < leastTime:
+                                        leastTime = dalt
+                                        LLC_PATH[i, j, t, m] = leastTime
+                                        Spectrum[i, k, t, m] = s2
+                                        Spectrum[k, j, t, m] = s3
+                                        Parent[i, j, t, m] = Parent[k, j, t, m]
+
+                                    elif dcurr <= dalt and dcurr < leastTime:
+                                        leastTime = dcurr
+                                        LLC_PATH[i, j, t, m] = leastTime
+                                        Parent[i, j, t, m] = i
+                                        Spectrum[i, j, t, m] = s1
+
+                    # print(str(i) + " " + str(j) + " " + str(M[m]) + " = " + str(ADJ[i, j, m]))
 
     return LLC_PATH, Parent, Spectrum

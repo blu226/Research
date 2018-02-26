@@ -24,7 +24,7 @@ tau = computeTau()                              # Get the discrete time interval
 specBW = getSpecBW(specBW, V, S, T)                     # Get the dynamic spectrum bandwidth
 
 ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
-#printADJ(ADJ, V, S, T, tau)
+# printADJ(ADJ, V, S, T, tau)
 
 ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau)
 # printADJ_MSG(ADJ_MSG, V, S, T, M, tau)
@@ -36,8 +36,8 @@ ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau)
 LLC_Path, Parent, Spectrum = LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau)
 
 print("Least Latency Cost Path")
-printADJ_3D(LLC_Path, V, M)
-#
+printADJ_4D(LLC_Path, V, T, M)
+
 # print("Parent")
 # print4d(Parent)
 #
