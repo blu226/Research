@@ -1,7 +1,7 @@
 import numpy
 import math
 from STB_help import *
-
+from constants import *
 
 #Initialization
 
@@ -23,20 +23,20 @@ ADJ_MSG.fill(math.inf)
 tau = computeTau()                              # Get the discrete time interval period
 specBW = getSpecBW(specBW, V, S, T)                     # Get the dynamic spectrum bandwidth
 
-ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
+# ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
 # printADJ(ADJ, V, S, T, tau)
 
-ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau)
-# printADJ_MSG(ADJ_MSG, V, S, T, M, tau)
+ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, V, S, T, M, tau)
+printADJ_MSG(ADJ_MSG, V, S, T, M, tau)
 
 # ADJ_E = initializeADJ2(ADJ_E, V, S, T, tau, specBW, specBW)      #Initialize the 5D adjacency matrix
 # print("ADJ_E MATRIX")
 # printADJ(ADJ_E, V, S, T, tau)
 #
-LLC_Path, Parent, Spectrum = LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau)
-
-print("Least Latency Cost Path")
-printADJ_4D(LLC_Path, V, T, M)
+# LLC_Path, Parent, Spectrum = LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau)
+#
+# print("Least Latency Cost Path")
+# printADJ_4D(LLC_Path, V, T, M)
 
 # print("Parent")
 # print4d(Parent)

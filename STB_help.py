@@ -1,12 +1,13 @@
 import numpy
-from createSTBGraph import *
+import math
 
 def printADJ_4D (ADJ, V, T, M):
     for i in range(V):
         for j in range(V):
             for t in range(T):
                for m in range(len(M)):
-                   print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " = " + str(ADJ[i, j, t, m]))
+                   if ADJ[i, j, t, m] != math.inf and i != j:
+                    print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " = " + str(ADJ[i, j, t, m]))
 
 
 # Print Message Matrix
@@ -29,8 +30,8 @@ def printADJ(ADJ_E, V, S, T, tau):
             for s in range(S):
                 for ts in range(0, T - tau, tau):
                     for te in range(ts + tau, T, tau):
-                        #if ADJ_E[i, j, s, ts, te] != math.inf:
-                        print(str(i) + " " + str(j) + " "  + str(s) + " " + str(ts) + " "  + str(te) +" = " + str(ADJ_E[i,j,s,ts,te]))
+                        if ADJ_E[i, j, s, ts, te] != math.inf:
+                            print(str(i) + " " + str(j) + " "  + str(s) + " " + str(ts) + " "  + str(te) +" = " + str(ADJ_E[i,j,s,ts,te]))
 
 def print4d(adj):
     print("i j ts te x")
@@ -91,90 +92,141 @@ def getSpecBW(specBW, V, S, T):
 
 
 # Check if a pair of nodes i and j are sufficienctly in communication range over any band type s, starting at time ts until time te
-def linkExists(i, j, s, ts, te):
-    with open("Data/" + str(i) + ".txt") as fi:
-        next(fi)
-        iLines = fi.readlines()
-    fi.close()
+def createLinkExistenceADJ(LINK_EXISTS):
+    # with open("Data/" + str(i) + ".txt") as fi:
+    #     next(fi)
+    #     iLines = fi.readlines()
+    # fi.close()
+    #
+    # with open("Data/" + str(j) + ".txt") as fj:
+    #     next(fj)
+    #     jLines = fj.readlines()
+    # fj.close()
 
-    with open("Data/" + str(j) + ".txt") as fj:
-        next(fj)
-        jLines = fj.readlines()
-    fj.close()
+    for i in range(0,4,1):
+        for s in range(0,2,1):
+            for t in range(0, 4, 1):
+                LINK_EXISTS[i, i, s, t, t+1] = 1
+    # t = [0,1]
+    LINK_EXISTS[0, 1, 0, 0, 1] = 1
+    LINK_EXISTS[1, 0, 0, 0, 1] = 1
+    LINK_EXISTS[0, 1, 1, 0, 1] = 1
+    LINK_EXISTS[1, 0, 1, 0, 1] = 1
+    LINK_EXISTS[1, 3, 0, 0, 1] = 1
+    LINK_EXISTS[3, 1, 0, 0, 1] = 1
 
-    return True
+    #t = [1,2]
+    LINK_EXISTS[1, 3, 0, 1, 2] = 1
+    LINK_EXISTS[3, 1, 0, 1, 2] = 1
+    LINK_EXISTS[1, 3, 1, 1, 2] = 1
+    LINK_EXISTS[3, 1, 1, 1, 2] = 1
+    LINK_EXISTS[2, 3, 0, 1, 2] = 1
+    LINK_EXISTS[3, 2, 0, 1, 2] = 1
+    LINK_EXISTS[2, 3, 1, 1, 2] = 1
+    LINK_EXISTS[3, 2, 1, 1, 2] = 1
+
+    # t= [2,3]
+    LINK_EXISTS[0, 1, 0, 2, 3] = 1
+    LINK_EXISTS[1, 0, 0, 2, 3] = 1
+    LINK_EXISTS[1, 3, 0, 2, 3] = 1
+    LINK_EXISTS[3, 1, 0, 2, 3] = 1
+    LINK_EXISTS[2, 3, 0, 2, 3] = 1
+    LINK_EXISTS[3, 2, 0, 2, 3] = 1
+    LINK_EXISTS[2, 3, 1, 2, 3] = 1
+    LINK_EXISTS[3, 2, 1, 2, 3] = 1
+
+    # t = [3,4]
+    LINK_EXISTS[0, 3, 0, 3, 4] = 1
+    LINK_EXISTS[3, 0, 0, 3, 4] = 1
+    LINK_EXISTS[0, 3, 1, 3, 4] = 1
+    LINK_EXISTS[3, 0, 1, 3, 4] = 1
+    LINK_EXISTS[2, 3, 0, 3, 4] = 1
+    LINK_EXISTS[3, 2, 0, 3, 4] = 1
+
+    return LINK_EXISTS
 
 # Compute the adjacency matrix : 1 if link exists, else 0
-def initializeADJ(ADJ, V, S, T, tau, specBW):
-    for i in range(V):
-        for j in range(V):
-            for s in range(S):
-                for ts in range(0, T - tau, tau):
-                    te = ts + tau  # Initialize te, however, based on message size, we get appropriate te later
-                    if i != j:
-                        for m in M:
-                            # here the message transmission delay is equivalent to z (discussed in the paper)
-                            msgTransDelay = math.ceil(m / (tau * specBW[i, j, s, ts]))
-                            te = ts + msgTransDelay * tau  # End time epoch for current message m
-                            # print ("M: " + str(m) + "  " + str(te))
-
-                            if te >= T:
-                                break
-                            else:
-                                if linkExists(i, j, s, ts, te) == True:
-                                    ADJ[i, j, s, ts, te] = 1  # spatial link
-                    else:
-                        ADJ[i, j, s, ts, te] = 1  # Temporal Link - link exists between (t, t+tau)
-
-    return ADJ
+# def initializeADJ(ADJ, V, S, T, tau,  specBW):
+#     for i in range(V):
+#         for j in range(V):
+#             for s in range(S):
+#                 for ts in range(0, T - tau, tau):
+#                     te = ts + tau  # Initialize te, however, based on message size, we get appropriate te later
+#                     if i != j:
+#                         for m in M:
+#                             # here the message transmission delay is equivalent to z (discussed in the paper)
+#                             msgTransDelay = math.ceil(m / (tau * specBW[i, j, s, ts]))
+#                             te = ts + msgTransDelay * tau  # End time epoch for current message m
+#                             # print ("M: " + str(m) + "  " + str(te))
+#
+#                             if te >= T:
+#                                 break
+#                             else:
+#                                 if linkExists(i, j, s, ts, te) == True:
+#                                     ADJ[i, j, s, ts, te] = 1  # spatial link
+#                     else:
+#                         ADJ[i, j, s, ts, te] = 1  # Temporal Link - link exists between (t, t+tau)
+#
+#     return ADJ
 
 # Initialize the 5-D adjacency matrix where the value is 1 if
 # node i and j are in communication range for a time period [ts, te] over any band s in the set S
 # Assumption 1: Spectrum power and transmission range does not change
 # Assumption 2: Only Spectrum bandwidth changes over time and location (i.e., at different nodes)
 # Assumption 3: However given a bandwidth of a certain band at time t, it remains constant for the duration of transmission delay for any message
-def initializeADJ_E(ADJ_E, V, S, T, tau, specBW):
-    for i in range(V):
-        for j in range(V):
-            for s in range(S):
-                for ts in range(0, T - tau, tau):
-                    te = ts + tau  # Initialize te, however, based on message size, we get appropriate te later
-                    if i != j:
-                        for m in M:
-                            # here the message transmission delay is equivalent to z (discussed in the paper)
-                            msgTransDelay = math.ceil(m / (tau * specBW[i, j, s, ts]))
-                            te = ts + msgTransDelay * tau  # End time epoch for current message m
-
-                            if te >= T:
-                                break
-                            else:
-                                consEnergy = msgTransDelay * spectPower[s] * tau
-                                if linkExists(i, j, s, ts, te) == True:
-                                    ADJ_E[i, j, s, ts, te] = consEnergy  # spatial link
-                    else:
-                        ADJ_E[i, j, s, ts, te] = 0  # Temporal Link - Energy consumed is 0
-
-    return ADJ_E
+# def initializeADJ_E(ADJ_E, V, S, T, tau, specBW):
+#     for i in range(V):
+#         for j in range(V):
+#             for s in range(S):
+#                 for ts in range(0, T - tau, tau):
+#                     te = ts + tau  # Initialize te, however, based on message size, we get appropriate te later
+#                     if i != j:
+#                         for m in M:
+#                             # here the message transmission delay is equivalent to z (discussed in the paper)
+#                             msgTransDelay = math.ceil(m / (tau * specBW[i, j, s, ts]))
+#                             te = ts + msgTransDelay * tau  # End time epoch for current message m
+#
+#                             if te >= T:
+#                                 break
+#                             else:
+#                                 consEnergy = msgTransDelay * specBW[s] * tau
+#                                 if linkExists(i, j, s, ts, te) == True:
+#                                     ADJ_E[i, j, s, ts, te] = consEnergy  # spatial link
+#                     else:
+#                         ADJ_E[i, j, s, ts, te] = 0  # Temporal Link - Energy consumed is 0
+#
+#     return ADJ_E
 
 
 # Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
-def computeADJ_MSG(specBW, ADJ_MSG, ADJ, V, S, T, M, tau):
-    for t in range(T - tau, -1, -tau):
-        for i in range(V):
-            for j in range(V):
-                for s in range(S):
-                    for m in range(len(M)):
-                        # print (str(i) + " " + str(j) + " " + str(s) + " " + str(t) + " " + str(m) + " "+ str(specBW[i, j, s, t]))
+def computeADJ_MSG(specBW, ADJ_MSG, LINK_EXISTS, V, S, T, M, tau):
+    print ("M   i  j  s  ts  te :  Val  cT  LExi   BW    ")
+    for m in range(len(M) - 1):
+        for t in range(T-tau, -1, -tau):
+            for i in range(V):
+                for j in range(V):
+                    for s in range(S):
+
                         consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+
                         if i == j:
                             consumedTime = tau
 
-                        if (t + consumedTime < T) and ADJ[i, j, s, t, (t + consumedTime)] == 1:
+                        if (t + consumedTime < T) and LINK_EXISTS[ i, j, s, t, (t + consumedTime)] < math.inf:
+
+                            # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
                             ADJ_MSG[i, j, s, t, m] = consumedTime
+
                         elif (t + tau) < T and ADJ_MSG[i, j, s, (t + tau), m] != math.inf:
                             ADJ_MSG[i, j, s, t, m] = ADJ_MSG[i, j, s, (t + tau), m] + tau
-                        else:
-                            ADJ_MSG[i, j, s, t, m] = math.inf
+
+                        # if t + consumedTime < T and ADJ_MSG[i, j, s, t, m] != math.inf and ADJ_MSG[i, j, s, t, m] > 1:
+                        #     print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
+                        #         t) + "   " + str(t + consumedTime) + "  :  " + str(
+                        #         ADJ_MSG[i, j, s, t, m]) + "  " + str(
+                        #         consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
+                        #         specBW[i, j, s, t]))
+
     return ADJ_MSG
 
 
@@ -220,7 +272,7 @@ def LEC_PATH_ADJ(ADJ, V, S, T, tau):
 
 
 # Determines the Least Latency Cost (LLC) Path for all messages in the STB graph
-def LLC_PATH_ADJ(ADJ, ADJ_MSG, V, S, T, M, tau):
+def LLC_PATH_ADJ(ADJ_MSG, V, S, T, M, tau):
 
     # LLC = Least Latency Cost Path
     LLC_PATH = numpy.empty(shape=(V, V, T, len(M)))
