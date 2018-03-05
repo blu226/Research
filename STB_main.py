@@ -24,7 +24,7 @@ LINK_EXISTS.fill(math.inf)
 # MODULES
 
 tau = computeTau()                              # Get the discrete time interval period
-specBW = getSpecBW(specBW, V, S, T)                     # Get the dynamic spectrum bandwidth
+specBW = getSpecBW(specBW, V, S, T)             # Get the dynamic spectrum bandwidth
 
 # ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
 # printADJ(ADJ, V, S, T, tau)
@@ -32,6 +32,7 @@ LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
 # printADJ(LINK_EXISTS, V, S, T, tau)
 
 ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, LINK_EXISTS, V, S, T, M, tau)
+ADJ_MSG, ADJ_E = computeADJ_E(specBW, ADJ_MSG, ADJ_E, LINK_EXISTS, V, S, T, M, tau)
 # printADJ_MSG(ADJ_MSG, V, S, T, M, tau)
 
 # ADJ_E = initializeADJ2(ADJ_E, V, S, T, tau, specBW, specBW)      #Initialize the 5D adjacency matrix

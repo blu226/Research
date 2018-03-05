@@ -1,5 +1,15 @@
 import numpy
 import math
+from constants import *
+
+def printADJ_MSG_E_4D (LLC_PATH, LEC_PATH, V, T, M):
+    for i in range(V):
+        for j in range(V):
+            for t in range(T):
+               for m in range(len(M)):
+                   if LLC_PATH[i, j, t, m] != math.inf and i != j:
+                       print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " =  T: " + str(
+                           LLC_PATH[i, j, t, m]) + " E: " + str(LEC_PATH[i, j, t, m]))
 
 def printADJ_4D (ADJ, V, T, M):
     for i in range(V):
@@ -220,12 +230,12 @@ def computeADJ_MSG(specBW, ADJ_MSG, LINK_EXISTS, V, S, T, M, tau):
                         elif (t + tau) < T and ADJ_MSG[i, j, s, (t + tau), m] != math.inf:
                             ADJ_MSG[i, j, s, t, m] = ADJ_MSG[i, j, s, (t + tau), m] + tau
 
-                        # if t + consumedTime < T and ADJ_MSG[i, j, s, t, m] != math.inf and ADJ_MSG[i, j, s, t, m] > 1:
-                        #     print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
-                        #         t) + "   " + str(t + consumedTime) + "  :  " + str(
-                        #         ADJ_MSG[i, j, s, t, m]) + "  " + str(
-                        #         consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
-                        #         specBW[i, j, s, t]))
+                        if t + consumedTime < T and ADJ_MSG[i, j, s, t, m] != math.inf and ADJ_MSG[i, j, s, t, m] > 1:
+                            print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
+                                t) + "   " + str(t + consumedTime) + "  :  " + str(
+                                ADJ_MSG[i, j, s, t, m]) + "  " + str(
+                                consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
+                                specBW[i, j, s, t]))
 
     return ADJ_MSG
 
@@ -318,3 +328,109 @@ def LLC_PATH_ADJ(ADJ_MSG, V, S, T, M, tau):
                     # print(str(i) + " " + str(j) + " " + str(M[m]) + " = " + str(ADJ[i, j, m]))
 
     return LLC_PATH, Parent, Spectrum
+
+
+# Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
+def computeADJ_E(specBW, ADJ_MSG, ADJ_E, LINK_EXISTS, V, S, T, M, tau):
+    print ("M   i  j  s  ts  te :  LLC LEC  cT  LExi   BW    ")
+    for m in range(len(M) - 1):
+        for t in range(T-tau, -1, -tau):
+            for i in range(V):
+                for j in range(V):
+                    for s in range(S):
+
+                        consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+                        consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+
+                        if i == j:
+                            consumedTime = tau
+                            consumedEnergy = epsilon
+
+                        if (t + consumedTime < T) and LINK_EXISTS[ i, j, s, t, (t + consumedTime)] < math.inf:
+
+                            # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
+                            ADJ_MSG[i, j, s, t, m] = consumedTime
+                            ADJ_E[i, j, s, t, m] = consumedEnergy
+
+
+                        elif (t + tau) < T and ADJ_MSG[i, j, s, (t + tau), m] != math.inf:
+                            ADJ_MSG[i, j, s, t, m] = ADJ_MSG[i, j, s, (t + tau), m] + tau
+                            ADJ_E[i, j, s, t, m] = ADJ_E[i, j, s, (t + tau), m] + epsilon
+
+                        # if t + consumedTime < T and ADJ_MSG[i, j, s, t, m] != math.inf and ADJ_MSG[i, j, s, t, m] > 1:
+                        #     print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
+                        #         t) + "   " + str(t + consumedTime) + "  :  " + str(
+                        #         ADJ_MSG[i, j, s, t, m]) + "  " + str(
+                        #         ADJ_E[i, j, s, t, m]) + "  " + str(
+                        #         consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
+                        #         specBW[i, j, s, t]))
+
+    return ADJ_MSG, ADJ_E
+
+# Determines the Least Latency Cost (LLC) Path for all messages in the STB graph
+def LEC_PATH_ADJ(ADJ_MSG, ADJ_E, V, S, T, M, tau):
+
+    # LEC = Least Energy Cost Path
+    LEC_PATH = numpy.empty(shape=(V, V, T, len(M)))
+    LEC_PATH.fill(math.inf)
+    Parent = numpy.empty(shape=(V, V, T, len(M)))
+    Parent.fill(-1)
+    Spectrum = numpy.empty(shape=(V, V, T, len(M)))
+    Spectrum.fill(-1)
+
+    for m in range(len(M) -1):
+        for k in range(V):
+            for i in range(V):
+                for j in range(V):
+                    for t in range(0, T, tau):
+                        minEnergy = math.inf
+                        minD = math.inf
+                        for s1 in range(S):
+                            for s2 in range(S):
+                                for s3 in range(S):
+
+                                    dcurr = ADJ_MSG[i, j, s1, t, m]
+                                    energyCurr = ADJ_E[i, j, s1, t, m]
+
+                                    d1 = ADJ_MSG[i, k, s2, t, m]
+                                    energyD1 = ADJ_E[i, k, s2, t, m]
+
+                                    if d1 == math.inf or (d1 != math.inf and t + d1 > T):
+                                        d2 = math.inf
+                                        energyD2 = math.inf
+                                    else:
+                                        d2 = ADJ_MSG[k, j, s3, (t + int(d1)), m]
+                                        energyD2 = ADJ_E[k, j, s3, (t + int(d1)), m]
+
+                                    dalt = d1 + d2
+                                    energyAlt = energyD1 + energyD2
+
+                                    if dalt <= dcurr and dalt < minD:
+                                        minD = dalt
+                                    elif dcurr < dalt and dcurr < minD:
+                                        minD = dcurr
+
+                                    if energyAlt <= energyCurr and energyAlt < minEnergy:
+                                        minEnergy = energyAlt
+                                        LEC_PATH[i, j, t, m] = minEnergy
+                                        Spectrum[i, k, t, m] = s2
+                                        Spectrum[k, j, t, m] = s3
+                                        Parent[i, j, t, m] = Parent[k, j, t, m]
+
+                                    elif energyCurr < energyAlt and energyCurr < minEnergy:
+                                        minEnergy = energyCurr
+                                        LEC_PATH[i, j, t, m] = minEnergy
+                                        Parent[i, j, t, m] = i
+                                        Spectrum[i, j, t, m] = s1
+
+                                    if minD < math.inf and minD > 1:
+
+                                        print("i: " + str(i) + " j: " + str(j) + " k: " + str(k) + " s1: " + str(
+                                            s1) + " s2: " + str(s2) + " s3: " + str(s3) + " t: " + str(t))
+                                        print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2))
+                                        print ("E: " + str(energyCurr) +" E1: " + str(energyD1) + " E2: " + str(energyD2)+ " " + str(LEC_PATH[i,j,t,m]) + "\n")
+
+                    # if (LEC_PATH[i, j, t, m] < math.inf):
+                    #     print("Here: " + str(i) + " " + str(j) + " " + str(M[m]) + " = " + str(LEC_PATH[i, j, t, m]))
+
+    return LEC_PATH, Parent, Spectrum

@@ -10,3 +10,4 @@ minBW = [20, 10]               # Minimum bandwidth for each spectrum band
 maxBW = [25, 15]             # Maximum bandwidth for each spectrum band
 spectRange = [5, 10]        # Transmission coverage for each spectrum band
 spectPower = [1, 1]          # Transmission power for each spectrum band
+epsilon = 0
