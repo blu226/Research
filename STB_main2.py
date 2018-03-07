@@ -43,18 +43,20 @@ LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
 
 # ADJ_MSG = computeADJ_MSG(specBW, ADJ_MSG, LINK_EXISTS, V, S, T, M, tau)
 ADJ_MSG, ADJ_E = computeADJ_E(specBW, ADJ_MSG, ADJ_E, LINK_EXISTS, V, S, T, M, tau)
-
+ADJ_MSG, ADJ_TE = computeADJ_TE(specBW, ADJ_MSG, ADJ_E, LINK_EXISTS, V, S, T, TTL, M, tau)
 
 LLC_Path, Parent, Spectrum = LLC_PATH_ADJ(ADJ_MSG, LLC_PATH, Parent, Spectrum, V, S, T, M, tau)
-LEC_Path, Parent_E, Spectrum_E = LEC_PATH_ADJ(ADJ_MSG, ADJ_E, V, S, T, M, tau)
+LEC_Path, Parent_E, Spectrum_E = LEC_PATH_ADJ(ADJ_MSG, ADJ_E, V, S, T, TTL, M, tau)
+TLEC_Path, Parent_TE, Spectrum_TE = TLEC_PATH_ADJ(ADJ_MSG, ADJ_TE, V, S, T, TTL, M, tau)
+
 # printADJ_4D(LLC_Path, V, T, M)
 print("\nLLC and LEC paths are as follows: \n")
 print("i j t m  =  LLC   LEC")
-printADJ_MSG_E_4D(LLC_Path, LEC_Path, V, T, M)
+printADJ_MSG_E_4D(LLC_Path, LEC_Path, TLEC_Path, V, T, M)
 #
-print("\nLLC LEC Parent")
-print("i j t m  =  P_LLC   P_LEC")
-printADJ_MSG_E_4D(Parent, Parent_E, V, T, M)
+# print("\nLLC LEC Parent")
+# print("i j t m  =  P_LLC   P_LEC")
+# printADJ_MSG_E_4D(Parent, Parent_E, Parent_TE, V, T, M)
 
 #
 # print("Spectrum")

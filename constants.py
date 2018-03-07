@@ -1,4 +1,5 @@
 T = 5                   # Simulation time
+TTL = 2                 # TTL deadline
 M = [20, 40]              # Set of messages
 
 NoOfDMs = 4                 # Total number of data mules (or DSA nodes)
