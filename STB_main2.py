@@ -43,7 +43,7 @@ TLEC_Path, Parent_TE, Spectrum_TE = TLEC_PATH_ADJ(ADJ_T, ADJ_TE, V, S, T, TTL, M
 
 # printADJ_4D(LLC_Path, V, T, M)
 print("\nLLC and LEC paths are as follows: \n")
-print("i j t m  =  LLC   LEC")
+print("i j t m  =  LLC   LEC   TLEC")
 printADJ_T_E_4D(LLC_Path, LEC_Path, TLEC_Path, V, T, M, tau)
 #
 # print("\nLLC LEC Parent")
