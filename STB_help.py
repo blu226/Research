@@ -212,18 +212,19 @@ def LLC_PATH_ADJ(ADJ_T, V, S, T, M, tau):
                                         dalt = d1 + d2
                                     # print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2))
 
-                                    if dalt <= dcurr and dalt < leastTime and dalt < T:
+                                    if dalt <= dcurr and dalt < leastTime and dalt < LLC_PATH[i, j, t, m]:
                                         leastTime = dalt
                                         LLC_PATH[i, j, t, m] = dalt
                                         Spectrum[i, k, t, m] = s2
                                         Spectrum[k, j, (t + d1), m] = s3
                                         Parent[i, j, t, m] = Parent[i, k, t, m]
 
-                                    elif dcurr < dalt and dcurr < leastTime and dcurr < T:
+                                    elif dcurr < dalt and dcurr < leastTime and dcurr < LLC_PATH[i, j, t, m]:
                                         leastTime = dcurr
                                         LLC_PATH[i, j, t, m] = leastTime
                                         Parent[i, j, t, m] = j
                                         Spectrum[i, j, t, m] = s1
+
 
                                     if leastTime < math.inf and i == 3 and j == 0 and k == 1 and t == 0 and m == 0:
 
@@ -327,14 +328,14 @@ def LEC_PATH_ADJ(ADJ_T, ADJ_E, V, S, T, M, tau):
                                         minD = dcurr
 
 
-                                    if energyAlt <= energyCurr and energyAlt < minEnergy and dalt < T:
+                                    if energyAlt <= energyCurr and energyAlt < minEnergy and energyAlt < LEC_PATH[i, j, t, m]:
                                         minEnergy = energyAlt
                                         LEC_PATH[i, j, t, m] = minEnergy
                                         Spectrum_E[i, k, t, m] = s2
                                         Spectrum_E[k, j, (t + int(d1)), m] = s3
                                         Parent_E[i, j, t, m] = Parent_E[i, k, t, m]
 
-                                    elif energyCurr < energyAlt and energyCurr < minEnergy and dcurr < T:
+                                    elif energyCurr < energyAlt and energyCurr < minEnergy and energyCurr < LEC_PATH[i, j, t, m]:
                                         minEnergy = energyCurr
                                         LEC_PATH[i, j, t, m] = minEnergy
                                         Parent_E[i, j, t, m] = j
@@ -366,14 +367,14 @@ def computeADJ_TE(specBW, ADJ_T, ADJ_TE, LINK_EXISTS, V, S, T, TTL, M, tau):
                             consumedTime = tau
                             consumedEnergy = epsilon
 
-                        if (t + consumedTime <= TTL) and (t  + consumedTime < T) and LINK_EXISTS[ i, j, s, t, (t + consumedTime)] < math.inf:
+                        if (consumedTime <= TTL) and (t  + consumedTime < T) and LINK_EXISTS[ i, j, s, t, (t + consumedTime)] < math.inf:
 
                             # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
                             ADJ_T[i, j, s, t, m] = consumedTime
                             ADJ_TE[i, j, s, t, m] = consumedEnergy
 
 
-                        elif (t + tau <= TTL) and (t + tau < T) and ADJ_T[i, j, s, (t + tau), m] != math.inf:
+                        elif (tau <= TTL) and (t + tau < T) and ADJ_T[i, j, s, (t + tau), m] != math.inf:
                             ADJ_T[i, j, s, t, m] = ADJ_T[i, j, s, (t + tau), m] + tau
                             ADJ_TE[i, j, s, t, m] = ADJ_TE[i, j, s, (t + tau), m] + epsilon
 
@@ -416,12 +417,12 @@ def TLEC_PATH_ADJ(ADJ_T, ADJ_TE, V, S, T, TTL, M, tau):
                                     d1 = ADJ_T[i, k, s2, t, m]
                                     energyD1 = ADJ_TE[i, k, s2, t, m]
 
-                                    if d1 == math.inf or (d1 != math.inf and t + d1 > TTL):
-                                        d2 = math.inf
-                                        energyD2 = math.inf
-                                    else:
+                                    d2 = math.inf
+                                    energyD2 = math.inf
+
+                                    if d1 < math.inf and (t + d1) < T:
                                         d2 = ADJ_T[k, j, s3, (t + int(d1)), m]
-                                        energyD2 = ADJ_TE[k, j, s3, (t + int(d1)), m]
+                                        energyD2 = ADJ_TE[k, j, s3, (t + d1), m]
 
                                     dalt = d1 + d2
                                     energyAlt = energyD1 + energyD2
@@ -431,14 +432,13 @@ def TLEC_PATH_ADJ(ADJ_T, ADJ_TE, V, S, T, TTL, M, tau):
                                     elif dcurr < dalt and dcurr < minD:
                                         minD = dcurr
 
-                                    if dcurr <= TTL and dalt > TTL and energyCurr < minEnergy:
+                                    if dcurr <= TTL and dalt > TTL and energyCurr < minEnergy and energyCurr < TLEC_PATH[i, j, t, m]:
                                         minEnergy = energyCurr
                                         TLEC_PATH[i, j, t, m] = minEnergy
                                         Parent_TE[i, j, t, m] = j
                                         Spectrum_TE[i, j, t, m] = s1
 
-
-                                    elif dalt <= TTL and dcurr > TTL and energyAlt < minEnergy:
+                                    elif dalt <= TTL and dcurr > TTL and energyAlt < minEnergy and energyAlt < TLEC_PATH[i, j, t, m]:
                                         minEnergy = energyAlt
                                         TLEC_PATH[i, j, t, m] = minEnergy
                                         Spectrum_TE[i, k, t, m] = s2
@@ -446,14 +446,14 @@ def TLEC_PATH_ADJ(ADJ_T, ADJ_TE, V, S, T, TTL, M, tau):
                                         Parent_TE[i, j, t, m] = Parent_TE[i, k, t, m]
 
                                     elif dalt <= TTL and dcurr <= TTL: #both dcurr and dalt meet the TTL deadline
-                                        if energyAlt <= energyCurr and energyCurr < minEnergy:
+                                        if energyAlt <= energyCurr and energyAlt < minEnergy and energyAlt < TLEC_PATH[i, j, t, m]:
                                             minEnergy = energyAlt
                                             TLEC_PATH[i, j, t, m] = minEnergy
                                             Spectrum_TE[i, k, t, m] = s2
                                             Spectrum_TE[k, j, (t + int(d1)), m] = s3
                                             Parent_TE[i, j, t, m] = Parent_TE[i, k, t, m]
 
-                                        elif energyCurr < energyAlt and energyAlt < minEnergy:
+                                        elif energyCurr < energyAlt and energyCurr < minEnergy and energyCurr < TLEC_PATH[i, j, t, m]:
                                             minEnergy = energyCurr
                                             TLEC_PATH[i, j, t, m] = minEnergy
                                             Parent_TE[i, j, t, m] = j
