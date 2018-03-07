@@ -235,6 +235,7 @@ def LLC_PATH_ADJ(ADJ_MSG, LLC_PATH, Parent, Spectrum, V, S, T, M, tau):
 # Assumption 3: However given a bandwidth of a certain band at time t,
 # it remains constant for the duration of transmission delay for any message
 # Compute message colors (i.e., message transmission delays) for one spatial links and temporal links
+
 def computeADJ_E(specBW, ADJ_MSG, ADJ_E, LINK_EXISTS, V, S, T, M, tau):
     print ("M   i  j  s  ts  te :  LLC LEC  cT  LExi   BW    ")
     for m in range(len(M) - 1):
