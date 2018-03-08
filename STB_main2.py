@@ -18,7 +18,7 @@ ADJ_E.fill(math.inf)
 ADJ_T    = numpy.empty(shape = (V, V, S, T, len(M))) # Adjacency matrix that holds message transmission delay for each message for each node pair
 ADJ_T.fill(math.inf)
 
-LINK_EXISTS = numpy.empty(shape=(4, 4, 2, 5, 5))
+LINK_EXISTS = numpy.empty(shape=(5, 5, 3, 6, 6))
 LINK_EXISTS.fill(math.inf)
 
 # MODULES
@@ -42,15 +42,15 @@ ADJ_T, ADJ_TE = computeADJ_TE(specBW, ADJ_T, ADJ_E, LINK_EXISTS, V, S, T, TTL, M
 TLEC_Path, Parent_TE, Spectrum_TE = TLEC_PATH_ADJ(ADJ_T, ADJ_TE, V, S, T, TTL, M, tau)
 
 # printADJ_4D(LLC_Path, V, T, M)
-print("\nLLC and LEC paths are as follows: \n")
-print("i j t m  =  LLC   LEC   TLEC")
-printADJ_T_E_4D(LLC_Path, LEC_Path, TLEC_Path, V, T, M, tau)
+#print("\nLLC and LEC paths are as follows: \n")
+#print("i j t m  =  LLC   LEC   TLEC")
+#printADJ_T_E_4D(LLC_Path, LEC_Path, TLEC_Path, V, T, M, tau)
 #
-# print("\nLLC LEC Parent")
-# print("i j t m  =  P_LLC   P_LEC")
-# printADJ_MSG_E_4D(Parent, Parent_E, Parent_TE, V, T, M)
+print("\nLLC LEC Parent")
+print("i j t m  =  P_LLC   P_LEC")
+#printADJ_T_E_4D(Parent, Parent_E, Parent_TE, V, T, M, tau)
+PRINT_PATH(Parent_E)
 
 #
 # print("Spectrum")
 # print4d(Spectrum)
-
