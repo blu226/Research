@@ -70,7 +70,7 @@ def createLinkExistenceADJ(LINK_EXISTS):
         for s in range(0, S, 1):
             for t in range(0, T, 1):
                 LINK_EXISTS[i, i, s, t, t + 1] = 1
-    '''# t = [0,1]
+    # t = [0,1]
     LINK_EXISTS[0, 1, 0, 0, 1] = 1
     LINK_EXISTS[1, 0, 0, 0, 1] = 1
     LINK_EXISTS[0, 1, 1, 0, 1] = 1
@@ -105,86 +105,86 @@ def createLinkExistenceADJ(LINK_EXISTS):
     LINK_EXISTS[3, 0, 1, 3, 4] = 1
     LINK_EXISTS[2, 3, 0, 3, 4] = 1
     LINK_EXISTS[3, 2, 0, 3, 4] = 1
-'''
-    # t = [0,1]
-    LINK_EXISTS[0, 1, 0, 0, 1] = 1
-    LINK_EXISTS[0, 1, 1, 0, 1] = 1
-    LINK_EXISTS[0, 2, 0, 0, 1] = 1
-    LINK_EXISTS[0, 2, 1, 0, 1] = 1
-    LINK_EXISTS[0, 4, 2, 0, 1] = 1
-    LINK_EXISTS[1, 2, 0, 0, 1] = 1
-    LINK_EXISTS[1, 0, 0, 0, 1] = 1
-    LINK_EXISTS[1, 0, 1, 0, 1] = 1
-    LINK_EXISTS[2, 0, 0, 0, 1] = 1
-    LINK_EXISTS[2, 0, 1, 0, 1] = 1
-    LINK_EXISTS[2, 1, 0, 0, 1] = 1
-    LINK_EXISTS[2, 3, 1, 0, 1] = 1
-    LINK_EXISTS[3, 2, 1, 0, 1] = 1
-    LINK_EXISTS[4, 0, 2, 0, 1] = 1
 
-    # t = [1,2]
-    LINK_EXISTS[0, 2, 0, 1, 2] = 1
-    LINK_EXISTS[0, 3, 2, 1, 2] = 1
-    LINK_EXISTS[0, 4, 1, 1, 2] = 1
-    LINK_EXISTS[0, 4, 2, 1, 2] = 1
-    LINK_EXISTS[1, 2, 1, 1, 2] = 1
-    LINK_EXISTS[1, 2, 2, 1, 2] = 1
-    LINK_EXISTS[2, 0, 0, 1, 2] = 1
-    LINK_EXISTS[2, 1, 1, 1, 2] = 1
-    LINK_EXISTS[2, 1, 2, 1, 2] = 1
-    LINK_EXISTS[2, 3, 1, 1, 2] = 1
-    LINK_EXISTS[3, 0, 2, 1, 2] = 1
-    LINK_EXISTS[3, 2, 1, 1, 2] = 1
-    LINK_EXISTS[3, 4, 2, 1, 2] = 1
-    LINK_EXISTS[4, 0, 0, 1, 2] = 1
-    LINK_EXISTS[4, 0, 1, 1, 2] = 1
-    LINK_EXISTS[4, 3, 2, 1, 2] = 1
-
-    # t = [2,3]
-    LINK_EXISTS[0, 3, 0, 2, 3] = 1
-    LINK_EXISTS[0, 3, 1, 2, 3] = 1
-    LINK_EXISTS[0, 3, 2, 2, 3] = 1
-    LINK_EXISTS[0, 4, 0, 2, 3] = 1
-    LINK_EXISTS[0, 4, 1, 2, 3] = 1
-    LINK_EXISTS[0, 4, 2, 2, 3] = 1
-    LINK_EXISTS[1, 2, 0, 2, 3] = 1
-    LINK_EXISTS[2, 1, 0, 2, 3] = 1
-    LINK_EXISTS[3, 0, 0, 2, 3] = 1
-    LINK_EXISTS[3, 0, 1, 2, 3] = 1
-    LINK_EXISTS[3, 0, 2, 2, 3] = 1
-    LINK_EXISTS[3, 4, 0, 2, 3] = 1
-    LINK_EXISTS[3, 4, 1, 2, 3] = 1
-    LINK_EXISTS[3, 4, 2, 2, 3] = 1
-    LINK_EXISTS[4, 0, 0, 2, 3] = 1
-    LINK_EXISTS[4, 0, 1, 2, 3] = 1
-    LINK_EXISTS[4, 0, 2, 2, 3] = 1
-    LINK_EXISTS[4, 3, 0, 2, 3] = 1
-    LINK_EXISTS[4, 3, 1, 2, 3] = 1
-    LINK_EXISTS[4, 3, 2, 2, 3] = 1
-
-    # t = [3,4]
-    LINK_EXISTS[0, 1, 0, 3, 4] = 1
-    LINK_EXISTS[0, 3, 1, 3, 4] = 1
-    LINK_EXISTS[1, 0, 0, 3, 4] = 1
-    LINK_EXISTS[1, 3, 0, 3, 4] = 1
-    LINK_EXISTS[1, 3, 2, 3, 4] = 1
-    LINK_EXISTS[2, 4, 1, 3, 4] = 1
-    LINK_EXISTS[3, 0, 1, 3, 4] = 1
-    LINK_EXISTS[3, 1, 0, 3, 4] = 1
-    LINK_EXISTS[3, 1, 2, 3, 4] = 1
-    LINK_EXISTS[4, 2, 1, 3, 4] = 1
-
-    # t = [4,5]
-    LINK_EXISTS[0, 1, 0, 4, 5] = 1
-    LINK_EXISTS[0, 1, 1, 4, 5] = 1
-    LINK_EXISTS[1, 0, 0, 4, 5] = 1
-    LINK_EXISTS[1, 0, 1, 4, 5] = 1
-    LINK_EXISTS[1, 3, 2, 4, 5] = 1
-    LINK_EXISTS[2, 3, 0, 4, 5] = 1
-    LINK_EXISTS[3, 1, 2, 4, 5] = 1
-    LINK_EXISTS[3, 2, 0, 4, 5] = 1
-    LINK_EXISTS[3, 4, 0, 4, 5] = 1
-    LINK_EXISTS[4, 3, 0, 4, 5] = 1
+    # # t = [0,1]
+    # LINK_EXISTS[0, 1, 0, 0, 1] = 1
+    # LINK_EXISTS[0, 1, 1, 0, 1] = 1
+    # LINK_EXISTS[0, 2, 0, 0, 1] = 1
+    # LINK_EXISTS[0, 2, 1, 0, 1] = 1
+    # LINK_EXISTS[0, 4, 2, 0, 1] = 1
+    # LINK_EXISTS[1, 2, 0, 0, 1] = 1
+    # LINK_EXISTS[1, 0, 0, 0, 1] = 1
+    # LINK_EXISTS[1, 0, 1, 0, 1] = 1
+    # LINK_EXISTS[2, 0, 0, 0, 1] = 1
+    # LINK_EXISTS[2, 0, 1, 0, 1] = 1
+    # LINK_EXISTS[2, 1, 0, 0, 1] = 1
+    # LINK_EXISTS[2, 3, 1, 0, 1] = 1
+    # LINK_EXISTS[3, 2, 1, 0, 1] = 1
+    # LINK_EXISTS[4, 0, 2, 0, 1] = 1
+    #
+    # # t = [1,2]
+    # LINK_EXISTS[0, 2, 0, 1, 2] = 1
+    # LINK_EXISTS[0, 3, 2, 1, 2] = 1
+    # LINK_EXISTS[0, 4, 1, 1, 2] = 1
+    # LINK_EXISTS[0, 4, 2, 1, 2] = 1
+    # LINK_EXISTS[1, 2, 1, 1, 2] = 1
+    # LINK_EXISTS[1, 2, 2, 1, 2] = 1
+    # LINK_EXISTS[2, 0, 0, 1, 2] = 1
+    # LINK_EXISTS[2, 1, 1, 1, 2] = 1
+    # LINK_EXISTS[2, 1, 2, 1, 2] = 1
+    # LINK_EXISTS[2, 3, 1, 1, 2] = 1
+    # LINK_EXISTS[3, 0, 2, 1, 2] = 1
+    # LINK_EXISTS[3, 2, 1, 1, 2] = 1
+    # LINK_EXISTS[3, 4, 2, 1, 2] = 1
+    # LINK_EXISTS[4, 0, 0, 1, 2] = 1
+    # LINK_EXISTS[4, 0, 1, 1, 2] = 1
+    # LINK_EXISTS[4, 3, 2, 1, 2] = 1
+    #
+    # # t = [2,3]
+    # LINK_EXISTS[0, 3, 0, 2, 3] = 1
+    # LINK_EXISTS[0, 3, 1, 2, 3] = 1
+    # LINK_EXISTS[0, 3, 2, 2, 3] = 1
+    # LINK_EXISTS[0, 4, 0, 2, 3] = 1
+    # LINK_EXISTS[0, 4, 1, 2, 3] = 1
+    # LINK_EXISTS[0, 4, 2, 2, 3] = 1
+    # LINK_EXISTS[1, 2, 0, 2, 3] = 1
+    # LINK_EXISTS[2, 1, 0, 2, 3] = 1
+    # LINK_EXISTS[3, 0, 0, 2, 3] = 1
+    # LINK_EXISTS[3, 0, 1, 2, 3] = 1
+    # LINK_EXISTS[3, 0, 2, 2, 3] = 1
+    # LINK_EXISTS[3, 4, 0, 2, 3] = 1
+    # LINK_EXISTS[3, 4, 1, 2, 3] = 1
+    # LINK_EXISTS[3, 4, 2, 2, 3] = 1
+    # LINK_EXISTS[4, 0, 0, 2, 3] = 1
+    # LINK_EXISTS[4, 0, 1, 2, 3] = 1
+    # LINK_EXISTS[4, 0, 2, 2, 3] = 1
+    # LINK_EXISTS[4, 3, 0, 2, 3] = 1
+    # LINK_EXISTS[4, 3, 1, 2, 3] = 1
+    # LINK_EXISTS[4, 3, 2, 2, 3] = 1
+    #
+    # # t = [3,4]
+    # LINK_EXISTS[0, 1, 0, 3, 4] = 1
+    # LINK_EXISTS[0, 3, 1, 3, 4] = 1
+    # LINK_EXISTS[1, 0, 0, 3, 4] = 1
+    # LINK_EXISTS[1, 3, 0, 3, 4] = 1
+    # LINK_EXISTS[1, 3, 2, 3, 4] = 1
+    # LINK_EXISTS[2, 4, 1, 3, 4] = 1
+    # LINK_EXISTS[3, 0, 1, 3, 4] = 1
+    # LINK_EXISTS[3, 1, 0, 3, 4] = 1
+    # LINK_EXISTS[3, 1, 2, 3, 4] = 1
+    # LINK_EXISTS[4, 2, 1, 3, 4] = 1
+    #
+    # # t = [4,5]
+    # LINK_EXISTS[0, 1, 0, 4, 5] = 1
+    # LINK_EXISTS[0, 1, 1, 4, 5] = 1
+    # LINK_EXISTS[1, 0, 0, 4, 5] = 1
+    # LINK_EXISTS[1, 0, 1, 4, 5] = 1
+    # LINK_EXISTS[1, 3, 2, 4, 5] = 1
+    # LINK_EXISTS[2, 3, 0, 4, 5] = 1
+    # LINK_EXISTS[3, 1, 2, 4, 5] = 1
+    # LINK_EXISTS[3, 2, 0, 4, 5] = 1
+    # LINK_EXISTS[3, 4, 0, 4, 5] = 1
+    # LINK_EXISTS[4, 3, 0, 4, 5] = 1
 
     return LINK_EXISTS
 
@@ -564,7 +564,7 @@ def printADJ_T_E_4D(LLC_PATH, LEC_PATH, TLEC_PATH, V, T, M, tau):
             for t in range(0, T, tau):
                 for m in range(len(M) - 1):
                     if (LLC_PATH[i, j, t, m] != math.inf or LEC_PATH[i, j, t, m] != math.inf or TLEC_PATH[
-                        i, j, t, m] != math.inf) and i != j:
+                        i, j, t, m] != math.inf):
                         print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " =  " + str(
                             LLC_PATH[i, j, t, m]) + "   " + str(LEC_PATH[i, j, t, m]) + "  " + str(
                             TLEC_PATH[i, j, t, m]))
@@ -581,7 +581,7 @@ def printADJ_4D(ADJ, V, T, M):
 
 # Print 5D adjacency matrix for the STB graph
 def printADJ(ADJ_E, V, S, T, tau):
-    print("i j s ts te E")
+    #print("i j s ts te E")
     for i in range(V):
         for j in range(V):
             for s in range(S):
@@ -592,14 +592,36 @@ def printADJ(ADJ_E, V, S, T, tau):
                                 ADJ_E[i, j, s, ts, te]))
 
 
+def print5d(adj):
+    #print("i j ts m x")
+    for i in range(len(adj)):
+        for j in range(len(adj[0])):
+            for s in range(len(adj[0][0])):
+                for ts in range(len(adj[0][0][0])):
+                    for te in range(len(adj[0][0][0][0])):
+                        if adj[i, j, s, ts, te] != math.inf:
+                            print(str(i) + " " + str(j) + " " + str(s) + " " + str(ts) + " " + str(te) + " = " + str(adj[i, j, s, ts, te]))
+
+
 def print4d(adj):
-    print("i j ts m x")
+    #print("i j ts m x")
     for i in range(len(adj)):
         for j in range(len(adj[0])):
             for ts in range(len(adj[0][0])):
                 for m in range(len(adj[0][0][0])):
                     if (adj[i, j, ts, m] != math.inf):
                         print(str(i) + " " + str(j) + " " + str(ts) + " " + str(m) + " = " + str(adj[i, j, ts, m]))
+
+
+def print4d(adj, adj2, adj3):
+    # print("i j ts m x")
+    for i in range(len(adj)):
+        for j in range(len(adj[0])):
+            for ts in range(len(adj[0][0])):
+                for m in range(len(adj[0][0][0])):
+                    if (adj[i, j, ts, m] != math.inf):
+                        print(str(i) + " " + str(j) + " " + str(ts) + " " + str(m) + " = " + str(adj[i, j, ts, m]) + " " + str(adj2[i, j, ts, m]) + " "+ str(adj3[i, j, ts, m]))
+
 
 
 def PRINT_PATH(Parent):
