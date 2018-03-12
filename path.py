@@ -3,7 +3,6 @@ import math
 from STB_help import *
 from constants import *
 
-
 # Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
 def computeADJ_T_2(specBW, LINK_EXISTS, V, S, T, M, tau):
     ADJ_T = numpy.empty(shape=(V, V, S, T, len(M)))
@@ -79,7 +78,10 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, V, S, T, M, tau):
                                         d2 = ADJ_T[k, j, s3, (t + int(d1)), m]
 
                                     dalt = d1 + d2
-                                    # print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2))
+
+
+                                    # if k == 1 and i == 0 and j == 2 and t == 0:
+                                    #     print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2))
 
                                     if dalt <= dcurr and dalt < leastTime and dalt < LLC_PATH[i, j, t, m]:
                                         leastTime = dalt
@@ -93,9 +95,12 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, V, S, T, M, tau):
                                         LLC_PATH[i, j, t, m] = leastTime
                                         # Parent[i, j, t, m] = i
                                         Spectrum[i, j, t, m] = s1
+
+                        print(str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
+                                        LLC_PATH[i, j, t, m]) + " " + str(Parent[i, j, t, m]))
+
                         if i == j:
                             Spectrum[i, j, t, m] = -1
-                                    # print(str(k) + " " + str(i) + " " + str(j) + " " + str(t) +  " : " + str(LLC_PATH[i, j, t, m]) + " " + str(Parent[i, j, t, m]))
                                     # if i == 0 and j == 2 and t == 0 and m == 0:
 
                                     # print("i: " + str(i) + " j: " + str(j) + " k: " + str(k) + " s1: " + str(
@@ -108,7 +113,7 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, V, S, T, M, tau):
 
     return LLC_PATH, Parent, Spectrum
 
-def PRINT_PATH_2(Parent, Spectrum):
+def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
     V = NoOfDMs
     m = 0
     tau = 1
@@ -117,15 +122,38 @@ def PRINT_PATH_2(Parent, Spectrum):
     for t in range(T):
         for i in range(V):
             for j in range(V):
-                print(str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + ": ", end=" ")
+                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + ": ", end=" ")
                 # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
-                print(str(i) + " - ", end=' ')
-                print_path_util(Parent, i, j, t, 0)
-                print(j)
+                if LLC_PATH[i, j, t, m] != math.inf:
+                    #delivered = delivered + 1
+                    par_u = int(Parent[i, j, t, m])
 
-def print_path_util(Parent, src, dst, t, m):
-    if int(Parent[src, dst, t, m]) == src or Parent[src, dst, t, m] == -1:
-        return
+                    path_str = str(i) + " (" + str(t) + ") - "
+                    ts = t  + tau
+                    while par_u != -1 and par_u != i and ts < T:
+                        #count_hops = count_hops + 1
+                        path_str += str(par_u) + " (" + str(ts) + ") " + " -> "
+                        ts = ts + tau
+                        par_u = int(Parent[i, j, ts, m])
 
-    print_path_util(Parent, src, int(Parent[src, dst, t, m]), t + 1, m)
-    print(str(int(Parent[src, dst, t, m])) + " - ", end=' ')
+                    path_str += str(j) + " (" + str(ts) + ") "
+                    print (path_str, end = " ")
+
+
+
+
+
+#
+#                 print(str(i) + " (" + str(t) +  ") - ", end=' ')
+#                 te = print_path_util(Parent, i, j, t, 0)
+#                 print(str(j) + " (" + str(te) +  ")")
+#
+# def print_path_util(Parent, src, dst, t, m):
+#     if int(Parent[src, dst, t, m]) == src or Parent[src, dst, t, m] == -1:
+#
+#         return t
+#
+#     prevT = t
+#     t = t + 1
+#     print_path_util(Parent, src, int(Parent[src, dst, prevT, m]), t, m)
+#     print(str(int(Parent[src, dst, t, m])) + " ("+ str(t) + ") - ", end=' ')

@@ -5,8 +5,6 @@ from constants import *
 
 #Initialization
 
-V = NoOfDMs                 # Number of nodes in the STB graph is equivalent to number of data mules we have in the DSA overlay network
-
 specBW = numpy.zeros(shape =(V, V, S, T))       # Initialize the dynamic spectrum bandwidth
 
 ADJ = numpy.empty(shape=(V, V, S, T, T))      # Initialize the Adjacency matrix - Just either links exists or not

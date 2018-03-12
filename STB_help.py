@@ -66,7 +66,7 @@ def createLinkExistenceADJ(LINK_EXISTS):
     #     jLines = fj.readlines()
     # fj.close()
 
-    for i in range(0, NoOfDMs, 1):
+    for i in range(0, V, 1):
         for s in range(0, S, 1):
             for t in range(0, T, 1):
                 LINK_EXISTS[i, i, s, t, t + 1] = 1
@@ -625,7 +625,6 @@ def print4d(adj, adj2, adj3):
 
 
 def PRINT_PATH(Parent):
-    V = NoOfDMs
     print("i j t m: PATH")
     for i in range(V):
         for j in range(V):
