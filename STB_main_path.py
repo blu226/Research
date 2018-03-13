@@ -1,5 +1,3 @@
-import numpy
-import math
 from STB_help import *
 from path import *
 from constants import *
@@ -7,12 +5,6 @@ from constants import *
 #Initialization
 
 specBW = numpy.zeros(shape =(V, V, S, T))       # Initialize the dynamic spectrum bandwidth
-
-ADJ = numpy.empty(shape=(V, V, S, T, T))      # Initialize the Adjacency matrix - Just either links exists or not
-ADJ.fill(math.inf)
-
-ADJ_E = numpy.empty(shape=(V, V, S, T, len(M)))      # Initialize the Adjacency matrix - Energy part
-ADJ_E.fill(math.inf)
 
 LINK_EXISTS = numpy.empty(shape=(V, V, S, T, T))
 LINK_EXISTS.fill(math.inf)
@@ -28,14 +20,15 @@ LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
 # printADJ(LINK_EXISTS, V, S, T, tau)
 
 #Initialize the ADJ_T for LLC path
-ADJ_T, Parent = computeADJ_T_2(specBW, LINK_EXISTS, V, S, T, M, tau)
-LLC_Path, Parent, Spectrum = LLC_PATH_ADJ_2(ADJ_T, Parent, V, S, T, M, tau)
+ADJ_T, Parent, Spectrum = computeADJ_T_2(specBW, LINK_EXISTS, V, S, T, M, tau)
+LLC_Path, Parent, Spectrum = LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau)
 
 
-# print4d(LLC_Path, Parent, Spectrum)
-# print5d(ADJ_T)
+# print4d1(Parent)
+#print("i j s t m")
+#print5d(ADJ_T)
 
-# PRINT_PATH_2(LLC_Path, Parent, Spectrum)
+PRINT_PATH_2(LLC_Path, Parent, Spectrum)
 
 #
 # print("Spectrum")

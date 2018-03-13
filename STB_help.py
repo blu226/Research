@@ -68,7 +68,7 @@ def createLinkExistenceADJ(LINK_EXISTS):
 
     for i in range(0, V, 1):
         for s in range(0, S, 1):
-            for t in range(0, T, 1):
+            for t in range(0, T- 1, 1):
                 LINK_EXISTS[i, i, s, t, t + 1] = 1
     # t = [0,1]
     LINK_EXISTS[0, 1, 0, 0, 1] = 1
@@ -603,7 +603,7 @@ def print5d(adj):
                             print(str(i) + " " + str(j) + " " + str(s) + " " + str(ts) + " " + str(te) + " = " + str(adj[i, j, s, ts, te]))
 
 
-def print4d(adj):
+def print4d1(adj):
     #print("i j ts m x")
     for i in range(len(adj)):
         for j in range(len(adj[0])):
