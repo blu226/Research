@@ -619,7 +619,7 @@ def print4d(adj, adj2, adj3):
         for j in range(len(adj[0])):
             for ts in range(len(adj[0][0])):
                 for m in range(len(adj[0][0][0])):
-                    if (adj[i, j, ts, m] != math.inf):
+                    if (adj[i, j, ts, m] != math.inf or adj2[i, j, ts, m]!= math.inf or adj3[i, j, ts, m] != math.inf):
                         print(str(i) + " " + str(j) + " " + str(ts) + " " + str(m) + " = " + str(adj[i, j, ts, m]) + " " + str(adj2[i, j, ts, m]) + " "+ str(adj3[i, j, ts, m]))
 
 

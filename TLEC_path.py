@@ -4,15 +4,15 @@ from STB_help import *
 from constants import *
 
 # Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
-def computeADJ_T_2(specBW, LINK_EXISTS, tau):
-    ADJ_T = numpy.empty(shape=(V, V, T, len(M)))
-    ADJ_T.fill(math.inf)
+def computeADJ_TE_2(specBW, LINK_EXISTS, tau):
+    ADJ_TE = numpy.empty(shape=(V, V, T, len(M)))
+    ADJ_TE.fill(math.inf)
 
-    Parent = numpy.empty(shape=(V, V, T, len(M)))
-    Parent.fill(-1)
+    Parent_TE = numpy.empty(shape=(V, V, T, len(M)))
+    Parent_TE.fill(-1)
 
-    Spectrum = numpy.empty(shape=(V, V, T, len(M)))
-    Spectrum.fill(-1)
+    Spectrum_TE = numpy.empty(shape=(V, V, T, len(M)))
+    Spectrum_TE.fill(-1)
 
     # print ("M   i  j  s  ts  te :  Val  cT  LExi   BW    ")
     for m in range(len(M)):
@@ -22,72 +22,73 @@ def computeADJ_T_2(specBW, LINK_EXISTS, tau):
 
                     if i == j:
                         leastConsumedTime = tau
+                        consumedEnergy = epsilon
 
                     else:
                         leastConsumedTime = math.inf
+                        leastConsumedEnergy = math.inf
+
                         for s in range(S):
+
                             consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                            if t + consumedTime < T and leastConsumedTime > consumedTime and LINK_EXISTS[
+                            consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+                            consumedEnergy = round(consumedEnergy, 2)
+
+                            if leastConsumedEnergy > consumedEnergy and consumedTime <= TTL and t + consumedTime < T and LINK_EXISTS[
                                 i, j, s, t, (t + consumedTime)] < math.inf:
-                                leastConsumedTime = consumedTime
-                                Spectrum[i, j, t, m] = s
+                                leastConsumedEnergy = consumedEnergy
+                                Spectrum_TE[i, j, t, m] = s
 
 
-                    if (t + leastConsumedTime < T):
+                    if (leastConsumedTime <= TTL and t + leastConsumedTime < T):
 
                         # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
-                        ADJ_T[i, j, t, m] = leastConsumedTime
-                        Parent[i, j, t, m] = i
+                        ADJ_TE[i, j, t, m] = leastConsumedTime
+                        Parent_TE[i, j, t, m] = i
 
-                    elif (t + tau) < T and ADJ_T[i, j, (t + tau), m] != math.inf:
-                        ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau
-                        Parent[i, j, t, m] = Parent[i, j, t + tau, m]
-                        Spectrum[i, j, t, m] = 9
+                    elif (t + tau) < T and tau <= TTL and ADJ_TE[i, j, (t + tau), m] != math.inf:
+                        ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + tau
+                        Parent_TE[i, j, t, m] = Parent_TE[i, j, t + tau, m]
+                        Spectrum_TE[i, j, t, m] = 9
 
-                    # else:
-                    #     ADJ_T[i, j, t, m] = math.inf
-                    #     Parent[i, j, t, m] = -1
-
-                            # if t + consumedTime < T and ADJ_T[i, j, s, t, m] != math.inf and ADJ_T[i, j, s, t, m] > 1:
-                            #     print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
-                            #         t) + "   " + str(t + consumedTime) + "  :  " + str(
-                            #         ADJ_T[i, j, s, t, m]) + "  " + str(
-                            #         consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
-                            #         specBW[i, j, s, t]))
-
-    return ADJ_T, Parent, Spectrum
+    return ADJ_TE, Parent_TE, Spectrum_TE
 
 
 # Determines the Least Latency Cost (LLC) Path for all messages in the STB graph
-def LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau):
-    # LLC = Least Latency Cost Path
-    # LLC_PATH = numpy.empty(shape=(V, V, T, len(M)))
-    # LLC_PATH.fill(math.inf)
+def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
 
-    #print("k i j t : LLC Parent")
+    print("k i j t : LLC Parent " + str(TTL) )
     for m in range(len(M)):
         for k in range(V):
             for i in range(V):
                 for j in range(V):
                     for t in range(T):
-                        # leastTime = LLC_PATH[i, j, t, m]
-                        #leastTime = math.inf
 
-                        dcurr = ADJ_T[i, j, t, m]
+                        dCurr = ADJ_T[i, j, t, m]
+
+                        if dCurr <= t + TTL:
+                            eCurr = ADJ_TE[i, j, t, m]
+                        else:
+                            eCurr = math.inf
+
+                        e2 = math.inf
                         d2 = math.inf
-                        # dalt = math.inf
 
+                        e1 = ADJ_TE[i, k, t, m]
                         d1 = ADJ_T[i, k, t, m]
-                        if d1 < math.inf and (t + d1) < T:
+                        if (t + d1) < T:
                             d2 = ADJ_T[k, j, (t + int(d1)), m]
+                            e2 = ADJ_TE[k, j, (t + int(d1)), m]
 
-                        if d1 + d2 < dcurr:
-                            ADJ_T[i, j, t, m] = d1 + d2
-                            Parent[i, j, t, m] = Parent[k, j, (t + int(d1)), m]
+                        eAlt = e1 + e2
+                        dAlt = d1 + d2
+                        if eAlt < eCurr and dAlt <= TTL:
+                            ADJ_TE[i, j, t, m] = eAlt
+                            Parent_TE[i, j, t, m] = Parent_TE[k, j, (t + int(d1)), m]
                             #   Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]
-                            if i ==0 and j == 2 and t  == 0:
-                                print(str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
-                                                ADJ_T[i, j, t, m]) + " " + str(Parent[i, j, t, m]))
+                        # if i ==3 and j == 0 and t  == 0:
+                        #     print("Here " + str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
+                        #                     ADJ_TE[i, j, t, m]) + " " + str(Parent_TE[i, j, t, m]))
 
             # if i == j:
             #     Spectrum[i, j, t, m] = -1
@@ -101,7 +102,7 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau):
                             # print("Value here: " + str(LLC_PATH[0, 3, 0, 0]))
 # print("Value here: " + str(LLC_PATH[0,3,0,0]))
 
-    return ADJ_T, Parent, Spectrum
+    return ADJ_TE, Parent_TE, Spectrum_TE
 
 def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
     V = NoOfDMs
