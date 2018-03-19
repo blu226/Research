@@ -21,33 +21,26 @@ def computeADJ_TE_2(specBW, LINK_EXISTS, tau):
                 for j in range(V):
 
                     if i == j:
-                        leastConsumedTime = tau
-                        consumedEnergy = epsilon
+                        ADJ_TE[i, j, t, m] = epsilon
+                        Parent_TE[i, j, t, m] = i
+                        Spectrum_TE[i, j, t, m] = -2
 
                     else:
-                        leastConsumedTime = math.inf
-                        leastConsumedEnergy = math.inf
-
+                        #minEnergy = math.inf
                         for s in range(S):
-
                             consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
                             consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
                             consumedEnergy = round(consumedEnergy, 2)
 
-                            if leastConsumedEnergy > consumedEnergy and consumedTime <= TTL and t + consumedTime < T and LINK_EXISTS[
-                                i, j, s, t, (t + consumedTime)] < math.inf:
-                                leastConsumedEnergy = consumedEnergy
+                            if ADJ_TE[i, j, t, m] > consumedEnergy and consumedTime < TTL and t + consumedTime < T and \
+                                            LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
+                                #minEnergy = consumedEnergy
+                                ADJ_TE[i, j, t, m] = consumedEnergy
+                                Parent_TE[i, j, t, m] = i
                                 Spectrum_TE[i, j, t, m] = s
 
-
-                    if (leastConsumedTime <= TTL and t + leastConsumedTime < T):
-
-                        # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
-                        ADJ_TE[i, j, t, m] = leastConsumedTime
-                        Parent_TE[i, j, t, m] = i
-
-                    elif (t + tau) < T and tau <= TTL and ADJ_TE[i, j, (t + tau), m] != math.inf:
-                        ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + tau
+                    if (t + tau) < T and tau < TTL and ADJ_TE[i, j, t, m] == math.inf and ADJ_TE[i, j, (t + tau), m] != math.inf:
+                        ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + epsilon
                         Parent_TE[i, j, t, m] = Parent_TE[i, j, t + tau, m]
                         Spectrum_TE[i, j, t, m] = 9
 
@@ -66,7 +59,7 @@ def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
 
                         dCurr = ADJ_T[i, j, t, m]
 
-                        if dCurr <= t + TTL:
+                        if dCurr < t + TTL:
                             eCurr = ADJ_TE[i, j, t, m]
                         else:
                             eCurr = math.inf
@@ -82,7 +75,7 @@ def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
 
                         eAlt = e1 + e2
                         dAlt = d1 + d2
-                        if eAlt < eCurr and dAlt <= TTL:
+                        if eAlt < eCurr and dAlt < TTL:
                             ADJ_TE[i, j, t, m] = eAlt
                             Parent_TE[i, j, t, m] = Parent_TE[k, j, (t + int(d1)), m]
                             #   Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]

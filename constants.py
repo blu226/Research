@@ -8,7 +8,7 @@ maxY = 100
 T = 5
 
 #TTL Bound
-TTL = 4
+TTL = 3
 
 # Message size
 M = [20]
