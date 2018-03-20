@@ -106,25 +106,38 @@ def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
     for t in range(T):
         for i in range(V):
             for j in range(V):
-                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + ": ", end=" ")
+                if i == 1 and j == 3:
+                    print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + ": ", end=" ")
                 # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
                 if LLC_PATH[i, j, t, m] != math.inf:
                     #delivered = delivered + 1
                     par_u = int(Parent[i, j, t, m])
 
-                    path_str = str(j)+ " (" + str(Spectrum[par_u, j, t, m]) + ") " + " <- "
+                    path_str = str(j)+ " (" + str(int(Spectrum[par_u, j, t, m])) + ") " + " <- "
                     # ts = t + tau
-                    ts = t
-                    while par_u != -1 and par_u != i and ts < T:
+
+                    while par_u != -1  and t < T and (par_u != i or (par_u == i and Spectrum[par_u, j, t, m] < S and Spectrum[i, par_u, t, m] < S)):
+
+                        if par_u == i and Spectrum[par_u, j, t, m] < S:
+                            break
+
                         oldPar_u = par_u
                         #count_hops = count_hops + 1
                         path_str += str(par_u)
-                        par_u = int(Parent[i, par_u, ts, m])
-                        path_str +=  " (" + str(Spectrum[oldPar_u,par_u, t, m]) + ") " + " <- "
+                        par_u = int(Parent[i, par_u, t, m])
+
+                        if i == 1 and j == 3:
+                            print ("\nOld: " + str(oldPar_u) + " New: " + str(par_u) + " Spec: " + str(Spectrum[oldPar_u, par_u, t, m]))
+
+                        if Spectrum[oldPar_u, par_u, t, m] > S:
+                           Spectrum[oldPar_u, par_u, t, m] = Spectrum[oldPar_u, par_u, t, m] - 10
+
+                        path_str +=  " (" + str(int(Spectrum[oldPar_u,par_u, t, m])) + ") " + " <- "
 
 
                     path_str += str(i)
-                    print (path_str, end = " ")
+                    if i == 1 and j == 3:
+                        print (path_str, end = " ")
 
 
 

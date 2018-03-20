@@ -31,12 +31,12 @@ TLEC_Path, Parent_TE, Spectrum_TE = TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Sp
 
 
 print("i j ts m")
-print4d(LLC_Path, TLEC_Path, TLEC_Path)
+# print4d(LLC_Path, TLEC_Path)
 # print4d1(TLEC_Path)
 #print("i j s t m")
 # print5d(ADJ_TE)
 
-# PRINT_PATH_2(TLEC_Path, Parent_TE, Spectrum_TE)
+PRINT_PATH_2(LLC_Path, Parent, Spectrum)
 
 #
 # print("Spectrum")

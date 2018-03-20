@@ -42,7 +42,7 @@ def computeADJ_T_2(specBW, LINK_EXISTS, tau):
                     elif (t + tau) < T and ADJ_T[i, j, (t + tau), m] != math.inf:
                         ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau
                         Parent[i, j, t, m] = Parent[i, j, t + tau, m]
-                        Spectrum[i, j, t, m] = 9
+                        Spectrum[i, j, t, m] = Spectrum[i, j, t + tau, m] +  10
 
                     # else:
                     #     ADJ_T[i, j, t, m] = math.inf
@@ -102,36 +102,6 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau):
 # print("Value here: " + str(LLC_PATH[0,3,0,0]))
 
     return ADJ_T, Parent, Spectrum
-
-def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
-    V = NoOfDMs
-    m = 0
-    tau = 1
-
-    print("i j t m: PATH")
-    for t in range(T):
-        for i in range(V):
-            for j in range(V):
-                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + ": ", end=" ")
-                # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
-                if LLC_PATH[i, j, t, m] != math.inf:
-                    #delivered = delivered + 1
-                    par_u = int(Parent[i, j, t, m])
-
-                    path_str = str(j)+ " (" + str(Spectrum[par_u, j, t, m]) + ") " + " <- "
-                    # ts = t + tau
-                    ts = t
-                    while par_u != -1 and par_u != i and ts < T:
-                        oldPar_u = par_u
-                        #count_hops = count_hops + 1
-                        path_str += str(par_u)
-                        par_u = int(Parent[i, par_u, ts, m])
-                        path_str +=  " (" + str(Spectrum[oldPar_u,par_u, t, m]) + ") " + " <- "
-
-
-                    path_str += str(i)
-                    print (path_str, end = " ")
-
 
 
 
