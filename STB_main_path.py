@@ -36,7 +36,7 @@ print("i j ts m")
 #print("i j s t m")
 # print5d(ADJ_TE)
 
-PRINT_PATH_2(LLC_Path, Parent, Spectrum)
+PRINT_PATH_FILE(LLC_Path, Parent, Spectrum)
 
 #
 # print("Spectrum")

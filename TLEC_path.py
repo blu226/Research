@@ -106,8 +106,8 @@ def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
     for t in range(T):
         for i in range(V):
             for j in range(V):
-                if i == 1 and j == 3:
-                    print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + ": ", end=" ")
+                # if i == 1 and j == 3:
+                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0]) + " " + str(LLC_PATH[i, j, t, m]) + " ", end=" ")
                 # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
                 if LLC_PATH[i, j, t, m] != math.inf:
                     #delivered = delivered + 1
@@ -126,8 +126,8 @@ def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
                         path_str += str(par_u)
                         par_u = int(Parent[i, par_u, t, m])
 
-                        if i == 1 and j == 3:
-                            print ("\nOld: " + str(oldPar_u) + " New: " + str(par_u) + " Spec: " + str(Spectrum[oldPar_u, par_u, t, m]))
+                        # if i == 1 and j == 3:
+                        # print ("\nOld: " + str(oldPar_u) + " New: " + str(par_u) + " Spec: " + str(Spectrum[oldPar_u, par_u, t, m]))
 
                         if Spectrum[oldPar_u, par_u, t, m] > S:
                            Spectrum[oldPar_u, par_u, t, m] = Spectrum[oldPar_u, par_u, t, m] - 10
@@ -136,24 +136,43 @@ def PRINT_PATH_2(LLC_PATH, Parent, Spectrum):
 
 
                     path_str += str(i)
-                    if i == 1 and j == 3:
-                        print (path_str, end = " ")
+                    # if i == 1 and j == 3:
+                    print (path_str, end = " ")
 
 
 
 
 
-#
-#                 print(str(i) + " (" + str(t) +  ") - ", end=' ')
-#                 te = print_path_util(Parent, i, j, t, 0)
-#                 print(str(j) + " (" + str(te) +  ")")
-#
-# def print_path_util(Parent, src, dst, t, m):
-#     if int(Parent[src, dst, t, m]) == src or Parent[src, dst, t, m] == -1:
-#
-#         return t
-#
-#     prevT = t
-#     t = t + 1
-#     print_path_util(Parent, src, int(Parent[src, dst, prevT, m]), t, m)
-#     print(str(int(Parent[src, dst, t, m])) + " ("+ str(t) + ") - ", end=' ')
+def PRINT_PATH_FILE(LLC_PATH, Parent, Spectrum):
+    V = NoOfDMs
+    m = 0
+    tau = 1
+
+    #print("i j t m: PATH")
+    for t in range(T):
+        for i in range(V):
+            for j in range(V):
+                # if i == 1 and j == 3:
+                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0])+ " ", end=" ")
+                # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
+                if LLC_PATH[i, j, t, m] != math.inf:
+                    #delivered = delivered + 1
+                    par_u = int(Parent[i, j, t, m])
+
+                    path_str = str(j) + " "
+                    # ts = t + tau
+
+                    while par_u != -1  and t < T and par_u != i:
+
+                        path_str += str(par_u) + " "
+                        par_u = int(Parent[i, par_u, t, m])
+
+                    path_str += str(i) + " "
+
+                    print (path_str, end = " ")
+
+                    with open("path.txt" , "a") as file:
+                        file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
+    file.close()
+
+
