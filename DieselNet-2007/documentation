@@ -1,0 +1,35 @@
+These traces were collected in UMass DieselNet
+in the month October-November 2007.
+
+
+The released traces have five directories
+
+1. gps_logs : This is the directory which has the cumulative
+gps_logs for all the buses seen during the period which the 
+traces were collected. There is a directory corresponding to every
+bus and within each directory for a bus there are files for every 
+day with a set of time stamped gps locations.
+
+2. mobile-mobile: This is the collection of all the mobile-mobile contact
+events. Each line includes the time at which a contact occured, the amount
+of data that was transfered, the duration of contact and the position 
+where the contact took place.
+
+3. basestation-mobile: The traces are similar to the mobile-mobile traces
+but are for the AP-mobile contact events.
+
+4. mobile-mobile-mesh-relay: these are the traces for the connection events
+between a mobile node and the six stationary relay/mesh boxes placed in the
+network.
+ 
+5. xtendtrace: This has the connection events between mobile nodes over
+the Xtend Maxstream radio.
+
+
+Relays, Base Stations, and Meshes: Enhancing Mobile Networks with
+Infrastructure. Nilanjan Banerjee, Mark D. Corner, Don Towsley, and Brian Neil
+Levine. In Proceedings of ACM MobiCom, San Francisco, CA, USA, September 2008.
+
+
+Grant information : CNS-0519881,NSF-0133055,CNS-0615075,CNS-0520729,CNS-
+0447877, W911NF-07-1-0281, W911NF-06-3-0001.
