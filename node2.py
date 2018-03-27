@@ -3,21 +3,46 @@ class Node(object):                                                             
         self.name = name                                                                #Node ID or name (string)
         self.buf = []                                                                   #Node message buffer
         self.coord = [0, 0]
+        self.buf_size = 0
 
     def place(self, x, y):                                                              #place node on x-y plane
         self.coord[0] = x
         self.coord[1] = y
 
     def print_buf(self):
+        print(str(self.name) +  " Buffer ")
+        if len(self.buf) == 0:
+            print(">>>>>>>>>>>>> No messages")
+
         for i in range(len(self.buf)):
             message = self.buf[i].ID
-            print(message)
+            print("Message ID: " + str(message))
 
-    def send_message(self, message, net):
+
+    def send_message(self, net, message, t, ADJ_T, ADJ_TE):
         nodes = net.nodes
-        if len(message.path) != 0:
-            next = int(message.path.pop())							#next node in path
-            nodes[next].buf.append(message)							#add message to next node buffer
-#            del nodes[message.curr].buf[0]
+
+        print("Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
+
+        if len(message.path) > 0:                                   #if the message still has a valid path
+            next = int(message.path.pop())							#get next node in path
+            message.totalDelay = ADJ_T[message.curr, next, int(message.totalDelay)] #calculate total delay from ADJ_T matrix
+            message.totalEnergy = ADJ_TE[message.curr, next, int(message.totalDelay)] #calculate total energy consumption from ADJ_TE matrix
+
+            if next == message.src:                                     #if the next node is src then pop it off
+                next = int(message.path.pop())
+
+            nodes[next].buf.append(message)							    #add message to next node buffer
             nodes[message.curr].buf.remove(message)						#remove message from current node buffer
-            message.curr = next								#update messages current node
+            print("Message ", str(message.ID), " sent from " + str(message.curr), " to ", next) #console output for debugging
+            message.curr = next								            #update messages current node
+            self.buf_size -= 1                                          #update current nodes buffer
+
+        if message.curr == message.des and len(message.path)  ==0:      #if message has reached its destination
+
+            output_file = open("Delivery_Confirmation.txt", "a")        #print confirmation to output file
+            output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(t)+ "\t\t" + str(message.totalDelay) + "\t\t\t" + str(message.totalEnergy) + "\n"
+            output_file.write(output_msg)
+            output_file.close()
+
+            nodes[message.curr].buf.remove(message)                     #remove message from destination node buffer
