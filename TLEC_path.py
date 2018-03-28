@@ -94,7 +94,7 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
                     # at time (t + tau)
                     if tau < TTL  and (t + tau) < T and ADJ_TE[i, j, t, m] == math.inf and ADJ_TE[i, j, (t + tau), m] != math.inf:
                         ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + epsilon
-                        ADJ_T[i, j, t, m] = ADJ_T(i, j, (t + tau), m) + tau
+                        ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau
                         Parent_TE[i, j, t, m] = Parent_TE[i, j, t + tau, m]
                         Spectrum_TE[i, j, t, m] = Spectrum_TE[i, j, t + tau, m] +  10
 
@@ -209,8 +209,8 @@ def PRINT_PATH_FILE(LLC_PATH, Parent, Spectrum):
 
                     print (path_str, end = " ")
 
-                    with open("path.txt" , "a") as file:
-                        file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
+                    # with open("path.txt" , "a") as file:
+                    #     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
     file.close()
 
 
