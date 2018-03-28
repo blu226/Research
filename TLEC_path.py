@@ -47,7 +47,60 @@ def computeADJ_TE_2(specBW, LINK_EXISTS, tau):
     return ADJ_TE, Parent_TE, Spectrum_TE
 
 
-# Determines the Least Latency Cost (LLC) Path for all messages in the STB graph
+
+# Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
+def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
+    ADJ_TE = numpy.empty(shape=(V, V, T, len(M)))
+    ADJ_TE.fill(math.inf)
+
+    ADJ_T = numpy.empty(shape=(V, V, T, len(M)))
+    ADJ_T.fill(math.inf)
+
+
+    Parent_TE = numpy.empty(shape=(V, V, T, len(M)))
+    Parent_TE.fill(-1)
+
+    Spectrum_TE = numpy.empty(shape=(V, V, T, len(M)))
+    Spectrum_TE.fill(-1)
+
+    # print ("M   i  j  s  ts  te :  Val  cT  LExi   BW    ")
+    for m in range(len(M)):
+        for t in range(T - tau, -1, -tau):
+            for i in range(V):
+                for j in range(V):
+
+                    if i == j:
+                        ADJ_TE[i, j, t, m] = epsilon
+                        Parent_TE[i, j, t, m] = i
+                        #Spectrum_TE[i, j, t, m] = -2
+
+                    else:
+                        #minEnergy = math.inf
+                        for s in range(S):
+                            consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+                            consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+                            consumedEnergy = round(consumedEnergy, 2)
+
+                            # t + consumedTime < t + TTL is equivalent to first condition
+                            if consumedTime < TTL and t + consumedTime < T and consumedEnergy < ADJ_TE[i, j, t, m] and \
+                                            LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
+                                #minEnergy = consumedEnergy
+                                ADJ_TE[i, j, t, m] = consumedEnergy
+                                ADJ_T[i, j, t, m] = consumedTime
+                                Parent_TE[i, j, t, m] = i
+                                Spectrum_TE[i, j, t, m] = s
+
+                    #No spatial between i and j at time t, see if there exists a spatial link between them
+                    # at time (t + tau)
+                    if tau < TTL  and (t + tau) < T and ADJ_TE[i, j, t, m] == math.inf and ADJ_TE[i, j, (t + tau), m] != math.inf:
+                        ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + epsilon
+                        ADJ_T[i, j, t, m] = ADJ_T(i, j, (t + tau), m) + tau
+                        Parent_TE[i, j, t, m] = Parent_TE[i, j, t + tau, m]
+                        Spectrum_TE[i, j, t, m] = Spectrum_TE[i, j, t + tau, m] +  10
+
+    return ADJ_TE, Parent_TE, Spectrum_TE, ADJ_T
+
+# Determines the TTL constrained Energy-efficient Cost (TLEC) Path for all messages in the STB graph
 def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
 
     print("k i j t : LLC Parent " + str(TTL) )
@@ -58,10 +111,9 @@ def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
                     for t in range(T):
 
                         dCurr = ADJ_T[i, j, t, m]
+                        eCurr = ADJ_TE[i, j, t, m]
 
-                        if dCurr < t + TTL:
-                            eCurr = ADJ_TE[i, j, t, m]
-                        else:
+                        if dCurr > t + TTL:
                             eCurr = math.inf
 
                         e2 = math.inf
@@ -69,31 +121,17 @@ def TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE):
 
                         e1 = ADJ_TE[i, k, t, m]
                         d1 = ADJ_T[i, k, t, m]
+
                         if (t + d1) < T:
                             d2 = ADJ_T[k, j, (t + int(d1)), m]
                             e2 = ADJ_TE[k, j, (t + int(d1)), m]
 
                         eAlt = e1 + e2
                         dAlt = d1 + d2
+
                         if eAlt < eCurr and dAlt < TTL:
                             ADJ_TE[i, j, t, m] = eAlt
                             Parent_TE[i, j, t, m] = Parent_TE[k, j, (t + int(d1)), m]
-                            #   Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]
-                        # if i ==3 and j == 0 and t  == 0:
-                        #     print("Here " + str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
-                        #                     ADJ_TE[i, j, t, m]) + " " + str(Parent_TE[i, j, t, m]))
-
-            # if i == j:
-            #     Spectrum[i, j, t, m] = -1
-                        # if i == 0 and j == 2 and t == 0 and m == 0:
-
-                        # print("i: " + str(i) + " j: " + str(j) + " k: " + str(k) + " s1: " + str(
-                        #     s1) + " s2: " + str(s2) + " s3: " + str(s3) + " t: " + str(t) + " m: " + str(m))
-                        # print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2) + " " + str(LLC_PATH[i,j,t,m]) + "\n")
-
-                            # if i == 0 and j == 3 and k == 1 and t == 0:
-                            # print("Value here: " + str(LLC_PATH[0, 3, 0, 0]))
-# print("Value here: " + str(LLC_PATH[0,3,0,0]))
 
     return ADJ_TE, Parent_TE, Spectrum_TE
 
