@@ -211,6 +211,6 @@ def PRINT_PATH_FILE(LLC_PATH, Parent, Spectrum):
 
                     # with open("path.txt" , "a") as file:
                     #     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
-    file.close()
+    # file.close()
 
 

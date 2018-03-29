@@ -7,6 +7,7 @@ from constants import *
 # This is important because we can only use the common channels (available at both the nodes) as the total bandwidth of the band
 # Moreover, note that here we assumed that the channels available at the node (with lower bandwidth) is also existent at the node
 # with higher bandwidth of a certain band
+
 def getMinBWFromDMFiles(i, j, s, t):
     with open("Data/" + str(i) + ".txt") as fi:
         next(fi)
