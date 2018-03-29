@@ -163,7 +163,7 @@ def createLinkExistenceADJ(directory):
     noOfFiles = len(fileList)
     #noOfFiles = 2
 
-    #T = [8 am to 8:10 am]
+    #T = [10 am to 12:00 pm]
     tau = 5
     scale = 600
     for ts in range(0, 120 - tau, tau):

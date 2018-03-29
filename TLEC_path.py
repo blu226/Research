@@ -186,12 +186,13 @@ def PRINT_PATH_FILE(LLC_PATH, Parent, Spectrum):
     m = 0
     tau = 1
 
+    file = open("path.txt", "w")
     #print("i j t m: PATH")
     for t in range(T):
         for i in range(V):
             for j in range(V):
                 # if i == 1 and j == 3:
-                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(M[0])+ " ", end=" ")
+                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m), end=" ")
                 # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
                 if LLC_PATH[i, j, t, m] != math.inf:
                     #delivered = delivered + 1
@@ -208,9 +209,7 @@ def PRINT_PATH_FILE(LLC_PATH, Parent, Spectrum):
                     path_str += str(i) + " "
 
                     print (path_str, end = " ")
-
-                    # with open("path.txt" , "a") as file:
-                    #     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
-    # file.close()
+                    file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
+    file.close()
 
 

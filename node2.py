@@ -10,7 +10,7 @@ class Node(object):                                                             
         self.coord[1] = y
 
     def print_buf(self):
-        print(str(self.name) +  " Buffer ")
+        # print(str(self.name) +  " Buffer ")
         if len(self.buf) == 0:
             print(">>>>>>>>>>>>> No messages")
 
@@ -24,13 +24,15 @@ class Node(object):                                                             
 
         print("Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
 
-        if len(message.path) > 0:                                   #if the message still has a valid path
+        if len(message.path) > 0 and '' not in message.path:                                   #if the message still has a valid path
             next = int(message.path.pop())							#get next node in path
-            message.totalDelay = ADJ_T[message.curr, next, int(message.totalDelay)] #calculate total delay from ADJ_T matrix
-            message.totalEnergy = ADJ_TE[message.curr, next, int(message.totalDelay)] #calculate total energy consumption from ADJ_TE matrix
 
             if next == message.src:                                     #if the next node is src then pop it off
                 next = int(message.path.pop())
+                # calculate total energy consumption from ADJ_TE matrix
+            message.totalEnergy += ADJ_TE[message.curr, next, int(message.totalDelay)]
+            message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay)]  # calculate total delay from ADJ_T matrix
+            print(str(ADJ_TE[message.curr, next, int(message.totalDelay)]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
 
             nodes[next].buf.append(message)							    #add message to next node buffer
             nodes[message.curr].buf.remove(message)						#remove message from current node buffer
@@ -41,7 +43,7 @@ class Node(object):                                                             
         if message.curr == message.des and len(message.path)  ==0:      #if message has reached its destination
 
             output_file = open("Delivery_Confirmation.txt", "a")        #print confirmation to output file
-            output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(t)+ "\t\t" + str(message.totalDelay) + "\t\t\t" + str(message.totalEnergy) + "\n"
+            output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(message.T + int(message.totalDelay))+ "\t\t" + str(int(message.totalDelay)) + "\t\t\t" + str(message.totalEnergy) + "\n"
             output_file.write(output_msg)
             output_file.close()
 

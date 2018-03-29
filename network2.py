@@ -33,7 +33,7 @@ class Network(object):
         f = open("path.txt", "r")
         ADJ_T = pickle.load(open("ADJ_T.txt", "rb"))
         ADJ_TE = pickle.load(open("ADJ_TE.txt", "rb"))
-
+        print(ADJ_TE[3,0,0])
         for line in f:                                  #read each line from file to see if a new message needs to be generated
 
             line = line.strip()
@@ -45,7 +45,11 @@ class Network(object):
                 dst = line[1]
                 T = line[2]
                 size = line[3]
-                path = line[4:]
+                i = 4
+                # while line[i] is '' and i < len(line) -1:
+                #     i +=1
+
+                path = line[i:]
                 name = self.message_num
                 TTL = 5
 
@@ -59,7 +63,7 @@ class Network(object):
 
 
         print("Network Status -- Time: ", self.epoch_it)            #console output for debugging
-        self.network_status()
+        # self.network_status()
 
         for i in range(len(self.nodes)):                #send all messages to their next hop
             node = self.nodes[i]

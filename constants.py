@@ -5,15 +5,15 @@ minY = 0
 maxY = 100
 
 # Simulation Time
-T = 7
+T = 10
 
 #TTL Bound
-TTL = 3
+TTL = 4
 
 # Message size
 M = [20]
 
-V = 6          # No of nodes including source, data mules, and data centers
+V = 5         # No of nodes including source, data mules, and data centers
 NoOfSources = 1
 NoOfDMs = 5                 # Total number of data mules (or DSA nodes)
 NoOfDataCenters = 1
