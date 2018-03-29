@@ -1,6 +1,7 @@
 from gmplot import gmplot
 import os
 import numpy
+import random
 
 def getPath():
     pathToFolder = "DieselNet-2007/gps_logs"
@@ -31,8 +32,10 @@ def readFile(fileName, busName):
         for line in listOfLines:
             lineStr = line.strip()
             lineStr = lineStr.split(" ")
-            if count%2 == 0:
-                currPath.append((float(lineStr[1]), float(lineStr[2])))
+            # if count%2 == 0:
+            print(lineStr[3])
+            currPath.append((float(lineStr[3]), float(lineStr[4])))
+
             count += 1
             # with open("UMASS/" + busName + ".txt", "a") as fw:
             #     newStr = lineStr[1] + " , " + lineStr[2]
@@ -45,21 +48,21 @@ def readFile(fileName, busName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "DieselNet-2007/gps_logs"
+directory = "Routes"
 #generateData(directory)
 
 folders = findfiles(directory)
 
-# print (folders)
+#print ("Folder is: " + folders)
 for ind in range(0, 1, 1):
-    if folders[ind] is not ".DS_Store":
-        print(folders[ind])
+    if ".DS_Store" not in folders:
+        print("Current Folder " + folders[ind])
 
     folderPath = directory + "/" + str(folders[ind])
     currFiles = findfiles(folderPath)
     numOfFiles = len(currFiles)
     for fInd in range(0, numOfFiles):
-        print(currFiles[fInd])
+        print("Current File "  + currFiles[fInd])
         filePath = folderPath + "/" + currFiles[fInd]
         currPath = readFile(filePath, folders[ind] + "_" + currFiles[fInd])
         allPaths.append(currPath)
@@ -77,10 +80,11 @@ count = 0
 
 for pInd in range(len(allPaths)):
 
-    if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
-        print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
-        path_lats, path_lons = zip(* allPaths[pInd])
-        gmap.scatter(path_lats, path_lons, colors[pInd], size=60, marker=False)
+    # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
+    print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
+    path_lats, path_lons = zip(* allPaths[pInd])
+    colorInd = random.randrange(0, 8)
+    gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
 # Marker
 # hidden_gem_lat, hidden_gem_lon = 37.770776, -122.461689
