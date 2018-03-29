@@ -2,6 +2,7 @@ from STB_help import *
 from path import *
 from TLEC_path import *
 from constants import *
+import pickle
 
 #Initialization
 
@@ -30,13 +31,33 @@ ADJ_TE, Parent_TE, Spectrum_TE = computeADJ_TE_2(specBW, LINK_EXISTS, tau)
 TLEC_Path, Parent_TE, Spectrum_TE = TLEC_PATH_ADJ_2(ADJ_T, ADJ_TE, Parent_TE, Spectrum_TE)
 
 
-print("i j ts m")
+# LLC_file = open("LLC_path.txt", 'wb')
+# pickle.dump(LLC_Path, LLC_file)
+# LLC_file.close()
+
+# L = open("LLC_path.txt", 'rb')
+# LLC_PATH = pickle.load(L)
+# TLEC_PATH = pickle.load(open("TLEC_path.txt"), "r")
+
+ADJ_T_file = open("ADJ_T.txt", 'wb')
+pickle.dump(ADJ_T, ADJ_T_file)
+ADJ_T_file.close()
+
+ADJ_TE_file = open("ADJ_TE.txt", 'wb')
+pickle.dump(ADJ_TE, ADJ_TE_file)
+ADJ_TE_file.close()
+
+# TLEC_file = open("TLEC_path.txt", 'wb')
+# pickle.dump(TLEC_Path, TLEC_file)
+# TLEC_file.close()
+
+# print("i j ts m")
 # print4d(LLC_Path, TLEC_Path)
 # print4d1(TLEC_Path)
 #print("i j s t m")
 # print5d(ADJ_TE)
 
-PRINT_PATH_FILE(LLC_Path, Parent, Spectrum)
+# PRINT_PATH_FILE(LLC_Path, Parent, Spectrum)
 
 #
 # print("Spectrum")
