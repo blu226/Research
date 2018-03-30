@@ -57,16 +57,6 @@ def getSpecBW(specBW, V, S, T):
 
 # Check if a pair of nodes i and j are sufficienctly in communication range over any band type s, starting at time ts until time te
 def createLinkExistenceADJ(LINK_EXISTS):
-    # with open("Data/" + str(i) + ".txt") as fi:
-    #     next(fi)
-    #     iLines = fi.readlines()
-    # fi.close()
-    #
-    # with open("Data/" + str(j) + ".txt") as fj:
-    #     next(fj)
-    #     jLines = fj.readlines()
-    # fj.close()
-
     for i in range(0, V, 1):
         for s in range(0, S, 1):
             for t in range(0, T- 1, 1):

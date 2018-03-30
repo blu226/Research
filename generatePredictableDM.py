@@ -3,6 +3,7 @@ import random
 import math
 from constants import *
 
+
 def readTrajectoryFile(filepath, DMTrajectories):
     with open(filepath) as fp:
         lines = fp.readlines()

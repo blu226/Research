@@ -162,7 +162,7 @@ def createLinkExistenceADJ(directory):
     fileList = findfiles(directory+ "/" + currFolder)
     fileList.sort()
     noOfFiles = len(fileList)
-    noOfFiles = 6
+    noOfFiles = 10
 
     #T = [10 am to 12:00 pm]
     tau = 5

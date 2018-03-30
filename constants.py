@@ -24,6 +24,6 @@ VMAX = 10                   # Maximum Data mule speed possible
 S = 3                       # Number of spectrum bands
 minBW = [3, 10, 40]               # Minimum bandwidth for each spectrum band
 maxBW = [6, 20, 60]             # Maximum bandwidth for each spectrum band
-spectRange = [5, 10, 1]        # Transmission coverage for each spectrum band
+spectRange = [1, 2, 0.5]        # Transmission coverage for each spectrum band
 spectPower = [1, 1, 1]          # Transmission power for each spectrum band
 epsilon = 0
