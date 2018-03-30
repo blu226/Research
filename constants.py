@@ -5,15 +5,15 @@ minY = 0
 maxY = 100
 
 # Simulation Time
-T = 10
+T = 12
 
 #TTL Bound
-TTL = 4
+TTL = 10
 
 # Message size
 M = [20]
 
-V = 5         # No of nodes including source, data mules, and data centers
+V = 6         # No of nodes including source, data mules, and data centers
 NoOfSources = 1
 NoOfDMs = 5                 # Total number of data mules (or DSA nodes)
 NoOfDataCenters = 1
@@ -22,8 +22,8 @@ VMIN = 1                    # Minimum Data Mule speed possible
 VMAX = 10                   # Maximum Data mule speed possible
 
 S = 3                       # Number of spectrum bands
-minBW = [20, 20, 20]               # Minimum bandwidth for each spectrum band
-maxBW = [25, 25, 25]             # Maximum bandwidth for each spectrum band
-spectRange = [25, 30, 20]        # Transmission coverage for each spectrum band
+minBW = [3, 10, 40]               # Minimum bandwidth for each spectrum band
+maxBW = [6, 20, 60]             # Maximum bandwidth for each spectrum band
+spectRange = [5, 10, 1]        # Transmission coverage for each spectrum band
 spectPower = [1, 1, 1]          # Transmission power for each spectrum band
 epsilon = 0

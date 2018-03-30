@@ -3,6 +3,7 @@ import numpy
 import random
 from constants import *
 from math import radians, cos, sin, asin, sqrt, inf
+import pickle
 
 def printMAT(adj):
     print("i j s ts te")
@@ -161,22 +162,33 @@ def createLinkExistenceADJ(directory):
     fileList = findfiles(directory+ "/" + currFolder)
     fileList.sort()
     noOfFiles = len(fileList)
-    #noOfFiles = 2
+    noOfFiles = 6
 
     #T = [10 am to 12:00 pm]
     tau = 5
     scale = 600
-    for ts in range(0, 120 - tau, tau):
+
+    print("ts te i j s")
+    for ts in range(0, 60 - tau, tau):
         # for te in range(ts + tau, 20, tau):
         te = ts + tau
         for i in range(0, noOfFiles, 1):
-            for j in range(i + 1, noOfFiles, 1):
+            for j in range(0, noOfFiles, 1):
                 for s in range(S):
-                    filepath1 = directory+ "/" + currFolder + "/" + fileList[i]
-                    filepath2 = directory+ "/" + currFolder + "/" + fileList[j]
-                    print("ts: " + str(ts) + " te: " + str(te) + " i: " + fileList[i] + " j: " + fileList[j] + " s: " + str(s))
-                    if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, float(ts + scale), float(te + scale)) == True:
-                        LINK_EXISTS[i, j, s, ts, te] = 1
+
+                    ts_tau = int(ts/tau)
+                    te_tau = int(te/tau)
+
+                    if i == j:
+                        LINK_EXISTS[i, j, s, ts_tau, te_tau] = 1
+                    else:
+                        filepath1 = directory+ "/" + currFolder + "/" + fileList[i]
+                        filepath2 = directory+ "/" + currFolder + "/" + fileList[j]
+                        # print("ts: " + str(ts) + " te: " + str(te) + " i: " + fileList[i] + " j: " + fileList[j] + " s: " + str(s))
+                        if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, float(ts + scale), float(te + scale)) == True:
+                            LINK_EXISTS[i, j, s, ts_tau, te_tau] = 1
+
+                    print(str(ts_tau) + " " + str(te_tau) + " " + str(i) + " " + str(j) + " " + str(s) + " " + str(LINK_EXISTS[i, j, s, ts_tau, te_tau]))
 
 LINK_EXISTS = numpy.empty(shape=(50, 50, 3, 120, 120))
 LINK_EXISTS.fill(inf)
@@ -187,4 +199,8 @@ directory = "DieselNet-2007/gps_logs"
 # dateWiseRoutes(directory)
 
 createLinkExistenceADJ("Routes")
-printMAT(LINK_EXISTS)
+LE_file = open("LINK_EXISTS.txt", 'wb')
+pickle.dump(LINK_EXISTS, LE_file)
+LE_file.close()
+print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
+# printMAT(LINK_EXISTS)
