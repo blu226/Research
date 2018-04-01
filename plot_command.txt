@@ -1,0 +1,35 @@
+#For each day=========================
+
+#Files23 = system("ls -1 DateWiseRoutes/2007-10-23/*.txt")
+#splot for [data in Files23] data u 1:3:4 notitle
+
+#Files24 = system("ls -1 DateWiseRoutes/2007-10-24/*.txt")
+#splot for [data in Files24] data u 1:3:4 notitle
+
+#For each bus ======================
+#Bus3027 = system("ls -1 BusWiseRoutes/3027/*.txt")
+#splot for [data in Bus3027] data u 1:3:4 notitle
+
+#Bus3028 = system("ls -1 BusWiseRoutes/3028/*.txt")
+#splot for [data in Bus3028] data u 1:3:4 notitle
+
+
+reset
+set terminal postscript eps enhanced color 
+set style line 1 lc rgb "blue" lt 7 lw 2 ps 2
+set style line 2 lc rgb "black" lt 7 lw 2 ps 2
+set style line 3 lc rgb "green" lt 4 lw 2 ps 2
+set style line 4 lc rgb "red" lt 4 lw 2 ps 2
+set style line 5 lc rgb "blue" lt 8 lw 2 ps 2
+set style line 6 lc rgb "red" lt 8 lw 2 ps 2
+set xlabel 'Uncertain Ratings (%)'
+set ylabel 'Exp. Truthfulness ({/Symbol t})'
+#set ytics font "Times-Roman,35"
+#set xtics font "Times-Roman,35"
+#set xlabel font "Times-Roman,40"
+#set ylabel font "Times-Roman,40"
+#set key font "Times-Roman, 35"
+#set view 40, 40
+set output 'Plots/3027.eps'
+splot "BusWiseRoutes/3027/2007-10-23.txt" u 1:3:4 w p ls 1  t "Day 1" , "BusWiseRoutes/3027/2007-10-24.txt" u 1:3:4 w p ls 2 t "Day 2", "BusWiseRoutes/3027/2007-10-30.txt" u 1:3:4 w p ls 3 t "Day 3", "BusWiseRoutes/3027/2007-10-31.txt" u 1:3:4 w p ls 4 t "Day 4", "BusWiseRoutes/3027/2007-11-05.txt" u 1:3:4 w p ls 5  t "Day 5" , "BusWiseRoutes/3027/2007-11-08.txt" u 1:3:4 w p ls 6 t "Day 6"
+
