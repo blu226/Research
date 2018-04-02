@@ -49,7 +49,7 @@ def readFile(fileName, busName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "Routes"
+directory = "BusWiseRoutes"
 #generateData(directory)
 
 folders = findfiles(directory)

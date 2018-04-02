@@ -37,8 +37,9 @@ def readFile(fileName, busName):
 def writeToFile(folder, file, allLines, startTime, endTime):
     if not os.path.exists(folder):
         os.makedirs(folder)
-
-    with open(folder + "/" +file + ".txt", "w") as fw:
+    isEmpty = True
+    filename = folder + "/" +file + ".txt"
+    with open(filename, "w") as fw:
         for line in allLines:
             # Add spectrum bandwidths
             specBW = [random.randrange(minBW[s], maxBW[s]) for s in range(S)]
@@ -54,8 +55,14 @@ def writeToFile(folder, file, allLines, startTime, endTime):
 
             if timeInMinutes >= startTime and timeInMinutes <= endTime:
                 fw.write(newString + "\n")
+                isEmpty = False
 
     fw.close()
+
+    if isEmpty == True:
+        os.remove(filename)
+
+
 
 def busWiseRoutes(directory, startTime, endTime):
     folders = findfiles(directory)

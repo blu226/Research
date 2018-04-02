@@ -51,6 +51,7 @@ def readFile(fileName):
 
 
 allPaths = []
+allFiles = []
 #NOTE: RUN THIS ONE TIME
 directory = "CityMapData/Durgapur"
 #generateData(directory)
@@ -58,7 +59,7 @@ directory = "CityMapData/Durgapur"
 folders = findfiles(directory)
 folders.sort()
 foldersLen = len(folders)
-foldersLen = 30
+foldersLen = 24
 
 #print ("Folder is: " + folders)
 for ind in range(23, foldersLen, 1):
@@ -73,10 +74,11 @@ for ind in range(23, foldersLen, 1):
 
         numOfFiles = len(currFiles)
         for fInd in range(0, numOfFiles):
-            # print("Current File "  + currFiles[fInd])
             if "GPS" in currFiles[fInd]:
+                # print("Current File " + currFiles[fInd])
                 filePath = folderPath + "/" + currFiles[fInd]
                 currPath = readFile(filePath)
+                allFiles.append(filePath)
                 allPaths.append(currPath)
 
 
@@ -92,12 +94,13 @@ for ind in range(23, foldersLen, 1):
 
         for pInd in range(len(allPaths)):
 
-            # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
-            # print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
-            path_lats, path_lons = zip(* allPaths[pInd])
-            colorInd = int(pInd%8)
-            # print ("index: ", colorInd)
-            gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
+            if pInd == 1 or pInd == 2 or pInd == 3 : #or pInd == 6 or pInd > 0
+                print("\n" + allFiles[pInd])
+                print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
+                path_lats, path_lons = zip(* allPaths[pInd])
+                colorInd = int(pInd%8)
+                # print ("index: ", colorInd)
+                gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
-        # Draw
-        gmap.draw(folders[ind] + str(ind  + 1) + ".html")
+                # Draw
+                gmap.draw(allFiles[pInd].split("/")[2] + str(ind  + 1) + ".html")
