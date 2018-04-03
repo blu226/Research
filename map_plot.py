@@ -57,6 +57,7 @@ folders.sort()
 
 folderLen = len(folders)
 
+print("All folders: "  + str(folders))
 #For each bus
 for ind in range(1, folderLen, 1):
     if ".DS_Store" not in folders:
