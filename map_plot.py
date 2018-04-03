@@ -35,7 +35,7 @@ def readFile(fileName, busName):
             lineStr = lineStr.split(" ")
             # if count%2 == 0:
             # print(lineStr[3])
-            currPath.append((float(lineStr[3]), float(lineStr[4])))
+            currPath.append((float(lineStr[1]), float(lineStr[2])))
 
             count += 1
             # with open("UMASS/" + busName + ".txt", "a") as fw:
@@ -49,22 +49,29 @@ def readFile(fileName, busName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "BusWiseRoutes"
+directory = "DieselNet-2007/gps_logs"
 #generateData(directory)
 
 folders = findfiles(directory)
 folders.sort()
-#print ("Folder is: " + folders)
-for ind in range(1, 3, 1):
+
+folderLen = len(folders)
+
+#For each bus
+for ind in range(1, folderLen, 1):
     if ".DS_Store" not in folders:
         print("Current Folder " + folders[ind])
 
+    print("Folder is: " + str(folders[ind]))
     folderPath = directory + "/" + str(folders[ind])
     currFiles = findfiles(folderPath)
     currFiles.sort()
 
+    # For all days
+    allPaths = []
     numOfFiles = len(currFiles)
-    for fInd in range(0, numOfFiles):
+    #For each day
+    for fInd in range(0, 1):
         print("Current File "  + currFiles[fInd])
         filePath = folderPath + "/" + currFiles[fInd]
         currPath = readFile(filePath, folders[ind] + "_" + currFiles[fInd])
@@ -91,4 +98,4 @@ for ind in range(1, 3, 1):
         gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
     # Draw
-    gmap.draw("umass" + str(ind  + 1) + ".html")
+    gmap.draw(str(folders[ind]) + ".html")

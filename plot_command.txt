@@ -4,32 +4,72 @@
 #splot for [data in Files23] data u 1:3:4 notitle
 
 #Files24 = system("ls -1 DateWiseRoutes/2007-10-24/*.txt")
-#splot for [data in Files24] data u 1:3:4 notitle
+#splot for [data in Files24] data u 3:4:1 notitle
 
 #For each bus ======================
-#Bus3027 = system("ls -1 BusWiseRoutes/3027/*.txt")
-#splot for [data in Bus3027] data u 1:3:4 notitle
-
-#Bus3028 = system("ls -1 BusWiseRoutes/3028/*.txt")
-#splot for [data in Bus3028] data u 1:3:4 notitle
 
 
 reset
-set terminal postscript eps enhanced color 
-set style line 1 lc rgb "blue" lt 7 lw 2 ps 2
-set style line 2 lc rgb "black" lt 7 lw 2 ps 2
-set style line 3 lc rgb "green" lt 4 lw 2 ps 2
-set style line 4 lc rgb "red" lt 4 lw 2 ps 2
-set style line 5 lc rgb "blue" lt 8 lw 2 ps 2
-set style line 6 lc rgb "red" lt 8 lw 2 ps 2
-set xlabel 'Uncertain Ratings (%)'
-set ylabel 'Exp. Truthfulness ({/Symbol t})'
-#set ytics font "Times-Roman,35"
-#set xtics font "Times-Roman,35"
-#set xlabel font "Times-Roman,40"
-#set ylabel font "Times-Roman,40"
-#set key font "Times-Roman, 35"
-#set view 40, 40
+set terminal postscript eps enhanced color
+set ylabel 'Y-Coor'
+set zlabel 'Z-Coor'
+set xlabel 'Time in minutes' rotate by 90
+set yrange[42:43]
+set zrange[-72.4:-72.8]
+Bus3028 = system("ls -1 BusWiseRoutes/3028/*.txt")
+set output 'Plots/3028.eps'
+splot for [data1 in Bus3028] data1 u 1:3:4 notitle
+
+
+
+reset
+set terminal postscript eps enhanced color
+set ylabel 'Y-Coor'
+set zlabel 'Z-Coor'
+set xlabel 'Time in minutes' rotate by 90
+set yrange[42:43]
+set zrange[-72.4:-72.8]
+Bus3027 = system("ls -1 BusWiseRoutes/3027/*.txt")
 set output 'Plots/3027.eps'
-splot "BusWiseRoutes/3027/2007-10-23.txt" u 1:3:4 w p ls 1  t "Day 1" , "BusWiseRoutes/3027/2007-10-24.txt" u 1:3:4 w p ls 2 t "Day 2", "BusWiseRoutes/3027/2007-10-30.txt" u 1:3:4 w p ls 3 t "Day 3", "BusWiseRoutes/3027/2007-10-31.txt" u 1:3:4 w p ls 4 t "Day 4", "BusWiseRoutes/3027/2007-11-05.txt" u 1:3:4 w p ls 5  t "Day 5" , "BusWiseRoutes/3027/2007-11-08.txt" u 1:3:4 w p ls 6 t "Day 6"
+splot for [data2 in Bus3027] data2 u 1:3:4 notitle
+
+
+
+
+reset
+set terminal postscript eps enhanced color
+set ylabel 'Y-Coor'
+set zlabel 'Z-Coor'
+set xlabel 'Time in minutes' rotate by 90
+set yrange[42:43]
+set zrange[-72.4:-72.8]
+Bus3029 = system("ls -1 BusWiseRoutes/3029/*.txt")
+set output 'Plots/3029.eps'
+splot for [data3 in Bus3029] data3 u 1:3:4 notitle
+
+
+
+reset
+set terminal postscript eps enhanced color
+set ylabel 'Y-Coor'
+set zlabel 'Z-Coor'
+set xlabel 'Time in minutes' rotate by 90
+set yrange[42:43]
+set zrange[-72.4:-72.8]
+Bus3030 = system("ls -1 BusWiseRoutes/3030/*.txt")
+set output 'Plots/3030.eps'
+splot for [data4 in Bus3030] data4 u 1:3:4 notitle
+
+
+
+reset
+set terminal postscript eps enhanced color
+set ylabel 'Y-Coor'
+set zlabel 'Z-Coor'
+set xlabel 'Time in minutes' rotate by 90
+set yrange[42:43]
+set zrange[-72.4:-72.8]
+Bus3031 = system("ls -1 BusWiseRoutes/3031/*.txt")
+set output 'Plots/3031.eps'
+splot for [data5 in Bus3031] data5 u 1:3:4 notitle
 

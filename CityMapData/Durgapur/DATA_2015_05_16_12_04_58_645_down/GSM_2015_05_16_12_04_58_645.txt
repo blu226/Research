@@ -1,0 +1,3 @@
+Vodafone IN
+#signalStrength,time
+15,05/16/2015 12:04:58,
