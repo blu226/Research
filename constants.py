@@ -4,10 +4,10 @@ maxX = 100
 minY = 0
 maxY = 100
 
-# Simulation Time
-T = 6
+# Simulation Time  ---- 1 plus
+T = 5
 
-#TTL Bound
+#TTL Bound ----  1 plus
 TTL = 4
 
 # Message size

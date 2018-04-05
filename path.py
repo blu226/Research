@@ -84,3 +84,108 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau):
 
     return ADJ_T, Parent, Spectrum
 
+def PRINT_LLC_PATH_FILE(LLC_PATH, Parent, Spectrum):
+    V = NoOfDMs
+    m = 0
+    tau = 1
+
+    file = open("LLC_PATH.txt", "w")
+    file2 = open("LLC_PATH_Spectrum.txt", "w")
+    #print("i j t m: PATH")
+    for t in range(0, T, tau):
+        for i in range(V):
+            for j in range(V):
+                # if i == 1 and j == 3:
+                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(LLC_PATH[i, j, t, m]) + " : ", end=" ")
+                # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
+
+                if LLC_PATH[i, j, t, m] != math.inf:
+                    d = t + int(LLC_PATH[i, j, t, m])  # total delay
+
+                if LLC_PATH[i, j, t, m] != math.inf: #path exists
+                    par_u = int(Parent[i, j, t, m])
+
+                    path_str = str(j) + " "
+                    print_path_str = str(j) + " "
+
+                    d = d - tau
+
+                    # temporal link
+                    while d > t and Spectrum[par_u, j, d, m] > 10:
+                        # Spectrum[par_u, j, d, m] -= 10
+                        print_path_str += str(par_u) + " [" + str(Spectrum[par_u, j, d, m]) + ", " + str(d) + "] "
+                        path_str += str(par_u) + " "
+                        d = d - tau
+
+                    old_par_u = j
+                    while (par_u != -1 and par_u != i):
+
+                        path_str += str(par_u) + " "
+                        print_path_str += str(par_u) + " (" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + ") "
+
+                        d = d - tau
+
+                        # temporal link
+                        while d > t and Spectrum[par_u, old_par_u, d, m] > 10:
+                            # Spectrum[par_u, old_par_u, t, m] -= 10
+                            print_path_str += str(par_u) + " [" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + "] "
+                            path_str += str(par_u) + " "
+                            d = d - tau
+
+                        old_par_u = par_u
+                        par_u = int(Parent[i, par_u, t, m])
+
+
+
+                    path_str += str(i) + " "
+                    print_path_str += str(i) + " (" +  str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) +") "
+
+                    d = d - tau
+                    while d >= t and Spectrum[i, old_par_u, d, m] > 10:
+                        # Spectrum[par_u, old_par_u, t, m] -= 10
+                        print_path_str += str(i) + " [" + str(Spectrum[i, old_par_u, d, m]) + ", " + str(
+                            d) + "] "
+                        path_str += str(i) + " "
+                        d = d - tau
+
+                    print (print_path_str, end = " ")
+                    file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
+                    file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + str(LLC_PATH[i, j, t, m])  +" : " + print_path_str + "\n")
+    file.close()
+    file2.close()
+
+
+    def PRINT_PATH_FILE_backup(LLC_PATH, Parent, Spectrum):
+        V = NoOfDMs
+        m = 0
+        tau = 1
+
+        file = open("path.txt", "w")
+        # print("i j t m: PATH")
+        for t in range(0, T, tau):
+            for i in range(V):
+                for j in range(V):
+                    # if i == 1 and j == 3:
+                    print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
+                        LLC_PATH[i, j, t, m]) + " : ", end=" ")
+                    # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
+                    if LLC_PATH[i, j, t, m] != math.inf:
+                        print_path_str = str(j) + " (" + str(Spectrum[i, j, t, m]) + ")  "
+                        par_u = int(Parent[i, j, t, m])
+
+                        path_str = str(j) + " "
+
+                        while par_u != -1 and t < T and par_u != i:
+                            path_str += str(par_u) + " "
+                            print_path_str += str(par_u) + " (" + str(Spectrum[i, par_u, t, m]) + ") "
+                            par_u = int(Parent[i, par_u, t, m])
+
+                        path_str += str(i) + " "
+                        print_path_str += str(i) + " "
+
+                        print(print_path_str, end=" ")
+                        file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
+        file.close()
+
+
+

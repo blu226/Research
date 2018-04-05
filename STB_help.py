@@ -591,7 +591,7 @@ def print5d(adj):
                 for ts in range(len(adj[0][0][0])):
                     for te in range(len(adj[0][0][0][0])):
                         if adj[i, j, s, ts, te] != math.inf:
-                            print(str(i) + " " + str(j) + " " + str(s) + " " + str(ts) + " " + str(te) + " = " + str(adj[i, j, s, ts, te]))
+                            print(str(i) + " " + str(j) + " " + str(s) + "  " + str(ts) + " " + str(te) + " = " + str(adj[i, j, s, ts, te]))
 
 
 def print4d1(adj):
