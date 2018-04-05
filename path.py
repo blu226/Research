@@ -21,39 +21,32 @@ def computeADJ_T_2(specBW, LINK_EXISTS, tau):
                 for j in range(V):
 
                     if i == j:
-                        leastConsumedTime = tau
+                        ADJ_T[i, j, t, m] = tau
+                        Spectrum[i, j, t, m] = 10
+                        Parent[i, j, t, m] = i
 
                     else:
                         leastConsumedTime = math.inf
                         for s in range(S):
                             consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                            if t + consumedTime < T and leastConsumedTime > consumedTime and LINK_EXISTS[
+                            if t + consumedTime < T and ADJ_T[i, j, t, m] > consumedTime and LINK_EXISTS[
                                 i, j, s, t, (t + consumedTime)] < math.inf:
-                                leastConsumedTime = consumedTime
-                                Spectrum[i, j, t, m] = s
+                                ADJ_T[i, j, t, m] = consumedTime
+                                Spectrum[i, j, t, m] = s + 1
+                                Parent[i, j, t, m] = i
 
 
-                    if (t + leastConsumedTime < T):
+                    # if (t + leastConsumedTime < T):
+                    #
+                    #     # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
+                    #     ADJ_T[i, j, t, m] = leastConsumedTime
+                    #     Parent[i, j, t, m] = i
 
-                        # print(str(i) + " " + str(j) + " "  + str(s) + " " + str(t) + " " + str(t+consumedTime) + " " + str(LINK_EXISTS[ i, j, s, t, (t + consumedTime)]));
-                        ADJ_T[i, j, t, m] = leastConsumedTime
-                        Parent[i, j, t, m] = i
-
-                    elif (t + tau) < T and ADJ_T[i, j, (t + tau), m] != math.inf:
+                    if (t + tau) < T and ADJ_T[i, j, t, m] == math.inf and ADJ_T[i, j, (t + tau), m] != math.inf:
                         ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau
                         Parent[i, j, t, m] = Parent[i, j, t + tau, m]
-                        Spectrum[i, j, t, m] = Spectrum[i, j, t + tau, m] +  10
-
-                    # else:
-                    #     ADJ_T[i, j, t, m] = math.inf
-                    #     Parent[i, j, t, m] = -1
-
-                            # if t + consumedTime < T and ADJ_T[i, j, s, t, m] != math.inf and ADJ_T[i, j, s, t, m] > 1:
-                            #     print(str(M[m]) + "  " + str(i) + "  " + str(j) + "  " + str(s) + "  " + str(
-                            #         t) + "   " + str(t + consumedTime) + "  :  " + str(
-                            #         ADJ_T[i, j, s, t, m]) + "  " + str(
-                            #         consumedTime) + "   " + str(LINK_EXISTS[i, j, s, t, (t + consumedTime)]) + "   " + str(
-                            #         specBW[i, j, s, t]))
+                        Spectrum[i, j, t, m] = Spectrum[i, j, t + tau, m] + 10
+                        #Spectrum[i, j, t, m] = 10
 
     return ADJ_T, Parent, Spectrum
 
@@ -84,39 +77,10 @@ def LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau):
                         if d1 + d2 < dcurr:
                             ADJ_T[i, j, t, m] = d1 + d2
                             Parent[i, j, t, m] = Parent[k, j, (t + int(d1)), m]
-                            #   Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]
+                            Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]
                             if i ==0 and j == 2 and t  == 0:
                                 print(str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
                                                 ADJ_T[i, j, t, m]) + " " + str(Parent[i, j, t, m]))
 
-            # if i == j:
-            #     Spectrum[i, j, t, m] = -1
-                        # if i == 0 and j == 2 and t == 0 and m == 0:
-
-                        # print("i: " + str(i) + " j: " + str(j) + " k: " + str(k) + " s1: " + str(
-                        #     s1) + " s2: " + str(s2) + " s3: " + str(s3) + " t: " + str(t) + " m: " + str(m))
-                        # print ("D: " + str(dcurr) +" d1: " + str(d1) + " d2: " + str(d2) + " " + str(LLC_PATH[i,j,t,m]) + "\n")
-
-                            # if i == 0 and j == 3 and k == 1 and t == 0:
-                            # print("Value here: " + str(LLC_PATH[0, 3, 0, 0]))
-# print("Value here: " + str(LLC_PATH[0,3,0,0]))
-
     return ADJ_T, Parent, Spectrum
 
-
-
-
-#
-#                 print(str(i) + " (" + str(t) +  ") - ", end=' ')
-#                 te = print_path_util(Parent, i, j, t, 0)
-#                 print(str(j) + " (" + str(te) +  ")")
-#
-# def print_path_util(Parent, src, dst, t, m):
-#     if int(Parent[src, dst, t, m]) == src or Parent[src, dst, t, m] == -1:
-#
-#         return t
-#
-#     prevT = t
-#     t = t + 1
-#     print_path_util(Parent, src, int(Parent[src, dst, prevT, m]), t, m)
-#     print(str(int(Parent[src, dst, t, m])) + " ("+ str(t) + ") - ", end=' ')

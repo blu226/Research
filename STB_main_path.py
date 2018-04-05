@@ -18,8 +18,8 @@ specBW = getSpecBW(specBW, V, S, T)             # Get the dynamic spectrum bandw
 
 # ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
 # printADJ(ADJ, V, S, T, tau)
-# LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
-LINK_EXISTS = pickle.load(open("LINK_EXISTS.txt", "rb"))
+LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
+# LINK_EXISTS = pickle.load(open("LINK_EXISTS.txt", "rb"))
 #Initialize the ADJ_T for LLC path
 
 ADJ_T, Parent, Spectrum = computeADJ_T_2(specBW, LINK_EXISTS, tau)
@@ -41,13 +41,13 @@ ADJ_TE_file.close()
 # pickle.dump(TLEC_Path, TLEC_file)
 # TLEC_file.close()
 
-print("i j ts m")
-print4d(LLC_Path, TLEC_Path)
+# print("i j ts m")
+# print4d(LLC_Path, TLEC_Path)
 # print4d1(TLEC_Path)
 #print("i j s t m")
 # print5d(ADJ_TE)
 
-# PRINT_PATH_FILE(LLC_Path, Parent, Spectrum)
+PRINT_PATH_FILE(LLC_Path, Parent, Spectrum)
 
 #
 # print("Spectrum")
