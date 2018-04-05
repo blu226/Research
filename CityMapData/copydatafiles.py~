@@ -1,9 +1,0 @@
-from shutil import copyfile
-from os import listdir
-
-directory = "/home/rohit/Dropbox/Crowd Sourcing Data/Gopal Chandra Jana/"
-opdir = "/media/rohit/86245E7B245E6DE5/Users/user/Desktop/CityMap Data/Bhubaneswar/"
-
-for d in listdir(directory):
-	try:
-		for d1 in listdir(directory)

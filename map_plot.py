@@ -58,6 +58,9 @@ folders.sort()
 folderLen = len(folders)
 
 print("All folders: "  + str(folders))
+
+curr = os.getcwd()
+
 #For each bus
 for ind in range(1, folderLen, 1):
     if ".DS_Store" not in folders:
@@ -89,6 +92,10 @@ for ind in range(1, folderLen, 1):
     colors = ['#00FF00', '#FFD700', '#8B0000', '#FF1493', '#228B22',     '#0000FF', '#000000', '#D2691E', '#FF00FF', '#00008B', '#8B008B']
     count = 0
 
+    if not os.path.exists("HTML"):
+        os.makedirs("HTML")
+    os.chdir("HTML")
+
     for pInd in range(len(allPaths)):
 
         # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
@@ -98,5 +105,7 @@ for ind in range(1, folderLen, 1):
         # print ("index: ", colorInd)
         gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
+
     # Draw
     gmap.draw(str(folders[ind]) + ".html")
+    os.chdir(curr)
