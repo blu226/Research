@@ -5,7 +5,7 @@ minY = 0
 maxY = 100
 
 # Simulation Time  ---- 1 plus
-T = 5
+T = 6
 
 #TTL Bound ----  1 plus
 TTL = 5
