@@ -22,14 +22,14 @@ LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
 # LINK_EXISTS = pickle.load(open("LINK_EXISTS.txt", "rb"))
 #Initialize the ADJ_T for LLC path
 
-# ADJ_T, Parent, Spectrum = computeADJ_T_2(specBW, LINK_EXISTS, tau)
-# LLC_Path, Parent, Spectrum = LLC_PATH_ADJ_2(ADJ_T, Parent, Spectrum, V, S, T, M, tau)
-#
+ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS, tau)
+LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, S, T, M, tau)
+
 # ADJ_T_file = open("ADJ_T.txt", 'wb')
 # pickle.dump(ADJ_T, ADJ_T_file)
 # ADJ_T_file.close()
 
-# PRINT_LLC_PATH_FILE(LLC_Path,  Parent, Spectrum)
+PRINT_LLC_PATH_FILE(LLC_Path,  ELC_Path, Parent, Spectrum)
 
 
 ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL = computeADJ_T_TE(specBW, LINK_EXISTS, tau)
@@ -47,12 +47,12 @@ TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path = TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, P
 # print4d(LLC_Path, TLEC_Path)
 # print4d1(TLEC_Path)
 #print("i j s t m")
-print("i j T TL M")
-print5d(ADJ_TL)
+# print("i j T TL M")
+# print5d(ADJ_TL)
 
-# PRINT_TLEC_PATH_FILE(TLEC_Path,  Parent_TE, Spectrum_TE, TLLC_Path)
+PRINT_TLEC_PATH_FILE(TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path)
 
-print("TTL is : " + str(TTL))
+# print("TTL is : " + str(TTL))
 #
 # print("Spectrum")
 # print4d(Spectrum)

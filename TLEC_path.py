@@ -144,7 +144,7 @@ def TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE):
     return ADJ_TE, Parent_TE, Spectrum_TE, TLLC_PATH
 
 
-def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, ADJ_T):
+def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, TLLC_PATH):
     V = NoOfDMs
     m = 0
     tau = 1
@@ -157,13 +157,13 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, ADJ_T):
             for j in range(V):
                 # if i == 1 and j == 3:
                 print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
-                    TLEC_PATH[i, j, t, m]) + " " + str(ADJ_T[i, j, t, m]) + " : ", end=" ")
+                    TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : ", end=" ")
 
-                if ADJ_T[i, j, t, m] != math.inf:
-                    d = t + int(ADJ_T[i, j, t, m])  # total delay
+                if TLLC_PATH[i, j, t, TTL - 1, m] != math.inf:
+                    d = t + int(TLLC_PATH[i, j, t, TTL - 1, m])  # total delay
 
-                if ADJ_T[i, j, t, m] != math.inf: #path exists
-                    par_u = int(Parent_TE[i, j, t, m])
+                if TLLC_PATH[i, j, t, TTL - 1, m] != math.inf: #path exists
+                    par_u = int(Parent_TE[i, j, t, TTL - 1, m])
 
                     path_str = str(j) + " "
                     print_path_str = str(j) + " "
@@ -171,9 +171,9 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, ADJ_T):
                     d = d - tau
 
                     # temporal link
-                    while d > t and Spectrum_TE[par_u, j, d, m] > 10:
+                    while d > t and Spectrum_TE[par_u, j, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, j, d, m] -= 10
-                        print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, j, d, m]) + ", " + str(d) + "] "
+                        print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, j, d, TTL - 1, m]) + ", " + str(d) + "] "
                         path_str += str(par_u) + " "
                         d = d - tau
 
@@ -181,29 +181,29 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, ADJ_T):
                     while (par_u != -1 and par_u != i):
 
                         path_str += str(par_u) + " "
-                        print_path_str += str(par_u) + " (" + str(Spectrum_TE[par_u, old_par_u, d, m]) + ", " + str(d) + ") "
+                        print_path_str += str(par_u) + " (" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + ") "
 
                         d = d - tau
 
                         # temporal link
-                        while d > t and Spectrum_TE[par_u, old_par_u, d, m] > 10:
+                        while d > t and Spectrum_TE[par_u, old_par_u, d, TTL - 1, m] > 10:
                             # Spectrum[par_u, old_par_u, t, m] -= 10
-                            print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, old_par_u, d, m]) + ", " + str(d) + "] "
+                            print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + "] "
                             path_str += str(par_u) + " "
                             d = d - tau
 
                         old_par_u = par_u
-                        par_u = int(Parent_TE[i, par_u, t, m])
+                        par_u = int(Parent_TE[i, par_u, t, TTL - 1, m])
 
 
 
                     path_str += str(i) + " "
-                    print_path_str += str(i) + " (" +  str(Spectrum_TE[par_u, old_par_u, d, m]) + ", " + str(d) +") "
+                    print_path_str += str(i) + " (" +  str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) +") "
 
                     d = d - tau
-                    while d >= t and Spectrum_TE[i, old_par_u, d, m] > 10:
+                    while d >= t and Spectrum_TE[i, old_par_u, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, old_par_u, t, m] -= 10
-                        print_path_str += str(i) + " [" + str(Spectrum_TE[i, old_par_u, d, m]) + ", " + str(
+                        print_path_str += str(i) + " [" + str(Spectrum_TE[i, old_par_u, d, TTL - 1, m]) + ", " + str(
                             d) + "] "
                         path_str += str(i) + " "
                         d = d - tau
@@ -211,7 +211,7 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, ADJ_T):
                     print (print_path_str, end = " ")
                     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
                     file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(
-                    TLEC_PATH[i, j, t, m]) + " " + str(ADJ_T[i, j, t, m]) + " : " + print_path_str + "\n")
+                    TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : " + print_path_str + "\n")
     file.close()
     file2.close()
 
