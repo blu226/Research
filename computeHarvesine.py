@@ -34,5 +34,5 @@ dist1 = funHaversine(lon1, lat1, lon2, lat2)
 dist2 = funHaversine(lon1, lat1, lon3, lat3)
 dist3 = funHaversine(lon2, lat2, lon3, lat3)
 
-print(str(dist1) + " " + str(dist2) + " " + str(dist3))
+#print(str(dist1) + " " + str(dist2) + " " + str(dist3))
 

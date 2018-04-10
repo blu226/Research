@@ -15,7 +15,7 @@ folderLen = len(folders)
 
 #For each day
 for i in range(0, folderLen, 1):
-    print(str(i) + " " + str(folders[i]))
+    #print(str(i) + " " + str(folders[i]))
     folderPath = directory + "/" + str(folders[i]) + "/"
     fileCSV = str(folders[i]) + ".csv"
     file = open(fileCSV, "w")
