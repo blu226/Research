@@ -149,8 +149,8 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, TLLC_PATH):
     m = 0
     tau = 1
 
-    file = open("TLEC_PATH_Graph2.txt", "w")
-    file2 = open("TLEC_PATH_SPECTRUM_Graph2.txt", "w")
+    file = open("TLEC_PATH.txt", "w")
+    file2 = open("TLEC_PATH_SPECTRUM.txt", "w")
     #print("i j t m: PATH")
     for t in range(0, T, tau):
         for i in range(V):

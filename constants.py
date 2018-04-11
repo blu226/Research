@@ -15,7 +15,7 @@ M = [20]
 
 V = 6         # No of nodes including source, data mules, and data centers
 NoOfSources = 1
-NoOfDMs = 5                 # Total number of data mules (or DSA nodes)
+NoOfDMs = 4                 # Total number of data mules (or DSA nodes)
 NoOfDataCenters = 1
 
 VMIN = 1                    # Minimum Data Mule speed possible

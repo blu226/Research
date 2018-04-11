@@ -102,8 +102,8 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
     m = 0
     tau = 1
 
-    file = open("LLC_PATH_graph2.txt", "w")
-    file2 = open("LLC_PATH_Spectrum_graph2.txt", "w")
+    file = open("LLC_PATH.txt", "w")
+    file2 = open("LLC_PATH_Spectrum.txt", "w")
     #print("i j t m: PATH")
     for t in range(0, T, tau):
         for i in range(V):
