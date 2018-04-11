@@ -8,13 +8,13 @@ from constants import *
 # Moreover, note that here we assumed that the channels available at the node (with lower bandwidth) is also existent at the node
 # with higher bandwidth of a certain band
 
-def getMinBWFromDMFiles(i, j, s, t):
-    with open("Data/" + str(i) + ".txt") as fi:
+def getMinBWFromDMFiles(directory, i, j, s, t):
+    with open(directory + "/" + str(i) + ".txt") as fi:
         next(fi)
         iLines = fi.readlines()
     fi.close()
 
-    with open("Data/" + str(j) + ".txt") as fj:
+    with open(directory + "/" + str(j) + ".txt") as fj:
         next(fj)
         jLines = fj.readlines()
     fj.close()
@@ -45,21 +45,27 @@ def computeTau():
 
 
 # Get the dynamic bandwidth of any given band in the set S, between any node pair at any time epoch t
-def getSpecBW(specBW, V, S, T):
+def getSpecBW(directory, V, S, T):
+    specBW = numpy.zeros(shape=(V, V, S, T))  # Initialize the dynamic spectrum bandwidth
+
     for i in range(V):
         for j in range(V):
             for s in range(S):
-                for t in range(T):
-                    specBW[i, j, s, t] = getMinBWFromDMFiles(i, j, s, t)
+                for t in range(0, T, tau):
+                    specBW[i, j, s, t] = getMinBWFromDMFiles(directory, i, j, s, t)
                     # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
     return specBW
 
 
 # Check if a pair of nodes i and j are sufficienctly in communication range over any band type s, starting at time ts until time te
-def createLinkExistenceADJ(LINK_EXISTS):
-    for i in range(0, V, 1):
-        for s in range(0, S, 1):
-            for t in range(0, T- 1, 1):
+def createLinkExistenceADJ():
+
+    LINK_EXISTS = numpy.empty(shape=(V, V, S, T, T))
+    LINK_EXISTS.fill(math.inf)
+
+    for i in range(V):
+        for s in range(S):
+            for t in range(T - 1, 1):
                 LINK_EXISTS[i, i, s, t, t + 1] = 1
 
     # t = [0,1]

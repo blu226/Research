@@ -4,36 +4,33 @@ from TLEC_path import *
 from constants import *
 import pickle
 
-#Initialization
 
-specBW = numpy.zeros(shape =(V, V, S, T))       # Initialize the dynamic spectrum bandwidth
+directory = "Lexington/Day1"
+sample_directory = "Data/"
+# tau = computeTau()                              # Get the discrete time interval period
 
-LINK_EXISTS = numpy.empty(shape=(V, V, S, T, T))
-LINK_EXISTS.fill(math.inf)
+print("Spectrum bandwidth assigned: ")
+specBW = getSpecBW(directory, V, S, T)             # Get the dynamic spectrum bandwidth
 
-# MODULES
+print("Load LINK Exists: ")
+# LINK_EXISTS = createLinkExistenceADJ()
+LINK_EXISTS = pickle.load(open("LINK_EXISTS.txt", "rb"))
 
-tau = computeTau()                              # Get the discrete time interval period
-specBW = getSpecBW(specBW, V, S, T)             # Get the dynamic spectrum bandwidth
+print("Initialization started: ")
+ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 
-# ADJ = initializeADJ(ADJ, V, S, T, tau, specBW)
-# printADJ(ADJ, V, S, T, tau)
-LINK_EXISTS = createLinkExistenceADJ(LINK_EXISTS)
-# LINK_EXISTS = pickle.load(open("LINK_EXISTS.txt", "rb"))
-#Initialize the ADJ_T for LLC path
-
-ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS, tau)
-LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, S, T, M, tau)
+print("LLC path computation started: ")
+LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M)
 
 # ADJ_T_file = open("ADJ_T.txt", 'wb')
 # pickle.dump(ADJ_T, ADJ_T_file)
 # ADJ_T_file.close()
 
+print("LLC paths are: ")
 PRINT_LLC_PATH_FILE(LLC_Path,  ELC_Path, Parent, Spectrum)
 
-
-ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL = computeADJ_T_TE(specBW, LINK_EXISTS, tau)
-TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path = TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE)
+# ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL = computeADJ_T_TE(specBW, LINK_EXISTS, tau)
+# TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path = TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE)
 
 # ADJ_TE_file = open("ADJ_TE.txt", 'wb')
 # pickle.dump(ADJ_TE, ADJ_TE_file)
@@ -43,16 +40,4 @@ TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path = TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, P
 # pickle.dump(TLEC_Path, TLEC_file)
 # TLEC_file.close()
 
-# print("i j ts m")
-# print4d(LLC_Path, TLEC_Path)
-# print4d1(TLEC_Path)
-#print("i j s t m")
-# print("i j T TL M")
-# print5d(ADJ_TL)
-
-PRINT_TLEC_PATH_FILE(TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path)
-
-# print("TTL is : " + str(TTL))
-#
-# print("Spectrum")
-# print4d(Spectrum)
+# PRINT_TLEC_PATH_FILE(TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path)

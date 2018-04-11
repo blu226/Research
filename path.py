@@ -4,7 +4,7 @@ from STB_help import *
 from constants import *
 
 # Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
-def computeADJ_T_2(specBW, LINK_EXISTS, tau):
+def computeADJ_T_2(specBW, LINK_EXISTS):
     ADJ_T = numpy.empty(shape=(V, V, T, len(M)))
     ADJ_T.fill(math.inf)
 
@@ -61,17 +61,14 @@ def computeADJ_T_2(specBW, LINK_EXISTS, tau):
 
 
 # Determines the Least Latency Cost (LLC) Path for all messages in the STB graph
-def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, S, T, M, tau):
-    # LLC = Least Latency Cost Path
-    # LLC_PATH = numpy.empty(shape=(V, V, T, len(M)))
-    # LLC_PATH.fill(math.inf)
+def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M):
 
     #print("k i j t : LLC Parent")
     for m in range(len(M)):
         for k in range(V):
             for i in range(V):
                 for j in range(V):
-                    for t in range(T):
+                    for t in range(0, T, tau):
                         # leastTime = LLC_PATH[i, j, t, m]
                         #leastTime = math.inf
 
@@ -98,12 +95,11 @@ def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, S, T, M, tau):
     return ADJ_T, Parent, Spectrum, ADJ_E
 
 def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
-    V = NoOfDMs
     m = 0
     tau = 1
 
-    file = open("LLC_PATH.txt", "w")
-    file2 = open("LLC_PATH_Spectrum.txt", "w")
+    file = open("LLC_PATH" + str(V)+ ".txt", "w")
+    file2 = open("LLC_PATH_Spectrum" + str(V) +".txt", "w")
     #print("i j t m: PATH")
     for t in range(0, T, tau):
         for i in range(V):
@@ -147,8 +143,6 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
 
                         old_par_u = par_u
                         par_u = int(Parent[i, par_u, t, m])
-
-
 
                     path_str += str(i) + " "
                     print_path_str += str(i) + " (" +  str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) +") "
