@@ -96,16 +96,15 @@ def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M):
 
 def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
     m = 0
-    tau = 1
 
-    file = open("LLC_PATH" + str(V)+ ".txt", "w")
-    file2 = open("LLC_PATH_Spectrum" + str(V) +".txt", "w")
+    file = open(path_to_folder + "LLC_PATH.txt", "w")
+    file2 = open(path_to_folder + "LLC_PATH_Spectrum.txt", "w")
     #print("i j t m: PATH")
     for t in range(0, T, tau):
         for i in range(V):
             for j in range(V):
-                # if i == 1 and j == 3:
-                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(LLC_PATH[i, j, t, m]) + " : ", end=" ")
+
+                # print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(LLC_PATH[i, j, t, m]) + " : ", end=" ")
                 # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
 
                 if LLC_PATH[i, j, t, m] != math.inf:
@@ -155,7 +154,7 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
                         path_str += str(i) + " "
                         d = d - tau
 
-                    print (print_path_str, end = " ")
+                    # print (print_path_str, end = " ")
                     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
                     file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(ELC_PATH[i, j, t, m]) + " " + str(LLC_PATH[i, j, t, m])  + " : " + print_path_str + "\n")
     file.close()
@@ -193,6 +192,3 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
                         print(print_path_str, end=" ")
                         file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
         file.close()
-
-
-

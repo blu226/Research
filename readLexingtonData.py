@@ -74,6 +74,8 @@ def isFile(object):
 
 def readTrajectoryFile(DMTrajectories):
     files = findfiles("Lexington/")
+    if ".DS_Store" in files:
+        files.remove(".DS_Store")
     files.sort()
     for file in files:
         filepath = "Lexington/"+ file
@@ -248,19 +250,24 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
 def createLinkExistenceADJ(directory):
     folders = findfiles(directory)
+    if ".DS_Store" in folders:
+        folders.remove(".DS_Store")
     folders.sort()
     # For day 1
     currFolder = folders[0]
     fileList = findfiles(directory + "/" + currFolder)
+    if ".DS_Store" in fileList:
+        fileList.remove(".DS_Store")
     fileList.sort()
     noOfFiles = len(fileList)
     # noOfFiles = 10
 
+    print("Files " + str(noOfFiles), fileList)
     print("ts te i j s")
     for ts in range(0, T - dt, dt):
         te = ts + dt
-        for i in range(0, noOfFiles, 1):
-            for j in range(0, noOfFiles, 1):
+        for i in range(noOfFiles):
+            for j in range(noOfFiles):
                 for s in range(S):
 
                     ts_dt = int(ts / dt)
@@ -278,13 +285,11 @@ def createLinkExistenceADJ(directory):
                     # print(str(ts_dt) + " " + str(te_dt) + " " + str(i) + " " + str(j) + " " + str(s) + " " + str(
                     #     LINK_EXISTS[i, j, s, ts_dt, te_dt]))
 
-
-
 # Main starts here
 
 dt = 1
 # This function is independent of tau
-LINK_EXISTS = numpy.empty(shape=(V, V, S, (T/dt), (T/dt)))
+LINK_EXISTS = numpy.empty(shape=(V, V, S, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(inf)
 
 #filepath = 'Data/trajectory.txt'
@@ -310,11 +315,11 @@ getLocationsOfDMs(selectedDMTrajectories, NoOfSources, NoOfSources + NoOfDMs)
 # Randomly place data centers (index from (DM -  DM + D))
 getLocationsOfSourcesAndDataCenters(NoOfSources + NoOfDMs, (NoOfSources + NoOfDMs + NoOfDataCenters ))
 
-createLinkExistenceADJ("Lexington")
-LE_file = open("LINK_EXISTS.txt", 'wb')
-pickle.dump(LINK_EXISTS, LE_file)
-LE_file.close()
-
-print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
-save_in_file(LINK_EXISTS)
+# createLinkExistenceADJ("Lexington")
+# LE_file = open("LINK_EXISTS_pickle.txt", 'wb')
+# pickle.dump(LINK_EXISTS, LE_file)
+# LE_file.close()
+#
+# print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
+# save_in_file(LINK_EXISTS)
 #printMAT(LINK_EXISTS)

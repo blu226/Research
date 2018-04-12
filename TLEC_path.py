@@ -144,19 +144,18 @@ def TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE):
     return ADJ_TE, Parent_TE, Spectrum_TE, TLLC_PATH
 
 
-def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, TLLC_PATH):
+def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
     m = 0
-    tau = 1
 
-    file = open("TLEC_PATH" + str(V) +".txt", "w")
-    file2 = open("TLEC_PATH_SPECTRUM" + str(V) +".txt", "w")
+    file = open(path_to_folder + "TLEC_PATH.txt", "w")
+    file2 = open(path_to_folder + "TLEC_PATH_SPECTRUM.txt", "w")
     #print("i j t m: PATH")
     for t in range(0, T, tau):
         for i in range(V):
             for j in range(V):
                 # if i == 1 and j == 3:
-                print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
-                    TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : ", end=" ")
+                # print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
+                #     TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : ", end=" ")
 
                 if TLLC_PATH[i, j, t, TTL - 1, m] != math.inf:
                     d = t + int(TLLC_PATH[i, j, t, TTL - 1, m])  # total delay
@@ -207,10 +206,9 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, Parent_TE, Spectrum_TE, TLLC_PATH):
                         path_str += str(i) + " "
                         d = d - tau
 
-                    print (print_path_str, end = " ")
+                    # print (print_path_str, end = " ")
                     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
                     file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(
                     TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : " + print_path_str + "\n")
     file.close()
     file2.close()
-

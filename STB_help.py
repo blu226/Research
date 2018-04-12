@@ -640,3 +640,33 @@ def print_path_util(Parent, src, dst, t, m):
 
     print_path_util(Parent, int(Parent[src, dst, t, m]), dst, t + 1, m)
     print(str(int(Parent[src, dst, t, m])) + " - ", end=' ')
+
+def save_4D_in_file(filename, adj):
+    with open(path_to_folder + filename, "w") as f:
+        f.write("#i j t m\n")
+        for i in range(len(adj)):
+            for j in range(len(adj[0])):
+                for t in range(len(adj[0][0])):
+                    for m in range(len(adj[0][0][0])):
+                        f.write(str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " = " + str(adj[i, j, t, m]) + "\n")
+
+    f.close()
+
+def save_5D_in_file(filename, adj):
+    with open(path_to_folder + filename, "w") as f:
+        f.write("#i j t dt m\n")
+        for i in range(len(adj)):
+            for j in range(len(adj[0])):
+                for t in range(len(adj[0][0])):
+                    for dt in range(len(adj[0][0][0])):
+                        for m in range(len(adj[0][0][0][0])):
+                            f.write(str(i) + " " + str(j) + " " + str(t) + " " + str(dt) + " " + str(m) + " = " + str(adj[i, j, t, dt, m]) + "\n")
+
+    f.close()
+
+def print3D(adj):
+    for i in range(len(adj)):
+        for j in range(len(adj[0])):
+            for t in range(len(adj[0][0])):
+                print(str(i) + " " + str(j) + " " + str(t) + " = " + str(
+                        adj[i, j, t]))
