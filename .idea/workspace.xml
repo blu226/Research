@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f5b6242-c903-4179-97c0-1829afe45fae" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/computeLINKEXISTS.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/performanceMetrics.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/0.txt" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/1.txt" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/10.txt" afterPath="" />
@@ -34,14 +32,8 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/7.txt" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/8.txt" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Lexington/Day1/9.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/TLEC_PATH_SPECTRUM.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/readme.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STB_help.py" afterPath="$PROJECT_DIR$/STB_help.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STB_main_path.py" afterPath="$PROJECT_DIR$/STB_main_path.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TLEC_path.py" afterPath="$PROJECT_DIR$/TLEC_path.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constants.py" afterPath="$PROJECT_DIR$/constants.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/path.py" afterPath="$PROJECT_DIR$/path.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readLexingtonData.py" afterPath="$PROJECT_DIR$/readLexingtonData.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -104,7 +96,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="performanceMetrics.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="performanceMetrics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/performanceMetrics.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-135">
@@ -112,6 +104,16 @@
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="howToRunAFile.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/howToRunAFile.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -816,14 +818,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/STB_help.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -937,6 +931,14 @@
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/howToRunAFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
