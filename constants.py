@@ -25,17 +25,17 @@ NoOfDataCenters = 5
 VMIN = 20000                    # Minimum Data Mule speed (in m/s)
 VMAX = 50000                   # Maximum Data mule speed (in m/s)
 
-# path_to_folder = "Bands/ALL/"  #for all spectrum types
+path_to_folder = "Bands/ALL/"  #for all spectrum types
 # path_to_folder = "Bands/TV/"  #for all spectrum types
-path_to_folder = "Bands/ISM/"  #for all spectrum types
+# path_to_folder = "Bands/ISM/"  #for all spectrum types
 
-S = 1                      # Number of spectrum bands
+S = 3                      # Number of spectrum bands
 #3, 10, 40
-minBW = [10, 40]               # Minimum bandwidth for each spectrum band
+minBW = [3, 10, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
-maxBW = [20, 60]             # Maximum bandwidth for each spectrum band
+maxBW = [6, 20, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
-spectRange = [100, 500]        # Transmission coverage for each spectrum band
+spectRange = [2000, 100, 500]        # Transmission coverage for each spectrum band
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1]          # Transmission power for each spectrum band
 epsilon = 0

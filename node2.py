@@ -1,3 +1,5 @@
+from constants import *
+
 class Node(object):                                                                     #Node Object
     def __init__(self, name):
         self.name = name                                                                #Node ID or name (string)
@@ -19,7 +21,7 @@ class Node(object):                                                             
             print("Message ID: " + str(message))
 
 
-    def send_message(self, net, message, t, ADJ_T, ADJ_TE):
+    def send_message(self, net, message, t, ADJ_T, ADJ_E):
         nodes = net.nodes
 
         print("Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
@@ -30,9 +32,9 @@ class Node(object):                                                             
             if next == message.src:                                     #if the next node is src then pop it off
                 next = int(message.path.pop())
                 # calculate total energy consumption from ADJ_TE matrix
-            message.totalEnergy += ADJ_TE[message.curr, next, int(message.totalDelay)]
+            message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay)]
             message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay)]  # calculate total delay from ADJ_T matrix
-            print(str(ADJ_TE[message.curr, next, int(message.totalDelay)]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
+            print(str(ADJ_E[message.curr, next, int(message.totalDelay)]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
 
             nodes[next].buf.append(message)							    #add message to next node buffer
             nodes[message.curr].buf.remove(message)						#remove message from current node buffer
@@ -42,7 +44,7 @@ class Node(object):                                                             
 
         if message.curr == message.des and len(message.path)  ==0:      #if message has reached its destination
 
-            output_file = open("Delivery_Confirmation.txt", "a")        #print confirmation to output file
+            output_file = open(path_to_folder + "LLC_delivery_confirmation.txt", "a")        #print confirmation to output file
             output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(message.T + int(message.totalDelay))+ "\t\t" + str(int(message.totalDelay)) + "\t\t\t" + str(message.totalEnergy) + "\n"
             output_file.write(output_msg)
             output_file.close()

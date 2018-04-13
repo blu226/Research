@@ -1,7 +1,8 @@
 import random
+import pickle
 from node2 import *
 from message2 import *
-import pickle
+from constants import *
 
 class Network(object):
     def __init__(self):
@@ -30,12 +31,12 @@ class Network(object):
     def network_GO(self,t):                            #function that sends all messages at a given tau
 
 
-        f = open("path.txt", "r")
-        ADJ_T = pickle.load(open("ADJ_T.txt", "rb"))
-        ADJ_TE = pickle.load(open("ADJ_TE.txt", "rb"))
-        print(ADJ_TE[3,0,0])
-        for line in f:                                  #read each line from file to see if a new message needs to be generated
+        f = open(path_to_folder + "LLC_PATH.txt", "r")
+        ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb"))
+        ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb"))
 
+        print(ADJ_E[3,0,0])
+        for line in f:                                  #read each line from file to see if a new message needs to be generated
             line = line.strip()
             line = line.split(" ")
 
@@ -71,7 +72,7 @@ class Network(object):
             print("-------------------------------------- \n")
             for msg in node.buf:
                 # print("Index: " + str(i) + " " + str(msg.ID))
-                node.send_message( self, msg, t, ADJ_T, ADJ_TE)
+                node.send_message( self, msg, t, ADJ_T, ADJ_E)
 
             print("-------------------------------------- ")
 
