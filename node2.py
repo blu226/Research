@@ -31,10 +31,25 @@ class Node(object):                                                             
 
             if next == message.src:                                     #if the next node is src then pop it off
                 next = int(message.path.pop())
-                # calculate total energy consumption from ADJ_TE matrix
-            message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay)]
-            message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay)]  # calculate total delay from ADJ_T matrix
-            print(str(ADJ_E[message.curr, next, int(message.totalDelay)]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
+
+            # TODO: This "0" in the matrices ADJ_E and ADJ_T should be replaced by message type
+            # TODO: message type must come from message class (for now, its always 0)
+            # calculate total energy consumption from ADJ_E matrix
+            message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay), 0]
+            # calculate total delay from ADJ_T matrix
+            message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay), 0]
+
+            # print(str(ADJ_E[message.curr, next, int(message.totalDelay), 0]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
+
+            #TODO: Here before transferring message to the next node, we need to check if the next node is in communication range
+            #TODO: with current node over the spectrum band
+            #TODO: Like we obtained LLC path by reading the path file, we need to get the spectrum band as well in similar fashion
+            #TODO: Currently, we have both path and spectrum information in LLC_PATH_Spectrum.txt file (need to be kept separately for easy read)
+
+            #TODO: To find out if two nodes are in communication range at a certain time epoch, we need to look at those node files.
+            #TODO: E.g., if we need to find if node 0 and 1 are in communication range at time 3 seconds, then, we open files 0.txt and 1.txt.
+            #TODO: Then, we get coordinates of nodes 0 and 1 at time 3 seconds, and see if the euclidean distance between them are less than that of
+            #TODO: communication range of spectrum band
 
             nodes[next].buf.append(message)							    #add message to next node buffer
             nodes[message.curr].buf.remove(message)						#remove message from current node buffer
@@ -42,8 +57,7 @@ class Node(object):                                                             
             message.curr = next								            #update messages current node
             self.buf_size -= 1                                          #update current nodes buffer
 
-        if message.curr == message.des and len(message.path)  ==0:      #if message has reached its destination
-
+        if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
             output_file = open(path_to_folder + "LLC_delivery_confirmation.txt", "a")        #print confirmation to output file
             output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(message.T + int(message.totalDelay))+ "\t\t" + str(int(message.totalDelay)) + "\t\t\t" + str(message.totalEnergy) + "\n"
             output_file.write(output_msg)

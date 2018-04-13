@@ -32,8 +32,8 @@ class Network(object):
 
 
         f = open(path_to_folder + "LLC_PATH.txt", "r")
-        ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb"))
-        ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb"))
+        ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb")) #This file is equivalent to LLC (for LLC path) and TLLC (for TLEC path)
+        ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb")) #This file is equivalent to ELC (for LLC path) and TLEC (for TLEC path)
 
         print(ADJ_E[3,0,0])
         for line in f:                                  #read each line from file to see if a new message needs to be generated

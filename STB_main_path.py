@@ -22,6 +22,8 @@ LINK_EXISTS = pickle.load(open(path_to_folder +"LINK_EXISTS.pkl", "rb"))
 print("Initialization started: ")
 ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 
+#============== For LLC case =======================
+
 print("LLC path computation started: ")
 LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M)
 
@@ -33,19 +35,26 @@ ADJ_E_file = open(path_to_folder + "ADJ_E.pkl", 'wb')
 pickle.dump(ADJ_E, ADJ_E_file)
 ADJ_E_file.close()
 
-LLC_path_file = open(path_to_folder + "LLC.pkl", 'wb')
-pickle.dump(LLC_Path, LLC_path_file)
-LLC_path_file.close()
+save_4D_in_file("ADJ_T.txt", LLC_Path)
+save_4D_in_file("ADJ_E.txt", ELC_Path)
 
-ELC_path_file = open(path_to_folder + "ELC.pkl", 'wb')
-pickle.dump(ELC_Path, ELC_path_file)
-ELC_path_file.close()
-
-save_4D_in_file("LLC.txt", LLC_Path)
-save_4D_in_file("ELC.txt", ELC_Path)
+#TODO: ADJ_T and LLC_Path files are identical and so on. So commented the followings
+# LLC_path_file = open(path_to_folder + "LLC.pkl", 'wb')
+# pickle.dump(LLC_Path, LLC_path_file)
+# LLC_path_file.close()
+#
+# ELC_path_file = open(path_to_folder + "ELC.pkl", 'wb')
+# pickle.dump(ELC_Path, ELC_path_file)
+# ELC_path_file.close()
+#
+# save_4D_in_file("LLC.txt", LLC_Path)
+# save_4D_in_file("ELC.txt", ELC_Path)
 
 print("LLC paths are: ")
 PRINT_LLC_PATH_FILE(LLC_Path, ELC_Path, Parent, Spectrum)
+
+
+#================ FOR TLEC case ========================
 
 print("TLEC path computation started: ")
 ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL = computeADJ_T_TE(specBW, LINK_EXISTS, tau)
@@ -59,16 +68,20 @@ ADJ_TL_file = open(path_to_folder + "ADJ_TL.pkl", 'wb')
 pickle.dump(ADJ_TL, ADJ_TL_file)
 ADJ_TL_file.close()
 
-TLEC_path_file = open(path_to_folder + "TLEC.pkl", 'wb')
-pickle.dump(TLEC_Path, TLEC_path_file)
-TLEC_path_file.close()
+save_5D_in_file("ADJ_TE.txt", TLEC_Path)
+save_5D_in_file("ADJ_TL.txt", TLLC_Path)
 
-TLLC_path_file = open(path_to_folder + "TLLC.pkl", 'wb')
-pickle.dump(TLLC_Path, TLLC_path_file)
-TLLC_path_file.close()
-
-save_5D_in_file("TLEC.txt", TLEC_Path)
-save_5D_in_file("TLLC.txt", TLLC_Path)
+#TODO: ADJ_TE and TLEC_Path files are identical and so on. So commented the followings
+# TLEC_path_file = open(path_to_folder + "TLEC.pkl", 'wb')
+# pickle.dump(TLEC_Path, TLEC_path_file)
+# TLEC_path_file.close()
+#
+# TLLC_path_file = open(path_to_folder + "TLLC.pkl", 'wb')
+# pickle.dump(TLLC_Path, TLLC_path_file)
+# TLLC_path_file.close()
+#
+# save_5D_in_file("TLEC.txt", TLEC_Path)
+# save_5D_in_file("TLLC.txt", TLLC_Path)
 
 print("TLEC paths are: ")
 PRINT_TLEC_PATH_FILE(TLEC_Path, TLLC_Path, Parent_TE, Spectrum_TE)
