@@ -28,33 +28,40 @@ class Network(object):
             self.nodes[i].print_buf()
             print(" ")
 
-    def network_GO(self,t):                            #function that sends all messages at a given tau
+    def network_GO(self, t):                            #function that sends all messages at a given tau
 
+        with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
+            path_lines = fp.readlines()[1:]
+        fp.close()
 
-        f = open(path_to_folder + "LLC_PATH.txt", "r")
-        ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb")) #This file is equivalent to LLC (for LLC path) and TLLC (for TLEC path)
-        ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb")) #This file is equivalent to ELC (for LLC path) and TLEC (for TLEC path)
+        with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
+            spec_lines = fs.readlines()[1:]
+        fs.close()
 
-        print(ADJ_E[3,0,0])
-        for line in f:                                  #read each line from file to see if a new message needs to be generated
-            line = line.strip()
-            line = line.split(" ")
+        for ind in range(len(path_lines)):            #read each line from file to see if a new message needs to be generated
+            path_line = path_lines[ind].strip()
+            path_line_arr = path_line.split(" ")
 
-            if (int(line[2]) == self.epoch_it):         #if a new message needs to be generated at this time
+            spec_line = spec_lines[ind].strip()
+            spec_line_arr = spec_line.split(" ")
 
-                src = line[0]                           #get information from that line
-                dst = line[1]
-                T = line[2]
-                size = line[3]
-                i = 4
+            if (int(path_line_arr[2]) == self.epoch_it):         #if a new message needs to be generated at this time
+
+                src = path_line_arr[0]                           #get information from that line
+                dst = path_line_arr[1]
+                # genT = path_line_arr[2]                             #generation time
+                size = path_line_arr[3]
+
                 # while line[i] is '' and i < len(line) -1:
                 #     i +=1
 
-                path = line[i:]
-                name = self.message_num
-                TTL = 5
+                path = path_line_arr[4:]
+                bands = spec_line_arr[4:]
 
-                message = Message(src,dst,T,name,TTL,size,path, 0, 0)   #create the message
+                name = self.message_num
+                TTL = random.randint(5, 10)   #assign random TTL deadline for each message
+
+                message = Message(src, dst, t, name, TTL, size, path, bands, 0, 0)   #create the message
                 curr = int(message.curr)
 
                 self.nodes[curr].buf.append(message)                    #put the message in the source nodes buffer
@@ -68,14 +75,14 @@ class Network(object):
 
         for i in range(len(self.nodes)):                #send all messages to their next hop
             node = self.nodes[i]
-            print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
-            print("-------------------------------------- \n")
+            # print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
+            # print("-------------------------------------- \n")
             for msg in node.buf:
                 # print("Index: " + str(i) + " " + str(msg.ID))
-                node.send_message( self, msg, t, ADJ_T, ADJ_E)
+                node.send_message( self, msg, t)
 
-            print("-------------------------------------- ")
+            # print("-------------------------------------- ")
 
         self.epoch_it += 1
-        f.close()
+
 

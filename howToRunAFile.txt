@@ -1,4 +1,4 @@
-To evaluate the lexington data:
+############## To evaluate the lexington data:
 
 Step 1: Run readLexingtonData.py
 -> It will generate a unique file for each node (e.g., bus) with its gps location at each time interval
@@ -11,3 +11,15 @@ Step 3: Run STB_main_path.py
 -> It will generate the LLC and TLEC path for each node pair in the STB graph
 
 Step 4:
+
+
+
+############### To evaluate a bus network
+
+Step 1: Run Main2.py (calls network_go from network2.py)
+
+-> It  obtains (LLC/TLEC) paths from the LLC_Path.txt/TLEC_Path.txt.
+-> It also obtains spectrum information for each link from LLC_spectrum.txt/TLEC_spectrum.txt
+-> It also obtains ADJ_T and ADJ_E for LLC path (and ADJ_TL and ADJ_TE for TLEC path) calculated from a known graph
+
+->

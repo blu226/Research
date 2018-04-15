@@ -1,25 +1,27 @@
+import pickle
+import os
+
 from STB_help import *
-from path import *
+from LLC_path import *
 from TLEC_path import *
 from constants import *
-import pickle
 
-
-directory = "Lexington/Day1"
-sample_directory = "Data/"
-
-# band_type = ["ALL", "TV", "ISM"]
-# path_to_folder = "Bands/" + band_type[1] + "/"
 # tau = computeTau()                              # Get the discrete time interval period
 
+#create the folder if it does not exist
+if not os.path.exists(path_to_folder):
+    os.makedirs(path_to_folder)
+
 print("Spectrum bandwidth assigned: ")
-specBW = getSpecBW(directory, V, S, T)             # Get the dynamic spectrum bandwidth
+specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
 
 print("Load LINK Exists: ")
-# LINK_EXISTS = createLinkExistenceADJ()
+
+# LINK_EXISTS = createLinkExistenceADJ()   # only for sample graphs
 LINK_EXISTS = pickle.load(open(path_to_folder +"LINK_EXISTS.pkl", "rb"))
 
 print("Initialization started: ")
+
 ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 
 #============== For LLC case =======================

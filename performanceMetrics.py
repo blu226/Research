@@ -143,7 +143,7 @@ def energy_TLEC(energy_mat):
     print("Avg energy: " + str(avg_energy))
 
 
-band_types = ["ALL", "TV"]
+band_types = ["Sample5"] #["ALL", "TV"]
 
 print("#================ For LLC paths===========")
 
@@ -152,8 +152,8 @@ for i in range(len(band_types)):
 
     print("\nSpectrum: ", band_types[i])
    # if os.path.isfile(local_path_to_folder + latency_files[ind]):
-    latency_file = pickle.load(open(local_path_to_folder + "LLC.pkl", "rb"))
-    energy_file = pickle.load(open(local_path_to_folder + "ELC.pkl", "rb"))
+    latency_file = pickle.load(open(local_path_to_folder + "ADJ_T.pkl", "rb"))
+    energy_file = pickle.load(open(local_path_to_folder + "ADJ_E.pkl", "rb"))
 
     # print4D(latency_file)
 
@@ -169,8 +169,8 @@ for i in range(len(band_types)):
 
     print("\nSpectrum: ", band_types[i])
    # if os.path.isfile(local_path_to_folder + latency_files[ind]):
-    latency_file = pickle.load(open(local_path_to_folder + "TLLC.pkl", "rb"))
-    energy_file = pickle.load(open(local_path_to_folder + "TLEC.pkl", "rb"))
+    latency_file = pickle.load(open(local_path_to_folder + "ADJ_TL.pkl", "rb"))
+    energy_file = pickle.load(open(local_path_to_folder + "ADJ_TE.pkl", "rb"))
 
     # print5D(latency_file)
 

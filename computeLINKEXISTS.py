@@ -1,50 +1,8 @@
-import re
-import random
-import os
-import numpy
 import pickle
+import math
+
+from STB_help import *
 from constants import *
-from math import radians, cos, sin, asin, sqrt, inf
-
-
-def isFile(object):
-    try:
-        os.listdir(object)  # tries to get the objects inside of this object
-        return False  # if it worked, it's a folder
-    except Exception:  # if not, it's a file
-        return True
-
-
-def findfiles(directory):
-    # if directory is not 'DieselNet-2007/gps_logs/.DS_Store':
-    print (directory)
-    objects = os.listdir(directory)  # find all objects in a dir
-
-    files = []
-    for i in objects:  # check if very object in the folder ...
-        if isFile(directory + i):  # ... is a file.
-            files.append(i)  # if yes, append it.
-    return files
-
-def euclideanDistance(coor1X, coor1Y, coor2X, coor2Y):
-    return (sqrt((float(coor1X) - float(coor2X))**2 + (float(coor1Y) - float(coor2Y))**2))
-    # return funHaversine(float(currCoors[1]), float(currCoors[0]), float(prevCoors[1]), float(prevCoors[0]))
-
-
-def save_in_file(filename, adj):
-    with open(path_to_folder + filename, "w") as f:
-        f.write("i j s ts te")
-        for i in range(len(adj)):
-            for j in range(len(adj[0])):
-                for s in range(len(adj[0][0])):
-                    for ts in range(len(adj[0][0][0])):
-                        for te in range(len(adj[0][0][0][0])):
-                            if (adj[i, j, s, ts, te] != inf and i != j):
-                                f.write(str(i) + " " + str(j) + " " + str(s) + " " + str(ts) + " " + str(te) + " = " + str(
-                                        adj[i, j, s, ts, te]) + "\n")
-
-    f.close()
-
 
 def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
@@ -134,17 +92,15 @@ def createLinkExistenceADJ(directory):
 
 # This function is independent of tau
 LINK_EXISTS = numpy.empty(shape=(V, V, S, int(T/dt), int(T/dt)))
-LINK_EXISTS.fill(inf)
+LINK_EXISTS.fill(math.inf)
 
-#filepath = 'Data/trajectory.txt'
-directory = "Lexington/Day1"
-if not os.path.exists(directory):
-    os.makedirs(directory)
+if not os.path.exists(lex_data_directory):
+    os.makedirs(lex_data_directory)
 
 createLinkExistenceADJ("Lexington")
 
-# band_type = ["ALL", "TV", "ISM"]
-# path_to_folder = "Bands/" + band_type[1]+"/"
+if not os.path.exists(path_to_folder):
+    os.makedirs(path_to_folder)
 
 LE_file = open( path_to_folder + "LINK_EXISTS.pkl", 'wb')
 pickle.dump(LINK_EXISTS, LE_file)

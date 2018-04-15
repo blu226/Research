@@ -16,7 +16,7 @@ output_file.write("----------------------------------------------------\n")
 output_file.close()
 
 #run simulation
-for i in range(T):
-    net.network_GO(i)
+for t in range(0, T, tau):
+    net.network_GO(t)
 
 

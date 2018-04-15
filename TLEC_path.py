@@ -1,6 +1,5 @@
 import numpy
 import math
-from STB_help import *
 from constants import *
 
 # Compute message colors (i.e., message transmission delays) for spatial links (ONLY SPATIAL LINKS)
@@ -28,16 +27,18 @@ def computeADJ_TE_2(specBW, LINK_EXISTS, tau):
                     else:
                         #minEnergy = math.inf
                         for s in range(S):
-                            consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                            consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
-                            consumedEnergy = round(consumedEnergy, 2)
+                            # bandwidth = 0 means there does not exist a link over that spectrum band
+                            if specBW[i, j, s, t] > 0:
+                                consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+                                consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+                                consumedEnergy = round(consumedEnergy, 2)
 
-                            if ADJ_TE[i, j, t, m] > consumedEnergy and consumedTime < TTL and t + consumedTime < T and \
-                                            LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
-                                #minEnergy = consumedEnergy
-                                ADJ_TE[i, j, t, m] = consumedEnergy
-                                Parent_TE[i, j, t, m] = i
-                                Spectrum_TE[i, j, t, m] = s
+                                if ADJ_TE[i, j, t, m] > consumedEnergy and consumedTime < TTL and t + consumedTime < T and \
+                                                LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
+                                    #minEnergy = consumedEnergy
+                                    ADJ_TE[i, j, t, m] = consumedEnergy
+                                    Parent_TE[i, j, t, m] = i
+                                    Spectrum_TE[i, j, t, m] = s
 
                     if (t + tau) < T and tau < TTL and ADJ_TE[i, j, t, m] == math.inf and ADJ_TE[i, j, (t + tau), m] != math.inf:
                         ADJ_TE[i, j, t, m] = ADJ_TE[i, j, (t + tau), m] + epsilon
@@ -56,10 +57,10 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
     ADJ_TL = numpy.empty(shape=(V, V, T, TTL, len(M)))
     ADJ_TL.fill(math.inf)
 
-    Parent_TE = numpy.empty(shape=(V, V, T, TTL, len(M)))
+    Parent_TE = numpy.empty(shape=(V, V, T, TTL, len(M)), dtype=int)
     Parent_TE.fill(-1)
 
-    Spectrum_TE = numpy.empty(shape=(V, V, T, TTL, len(M)))
+    Spectrum_TE = numpy.empty(shape=(V, V, T, TTL, len(M)), dtype=int)
     Spectrum_TE.fill(-1)
 
     # print ("M   i  j  s  ts  te :  Val  cT  LExi   BW    ")
@@ -79,18 +80,20 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
                         else:
                             #minEnergy = math.inf
                             for s in range(S):
-                                consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                                consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
-                                consumedEnergy = round(consumedEnergy, 2)
+                                # bandwidth = 0 means there does not exist a link over that spectrum band
+                                if specBW[i, j, s, t] > 0:
+                                    consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
+                                    consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+                                    consumedEnergy = round(consumedEnergy, 2)
 
-                                # t + consumedTime < t + TTL is equivalent to first condition
-                                if consumedTime <= dt and t + consumedTime < T and consumedEnergy < ADJ_TE[i, j, t, dt, m] and \
-                                                LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
-                                    #minEnergy = consumedEnergy
-                                    ADJ_TE[i, j, t, dt, m] = consumedEnergy
-                                    ADJ_TL[i, j, t, dt, m] = consumedTime
-                                    Parent_TE[i, j, t, dt, m] = i
-                                    Spectrum_TE[i, j, t, dt, m] = s + 1
+                                    # t + consumedTime < t + TTL is equivalent to first condition
+                                    if consumedTime <= dt and t + consumedTime < T and consumedEnergy < ADJ_TE[i, j, t, dt, m] and \
+                                                    LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
+                                        #minEnergy = consumedEnergy
+                                        ADJ_TE[i, j, t, dt, m] = consumedEnergy
+                                        ADJ_TL[i, j, t, dt, m] = consumedTime
+                                        Parent_TE[i, j, t, dt, m] = i
+                                        Spectrum_TE[i, j, t, dt, m] = s + 1
 
                         #No spatial between i and j at time t, see if there exists a spatial link between them
                         # at time (t + tau)
@@ -98,7 +101,7 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
                             ADJ_TE[i, j, t, dt, m] = ADJ_TE[i, j, (t + tau), dt, m] + epsilon
                             ADJ_TL[i, j, t, dt, m] = ADJ_TL[i, j, (t + tau), dt, m] + tau
                             Parent_TE[i, j, t, dt, m] = Parent_TE[i, j, t + tau, dt, m]
-                            Spectrum_TE[i, j, t, dt, m] = Spectrum_TE[i, j, t + tau, dt, m] +  10
+                            Spectrum_TE[i, j, t, dt, m] = Spectrum_TE[i, j, t + tau, dt, m] + 10
 
     return ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL
 
@@ -149,10 +152,17 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
 
     file = open(path_to_folder + "TLEC_PATH.txt", "w")
     file2 = open(path_to_folder + "TLEC_PATH_SPECTRUM.txt", "w")
-    #print("i j t m: PATH")
+    file3 = open(path_to_folder + "TLEC_Spectrum.txt", "w")
+
+    file.write("#i j t m: PATH\n")
+    file2.write("#i j t m: PATH\n")
+    file3.write("#i j t m: PATH\n")
+
     for t in range(0, T, tau):
         for i in range(V):
             for j in range(V):
+                if i == j:
+                    continue
                 # if i == 1 and j == 3:
                 # print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
                 #     TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : ", end=" ")
@@ -165,19 +175,21 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
 
                     path_str = str(j) + " "
                     print_path_str = str(j) + " "
+                    spectrum_str = ""
 
                     d = d - tau
 
                     # temporal link
                     while d > t and Spectrum_TE[par_u, j, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, j, d, m] -= 10
+                        spectrum_str += str(Spectrum_TE[par_u, j, d, TTL - 1, m])+ " "
                         print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, j, d, TTL - 1, m]) + ", " + str(d) + "] "
                         path_str += str(par_u) + " "
                         d = d - tau
 
                     old_par_u = j
                     while (par_u != -1 and par_u != i):
-
+                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
                         path_str += str(par_u) + " "
                         print_path_str += str(par_u) + " (" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + ") "
 
@@ -186,6 +198,7 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                         # temporal link
                         while d > t and Spectrum_TE[par_u, old_par_u, d, TTL - 1, m] > 10:
                             # Spectrum[par_u, old_par_u, t, m] -= 10
+                            spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
                             print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + "] "
                             path_str += str(par_u) + " "
                             d = d - tau
@@ -193,14 +206,14 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                         old_par_u = par_u
                         par_u = int(Parent_TE[i, par_u, t, TTL - 1, m])
 
-
-
+                    spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
                     path_str += str(i) + " "
                     print_path_str += str(i) + " (" +  str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) +") "
 
                     d = d - tau
                     while d >= t and Spectrum_TE[i, old_par_u, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, old_par_u, t, m] -= 10
+                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
                         print_path_str += str(i) + " [" + str(Spectrum_TE[i, old_par_u, d, TTL - 1, m]) + ", " + str(
                             d) + "] "
                         path_str += str(i) + " "
@@ -210,5 +223,7 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                     file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
                     file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(
                     TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : " + print_path_str + "\n")
+                    file3.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + spectrum_str + "\n")
     file.close()
     file2.close()
+    file3.close()
