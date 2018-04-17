@@ -40,7 +40,9 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
         line2Arr = linesInFile2[currIndexInFile2].split()
 
         # print("Here: " + str(currTimeInFile1) + " " + str(currTimeInFile2))
+        # print(filepath1, filepath2, line1Arr[1], line1Arr[2], line2Arr[1], line2Arr[2], euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) )
         if euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) > spectRange[s]:
+            # print("Out of range")
             return False
 
         currIndexInFile1 += 1
@@ -50,43 +52,39 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
     return True
 
-def createLinkExistenceADJ(directory):
-    folders = findfiles(directory)
-    if ".DS_Store" in folders:
-        folders.remove(".DS_Store")
-    folders.sort()
-    # For day 1
-    currFolder = folders[0]
-    fileList = findfiles(directory + "/" + currFolder)
+def createLinkExistenceADJ():
+    fileList = findfiles(lex_data_directory)
 
     if ".DS_Store" in fileList:
         fileList.remove(".DS_Store")
-    fileList.sort()
+    # fileList.sort()
     noOfFiles = len(fileList)
-    # noOfFiles = 10
 
     print("Files " + str(noOfFiles), fileList)
     print("#ts te i j s \n")
     for ts in range(0, T - dt, dt):
         te = ts + dt
-        for i in range(noOfFiles):
-            for j in range(noOfFiles):
+        for file1 in fileList:
+            for file2 in fileList:
                 for s in range(S):
 
                     ts_dt = int(ts / dt)
                     te_dt = int(te / dt)
 
-                    if i == j:
-                        LINK_EXISTS[i, j, s, ts_dt, te_dt] = 1
+                    file1_id = file1.split(".")[0]
+                    file2_id = file2.split(".")[0]
+                    # print(file1_id, file2_id)
+                    if file1_id == file2_id:
+                        LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
                     else:
-                        filepath1 = directory + "/" + currFolder + "/" + fileList[i]
-                        filepath2 = directory + "/" + currFolder + "/" + fileList[j]
-                        # print("ts: " + str(ts) + " te: " + str(te) + " i: " + fileList[i] + " j: " + fileList[j] + " s: " + str(s))
-                        if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
-                            LINK_EXISTS[i, j, s, ts_dt, te_dt] = 1
+                        filepath1 = lex_data_directory + file1
+                        filepath2 = lex_data_directory + file2
 
-                    # print(str(ts_dt) + " " + str(te_dt) + " " + str(i) + " " + str(j) + " " + str(s) + " " + str(
-                    #     LINK_EXISTS[i, j, s, ts_dt, te_dt]))
+                        if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
+                            LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
+
+                        # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
+
 
 # Main starts here
 
@@ -94,10 +92,10 @@ def createLinkExistenceADJ(directory):
 LINK_EXISTS = numpy.empty(shape=(V, V, S, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
-if not os.path.exists(lex_data_directory):
-    os.makedirs(lex_data_directory)
+# if not os.path.exists(lex_data_directory):
+#     os.makedirs(lex_data_directory)
 
-createLinkExistenceADJ("Lexington")
+createLinkExistenceADJ()
 
 if not os.path.exists(path_to_folder):
     os.makedirs(path_to_folder)

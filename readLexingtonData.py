@@ -1,41 +1,47 @@
 import re
 import random
+import pickle
 
 from STB_help import *
 
 def readTrajectoryFile(DMTrajectories):
-    files = findfiles("Lexington/")
-    if ".DS_Store" in files:
-        files.remove(".DS_Store")
-    files.sort()
-    for file in files:
-        filepath = "Lexington/"+ file
-        print("Current file: " + file)
-        with open(filepath) as fp:
-            lines = fp.readlines()
+    filepath = "Lexington/primaryRoads.osm.wkt"
+    with open(filepath) as fp:
+        lines = fp.readlines()
 
-            for index in range(0, len(lines)):
-                patternMatch = re.match(r'^LINESTRING \((.*)\)', lines[index], re.M | re.I)
+        for index in range(0, len(lines)):
+            patternMatch = re.match(r'^LINESTRING \((.*)\)', lines[index], re.M | re.I)
 
-                if patternMatch:
-                    # print ("Pattern 1: ", patternMatch.group(1))
-                    trajectoryCoord = patternMatch.group(1)
-                    DMTrajectories.append(trajectoryCoord.strip().split(','))
+            if patternMatch:
+                # print ("Pattern 1: ", patternMatch.group(1))
+                trajectoryCoord = patternMatch.group(1)
+                DMTrajectories.append(trajectoryCoord.strip().split(','))
 
-                else:
-                    print ("No Match !!!")
+            else:
+                print ("No Match !!!")
     fp.close()
+
+
+def getSourceDesCoordinates(src_start, src_end, des_end):
+    village_coors = []
+    for srcID in range(src_start, des_end, 1):
+        village_coors.append(random.choice(DMTrajectories[srcID % len(DMTrajectories)]))
+
+    f = open("Lexington/" + "village_coor.pkl", 'wb')
+    pickle.dump(village_coors, f)
+    f.close()
 
 def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
     # create file for Sources. Though the source location are fixed, the spectrum bandwidth changes over time
     # Hence, it is important to save it as a file
 
+    villageCoor = pickle.load(open("Lexington/village_coor.pkl", "rb"))
     for srcID in range(startIndex, endIndex, 1):
 
-        villageCoor = random.choice(DMTrajectories[srcID%len(DMTrajectories)])
-        srcLocationX = villageCoor.strip().split(" ")[0]
-        srcLocationY = villageCoor.strip().split(" ")[1]
-        print("Location: " + villageCoor + " " + srcLocationX + " " + srcLocationY)
+        # villageCoor = random.choice(DMTrajectories[srcID%len(DMTrajectories)])
+        srcLocationX = villageCoor[srcID].strip().split(" ")[0]
+        srcLocationY = villageCoor[srcID].strip().split(" ")[1]
+        print("Location: " + villageCoor[srcID] + " " + srcLocationX + " " + srcLocationY)
 
         with open(lex_data_directory + "/" + str(srcID) + ".txt", "w") as srcP:
             srcP.write("T X Y ")
@@ -54,9 +60,19 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
                 srcP.write("\n")
         srcP.close()
 
+def getBusRoutes(bus_start, bus_end):
+    bus_routes = []
+    for srcID in range(bus_start, bus_end, 1):
+        bus_routes.append(random.randint(0, len(DMTrajectories)-1))
+
+    f = open("Lexington/" + "bus_route_ids.pkl", 'wb')
+    pickle.dump(bus_routes, f)
+    f.close()
+    print(bus_routes)
 
 def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
-    dmID = startIndex - 1
+    dmID = startIndex + NoOfSources + NoOfDataCenters - 1
+    bus_route_ids = pickle.load(open("Lexington/bus_route_ids.pkl", "rb"))
 
     for ind in range(startIndex, endIndex, 1):
         dmID = dmID + 1
@@ -65,7 +81,9 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
         nextCoorID = 1
         dmSpeed = random.randint(VMIN, VMAX)
 
-        chosen_trajectory_id = random.randint(0, len(DMTrajectories)-1)
+        # chosen_trajectory_id = random.randint(0, len(DMTrajectories)-1)
+
+        chosen_trajectory_id  = bus_route_ids[ind]
         eachDM = DMTrajectories[chosen_trajectory_id]
 
         print("Trajectory " +  str(len(eachDM)) + " : " + str(eachDM))
@@ -135,16 +153,17 @@ DMTrajectories = []         #stores the coordinates for each data mule
 
 # Read trajectory for each data mule
 readTrajectoryFile(DMTrajectories)
-selectedDMTrajectories = DMTrajectories[:3]
+# selectedDMTrajectories = DMTrajectories[:3]
 
 print("Length of DM trajectories: ", len(DMTrajectories))
-print("Length of Selected DM trajectories: ", len(selectedDMTrajectories))
 
-# Randomly place sources (index from 0 to S -1)
-getLocationsOfSourcesAndDataCenters(0, NoOfSources)
+#TODO: Run it only for Day1
+getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
+getBusRoutes(0, NoOfDMs)
+
+# Randomly place sources and destination nodes (index from 0 to S -1)
+getLocationsOfSourcesAndDataCenters(0, NoOfSources + NoOfDataCenters)
 
 # Place DMs on selected Routes (index from (S - DM)
-getLocationsOfDMs(selectedDMTrajectories, NoOfSources, NoOfSources + NoOfDMs)
+getLocationsOfDMs(DMTrajectories, 0, NoOfDMs)
 
-# Randomly place data centers (index from (DM -  DM + D))
-getLocationsOfSourcesAndDataCenters(NoOfSources + NoOfDMs, (NoOfSources + NoOfDMs + NoOfDataCenters ))

@@ -37,7 +37,10 @@ class Node(object):                                                             
                     curr_coorX = curr_line_arr[1]
                     curr_coorY = curr_line_arr[2]
 
-                    if s > 9:  # Should never happen
+                    if s < 0:
+                        print("S can not be less than 0", s)
+
+                    elif s > 9:  # Should never happen
                         print("Something is wrong" + "S is " + str(s))
                         curr_bandwidth = math.inf
                     else:
@@ -49,6 +52,8 @@ class Node(object):                                                             
         curr_coorX, curr_coorY, curr_bandwidth = self.get_attributes(curr, t, s)
         next_coorX, next_coorY, next_bandwidth = self.get_attributes(next, t, s)
 
+        print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
+        print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
         if curr_coorX == -1 or next_coorX == -1:
             return False
 
@@ -96,7 +101,7 @@ class Node(object):                                                             
             #TODO: Then, we get coordinates of nodes 0 and 1 at time 3 seconds, and see if the euclidean distance between them are less than that of
             #TODO: communication range of spectrum band
 
-            print("\nAt time ", t, " try sending Message ", str(message.ID), " sent from " + str(message.curr), " to ", next, " over band: ", s - 1)
+            print("\nAt time ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next, " over band: ", s - 1, " final des: ", str(message.des))
 
             if s < 9 and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
                 print("========= Graph is different than expected. Do not forward the message.")
@@ -111,8 +116,14 @@ class Node(object):                                                             
         if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
         # if len(message.path) == 0:  # if message has reached its destination
             if message.src != message.des:
-                output_file = open(path_to_folder + "LLC_delivery_confirmation.txt", "a")        #print confirmation to output file
-                output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t\t" + str(message.T) + "\t\t" + str(message.T + int(message.totalDelay))+ "\t\t" + str(int(message.totalDelay)) + "\t\t\t" + str(message.totalEnergy) + "\n"
+                output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
+                if message.totalDelay != math.inf:
+                    output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(message.T) + "\t" + str(message.T + int(message.totalDelay))+ "\t" + str(int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
+                else:
+                    output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
+                        message.T) + "\t" + str(message.totalDelay) + "\t" + str(
+                        message.totalDelay) + "\t" + str(message.totalEnergy) + "\n"
+
                 output_file.write(output_msg)
                 output_file.close()
 

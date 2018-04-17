@@ -11,7 +11,7 @@ VMIN = 20000                    # Minimum Data Mule speed (in m/s)
 VMAX = 50000                   # Maximum Data mule speed (in m/s)
 
 lex_data_directory = "Lexington/Day1/"
-
+delivery_file_name = "delivery_d1.txt"
 # Start times may be different for different buses
 route_start_time1 = 0
 route_start_time2 = 2
@@ -27,10 +27,11 @@ TTL = 5
 # Message size
 M = [20]
 
-V = 6         # No of nodes including source, data mules, and data centers
-NoOfSources = 1
-NoOfDMs = 4                # Total number of data mules (or DSA nodes)
-NoOfDataCenters = 1
+V = 15         # No of nodes including source, data mules, and data centers
+NoOfSources = 3
+NoOfDataCenters = 2
+NoOfDMs = 10                # Total number of data mules (or DSA nodes)
+
 
 
 path_to_folder = "Bands/ALL/"  #for all spectrum types

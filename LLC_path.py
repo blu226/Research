@@ -122,8 +122,8 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
                 if LLC_PATH[i, j, t, m] != math.inf: #path exists
                     par_u = int(Parent[i, j, t, m])
 
-                    path_str = str(j) + " "
-                    print_path_str = str(j) + " "
+                    path_str = str(j) + "\t"
+                    print_path_str = str(j) + "\t"
                     spectrum_str = ""
 
                     d = d - tau
@@ -131,47 +131,47 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
                     # temporal link
                     while d > t and Spectrum[par_u, j, d, m] > 10:
                         # Spectrum[par_u, j, d, m] -= 10
-                        spectrum_str += str(Spectrum[par_u, j, d, m]) + " "
-                        print_path_str += str(par_u) + " [" + str(Spectrum[par_u, j, d, m]) + ", " + str(d) + "] "
-                        path_str += str(par_u) + " "
+                        spectrum_str += str(Spectrum[par_u, j, d, m]) + "\t"
+                        print_path_str += str(par_u) + " [" + str(Spectrum[par_u, j, d, m]) + ", " + str(d) + "]\t"
+                        path_str += str(par_u) + "\t"
                         d = d - tau
 
                     old_par_u = j
                     while (par_u != -1 and par_u != i):
-                        spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + " "
-                        print_path_str += str(par_u) + " (" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + ") "
-                        path_str += str(par_u) + " "
+                        spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
+                        print_path_str += str(par_u) + " (" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + ")\t"
+                        path_str += str(par_u) + "\t"
 
                         d = d - tau
 
                         # temporal link
                         while d > t and Spectrum[par_u, old_par_u, d, m] > 10:
                             # Spectrum[par_u, old_par_u, t, m] -= 10
-                            spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + " "
-                            print_path_str += str(par_u) + " [" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + "] "
-                            path_str += str(par_u) + " "
+                            spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
+                            print_path_str += str(par_u) + " [" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + "]\t"
+                            path_str += str(par_u) + "\t"
                             d = d - tau
 
                         old_par_u = par_u
                         par_u = int(Parent[i, par_u, t, m])
 
-                    spectrum_str +=  str(Spectrum[par_u, old_par_u, d, m]) + " "
-                    print_path_str += str(i) + " (" +  str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) +") "
-                    path_str += str(i) + " "
+                    spectrum_str +=  str(Spectrum[par_u, old_par_u, d, m]) + "\t"
+                    print_path_str += str(i) + " (" +  str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) +")\t"
+                    path_str += str(i) + "\t"
 
                     d = d - tau
                     while d >= t and Spectrum[i, old_par_u, d, m] > 10:
                         # Spectrum[par_u, old_par_u, t, m] -= 10
-                        spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + " "
+                        spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
                         print_path_str += str(i) + " [" + str(Spectrum[i, old_par_u, d, m]) + ", " + str(
-                            d) + "] "
-                        path_str += str(i) + " "
+                            d) + "]\t"
+                        path_str += str(i) + "\t"
                         d = d - tau
 
                     # print (print_path_str, end = " ")
-                    file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
-                    file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(ELC_PATH[i, j, t, m]) + " " + str(LLC_PATH[i, j, t, m])  + " : " + print_path_str + "\n")
-                    file3.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + spectrum_str + "\n")
+                    file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
+                    file2.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" +  str(ELC_PATH[i, j, t, m]) + "\t" + str(LLC_PATH[i, j, t, m])  + "\t:\t" + print_path_str + "\n")
+                    file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spectrum_str + "\n")
 
     file.close()
     file2.close()

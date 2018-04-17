@@ -40,10 +40,10 @@ class Network(object):
 
         for ind in range(len(path_lines)):            #read each line from file to see if a new message needs to be generated
             path_line = path_lines[ind].strip()
-            path_line_arr = path_line.split(" ")
+            path_line_arr = path_line.split("\t")
 
             spec_line = spec_lines[ind].strip()
-            spec_line_arr = spec_line.split(" ")
+            spec_line_arr = spec_line.split("\t")
 
             if (int(path_line_arr[2]) == self.epoch_it):         #if a new message needs to be generated at this time
 
@@ -61,7 +61,7 @@ class Network(object):
                 name = self.message_num
                 TTL = random.randint(5, 10)   #assign random TTL deadline for each message
 
-                message = Message(src, dst, t, name, TTL, size, path, bands, 0, 0)   #create the message
+                message = Message(src, dst, t, name, TTL, size, path, bands, 0, 0, 0)   #create the message
                 curr = int(message.curr)
 
                 self.nodes[curr].buf.append(message)                    #put the message in the source nodes buffer

@@ -173,8 +173,8 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                 if TLLC_PATH[i, j, t, TTL - 1, m] != math.inf: #path exists
                     par_u = int(Parent_TE[i, j, t, TTL - 1, m])
 
-                    path_str = str(j) + " "
-                    print_path_str = str(j) + " "
+                    path_str = str(j) + "\t"
+                    print_path_str = str(j) + "\t"
                     spectrum_str = ""
 
                     d = d - tau
@@ -182,48 +182,48 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                     # temporal link
                     while d > t and Spectrum_TE[par_u, j, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, j, d, m] -= 10
-                        spectrum_str += str(Spectrum_TE[par_u, j, d, TTL - 1, m])+ " "
-                        print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, j, d, TTL - 1, m]) + ", " + str(d) + "] "
-                        path_str += str(par_u) + " "
+                        spectrum_str += str(Spectrum_TE[par_u, j, d, TTL - 1, m])+ "\t"
+                        print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, j, d, TTL - 1, m]) + ", " + str(d) + "]\t"
+                        path_str += str(par_u) + "\t"
                         d = d - tau
 
                     old_par_u = j
                     while (par_u != -1 and par_u != i):
-                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
-                        path_str += str(par_u) + " "
-                        print_path_str += str(par_u) + " (" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + ") "
+                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + "\t"
+                        path_str += str(par_u) + "\t"
+                        print_path_str += str(par_u) + " (" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + ")\t"
 
                         d = d - tau
 
                         # temporal link
                         while d > t and Spectrum_TE[par_u, old_par_u, d, TTL - 1, m] > 10:
                             # Spectrum[par_u, old_par_u, t, m] -= 10
-                            spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
-                            print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + "] "
-                            path_str += str(par_u) + " "
+                            spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + "\t"
+                            print_path_str += str(par_u) + " [" + str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) + "]\t"
+                            path_str += str(par_u) + "\t"
                             d = d - tau
 
                         old_par_u = par_u
                         par_u = int(Parent_TE[i, par_u, t, TTL - 1, m])
 
-                    spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
-                    path_str += str(i) + " "
-                    print_path_str += str(i) + " (" +  str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) +") "
+                    spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + "\t"
+                    path_str += str(i) + "\t"
+                    print_path_str += str(i) + " (" +  str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + ", " + str(d) +")\t"
 
                     d = d - tau
                     while d >= t and Spectrum_TE[i, old_par_u, d, TTL - 1, m] > 10:
                         # Spectrum[par_u, old_par_u, t, m] -= 10
-                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + " "
+                        spectrum_str += str(Spectrum_TE[par_u, old_par_u, d, TTL - 1, m]) + "\t"
                         print_path_str += str(i) + " [" + str(Spectrum_TE[i, old_par_u, d, TTL - 1, m]) + ", " + str(
-                            d) + "] "
-                        path_str += str(i) + " "
+                            d) + "]\t"
+                        path_str += str(i) + "\t"
                         d = d - tau
 
                     # print (print_path_str, end = " ")
-                    file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
-                    file2.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " +  str(
-                    TLEC_PATH[i, j, t, TTL - 1, m]) + " " + str(TLLC_PATH[i, j, t, TTL - 1, m]) + " : " + print_path_str + "\n")
-                    file3.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + spectrum_str + "\n")
+                    file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
+                    file2.write(str(i) + " \t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" +  str(
+                    TLEC_PATH[i, j, t, TTL - 1, m]) + "\t" + str(TLLC_PATH[i, j, t, TTL - 1, m]) + "\t:\t" + print_path_str + "\n")
+                    file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spectrum_str + "\n")
     file.close()
     file2.close()
     file3.close()
