@@ -57,7 +57,7 @@ PRINT_LLC_PATH_FILE(LLC_Path, ELC_Path, Parent, Spectrum)
 
 
 #================ FOR TLEC case ========================
-
+'''
 print("TLEC path computation started: ")
 ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL = computeADJ_T_TE(specBW, LINK_EXISTS, tau)
 TLEC_Path, Parent_TE, Spectrum_TE, TLLC_Path = TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE)
@@ -87,3 +87,5 @@ save_5D_in_file("ADJ_TL.txt", TLLC_Path)
 
 print("TLEC paths are: ")
 PRINT_TLEC_PATH_FILE(TLEC_Path, TLLC_Path, Parent_TE, Spectrum_TE)
+
+'''

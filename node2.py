@@ -29,7 +29,7 @@ class Node(object):                                                             
         curr_coorY  = -1
         curr_bandwidth = 0
 
-        with open(lex_data_directory + str(curr) + ".txt", "r") as fc:
+        with open(validate_data_directory + str(curr) + ".txt", "r") as fc:
             lines = fc.readlines()[1:]
             for line in lines:
                 curr_line_arr = line.strip().split(" ")
@@ -103,6 +103,7 @@ class Node(object):                                                             
 
             print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next, " over band: ", s - 1)
             print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
+
             if s < 9 and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
                 print("========= Graph is different than expected. Do not forward the message.")
 
@@ -115,7 +116,7 @@ class Node(object):                                                             
 
         # if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
         if len(message.path) == 0:  # if message has reached its destination
-            if message.src != message.des:
+            if message.src != message.des and message.T  + int(message.totalDelay) <= T:
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
                 if message.totalDelay != math.inf:
                     output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(message.T) + "\t" + str(message.T + int(message.totalDelay))+ "\t" + str(int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
