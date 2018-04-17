@@ -10,14 +10,14 @@ maxY = 100
 VMIN = 20000                    # Minimum Data Mule speed (in m/s)
 VMAX = 50000                   # Maximum Data mule speed (in m/s)
 
-lex_data_directory = "Lexington/Day1/"
-delivery_file_name = "delivery_d1.txt"
+lex_data_directory = "Lexington/Day2/"
+delivery_file_name = "delivery_day2.txt"
 # Start times may be different for different buses
 route_start_time1 = 0
 route_start_time2 = 2
 
 # Simulation Time  ---- 1 plus
-T = 10   # must be greater than start time
+T = 11   # must be greater than start time
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
 tau = 1 # Instead of looking at each dt, we would look at tau as this is the minimum time to transfer a message
 

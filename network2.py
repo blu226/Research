@@ -7,7 +7,7 @@ from constants import *
 class Network(object):
     def __init__(self):
         self.nodes = []                 #list of nodes in network
-        self.epoch_it = 0               #keeps track of current Tau
+        # self.epoch_it = 0               #keeps track of current Tau
         self.message_num = 0            #keeps track of available message ID numbers
 
     def add_node(self, node):           #add node to network
@@ -45,15 +45,12 @@ class Network(object):
             spec_line = spec_lines[ind].strip()
             spec_line_arr = spec_line.split("\t")
 
-            if (int(path_line_arr[2]) == self.epoch_it):         #if a new message needs to be generated at this time
+            if (int(path_line_arr[2]) == t):         #if a new message needs to be generated at this time
 
                 src = path_line_arr[0]                           #get information from that line
                 dst = path_line_arr[1]
                 # genT = path_line_arr[2]                             #generation time
                 size = path_line_arr[3]
-
-                # while line[i] is '' and i < len(line) -1:
-                #     i +=1
 
                 path = path_line_arr[4:]
                 bands = spec_line_arr[4:]
@@ -70,19 +67,21 @@ class Network(object):
                 self.message_num += 1
 
 
-        print("Network Status -- Time: ", self.epoch_it)            #console output for debugging
+        print("Network Status -- Time: ", t)            #console output for debugging
         # self.network_status()
 
         for i in range(len(self.nodes)):                #send all messages to their next hop
             node = self.nodes[i]
-            # print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
-            # print("-------------------------------------- \n")
-            for msg in node.buf:
-                # print("Index: " + str(i) + " " + str(msg.ID))
+            print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
+
+            print("--------------------------------------")
+            while len(node.buf) > 0:
+                msg = node.buf[0]
+                print("\nIndex: " + str(i) + " " + str(msg.ID), " src " + str(msg.src), " des: " + str(msg.des), " genT: " + str(msg.T), "path: ", msg.path )
                 node.send_message( self, msg, t)
 
-            # print("-------------------------------------- ")
+            print("-------------------------------------- ")
 
-        self.epoch_it += 1
+        # self.epoch_it += 1
 
 

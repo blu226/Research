@@ -101,8 +101,8 @@ class Node(object):                                                             
             #TODO: Then, we get coordinates of nodes 0 and 1 at time 3 seconds, and see if the euclidean distance between them are less than that of
             #TODO: communication range of spectrum band
 
-            print("\nAt time ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next, " over band: ", s - 1, " final des: ", str(message.des))
-
+            print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next, " over band: ", s - 1)
+            print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
             if s < 9 and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
                 print("========= Graph is different than expected. Do not forward the message.")
 
@@ -113,8 +113,8 @@ class Node(object):                                                             
                 message.curr = next								            #update messages current node
                 self.buf_size -= 1                                          #update current nodes buffer
 
-        if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
-        # if len(message.path) == 0:  # if message has reached its destination
+        # if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
+        if len(message.path) == 0:  # if message has reached its destination
             if message.src != message.des:
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
                 if message.totalDelay != math.inf:

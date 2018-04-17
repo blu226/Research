@@ -158,8 +158,8 @@ readTrajectoryFile(DMTrajectories)
 print("Length of DM trajectories: ", len(DMTrajectories))
 
 #TODO: Run it only for Day1
-getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
-getBusRoutes(0, NoOfDMs)
+# getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
+# getBusRoutes(0, NoOfDMs)
 
 # Randomly place sources and destination nodes (index from 0 to S -1)
 getLocationsOfSourcesAndDataCenters(0, NoOfSources + NoOfDataCenters)
