@@ -57,16 +57,16 @@ folders.sort()
 
 folderLen = len(folders)
 
-print("All folders: "  + str(folders))
+#print("All folders: "  + str(folders))
 
 curr = os.getcwd()
 
 #For each bus
 for ind in range(1, folderLen, 1):
-    if ".DS_Store" not in folders:
-        print("Current Folder " + folders[ind])
+#    if ".DS_Store" not in folders:
+ #       print("Current Folder " + folders[ind])
 
-    print("Folder is: " + str(folders[ind]))
+  #  print("Folder is: " + str(folders[ind]))
     folderPath = directory + "/" + str(folders[ind])
     currFiles = findfiles(folderPath)
     currFiles.sort()
@@ -76,7 +76,7 @@ for ind in range(1, folderLen, 1):
     numOfFiles = len(currFiles)
     #For each day
     for fInd in range(0, 1):
-        print("Current File "  + currFiles[fInd])
+   #     print("Current File "  + currFiles[fInd])
         filePath = folderPath + "/" + currFiles[fInd]
         currPath = readFile(filePath, folders[ind] + "_" + currFiles[fInd])
         allPaths.append(currPath)
