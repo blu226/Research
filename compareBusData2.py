@@ -8,8 +8,9 @@ folders = findfiles(directory)
 folders.sort()
 folderLen = len(folders)
 
+
 for first_file in range(folderLen - 1):
-    for second_file in range(folderLen - 1):
+    for second_file in range(first_file, folderLen - 1):
         if( first_file != second_file):
 
             file1 = directory + "/" + str(folders[first_file])  #2007-10-23
@@ -65,12 +66,19 @@ for first_file in range(folderLen - 1):
                             numRows[day1_bus][day2_bus] += 1
                             dist = funHaversine(float(X1), float(Y1), float(X2), float(Y2))
 #                print(dist)
-                            if dist < .1 and dist > 0:
+                            if dist < .12 and dist > 0:
                                 rowSimilar[day1_bus][day2_bus] += 1
+
+            f = open("Similarity_Ratios.txt", "a")
 
             print("\n---------------------------------------------------------------\n")
             print("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]))
             print("i\tj\tNumRows\tSimilarity")
+
+            f.write("\n---------------------------------------------------------------\n")
+            f.write("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]) + "\n")
+            f.write("i\tj\tNumRows\tSimilarity\n")
+
 
             for i in range(day1_num_buses):
                 for j in range(day2_num_buses):
@@ -79,6 +87,9 @@ for first_file in range(folderLen - 1):
                         ratio = (rowSimilar[i][j]/numRows[i][j]) * 100
                         if ratio > 50:
                             print(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio) + "%")
+                            f.write(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio) + "%\n")
 
+
+            f.close()
 
 
