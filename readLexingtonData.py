@@ -45,7 +45,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
 
         with open(lex_data_directory + "/" + str(srcID) + ".txt", "w") as srcP:
             srcP.write("T X Y ")
-            for s in range(S):
+            for s in S:
                 srcP.write("S" + str(s) + " ")
             srcP.write("\n")
 
@@ -53,7 +53,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
                 srcP.write(str(t) + " " + str(srcLocationX) + " " + str(srcLocationY) + " ")
 
                 # Change the bandwidth of each spectrum at each DSA node at each time epoch
-                specBW = [random.randrange(minBW[s], maxBW[s]) for s in range(S)]
+                specBW = [random.randrange(minBW[s], maxBW[s]) for s in S]
                 # print ("Length of spectrum: " + str(S))
                 for sBW in specBW:
                     srcP.write(str(sBW) + " ")
@@ -91,7 +91,7 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
         with open(lex_data_directory + "/"+ str(dmID)+".txt", "w") as dmP:
             print ("For DM: " + str(dmID) + " Speed: " + str(dmSpeed))
             dmP.write("T X Y ");
-            for s in range(S):
+            for s in S:
                 dmP.write("S"+ str(s) + " ")
             dmP.write("\n")
 
@@ -132,7 +132,7 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
                         nextCoorID = currCoorID - 1
 
                 # Change the bandwidth of each spectrum at each DSA node at each time epoch
-                specBW = [random.randrange(minBW[s], maxBW[s]) for s in range(S)]
+                specBW = [random.randrange(minBW[s], maxBW[s]) for s in S]
                 # print ("Length of spectrum: " + str(S))
                 for sBW in specBW:
                     dmP.write(str(sBW) + " ")
@@ -142,7 +142,7 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
 # Main starts here
 
 # This function is independent of tau
-LINK_EXISTS = numpy.empty(shape=(V, V, S, int(T/dt), int(T/dt)))
+LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
 

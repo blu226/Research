@@ -40,7 +40,7 @@ def computeADJ_T_2(specBW, LINK_EXISTS):
                         Parent[i, j, t, m] = i
 
                     else:
-                        for s in range(S):
+                        for s in S:
                             #bandwidth = 0 means there does not exist a link over that spectrum band
                             if specBW[i, j, s, t] > 0:
                                 consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))

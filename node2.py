@@ -49,13 +49,13 @@ class Node(object):                                                             
         curr_coorX, curr_coorY, curr_bandwidth = self.get_attributes(curr, t, s)
         next_coorX, next_coorY, next_bandwidth = self.get_attributes(next, t, s)
 
-        print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
-        print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
+        # print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
+        # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
         if curr_coorX == -1 or next_coorX == -1:
             return False
 
         elif euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY) <= spectRange[s]:
-            print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY) + " BW: " + str(curr_bandwidth))
+            # print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY) + " BW: " + str(curr_bandwidth))
             return True
 
         return False
@@ -79,10 +79,6 @@ class Node(object):                                                             
             # if next == message.src:                                     #if the next node is src then pop it off
             #     next = int(message.path.pop())
 
-            # TODO: This "0" in the matrices ADJ_E and ADJ_T should be replaced by message type
-            # TODO: message type must come from message class (for now, its hardcoded)
-
-
             # print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next,
             #       " over band: ", s - 1)
             # print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
@@ -91,12 +87,12 @@ class Node(object):                                                             
             s = s % 10
             # print("S is greater 9, ", s)
 
+            #If two nodes are not in communication range
             if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
                 #we keep it to the current node
                 print("========= Not in range. Do not forward the message.")
 
             else:
-
                 message.path.pop()
                 message.bands.pop()
 
@@ -110,28 +106,31 @@ class Node(object):                                                             
                     print("Store the message for this time epoch")
 
                 else:
+                    print("Remove the node: ", next)
                     #handle message transferred
                     nodes[next].buf.append(message)							    #add message to next node buffer
                     nodes[message.curr].buf.remove(message)						#remove message from current node buffer
                     message.curr = next								            #update messages current node
                     self.buf_size -= 1                                          #update current nodes buffer
 
-        # if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
-        if len(message.path) == 0:  # if message has reached its destination
-            if message.src != message.des and message.T  + message.totalDelay <= T:
+
+        else: #Message has been delivered
+            nodes[message.curr].buf.remove(message)  # remove message from destination node buffer
+
+            # if message has reached its destination
+            # if len(message.path) == 0: #and message.src != message.des: # and message.T  + message.totalDelay <= T:
+            if t <= T: #delivered time is less than the allowed TTL deadline
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
-                if message.totalDelay != math.inf:
-                    output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(message.T) + "\t" + str(message.T + int(message.totalDelay))+ "\t" + str(int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
-                else:
-                    output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
-                        message.T) + "\t" + str(message.totalDelay) + "\t" + str(
-                        message.totalDelay) + "\t" + str(message.totalEnergy) + "\n"
+
+                output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
+                    message.T) + "\t" + str(int(t)) + "\t" + str(
+                    int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
 
                 output_file.write(output_msg)
                 output_file.close()
 
-            nodes[message.curr].buf.remove(message)                     #remove message from destination node buffer
-
+# TODO: This "0" in the matrices ADJ_E and ADJ_T should be replaced by message type
+# TODO: message type must come from message class (for now, its hardcoded)
 
 
 #TODO: Here before transferring message to the next node, we need to check if the next node is in communication range

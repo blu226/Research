@@ -5,8 +5,8 @@ from operator import itemgetter
 
 reader = csv.reader(open(path_to_folder + "delivery_day1.txt"), delimiter="\t")
 
-output = open(path_to_folder  + "sorted_delivery_confirmation.txt", 'w')
-for line in sorted(reader, key=itemgetter(1)):
+output = open(path_to_folder  + "sorted_delivery_day1.txt", 'w')
+for line in sorted(reader, key=itemgetter(0)):
     for n in line:
         output.write(n + " ")
     output.write("\n")

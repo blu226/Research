@@ -66,33 +66,32 @@ def createLinkExistenceADJ():
     print("Files " + str(noOfFiles), fileList)
     print("#ts te i j s \n")
     for ts in range(0, T - dt, dt):
-        te = ts + dt
-        for file1 in fileList:
-            for file2 in fileList:
-                for s in range(S):
+        for te in range(ts + dt, ts + maxTau, dt):
+            for file1 in fileList:
+                for file2 in fileList:
+                    for s in S:
+                        if te < T:
+                            ts_dt = int(ts / dt)
+                            te_dt = int(te / dt)
 
-                    ts_dt = int(ts / dt)
-                    te_dt = int(te / dt)
+                            file1_id = file1.split(".")[0]
+                            file2_id = file2.split(".")[0]
+                            # print(file1_id, file2_id)
+                            if file1_id == file2_id:
+                                LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
+                            else:
+                                filepath1 = lex_data_directory + file1
+                                filepath2 = lex_data_directory + file2
 
-                    file1_id = file1.split(".")[0]
-                    file2_id = file2.split(".")[0]
-                    # print(file1_id, file2_id)
-                    if file1_id == file2_id:
-                        LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
-                    else:
-                        filepath1 = lex_data_directory + file1
-                        filepath2 = lex_data_directory + file2
+                                if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
+                                    LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
 
-                        if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
-                            LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
-
-                        # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
-
+                                # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
 
 # Main starts here
 
 # This function is independent of tau
-LINK_EXISTS = numpy.empty(shape=(V, V, S, int(T/dt), int(T/dt)))
+LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
 # if not os.path.exists(lex_data_directory):
@@ -103,20 +102,20 @@ createLinkExistenceADJ()
 if not os.path.exists(path_to_folder):
     os.makedirs(path_to_folder)
 
-LE_file = open( path_to_folder + "LINK_EXISTS.pkl", 'wb')
+LE_file = open("Bands/LINK_EXISTS.pkl", 'wb')
 pickle.dump(LINK_EXISTS, LE_file)
 LE_file.close()
 
 print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
-save_in_file("LINK_EXISTS.txt", LINK_EXISTS)
+save_in_file("Bands/LINK_EXISTS.txt", LINK_EXISTS)
 #printMAT(LINK_EXISTS)
 
 
-print("Spectrum bandwidth assigned: ")
-specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
-
-specBW_file = open( path_to_folder + "specBW.pkl", 'wb')
-pickle.dump(specBW, specBW_file)
-specBW_file.close()
-
-save_4D_in_file("specBW.txt", specBW)
+# print("Spectrum bandwidth assigned: ")
+# specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
+#
+# specBW_file = open("Bands/specBW.pkl", 'wb')
+# pickle.dump(specBW, specBW_file)
+# specBW_file.close()
+#
+# save_4D_in_file("Bands/specBW.txt", specBW)

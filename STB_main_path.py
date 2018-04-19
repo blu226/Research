@@ -14,12 +14,12 @@ if not os.path.exists(path_to_folder):
 
 print("Spectrum bandwidth assigned: ")
 # specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
-specBW = pickle.load(open(path_to_folder + "specBW.pkl", "rb"))
+specBW = pickle.load(open("Bands/specBW.pkl", "rb"))
 
 print("Load LINK Exists: ")
 
 # LINK_EXISTS = createLinkExistenceADJ()   # only for sample graphs
-LINK_EXISTS = pickle.load(open(path_to_folder +"LINK_EXISTS.pkl", "rb"))
+LINK_EXISTS = pickle.load(open("Bands/LINK_EXISTS.pkl", "rb"))
 
 print("Initialization started: ")
 
@@ -30,24 +30,24 @@ ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 print("LLC path computation started: ")
 LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M)
 
-# ADJ_T_file = open(path_to_folder + "ADJ_T.pkl", 'wb')
-# pickle.dump(ADJ_T, ADJ_T_file)
-# ADJ_T_file.close()
-#
-# ADJ_E_file = open(path_to_folder + "ADJ_E.pkl", 'wb')
-# pickle.dump(ADJ_E, ADJ_E_file)
-# ADJ_E_file.close()
-#
-# save_4D_in_file("ADJ_T.txt", LLC_Path)
-# save_4D_in_file("ADJ_E.txt", ELC_Path)
+ADJ_T_file = open(path_to_folder + "ADJ_T.pkl", 'wb')
+pickle.dump(ADJ_T, ADJ_T_file)
+ADJ_T_file.close()
+
+ADJ_E_file = open(path_to_folder + "ADJ_E.pkl", 'wb')
+pickle.dump(ADJ_E, ADJ_E_file)
+ADJ_E_file.close()
+
+save_4D_in_file(path_to_folder + "ADJ_T.txt", LLC_Path)
+save_4D_in_file(path_to_folder + "ADJ_E.txt", ELC_Path)
 
 
 spec_file = open(path_to_folder + "Spectrum.pkl", 'wb')
 pickle.dump(Spectrum, spec_file)
 spec_file.close()
 
-save_4D_in_file("Parent.txt", Parent)
-save_4D_in_file("Spectrum.txt", Spectrum)
+save_4D_in_file(path_to_folder + "Parent.txt", Parent)
+save_4D_in_file(path_to_folder+ "Spectrum.txt", Spectrum)
 
 print("LLC paths are: ")
 # PRINT_LLC_PATH_FILE(LLC_Path, ELC_Path, Parent, Spectrum)

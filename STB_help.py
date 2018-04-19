@@ -47,11 +47,11 @@ def computeTau():
 
 # Get the dynamic bandwidth of any given band in the set S, between any node pair at any time epoch t
 def getSpecBW(directory, V, S, T):
-    specBW = numpy.zeros(shape=(V, V, S, T))  # Initialize the dynamic spectrum bandwidth
+    specBW = numpy.zeros(shape=(V, V, numSpec, T))  # Initialize the dynamic spectrum bandwidth
 
     for i in range(V):
         for j in range(V):
-            for s in range(S):
+            for s in S:
                 for t in range(0, T, tau):
                     specBW[i, j, s, t] = getMinBWFromDMFiles(directory, i, j, s, t)
                     # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
@@ -61,11 +61,11 @@ def getSpecBW(directory, V, S, T):
 # Check if a pair of nodes i and j are sufficienctly in communication range over any band type s, starting at time ts until time te
 def createLinkExistenceADJ():
 
-    LINK_EXISTS = numpy.empty(shape=(V, V, S, T, T))
+    LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, T, T))
     LINK_EXISTS.fill(math.inf)
 
     for i in range(V):
-        for s in range(S):
+        for s in S:
             for t in range(T - 1, 1):
                 LINK_EXISTS[i, i, s, t, t + 1] = 1
 
@@ -250,7 +250,7 @@ def print4d(adj, adj2):
 
 
 def save_4D_in_file(filename, adj):
-    with open(path_to_folder + filename, "w") as f:
+    with open(filename, "w") as f:
         f.write("#i j t m\n")
         for i in range(len(adj)):
             for j in range(len(adj[0])):
@@ -275,7 +275,7 @@ def save_5D_in_file(filename, adj):
     f.close()
 
 def save_in_file(filename, adj):
-    with open(path_to_folder + filename, "w") as f:
+    with open(filename, "w") as f:
         f.write("#i j s ts te \n")
         for i in range(len(adj)):
             for j in range(len(adj[0])):

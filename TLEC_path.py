@@ -26,7 +26,7 @@ def computeADJ_TE_2(specBW, LINK_EXISTS, tau):
 
                     else:
                         #minEnergy = math.inf
-                        for s in range(S):
+                        for s in S:
                             # bandwidth = 0 means there does not exist a link over that spectrum band
                             if specBW[i, j, s, t] > 0:
                                 consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
@@ -79,7 +79,7 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
 
                         else:
                             #minEnergy = math.inf
-                            for s in range(S):
+                            for s in S:
                                 # bandwidth = 0 means there does not exist a link over that spectrum band
                                 if specBW[i, j, s, t] > 0:
                                     consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
