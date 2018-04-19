@@ -11,11 +11,11 @@ VMIN = 20000                    # Minimum Data Mule speed (in m/s)
 VMAX = 50000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
-lex_data_directory = "Lexington/Day2/"
+lex_data_directory = "Lexington/Day1/"
 
 #Only required for main2.py to validate the created STB graph for different day
-validate_data_directory = "Lexington/Day2/"
-delivery_file_name = "delivery_day2.txt"
+validate_data_directory = "Lexington/Day1/"
+delivery_file_name = "delivery_day1.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
@@ -32,10 +32,10 @@ TTL = 20
 # Message size
 M = [20]
 
-V = 40         # No of nodes including source, data mules, and data centers
+V = 30         # No of nodes including source, data mules, and data centers
 NoOfSources = 5
 NoOfDataCenters = 5
-NoOfDMs = 30                # Total number of data mules (or DSA nodes)
+NoOfDMs = 20                # Total number of data mules (or DSA nodes)
 
 
 

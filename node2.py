@@ -40,9 +40,6 @@ class Node(object):                                                             
                     if s < 0:
                         print("S can not be less than 0", s)
 
-                    elif s > 9:  # Should never happen
-                        print("Something is wrong" + "S is " + str(s))
-                        curr_bandwidth = math.inf
                     else:
                         curr_bandwidth = curr_line_arr[s + 2]
 
@@ -76,47 +73,52 @@ class Node(object):                                                             
         # print("Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
 
         if len(message.path) > 0 and '' not in message.path:        #if the message still has a valid path
-            next = int(message.path.pop())							#get next node in path
-            s = int(message.bands.pop())
+            next = int(message.path[len(message.path) - 1])  # get next node in path
+            s = int(message.bands[len(message.bands) - 1])
 
-            if next == message.src:                                     #if the next node is src then pop it off
-                next = int(message.path.pop())
+            # if next == message.src:                                     #if the next node is src then pop it off
+            #     next = int(message.path.pop())
 
             # TODO: This "0" in the matrices ADJ_E and ADJ_T should be replaced by message type
             # TODO: message type must come from message class (for now, its hardcoded)
-            # calculate total energy consumption from ADJ_E matrix
-            message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay), 0]
-            # calculate total delay from ADJ_T matrix
-            message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay), 0]
 
-            # print(str(ADJ_E[message.curr, next, int(message.totalDelay), 0]) + " " + str(message.curr) + " " + str(next) + " " + str(message.totalDelay))
 
-            #TODO: Here before transferring message to the next node, we need to check if the next node is in communication range
-            #TODO: with current node over the spectrum band
-            #TODO: Like we obtained LLC path by reading the path file, we need to get the spectrum band as well in similar fashion
-            #TODO: Currently, we have both path and spectrum information in LLC_PATH_Spectrum.txt file (need to be kept separately for easy read)
+            # print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next,
+            #       " over band: ", s - 1)
+            # print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
 
-            #TODO: To find out if two nodes are in communication range at a certain time epoch, we need to look at those node files.
-            #TODO: E.g., if we need to find if node 0 and 1 are in communication range at time 3 seconds, then, we open files 0.txt and 1.txt.
-            #TODO: Then, we get coordinates of nodes 0 and 1 at time 3 seconds, and see if the euclidean distance between them are less than that of
-            #TODO: communication range of spectrum band
+            #Change s in between 0 and S
+            s = s % 10
+            # print("S is greater 9, ", s)
 
-            print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next, " over band: ", s - 1)
-            print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
-
-            if s < 9 and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
-                print("========= Graph is different than expected. Do not forward the message.")
+            if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
+                #we keep it to the current node
+                print("========= Not in range. Do not forward the message.")
 
             else:
-                #handle message transferred
-                nodes[next].buf.append(message)							    #add message to next node buffer
-                nodes[message.curr].buf.remove(message)						#remove message from current node buffer
-                message.curr = next								            #update messages current node
-                self.buf_size -= 1                                          #update current nodes buffer
+
+                message.path.pop()
+                message.bands.pop()
+
+                # calculate total energy consumption from ADJ_E matrix
+                if message.totalDelay < math.inf:
+                    message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay), 0]
+                    # calculate total delay from ADJ_T matrix
+                    message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay), 0]
+
+                if message.curr == next:  # temporal link
+                    print("Store the message for this time epoch")
+
+                else:
+                    #handle message transferred
+                    nodes[next].buf.append(message)							    #add message to next node buffer
+                    nodes[message.curr].buf.remove(message)						#remove message from current node buffer
+                    message.curr = next								            #update messages current node
+                    self.buf_size -= 1                                          #update current nodes buffer
 
         # if message.curr == message.des and len(message.path)  == 0:      #if message has reached its destination
         if len(message.path) == 0:  # if message has reached its destination
-            if message.src != message.des and message.T  + int(message.totalDelay) <= T:
+            if message.src != message.des and message.T  + message.totalDelay <= T:
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
                 if message.totalDelay != math.inf:
                     output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(message.T) + "\t" + str(message.T + int(message.totalDelay))+ "\t" + str(int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
@@ -130,3 +132,14 @@ class Node(object):                                                             
 
             nodes[message.curr].buf.remove(message)                     #remove message from destination node buffer
 
+
+
+#TODO: Here before transferring message to the next node, we need to check if the next node is in communication range
+#TODO: with current node over the spectrum band
+#TODO: Like we obtained LLC path by reading the path file, we need to get the spectrum band as well in similar fashion
+#TODO: Currently, we have both path and spectrum information in LLC_PATH_Spectrum.txt file (need to be kept separately for easy read)
+
+#TODO: To find out if two nodes are in communication range at a certain time epoch, we need to look at those node files.
+#TODO: E.g., if we need to find if node 0 and 1 are in communication range at time 3 seconds, then, we open files 0.txt and 1.txt.
+#TODO: Then, we get coordinates of nodes 0 and 1 at time 3 seconds, and see if the euclidean distance between them are less than that of
+#TODO: communication range of spectrum band

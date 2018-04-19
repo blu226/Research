@@ -256,7 +256,7 @@ def save_4D_in_file(filename, adj):
             for j in range(len(adj[0])):
                 for t in range(len(adj[0][0])):
                     for m in range(len(adj[0][0][0])):
-                        if adj[i, j, t, m] != math.inf and i != j:
+                        if adj[i, j, t, m] != math.inf and i != j and adj[i, j, t, m] != -1:
                             f.write(str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " = " + str(adj[i, j, t, m]) + "\n")
 
     f.close()

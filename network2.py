@@ -52,7 +52,8 @@ class Network(object):
                 # genT = path_line_arr[2]                             #generation time
                 size = path_line_arr[3]
 
-                path = path_line_arr[4:]
+                # print("Length: ", len(path_line_arr), path_line_arr[4: len(path_line_arr) - 1])
+                path = path_line_arr[4: len(path_line_arr) - 1]
                 bands = spec_line_arr[4:]
 
                 name = self.message_num
@@ -75,9 +76,9 @@ class Network(object):
             print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
 
             print("--------------------------------------")
-            while len(node.buf) > 0:
-                msg = node.buf[0]
-                print("\nIndex: " + str(i) + " " + str(msg.ID), " src " + str(msg.src), " des: " + str(msg.des), " genT: " + str(msg.T), "path: ", msg.path )
+            for msg in node.buf:
+                # msg = node.buf[0]
+                print("\nMsg: " + str(msg.ID), " src " + str(msg.src), " des: " + str(msg.des), " genT: " + str(msg.T), "path: ", msg.path )
                 node.send_message( self, msg, t)
 
             print("-------------------------------------- ")

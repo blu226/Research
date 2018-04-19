@@ -22,35 +22,38 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
     # print("ts: " + str(ts) + " te: " + str(te))
     # print("First timestamp: " + str(currTimeInFile1) + " " + str(currTimeInFile2))
 
-    # Go to ts - Skip all other lines up to ts
-    while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
-        currIndexInFile1 += 1
-        currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+    if currTimeInFile1 > ts or currTimeInFile2 > ts:
+        return False
+    else:
+        # Go to ts - Skip all other lines up to ts
+        while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
+            currIndexInFile1 += 1
+            currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
 
-    # # Go to ts - Skip all other lines up to ts
-    while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
-        currIndexInFile2 += 1
-        currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
+        # # Go to ts - Skip all other lines up to ts
+        while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
+            currIndexInFile2 += 1
+            currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
 
-    # Check if these two buses are in range between time period [ts, te]
-    while currTimeInFile1 < te and currTimeInFile2 < te and currIndexInFile1 < len(
-            linesInFile1) and currIndexInFile2 < len(linesInFile2):
+        # Check if these two buses are in range between time period [ts, te]
+        while currTimeInFile1 < te and currTimeInFile2 < te and currIndexInFile1 < len(
+                linesInFile1) and currIndexInFile2 < len(linesInFile2):
 
-        line1Arr = linesInFile1[currIndexInFile1].split()
-        line2Arr = linesInFile2[currIndexInFile2].split()
+            line1Arr = linesInFile1[currIndexInFile1].split()
+            line2Arr = linesInFile2[currIndexInFile2].split()
 
-        # print("Here: " + str(currTimeInFile1) + " " + str(currTimeInFile2))
-        # print(filepath1, filepath2, line1Arr[1], line1Arr[2], line2Arr[1], line2Arr[2], euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) )
-        if euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) > spectRange[s]:
-            # print("Out of range")
-            return False
+            # print("Here: " + str(currTimeInFile1) + " " + str(currTimeInFile2))
+            # print(filepath1, filepath2, line1Arr[1], line1Arr[2], line2Arr[1], line2Arr[2], euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) )
+            if euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) > spectRange[s]:
+                # print("Out of range")
+                return False
 
-        currIndexInFile1 += 1
-        currIndexInFile2 += 1
-        currTimeInFile1 = float(line1Arr[0])
-        currTimeInFile2 = float(line2Arr[0])
+            currIndexInFile1 += 1
+            currIndexInFile2 += 1
+            currTimeInFile1 = float(line1Arr[0])
+            currTimeInFile2 = float(line2Arr[0])
 
-    return True
+        return True
 
 def createLinkExistenceADJ():
     fileList = findfiles(lex_data_directory)
@@ -107,3 +110,13 @@ LE_file.close()
 print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
 save_in_file("LINK_EXISTS.txt", LINK_EXISTS)
 #printMAT(LINK_EXISTS)
+
+
+print("Spectrum bandwidth assigned: ")
+specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
+
+specBW_file = open( path_to_folder + "specBW.pkl", 'wb')
+pickle.dump(specBW, specBW_file)
+specBW_file.close()
+
+save_4D_in_file("specBW.txt", specBW)
