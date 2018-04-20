@@ -7,11 +7,12 @@ minY = 0
 maxY = 100
 
 #Required to generate lexington synthetic data
-VMIN = 30000                    # Minimum Data Mule speed (in m/s)
-VMAX = 50000                   # Maximum Data mule speed (in m/s)
+VMIN = 3000                    # Minimum Data Mule speed (in m/s)
+VMAX = 5000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
 lex_data_directory = "Lexington/Day1/"
+# lex_data_directory ="Data/"
 
 #Only required for main2.py to validate the created STB graph for different day
 validate_data_directory = "Lexington/Day1/"
@@ -24,45 +25,53 @@ route_start_time1 = 0
 route_start_time2 = 10
 
 # Simulation Time  ---- 1 plus
-T = 20   # must be greater than start time
+T = 60   # must be greater than start time
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
 tau = 1 # Instead of looking at each dt, we would look at tau as this is the minimum time to transfer a message
 
 #TTL Bound ----  1 plus
-TTL = 20
-
+TTL = 10
+minTTL = 5
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 5
 # Message size
 M = [20]
 
-V = 40         # No of nodes including source, data mules, and data centers
-NoOfSources = 5
+V = 45         # No of nodes including source, data mules, and data centers
+NoOfSources = 10
 NoOfDataCenters = 5
 NoOfDMs = 30                # Total number of data mules (or DSA nodes)
 
 
 
-# path_to_folder = "Bands/ALL/"  #for all spectrum types
+path_to_folder = "Bands/ALL/"  #for all spectrum types
 # path_to_folder = "Bands/TV/"  #for all spectrum types
 # path_to_folder = "Bands/ISM/"  #for all spectrum types
-path_to_folder = "Bands/ALL/"  #for all spectrum types
+# path_to_folder = "Bands/ALL/"  #for all spectrum types
 # path_to_folder = "Bands/Sample5/" #For sample graph with 4 nodes
 
-numSpec = 3 #always even if we only use one band
+numSpec = 4 #always even if we only use one band
 
-S = [0, 1, 2]                      # Number of spectrum bands
+#TV ISM LTE CBRS
+S = [0, 1, 2, 3]                      # Number of spectrum bands
 #3, 10, 40
-minBW = [3, 10, 20]               # Minimum bandwidth for each spectrum band
+minBW = [6, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
-maxBW = [6, 20, 30]             # Maximum bandwidth for each spectrum band
+maxBW = [8, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
-spectRange = [2000, 300, 500]        # Transmission coverage for each spectrum band
+spectRange = [820, 240, 320, 160]        # Transmission coverage for each spectrum band
 # specRange = [1, 2, 0.5]
-spectPower = [1, 1, 1]          # Transmission power for each spectrum band
+spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
 
-epsilon = 0             #energy consumed in temporal link
+epsilon = 0.5             #energy consumed in temporal link
 
+#Channel sensing, transmission, spectrum handoff
+t_sd = 0.16   #in minutes - 10s
+t_td = 0.5     #in minutes - 30s
+idle_channel_prob = 0.5
+
+switching_delay = 0.001 #in joules
+sensing_power = 0.04 #in Watts
 
 
 #Message generation

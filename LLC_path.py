@@ -43,8 +43,14 @@ def computeADJ_T_2(specBW, LINK_EXISTS):
                         for s in S:
                             #bandwidth = 0 means there does not exist a link over that spectrum band
                             if specBW[i, j, s, t] > 0:
-                                consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                                consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+                                numerator = math.ceil(M[m] / specBW[i, j, s, t]) * (t_sd + idle_channel_prob * t_td)
+                                consumedTime = tau * math.ceil(numerator/tau)
+
+                                sensing_energy = math.ceil(M[m] / (specBW[i, j, s, t])) * t_sd * sensing_power
+                                switching_energy = math.ceil(M[m] / (specBW[i, j, s, t])) * idle_channel_prob * switching_delay
+                                transmission_energy = math.ceil(M[m]/specBW[i, j, s, t]) * idle_channel_prob * t_td * spectPower[s]
+
+                                consumedEnergy = sensing_energy + switching_energy + transmission_energy
                                 consumedEnergy = round(consumedEnergy, 2)
 
                                 # print(i, j, t, consumedTime, m, specBW[i, j, s, t])
@@ -223,7 +229,7 @@ def PRINT_PATH_FILE_backup(LLC_PATH, Parent, Spectrum):
     file.close()
 
 
-def PRINT_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum):
+def PRINT_LLC_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum):
 
 
     file = open(path_to_folder + "LLC_PATH.txt", "w")

@@ -68,7 +68,7 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
         for t in range(T - tau, -1, -tau):
             for i in range(V):
                 for j in range(V):
-                    for dt in range(TTL - tau, -1, -tau):
+                    for dt in range(TTL - tau, minTTL, -tau):
 
                         if i == j:
                             ADJ_TE[i, j, t, dt, m] = epsilon
@@ -82,8 +82,17 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
                             for s in S:
                                 # bandwidth = 0 means there does not exist a link over that spectrum band
                                 if specBW[i, j, s, t] > 0:
-                                    consumedTime = tau * math.ceil(M[m] / (tau * specBW[i, j, s, t]))
-                                    consumedEnergy = (M[m] / (specBW[i, j, s, t])) * spectPower[s]
+
+                                    numerator = math.ceil(M[m] / specBW[i, j, s, t]) * (t_sd + idle_channel_prob * t_td)
+                                    consumedTime = tau * math.ceil(numerator / tau)
+
+                                    sensing_energy = math.ceil(M[m] / (specBW[i, j, s, t])) * t_sd * sensing_power
+                                    switching_energy = math.ceil(
+                                        M[m] / (specBW[i, j, s, t])) * idle_channel_prob * switching_delay
+                                    transmission_energy = math.ceil(
+                                        M[m] / specBW[i, j, s, t]) * idle_channel_prob * t_td * spectPower[s]
+
+                                    consumedEnergy = sensing_energy + switching_energy + transmission_energy
                                     consumedEnergy = round(consumedEnergy, 2)
 
                                     # t + consumedTime < t + TTL is equivalent to first condition
@@ -108,7 +117,6 @@ def computeADJ_T_TE(specBW, LINK_EXISTS, tau):
 # Determines the TTL constrained Energy-efficient Cost (TLEC) Path for all messages in the STB graph
 def TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE):
 
-    TLLC_PATH = ADJ_TL
     print("k i j t : TLEC Parent " + str(TTL) )
     for m in range(len(M)):
         for k in range(V):
@@ -129,10 +137,10 @@ def TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE):
                                 d2 = math.inf
 
                                 e1 = ADJ_TE[i, k, t, dt1, m]
-                                d1 = TLLC_PATH[i, k, t, dt1, m]
+                                d1 = ADJ_TL[i, k, t, dt1, m]
 
                                 if d1 < math.inf and (t + d1) < T :
-                                    d2 = TLLC_PATH[k, j, (t + int(d1)), (dt - dt1), m]
+                                    d2 = ADJ_TL[k, j, (t + int(d1)), (dt - dt1), m]
                                     e2 = ADJ_TE[k, j, (t + int(d1)), (dt - dt1), m]
 
                                 eAlt = e1 + e2
@@ -140,11 +148,11 @@ def TLEC_PATH_ADJ_2(ADJ_TL, ADJ_TE, Parent_TE, Spectrum_TE):
 
                                 if eAlt < eCurr and dAlt <= dt:
                                     ADJ_TE[i, j, t, dt, m] = eAlt
-                                    TLLC_PATH[i, j, t, dt, m] = dAlt
+                                    ADJ_TL[i, j, t, dt, m] = dAlt
                                     Parent_TE[i, j, t, dt, m] = Parent_TE[k, j, (t + int(d1)), (dt - dt1), m]
                                     Spectrum_TE[i, j, t, dt, m] = Spectrum_TE[k, j, (t + int(d1)), (dt - dt1), m]
 
-    return ADJ_TE, Parent_TE, Spectrum_TE, TLLC_PATH
+    return ADJ_TE, Parent_TE, Spectrum_TE, ADJ_TL
 
 
 def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
@@ -224,6 +232,80 @@ def PRINT_TLEC_PATH_FILE(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
                     file2.write(str(i) + " \t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" +  str(
                     TLEC_PATH[i, j, t, TTL - 1, m]) + "\t" + str(TLLC_PATH[i, j, t, TTL - 1, m]) + "\t:\t" + print_path_str + "\n")
                     file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spectrum_str + "\n")
+    file.close()
+    file2.close()
+    file3.close()
+
+
+def PRINT_TLEC_PATH_FILE_3(TLEC_PATH, TLLC_PATH, Parent_TE, Spectrum_TE):
+
+
+    file = open(path_to_folder + "TLEC_PATH.txt", "w")
+    file2 = open(path_to_folder + "TLEC_PATH_Spectrum.txt", "w")
+    file3 = open(path_to_folder + "TLEC_Spectrum.txt", "w")
+
+    file.write("#i\tj\tt\tTTL\tm:\tPATH\n")
+    file2.write("#i\tj\tt\tTTL\tm:\tPATH\n")
+    file3.write("#i\tj\tt\tTTL\tm:\tPATH\n")
+
+    m = 0
+
+    # for m in range(len(M)):
+    for t in range(0, T, tau):
+        for i in range(V):
+            for j in range(V):
+                for dt in range(TTL - 1, -1, -tau):
+                    if i == j:
+                        continue
+
+                    if TLLC_PATH[i, j, t, dt, m] != math.inf:
+                    # if LLC_PATH[i, j, t, m] != math.inf and i == 4 and j == 26 and t == 0:
+                        par_u = int(Parent_TE[i, j, t, dt, m])
+
+                        print_path_str = str(j) + " (" + str(Spectrum_TE[i, j, t, dt, m]) + ")\t"
+                        path_str = str(j) + "\t"
+                        spec_str = str(Spectrum_TE[i, j, t, dt, m]) + "\t"
+
+                        temp_spec_val = Spectrum_TE[i, j, t, dt, m]
+
+                        while temp_spec_val > 10:
+                            temp_spec_val -= 10
+                            path_str += str(par_u) + "\t"
+                            spec_str += str(temp_spec_val) + "\t"
+                            print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")  "
+
+                        dt1 = 1
+                        while par_u != -1 and t < T and par_u != i:
+                            path_str += str(par_u) + "\t"
+                            print_path_str += str(par_u) + " (" + str(Spectrum_TE[i, par_u, t, dt- dt1, m]) + ")\t"
+                            spec_str += str(Spectrum_TE[i, par_u, t, dt - dt1, m]) + "\t"
+
+                            #Get the value earlier than updating par_u
+                            temp_spec_val = Spectrum_TE[i, par_u, t, dt - dt1, m]
+
+                            par_u = int(Parent_TE[i, par_u, t, dt - dt1, m])
+
+                            while temp_spec_val > 10:
+                                temp_spec_val -= 10
+                                path_str += str(par_u) + "\t"
+                                spec_str += str(temp_spec_val) + "\t"
+                                print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")\t"
+
+                            dt1 += 1
+
+                        path_str += str(i)
+                        print_path_str += str(i) +"\t"
+
+
+                            # if i == 1 and j == 4 and t == 0:
+                            # print("\nPath " , print_path_str + " LLC: " , TLLC_PATH[i, j, t, TTL - 1, m], end=" ")
+
+                        file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(dt) + "\t" + str(M[m]) + "\t" + path_str + "\n")
+                        file2.write(
+                            str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(dt) + "\t" + str(M[m]) + "\t" + str(TLEC_PATH[i, j, t, TTL - 1,  m]) + "\t" + str(
+                                TLLC_PATH[i, j, t, TTL - 1, m]) + "\t:\t" + print_path_str + "\n")
+                        file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(dt) + "\t" + str(M[m]) + "\t" + spec_str + "\n")
+
     file.close()
     file2.close()
     file3.close()
