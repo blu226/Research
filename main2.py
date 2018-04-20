@@ -1,4 +1,4 @@
-from network2 import *
+from network3 import *
 from node2 import *
 from message2 import *
 from constants import *

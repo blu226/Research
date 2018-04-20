@@ -24,7 +24,7 @@ route_start_time1 = 0
 route_start_time2 = 10
 
 # Simulation Time  ---- 1 plus
-T = 30   # must be greater than start time
+T = 20   # must be greater than start time
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
 tau = 1 # Instead of looking at each dt, we would look at tau as this is the minimum time to transfer a message
 
@@ -46,12 +46,12 @@ NoOfDMs = 30                # Total number of data mules (or DSA nodes)
 # path_to_folder = "Bands/ALL/"  #for all spectrum types
 # path_to_folder = "Bands/TV/"  #for all spectrum types
 # path_to_folder = "Bands/ISM/"  #for all spectrum types
-path_to_folder = "Bands/TV/"  #for all spectrum types
+path_to_folder = "Bands/ALL/"  #for all spectrum types
 # path_to_folder = "Bands/Sample5/" #For sample graph with 4 nodes
 
 numSpec = 3 #always even if we only use one band
 
-S = [0]                      # Number of spectrum bands
+S = [0, 1, 2]                      # Number of spectrum bands
 #3, 10, 40
 minBW = [3, 10, 20]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
@@ -62,4 +62,11 @@ spectRange = [2000, 300, 500]        # Transmission coverage for each spectrum b
 spectPower = [1, 1, 1]          # Transmission power for each spectrum band
 
 epsilon = 0             #energy consumed in temporal link
+
+
+
+#Message generation
+lambda_val = 1   #lambda in exponential function
+messageBurst = [2, 5]
+
 
