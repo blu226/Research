@@ -8,9 +8,13 @@ def generate_messages():
     genT = 0
     id = 0
     message_file.write("#id\tsrc\tdes\tTTL\tSize\tgenT\n")
-    while genT < T:
+
+    while genT < 5:
         # t += 1
-        for src in range(NoOfSources):
+        number_sources = 0
+        while number_sources < 10:
+            src = random.randint(0, NoOfSources)
+            # for src in range(NoOfSources):
             message_burst = random.randint(int(messageBurst[0]), messageBurst[1])
 
             #Number of messages generated at this source at this time
@@ -22,6 +26,8 @@ def generate_messages():
                 print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT))
                 message_file.write(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT) + "\n")
                 id += 1
+
+            number_sources += 1
 
         num = 1 * lambda_val * genT
         genT = int(lambda_val * math.exp(num))
