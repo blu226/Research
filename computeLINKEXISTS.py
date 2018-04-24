@@ -111,11 +111,11 @@ save_in_file("Bands/LINK_EXISTS.txt", LINK_EXISTS)
 #printMAT(LINK_EXISTS)
 
 
-# print("Spectrum bandwidth assigned: ")
-# specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
-#
-# specBW_file = open("Bands/specBW.pkl", 'wb')
-# pickle.dump(specBW, specBW_file)
-# specBW_file.close()
-#
-# save_4D_in_file("Bands/specBW.txt", specBW)
+print("Spectrum bandwidth assigned: ")
+specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
+
+specBW_file = open("Bands/specBW.pkl", 'wb')
+pickle.dump(specBW, specBW_file)
+specBW_file.close()
+
+save_4D_in_file("Bands/specBW.txt", specBW)
