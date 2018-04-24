@@ -15,7 +15,8 @@ def readTrajectoryFile(DMTrajectories):
             if patternMatch:
                 # print ("Pattern 1: ", patternMatch.group(1))
                 trajectoryCoord = patternMatch.group(1)
-                DMTrajectories.append(trajectoryCoord.strip().split(','))
+                if len(trajectoryCoord.strip().split(',')) > 30:
+                    DMTrajectories.append(trajectoryCoord.strip().split(','))
 
             else:
                 print ("No Match !!!")
