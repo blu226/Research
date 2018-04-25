@@ -29,7 +29,7 @@ class Network(object):
             print(" ")
 
     #Get message size, path, spectrum info for the current message
-    def get_message_info(self, path_lines, spec_lines, src, des, t):
+    def get_message_info(self, path_lines, spec_lines, src, des, t, size):
         # print("Inside: ", src, des, t)
         path = []
         band = []
@@ -40,7 +40,8 @@ class Network(object):
             spec_line = spec_lines[ind].strip()
             spec_line_arr = spec_line.split("\t")
 
-            if int(path_line_arr[2]) == int(t) and int(path_line_arr[0]) == int(src) and int(path_line_arr[1]) == int(des):
+            if int(path_line_arr[2]) == int(t) and int(path_line_arr[0]) == int(src) and int(path_line_arr[1]) == int(
+                    des) and int(path_line_arr[3]) == int(size):
                 # print (path_line_arr)
                 path = path_line_arr[4: len(path_line_arr) - 1]
                 band = spec_line_arr[4:]
@@ -75,7 +76,7 @@ class Network(object):
                 TTL = msg_line_arr[3]
                 size = msg_line_arr[4]
 
-                path, band = self.get_message_info(path_lines, spec_lines, src, des, t)
+                path, band = self.get_message_info(path_lines, spec_lines, src, des, t, size)
 
                 message = Message(src, des, t, id, TTL, size, path, band, 0, 0, 0)   #create the message
                 curr = int(message.curr)

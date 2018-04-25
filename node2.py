@@ -123,7 +123,7 @@ class Node(object):                                                             
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
 
                 output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
-                    message.T) + "\t" + str(int(t)) + "\t" + str(
+                    message.T) + "\t" + str(int(t)) + "\t" + str(message.size) +"\t" + str(
                     int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
 
                 output_file.write(output_msg)

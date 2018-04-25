@@ -9,10 +9,8 @@ def compute_metrics(lines, total_messages, delivery_time):
         line_arr = line.strip().split("\t")
         if int(line_arr[4]) < delivery_time:
             delivered += 1
-            latency += int(line_arr[5])
-            energy += float(line_arr[6])
-
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
+            latency += int(line_arr[6])
+            energy += float(line_arr[7])
 
     if delivered > 0:
         latency = float(latency)/delivered
@@ -20,6 +18,8 @@ def compute_metrics(lines, total_messages, delivery_time):
 
     if total_messages > 0:
         delivered = float(delivered) / total_messages
+
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
 
     return delivered, latency, energy
 
@@ -33,7 +33,7 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-delivery_times = [5, 8, 10, 15, 20, 25, 30]
+delivery_times = [30, 60, 90, 120]
 
 
 metric_file.write("t\tPDR\tLatency\tEnergy\n")
