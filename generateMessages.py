@@ -9,10 +9,10 @@ def generate_messages():
     id = 0
     message_file.write("#id\tsrc\tdes\tTTL\tSize\tgenT\n")
 
-    while genT < 5:
+    while genT < 90:
         # t += 1
         number_sources = 0
-        while number_sources < 10:
+        while number_sources < 20:
             src = random.randint(0, NoOfSources)
             # for src in range(NoOfSources):
             message_burst = random.randint(int(messageBurst[0]), messageBurst[1])
@@ -21,7 +21,7 @@ def generate_messages():
             for num in range(message_burst):
                 des = random.randint(NoOfSources + NoOfDMs, V - 1)
                 desired_TTL = random.randint(minTTL, TTL)
-                size = 20
+                size = random.choice(M[:3])
 
                 print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT))
                 message_file.write(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT) + "\n")
