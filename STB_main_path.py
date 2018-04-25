@@ -14,12 +14,12 @@ if not os.path.exists(path_to_folder):
 
 print("Spectrum bandwidth assigned: ")
 # specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
-specBW = pickle.load(open("Bands/specBW.pkl", "rb"))
+specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
 
 print("Load LINK Exists: ")
 
 # LINK_EXISTS = createLinkExistenceADJ()   # only for sample graphs
-LINK_EXISTS = pickle.load(open("Bands/LINK_EXISTS.pkl", "rb"))
+LINK_EXISTS = pickle.load(open(link_exists_folder + "LINK_EXISTS.pkl", "rb"))
 
 print("Initialization started: ")
 
