@@ -7,7 +7,7 @@ generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 #TODO: Generate the trajectory files
 if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
-    for run in range(1, int(number_of_runs)):
+    for run in range(2, int(number_of_runs)):
         print("Round: " + str(run))
 
         link_exists_folder = "Bands/" + str(run) +"/"
