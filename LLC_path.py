@@ -288,7 +288,7 @@ def PRINT_LLC_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum):
 
 
                         # if i == 1 and j == 4 and t == 0:
-                        print("\nPath " , print_path_str + " LLC: " , LLC_PATH[i, j, t, m], end=" ")
+                        # print("\nPath " , print_path_str + " LLC: " , LLC_PATH[i, j, t, m], end=" ")
 
                         file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
                         file2.write(

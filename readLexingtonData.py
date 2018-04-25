@@ -42,7 +42,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
         # villageCoor = random.choice(DMTrajectories[srcID%len(DMTrajectories)])
         srcLocationX = villageCoor[srcID].strip().split(" ")[0]
         srcLocationY = villageCoor[srcID].strip().split(" ")[1]
-        print("Location: " + villageCoor[srcID] + " " + srcLocationX + " " + srcLocationY)
+        # print("Location: " + villageCoor[srcID] + " " + srcLocationX + " " + srcLocationY)
 
         with open(lex_data_directory_day + str(srcID) + ".txt", "w") as srcP:
             srcP.write("T X Y ")
@@ -87,10 +87,10 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
         chosen_trajectory_id  = bus_route_ids[ind]
         eachDM = DMTrajectories[chosen_trajectory_id]
 
-        print("Trajectory " +  str(len(eachDM)) + " : " + str(eachDM))
+        # print("Trajectory " +  str(len(eachDM)) + " : " + str(eachDM))
 
         with open(lex_data_directory_day + "/"+ str(dmID)+".txt", "w") as dmP:
-            print ("For DM: " + str(dmID) + " Speed: " + str(dmSpeed))
+            # print ("For DM: " + str(dmID) + " Speed: " + str(dmSpeed))
             dmP.write("T X Y ");
             for s in S:
                 dmP.write("S"+ str(s) + " ")

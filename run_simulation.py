@@ -1,10 +1,13 @@
 import os
 
-generate_files = True
+#Take some inputs
+number_of_runs = input("Input number of runs?  ")
+generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
-if generate_files == True:
+#TODO: Generate the trajectory files
+if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
-    for run in range(1,2):
+    for run in range(1, int(number_of_runs)):
         print("Round: " + str(run))
 
         link_exists_folder = "Bands/" + str(run) +"/"
@@ -26,11 +29,16 @@ if generate_files == True:
         os.system('python3 readLexingtonData.py')
         os.system('python3 computeLINKEXISTS.py')
 
-run_simulation = False
+else:
+    print("\n================ Trajectory files were NOT regenerated. \n")
 
-if run_simulation == True:
+
+run_simulation = input("Do you want to run the simulation?Y/N  ")
+
+#TODO: Run the simulation
+if run_simulation == "Y":
     for ind in range(0, 5):
-        for run in range(1, 3):
+        for run in range(1, int(number_of_runs)):
 
             if ind == 0:
                 S = [0, 1, 2, 3]
@@ -76,3 +84,6 @@ if run_simulation == True:
             os.system('python3 main2.py')
             os.system('python3 metrics.py')
 
+
+else:
+    print("\n================== Simulation was NOT run.")

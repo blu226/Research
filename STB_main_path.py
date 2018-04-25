@@ -49,7 +49,7 @@ spec_file.close()
 save_4D_in_file(path_to_folder + "Parent.txt", Parent)
 save_4D_in_file(path_to_folder+ "Spectrum.txt", Spectrum)
 
-print("LLC paths are: ")
+print("LLC paths being calculated: ")
 # PRINT_LLC_PATH_FILE(LLC_Path, ELC_Path, Parent, Spectrum)
 # PRINT_PATH_FILE_backup(LLC_Path, Parent, Spectrum)
 PRINT_LLC_PATH_FILE_3(LLC_Path, ELC_Path, Parent, Spectrum)
