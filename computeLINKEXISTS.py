@@ -102,20 +102,20 @@ createLinkExistenceADJ()
 if not os.path.exists(path_to_folder):
     os.makedirs(path_to_folder)
 
-LE_file = open("Bands/LINK_EXISTS.pkl", 'wb')
+LE_file = open(link_exists_folder + "LINK_EXISTS.pkl", 'wb')
 pickle.dump(LINK_EXISTS, LE_file)
 LE_file.close()
 
 print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
-save_in_file("Bands/LINK_EXISTS.txt", LINK_EXISTS)
+save_in_file(link_exists_folder + "LINK_EXISTS.txt", LINK_EXISTS)
 #printMAT(LINK_EXISTS)
 
 
 print("Spectrum bandwidth assigned: ")
 specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
 
-specBW_file = open("Bands/specBW.pkl", 'wb')
+specBW_file = open(link_exists_folder + "specBW.pkl", 'wb')
 pickle.dump(specBW, specBW_file)
 specBW_file.close()
 
-save_4D_in_file("Bands/specBW.txt", specBW)
+save_4D_in_file(link_exists_folder + "specBW.txt", specBW)
