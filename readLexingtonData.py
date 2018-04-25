@@ -28,7 +28,7 @@ def getSourceDesCoordinates(src_start, src_end, des_end):
     for srcID in range(src_start, des_end, 1):
         village_coors.append(random.choice(DMTrajectories[srcID % len(DMTrajectories)]))
 
-    f = open("Lexington/" + "village_coor.pkl", 'wb')
+    f = open(lex_data_directory + "village_coor.pkl", 'wb')
     pickle.dump(village_coors, f)
     f.close()
 
@@ -36,7 +36,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
     # create file for Sources. Though the source location are fixed, the spectrum bandwidth changes over time
     # Hence, it is important to save it as a file
 
-    villageCoor = pickle.load(open("Lexington/village_coor.pkl", "rb"))
+    villageCoor = pickle.load(open(lex_data_directory + "village_coor.pkl", "rb"))
     for srcID in range(startIndex, endIndex, 1):
 
         # villageCoor = random.choice(DMTrajectories[srcID%len(DMTrajectories)])
@@ -44,7 +44,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
         srcLocationY = villageCoor[srcID].strip().split(" ")[1]
         print("Location: " + villageCoor[srcID] + " " + srcLocationX + " " + srcLocationY)
 
-        with open(lex_data_directory + "/" + str(srcID) + ".txt", "w") as srcP:
+        with open(lex_data_directory_day + str(srcID) + ".txt", "w") as srcP:
             srcP.write("T X Y ")
             for s in S:
                 srcP.write("S" + str(s) + " ")
@@ -66,14 +66,14 @@ def getBusRoutes(bus_start, bus_end):
     for srcID in range(bus_start, bus_end, 1):
         bus_routes.append(random.randint(0, len(DMTrajectories)-1))
 
-    f = open("Lexington/" + "bus_route_ids.pkl", 'wb')
+    f = open(lex_data_directory +  "bus_route_ids.pkl", 'wb')
     pickle.dump(bus_routes, f)
     f.close()
     print(bus_routes)
 
 def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
     dmID = startIndex + NoOfSources + NoOfDataCenters - 1
-    bus_route_ids = pickle.load(open("Lexington/bus_route_ids.pkl", "rb"))
+    bus_route_ids = pickle.load(open(lex_data_directory + "bus_route_ids.pkl", "rb"))
 
     for ind in range(startIndex, endIndex, 1):
         dmID = dmID + 1
@@ -89,7 +89,7 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
 
         print("Trajectory " +  str(len(eachDM)) + " : " + str(eachDM))
 
-        with open(lex_data_directory + "/"+ str(dmID)+".txt", "w") as dmP:
+        with open(lex_data_directory_day + "/"+ str(dmID)+".txt", "w") as dmP:
             print ("For DM: " + str(dmID) + " Speed: " + str(dmSpeed))
             dmP.write("T X Y ");
             for s in S:
@@ -147,8 +147,8 @@ LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
 
-if not os.path.exists(lex_data_directory):
-    os.makedirs(lex_data_directory)
+if not os.path.exists(lex_data_directory_day):
+    os.makedirs(lex_data_directory_day)
 
 DMTrajectories = []         #stores the coordinates for each data mule
 
@@ -160,7 +160,7 @@ print("Length of DM trajectories: ", len(DMTrajectories))
 
 #TODO: Run it only for Day1
 
-if "Day1" in lex_data_directory :
+if "Day1" in lex_data_directory_day:
     getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
     getBusRoutes(0, NoOfDMs)
 

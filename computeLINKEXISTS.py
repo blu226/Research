@@ -56,7 +56,7 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
         return True
 
 def createLinkExistenceADJ():
-    fileList = findfiles(lex_data_directory)
+    fileList = findfiles(lex_data_directory_day)
 
     if ".DS_Store" in fileList:
         fileList.remove(".DS_Store")
@@ -80,8 +80,8 @@ def createLinkExistenceADJ():
                             if file1_id == file2_id:
                                 LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
                             else:
-                                filepath1 = lex_data_directory + file1
-                                filepath2 = lex_data_directory + file2
+                                filepath1 = lex_data_directory_day + file1
+                                filepath2 = lex_data_directory_day + file2
 
                                 if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
                                     LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
@@ -112,7 +112,7 @@ save_in_file(link_exists_folder + "LINK_EXISTS.txt", LINK_EXISTS)
 
 
 print("Spectrum bandwidth assigned: ")
-specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
+specBW = getSpecBW(lex_data_directory_day, V, S, T)             # Get the dynamic spectrum bandwidth
 
 specBW_file = open(link_exists_folder + "specBW.pkl", 'wb')
 pickle.dump(specBW, specBW_file)
