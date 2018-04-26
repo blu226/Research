@@ -1,0 +1,28 @@
+#=================Energy Consumed =========================
+
+set terminal postscript eps enhanced color 
+set style line 1 lc rgb "red" lt 3 lw 2 ps 2
+set style line 2 lc rgb "black" lt 5 lw 2 ps 2
+set style line 3 lc rgb "blue" lt 6 lw 2 ps 2
+set style line 4 lc rgb "green" lt 7 lw 2 ps 2
+
+set ylabel 'Residual Energy (kJ)' rotate by 90
+set xlabel 'Time (in hours)'
+set ytics font "Times-Roman,35" 
+set xtics font "Times-Roman,35"
+set xlabel font "Times-Roman,40"
+set ylabel font "Times-Roman,40" 
+set key font "Times-Roman, 35"
+set key center center
+set bmargin 6
+set ytics offset 1,0
+set xlabel offset 0,-2
+set ylabel offset -3 ,0
+set lmargin at screen 0.15
+set xtics offset -1.2,-0.5
+#set xrange [0:3]
+set xtics 0,1,12
+set output 'Plots/PDR.eps'
+
+plot 'Bands/ALL/metrics_LLC_day1.txt' u 1:2 w lp ls 1 t'X-CHANTs', 'Bands/TV/metrics_LLC_day1.txt' u 1:2 w lp ls 2 t'TV', 'Bands/LTE/metrics_LLC_day1.txt' u 1:2 w lp ls 3 t'LTE', 'Bands/CBRS/metrics_LLC_day1.txt' u 1:2 w lp ls 4 t'CBRS'
+
