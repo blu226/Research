@@ -2,13 +2,13 @@ import os
 
 #Take some inputs
 number_of_runs = input("Input number of runs?  ")
-# generate_files = input("Do you want to generate the trajectory files?Y/N  ")
+generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
-generate_files = "N"
+# generate_files = "N"
 #TODO: Generate the trajectory files
 if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
-    for run in range(2, int(number_of_runs) + 1):
+    for run in range(1, int(number_of_runs) + 1):
         print("Round: " + str(run))
 
         link_exists_folder = "Bands/" + str(run) +"/"
@@ -44,6 +44,7 @@ if run_simulation == "Y":
             if ind == 0:
                 S = [0, 1, 2, 3]
                 path_to_folder = "Bands/" + str(run) + "/ALL/"
+
                 print("ALL -----------------------\n")
 
             elif ind == 1:
@@ -66,17 +67,18 @@ if run_simulation == "Y":
                 path_to_folder =   "Bands/" + str(run) + "/CBRS/"
                 print("CBRS --------------------------- \n")
 
-
+            validate_data_directory = "Lexington/" + str(run) + "/Day1/"
             with open("constants.py", "r") as f:
                 lines = f.readlines()
 
             with open("constants.py", "w") as f:
                 for line in lines:
-                    if ("path_to_folder" not in line and "S = " not in line):
+                    if ("path_to_folder" not in line and "S = " not in line and "validate_data_directory" not in line):
                         f.write(line)
 
                 f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
                 f.write("S = " + str(S) + "\n")
+                f.write("validate_data_directory = '" + str(validate_data_directory) + "'\n")
 
 
             print("Round: " + str(run))
