@@ -66,9 +66,9 @@ sensing_power = 0.04 #in Watts
 lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
-path_to_folder = 'Bands/1/CBRS/'
-S = [3]
+lex_data_directory = 'Lexington/1/'
+lex_data_directory_day = 'Lexington/1/Day1/'
+link_exists_folder = 'Bands/1/'
+path_to_folder = 'Bands/1/ALL/'
+S = [0, 1, 2, 3]
 validate_data_directory = 'Lexington/1/Day1/'
-lex_data_directory = 'Lexington/2/'
-lex_data_directory_day = 'Lexington/2/Day1/'
-link_exists_folder = 'Bands/2/'
