@@ -27,7 +27,6 @@ class Node(object):                                                             
     def get_attributes(self, curr, t, s):
         curr_coorX = -1
         curr_coorY  = -1
-        curr_bandwidth = 0
 
         with open(validate_data_directory + str(curr) + ".txt", "r") as fc:
             lines = fc.readlines()[1:]
@@ -40,14 +39,14 @@ class Node(object):                                                             
                     if s < 0:
                         print("S can not be less than 0", s)
 
-                    else:
-                        curr_bandwidth = curr_line_arr[s + 2]
+                    # else:
+                    #     curr_bandwidth = curr_line_arr[s + 2]
 
-        return curr_coorX, curr_coorY, curr_bandwidth
+        return curr_coorX, curr_coorY
 
     def is_in_communication_range(self, curr, next, t, s):
-        curr_coorX, curr_coorY, curr_bandwidth = self.get_attributes(curr, t, s)
-        next_coorX, next_coorY, next_bandwidth = self.get_attributes(next, t, s)
+        curr_coorX, curr_coorY = self.get_attributes(curr, t, s)
+        next_coorX, next_coorY = self.get_attributes(next, t, s)
 
         # print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
         # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
