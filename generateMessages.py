@@ -9,7 +9,7 @@ def generate_messages():
     id = 0
     message_file.write("#id\tsrc\tdes\tTTL\tSize\tgenT\n")
 
-    while genT < 90:
+    while genT < 45:
         # t += 1
         number_sources = 0
         while number_sources < 20:
@@ -19,7 +19,7 @@ def generate_messages():
 
             #Number of messages generated at this source at this time
             for num in range(message_burst):
-                des = random.randint(NoOfSources + NoOfDMs, V - 1)
+                des = random.randint(NoOfSources, NoOfSources + NoOfDMs)
                 desired_TTL = random.randint(minTTL, TTL)
                 size = random.choice(M[:3])
 
@@ -28,9 +28,9 @@ def generate_messages():
                 id += 1
 
             number_sources += 1
-
-        num = 1 * lambda_val * genT
-        genT = int(lambda_val * math.exp(num))
+        genT += random.randint(5, 10)
+        # num = 1 * lambda_val * genT
+        # genT = int(lambda_val * math.exp(num))
 
     message_file.close()
 
