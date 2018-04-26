@@ -1,6 +1,7 @@
 import numpy
 import math
 import os
+import random
 
 from constants import *
 
@@ -53,7 +54,8 @@ def getSpecBW(directory, V, S, T):
         for j in range(V):
             for s in S:
                 for t in range(0, T, tau):
-                    specBW[i, j, s, t] = getMinBWFromDMFiles(directory, i, j, s, t)
+                    specBW[i, j, s, t] = random.randint(minBW[s], maxBW[s])
+                    # getMinBWFromDMFiles(directory, i, j, s, t)
                     # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
     return specBW
 
