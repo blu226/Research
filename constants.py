@@ -11,30 +11,25 @@ VMIN = 3000                    # Minimum Data Mule speed (in m/s)
 VMAX = 5000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
-lex_data_directory = "Lexington/Day1/"
-# lex_data_directory ="Data/"
 
 #Only required for main2.py to validate the created STB graph for different day
-validate_data_directory = "Lexington/Day1/"
 
-# validate_data_directory = "Data/"
 delivery_file_name = "delivery_day1.txt"
-
 metrics_file_name = "metrics_LLC_day1.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
-route_start_time2 = 30
+route_start_time2 = 15
 
 # Simulation Time  ---- 1 plus
-T = 120   # must be greater than start time
+T = 60   # must be greater than start time
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
 tau = 1 # Instead of looking at each dt, we would look at tau as this is the minimum time to transfer a message
 # total_generation_T = 60
 
 #TTL Bound ----  1 plus
-TTL = 60
-minTTL = 20
+TTL = 30
+minTTL = 15
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 5
 # Message size
@@ -44,8 +39,6 @@ V = 45         # No of nodes including source, data mules, and data centers
 NoOfSources = 10
 NoOfDataCenters = 5
 NoOfDMs = 30                # Total number of data mules (or DSA nodes)
-
-
 
 numSpec = 4 #always even if we only use one band
 
@@ -73,6 +66,9 @@ sensing_power = 0.04 #in Watts
 lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
-path_to_folder = 'Bands/1/ALL/'
-S = [0, 1, 2, 3]
-link_exists_folder = 'Bands/'
+path_to_folder = 'Bands/1/CBRS/'
+S = [3]
+validate_data_directory = 'Lexington/1/Day1/'
+lex_data_directory = 'Lexington/2/'
+lex_data_directory_day = 'Lexington/2/Day1/'
+link_exists_folder = 'Bands/2/'
