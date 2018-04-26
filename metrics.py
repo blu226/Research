@@ -33,12 +33,12 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-delivery_times = [30, 60, 90, 120]
+delivery_times = [5, 10, 20, 30, 40, 50, 60]
 
 
-metric_file.write("t\tPDR\tLatency\tEnergy\n")
+metric_file.write("#t\tPDR\tLatency\tEnergy\n")
 for t in delivery_times:
     avg_pdr, avg_latency, avg_energy = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + " " + str(avg_latency) + " " + str(avg_energy) + "\n")
+    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\n")
 
 metric_file.close()
