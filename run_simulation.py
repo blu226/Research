@@ -14,7 +14,7 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
     for mule in range(10, 60, 10):
         for run in range(1, 11):
-            print("Folder: Band" + str(mule) + " Round: " + str(run))
+            print("=============== Folder: Band" + str(mule) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
             path_to_folder = "Bands" + str(mule) + "/" + str(run) + "/ALL/"
@@ -23,9 +23,9 @@ if generate_files == "Y":
             lex_data_directory_day = "Lexington" + str(mule) + "/" + str(run) + "/Day1/"
 
             if mule == 30:
-                T = 60
+                T = 120
             else:
-                T = 30
+                T = 60
 
             with open("constants.py", "r") as f:
                 lines = f.readlines()
@@ -61,9 +61,9 @@ number_of_runs = 2
 run_simulation = "Y"
 #TODO: Run the simulation
 if run_simulation == "Y":
-    for mules in range(10, 60, 10):
-        for ind in range(0, 1):
-            for run in range(2, 3):
+    for mules in range(30, 40, 10):
+        for ind in range(0, 5):
+            for run in range(1, 11):
 
                 if ind == 0:
                     S = [0, 1, 2, 3]
