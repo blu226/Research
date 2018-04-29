@@ -6,7 +6,7 @@ import os
 
 number_of_runs = 1
 
-
+'''
 generate_files = "Y"
 # generate_files = "N"
 #TODO: Generate the trajectory files
@@ -61,7 +61,7 @@ number_of_runs = 2
 run_simulation = "Y"
 #TODO: Run the simulation
 if run_simulation == "Y":
-    for mules in range(30, 40, 10):
+    for mules in range(10, 60, 10):
         for ind in range(0, 5):
             for run in range(1, 11):
 
@@ -101,7 +101,7 @@ if run_simulation == "Y":
                 if mules == 30:
                     T = 60
                 else:
-                    T = 30
+                    T = 60
                     
                 with open("constants.py", "r") as f:
                     lines = f.readlines()
@@ -134,4 +134,3 @@ if run_simulation == "Y":
 else:
     print("\n================== Simulation was NOT run.")
 
-'''
