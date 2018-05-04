@@ -87,11 +87,12 @@ class Node(object):                                                             
             # print("S is greater 9, ", s)
 
             #If two nodes are not in communication range
-            if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
-                #we keep it to the current node
-                print("========= Not in range. Do not forward the message.")
+            # if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
+            #     #we keep it to the current node
+            #     print("========= Not in range. Do not forward the message.")
 
-            else:
+            # else:
+            if self.is_in_communication_range(message.curr, next, t, s - 1) == True:
                 message.path.pop()
                 message.bands.pop()
 
@@ -101,11 +102,12 @@ class Node(object):                                                             
                     # calculate total delay from ADJ_T matrix
                     message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay), 0]
 
-                if message.curr == next:  # temporal link
-                    print("Store the message for this time epoch")
+                # if message.curr != next:  # temporal link
+                #     print("Store the message for this time epoch")
+                # else:
 
-                else:
-                    print("Remove the node: ", next)
+                if message.curr != next:
+                    # print("Remove the node: ", next)
                     #handle message transferred
                     nodes[next].buf.append(message)							    #add message to next node buffer
                     nodes[message.curr].buf.remove(message)						#remove message from current node buffer
