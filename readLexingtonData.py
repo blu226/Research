@@ -1,6 +1,7 @@
 import re
 import random
 import pickle
+from shutil import copyfile
 
 from STB_help import *
 
@@ -140,6 +141,18 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
                 dmP.write("\n")
         dmP.close()
 
+
+def copy_files():
+    # for run in range(1, 11, 1):
+    for i in range(V):
+        run = lex_data_directory_day.split("/")[1]
+        # print("Current run is: ", run)
+        src = "Lexington" + str(max_nodes) + "/" + str(run) + "/Day1/" + str(i) + ".txt"
+        dst = lex_data_directory_day + str(i) + ".txt"
+        copyfile(src, dst)
+
+
+
 # Main starts here
 
 # This function is independent of tau
@@ -158,15 +171,23 @@ readTrajectoryFile(DMTrajectories)
 
 print("Length of DM trajectories: ", len(DMTrajectories))
 
-#TODO: Run it only for Day1
+#Just copy files, we don't have to get the trajectories
+if V < max_nodes:
+    copy_files()
 
-if "Day1" in lex_data_directory_day:
-    getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
-    getBusRoutes(0, NoOfDMs)
+else:
 
-# Randomly place sources and destination nodes (index from 0 to S -1)
-getLocationsOfSourcesAndDataCenters(0, NoOfSources + NoOfDataCenters)
+    #TODO: Run it only for Day1
+    #if "Day1" in lex_data_directory_day:
+     #   print("New locations generated\n")
+      #  getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
+       # getBusRoutes(0, NoOfDMs)
 
-# Place DMs on selected Routes (index from (S - DM)
-getLocationsOfDMs(DMTrajectories, 0, NoOfDMs)
+
+
+    # Randomly place sources and destination nodes (index from 0 to S -1)
+    getLocationsOfSourcesAndDataCenters(0, NoOfSources + NoOfDataCenters)
+
+    # Place DMs on selected Routes (index from (S - DM)
+    getLocationsOfDMs(DMTrajectories, 0, NoOfDMs)
 
