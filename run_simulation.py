@@ -5,27 +5,22 @@ import os
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
 number_of_runs = 1
-
-
 generate_files = "Y"
 # generate_files = "N"
 #TODO: Generate the trajectory files
 if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
-    for mule in range(10, 60, 10):
-        for run in range(1, 11):
-            print("Folder: Band" + str(mule) + " Round: " + str(run))
+    for max_mules in range(65, 0, -20):
+        for run in range(1, 2):
+            print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
-            path_to_folder = "Bands" + str(mule) + "/" + str(run) + "/ALL/"
-            link_exists_folder = "Bands" + str(mule) + "/" + str(run) +"/"
-            lex_data_directory = "Lexington" + str(mule) + "/" + str(run) +"/"
-            lex_data_directory_day = "Lexington" + str(mule) + "/" + str(run) + "/Day1/"
+            path_to_folder = "Bands" + str(max_mules) + "/" + str(run) + "/ALL/"
+            link_exists_folder = "Bands" + str(max_mules) + "/" + str(run) +"/"
+            lex_data_directory = "Lexington" + str(max_mules) + "/" + str(run) +"/"
+            lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-            if mule == 30:
-                T = 60
-            else:
-                T = 30
+            T = 30
 
             with open("constants.py", "r") as f:
                 lines = f.readlines()
@@ -37,8 +32,8 @@ if generate_files == "Y":
                             and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T = " not in line):
                         f.write(line)
                 f.write("T = " + str(T) + "\n")
-                f.write("V = " + str(mule + 15) + "\n")
-                f.write("NoOfDMs = " + str(mule) + "\n")
+                f.write("V = " + str(max_mules + 10) + "\n")
+                f.write("NoOfDMs = " + str(max_mules) + "\n")
                 f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
                 f.write("S = " + str(S) + "\n")
                 f.write("lex_data_directory = '" + str(lex_data_directory) + "'\n")
@@ -52,18 +47,15 @@ else:
     print("\n================ Trajectory files were NOT regenerated. \n")
 
 
-
-'''
-
 #run_simulation = input("Do you want to run the simulation?Y/N  ")
 
 number_of_runs = 2
 run_simulation = "Y"
 #TODO: Run the simulation
 if run_simulation == "Y":
-    for mules in range(10, 60, 10):
-        for ind in range(0, 1):
-            for run in range(2, 3):
+    for mules in range(65, 0, -20):
+        for ind in range(0, 2):
+            for run in range(1, 2):
 
                 if ind == 0:
                     S = [0, 1, 2, 3]
@@ -98,10 +90,7 @@ if run_simulation == "Y":
                 validate_data_directory = "Lexington" + str(mules) + "/" + str(run) + "/Day1/"
                 
                 #Set simulation time
-                if mules == 30:
-                    T = 60
-                else:
-                    T = 30
+                T = 30
                     
                 with open("constants.py", "r") as f:
                     lines = f.readlines()
@@ -114,7 +103,7 @@ if run_simulation == "Y":
                             f.write(line)
                     
                     f.write("T = " + str(T) + "\n")
-                    f.write("V = " + str(mules + 15) + "\n")
+                    f.write("V = " + str(mules + 10) + "\n")
                     f.write("NoOfDMs = " + str(mules) + "\n")
                     f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
                     f.write("S = " + str(S) + "\n")
@@ -133,5 +122,3 @@ if run_simulation == "Y":
 
 else:
     print("\n================== Simulation was NOT run.")
-
-'''
