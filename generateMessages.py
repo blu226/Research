@@ -9,7 +9,7 @@ def generate_messages():
     id = 0
     message_file.write("#id\tsrc\tdes\tTTL\tSize\tgenT\n")
 
-    while genT < 30:
+    while genT < 45:
         # t += 1
         number_sources = 0
         while number_sources < 15:
@@ -23,10 +23,10 @@ def generate_messages():
                 desired_TTL = random.randint(minTTL, TTL)
                 rand_size = random.uniform(0, 1)
 
-                if rand_size <= 0.75:
-                    size = random.choice(M[:3])
-                else:
-                    size = random.choice(M[3:])
+                # if rand_size <= 0.75:
+                size = random.choice(M)
+                # else:
+                #     size = random.choice(M[3:])
 
                 print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT))
                 message_file.write(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT) + "\n")
