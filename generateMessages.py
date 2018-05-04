@@ -12,23 +12,28 @@ def generate_messages():
     while genT < 45:
         # t += 1
         number_sources = 0
-        while number_sources < 20:
+        while number_sources < 15:
             src = random.randint(0, NoOfSources)
             # for src in range(NoOfSources):
             message_burst = random.randint(int(messageBurst[0]), messageBurst[1])
 
             #Number of messages generated at this source at this time
             for num in range(message_burst):
-                des = random.randint(NoOfSources, NoOfSources + NoOfDMs)
+                des = random.randint(NoOfSources, NoOfSources + NoOfDataCenters)
                 desired_TTL = random.randint(minTTL, TTL)
-                size = random.choice(M[:3])
+                rand_size = random.uniform(0, 1)
+
+                if rand_size <= 0.85:
+                    size = random.choice(M[:3])
+                else:
+                    size = M[3]
 
                 print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT))
                 message_file.write(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT) + "\n")
                 id += 1
 
             number_sources += 1
-        genT += random.randint(5, 10)
+        genT += random.randint(1, 10)
         # num = 1 * lambda_val * genT
         # genT = int(lambda_val * math.exp(num))
 
