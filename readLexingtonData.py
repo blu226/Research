@@ -178,12 +178,10 @@ if V < max_nodes:
 else:
 
     #TODO: Run it only for Day1
-    #if "Day1" in lex_data_directory_day:
-     #   print("New locations generated\n")
-      #  getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
-       # getBusRoutes(0, NoOfDMs)
-
-
+    if "Day1" in lex_data_directory_day:
+       print("New locations generated\n")
+       getSourceDesCoordinates(0, NoOfSources, (NoOfSources +  NoOfDataCenters))
+       getBusRoutes(0, NoOfDMs)
 
     # Randomly place sources and destination nodes (index from 0 to S -1)
     getLocationsOfSourcesAndDataCenters(0, NoOfSources + NoOfDataCenters)
