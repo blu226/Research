@@ -23,10 +23,10 @@ def generate_messages():
                 desired_TTL = random.randint(minTTL, TTL)
                 rand_size = random.uniform(0, 1)
 
-                if rand_size <= 0.85:
+                if rand_size <= 0.75:
                     size = random.choice(M[:3])
                 else:
-                    size = M[3]
+                    size = random.choice(M[3:])
 
                 print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT))
                 message_file.write(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" +  str(size) + "\t" + str(genT) + "\n")
