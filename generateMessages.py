@@ -9,7 +9,7 @@ def generate_messages():
     id = 0
     message_file.write("#id\tsrc\tdes\tTTL\tSize\tgenT\n")
 
-    while genT < 45:
+    while genT < 30:
         # t += 1
         number_sources = 0
         while number_sources < 15:
