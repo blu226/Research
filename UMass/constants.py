@@ -33,8 +33,8 @@ maxTau = 5
 # Message size
 M = [1, 10, 100, 1000]
 
-NoOfSources = 1
-NoOfDataCenters = 1
+NoOfSources = 5
+NoOfDataCenters = 4
 
 numSpec = 4 #always even if we only use one band
 
@@ -62,13 +62,13 @@ sensing_power = 0.04 #in Watts
 lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
-validate_data_directory = 'DataMules/'
+validate_data_directory = 'DataMules/2007-10-30_2007-11-08/Day1/'
 lex_data_directory = 'DataMules/2007-10-30_2007-11-08/'
 
 
 T = 800
-V = 5
-NoOfDMs = 3
+V = 14
+NoOfDMs = 4
 path_to_folder = 'Bands50/10/ALL/'
 S = [0, 1, 2, 3]
 
