@@ -60,7 +60,7 @@ class Network(object):
             spec_lines = fs.readlines()[1:]
         fs.close()
 
-        with open ("generated_messages.txt", "r") as fg:
+        with open (link_exists_folder + "generated_messages.txt", "r") as fg:
             msg_lines = fg.readlines()[1:]
 
         for msg_id in range(len(msg_lines)):

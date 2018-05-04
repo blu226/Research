@@ -5,7 +5,9 @@ import os
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
 def run_simulation_files(mules, T):
-    for ind in range(0, 5):
+
+   
+    for ind in range(0, 1):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
@@ -62,6 +64,10 @@ def run_simulation_files(mules, T):
         # print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
 
         os.system('python3 STB_main_path.py')
+        
+        if ind == 0:
+        	os.system('python3 generateMessage_new.py')
+
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
 
@@ -72,8 +78,11 @@ generate_files = "Y"
 #TODO: Generate the trajectory files
 if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
-    for max_mules in range(50, 0, -15):
-        for run in range(1, 6):
+
+    set_max_nodes = True
+    # max_nodes = 50
+    for max_mules in range(35, 5, -10):
+        for run in range(1, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -82,7 +91,11 @@ if generate_files == "Y":
             lex_data_directory = "Lexington" + str(max_mules) + "/" + str(run) +"/"
             lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-            T = 45
+            T = 30
+
+            if set_max_nodes == True:
+                max_nodes = max_mules
+                set_max_nodes = False
 
             with open("constants.py", "r") as f:
                 lines = f.readlines()
@@ -91,8 +104,11 @@ if generate_files == "Y":
                 for line in lines:
                     if ("path_to_folder" not in line) and ("S = " not in line) \
                             and ("link_exists_folder" not in line) and ("lex_data_directory" not in line) \
-                            and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T = " not in line):
+                            and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T = " not in line) \
+                            and ("max_nodes = " not in line):
                         f.write(line)
+                
+                f.write("max_nodes = " + str(max_nodes) + "\n")
                 f.write("T = " + str(T) + "\n")
                 f.write("V = " + str(max_mules + 10) + "\n")
                 f.write("NoOfDMs = " + str(max_mules) + "\n")
