@@ -12,22 +12,22 @@ from constants import *
 if not os.path.exists(path_to_folder):
     os.makedirs(path_to_folder)
 
-print("Spectrum bandwidth assigned: ")
+# print("Spectrum bandwidth assigned: ")
 # specBW = getSpecBW(lex_data_directory, V, S, T)             # Get the dynamic spectrum bandwidth
 specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
 
-print("Load LINK Exists: ")
+# print("Load LINK Exists: ")
 
 # LINK_EXISTS = createLinkExistenceADJ()   # only for sample graphs
 LINK_EXISTS = pickle.load(open(link_exists_folder + "LINK_EXISTS.pkl", "rb"))
 
-print("Initialization started: ")
+# print("Initialization started: ")
 
 ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 
 #============== For LLC case =======================
 
-print("LLC path computation started: ")
+# print("LLC path computation started: ")
 LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M)
 
 ADJ_T_file = open(path_to_folder + "ADJ_T.pkl", 'wb')
@@ -49,7 +49,7 @@ spec_file.close()
 save_4D_in_file(path_to_folder + "Parent.txt", Parent)
 save_4D_in_file(path_to_folder+ "Spectrum.txt", Spectrum)
 
-print("LLC paths being calculated: ")
+# print("LLC paths being calculated: ")
 # PRINT_LLC_PATH_FILE(LLC_Path, ELC_Path, Parent, Spectrum)
 # PRINT_PATH_FILE_backup(LLC_Path, Parent, Spectrum)
 PRINT_LLC_PATH_FILE_3(LLC_Path, ELC_Path, Parent, Spectrum)
