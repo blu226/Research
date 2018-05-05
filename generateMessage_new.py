@@ -20,9 +20,17 @@ for line in path_lines:
     t = random.randint(0, int(1.5 * T))
 
     if src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
-        message_file.write(
-            str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
-                t) + "\n")
+        p = random.randint(0, 1)
+
+        if p < 0.25:
+            message_file.write(
+                str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
+                    t) + "\n")
+        else:
+            message_file.write(
+                str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
+                    genT) + "\n")
+
         # print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(genT) )
 
         id += 1
