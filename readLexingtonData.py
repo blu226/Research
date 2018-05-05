@@ -159,6 +159,7 @@ def copy_files():
 LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
+T = 120
 
 if not os.path.exists(lex_data_directory_day):
     os.makedirs(lex_data_directory_day)
@@ -172,7 +173,7 @@ readTrajectoryFile(DMTrajectories)
 print("Length of DM trajectories: ", len(DMTrajectories))
 
 #Just copy files, we don't have to get the trajectories
-if V < max_nodes:
+if V - NoOfDataCenters - NoOfSources < max_nodes:
     copy_files()
 
 else:
