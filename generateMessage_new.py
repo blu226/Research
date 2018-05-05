@@ -22,7 +22,7 @@ for line in path_lines:
     if src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
         message_file.write(
             str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
-                genT) + "\n")
+                t) + "\n")
         # print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(genT) )
 
         id += 1
