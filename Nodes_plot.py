@@ -4,8 +4,8 @@ from STB_help import *
 
 
 #TODO: This is the number of nodes [10, 20, 30, 40, 50]
-time_epochs = 3 #No of nodes
-runs = 2
+time_epochs = 5 #No of nodes
+runs = 5
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(time_epochs,runs))
 LTE = np.zeros(shape=(time_epochs,runs))
@@ -14,7 +14,7 @@ CBRS = np.zeros(shape=(time_epochs,runs))
 ISM = np.zeros(shape=(time_epochs,runs))
 
 # folder_names = ["Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands35/", "Bands40/", "Bands45/", "Bands50/" ]
-folder_names = ["Bands10/","Bands30/", "Bands50/" ]
+folder_names = ["Bands5/","Bands20/", "Bands35/", "Bands50/", "Bands65/" ]
 file_name = "metrics_LLC_day1.txt"
 p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
@@ -95,7 +95,7 @@ for i in range(time_epochs):
 
 
 # x = np.array([5, 10, 15, 20, 25, 30, 35, 40, 45, 50])
-x = np.array([10, 30, 50])
+x = np.array([5, 20, 35, 50, 65])
 # plt.xlim(8, 51)
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)

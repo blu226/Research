@@ -12,7 +12,8 @@ TV = np.zeros(shape=(time_epochs,runs))
 CBRS = np.zeros(shape=(time_epochs,runs))
 ISM = np.zeros(shape=(time_epochs,runs))
 
-folders = os.listdir("Bands/")
+folder_name = "Bands35/"
+folders = os.listdir(folder_name)
 file_name = "metrics_LLC_day1.txt"
 p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
@@ -21,12 +22,12 @@ folders.sort()
 print("Folders: ", folders)
 for f_id in range(len(folders)):
     print("============= Current folder ", folders[f_id])
-    band_type_folders = os.listdir("Bands/" + folders[f_id])
+    band_type_folders = os.listdir(folder_name + folders[f_id])
     for bt_id in range(len(band_type_folders)):
-        if os.path.isdir("Bands/" + folders[f_id] +"/" + band_type_folders[bt_id]):
+        if os.path.isdir(folder_name + folders[f_id] +"/" + band_type_folders[bt_id]):
             t = 0
             # if "ALL" in band_type_folders[bt_id]:
-            f = open("Bands" + "/" + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_name, "r")
+            f = open(folder_name + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_name, "r")
             lines = f.readlines()[1:]
 
             for line in lines:
