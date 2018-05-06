@@ -1,7 +1,7 @@
 from constants import *
 import random
 
-message_file = open(link_exists_folder + "generated_messages.txt", "w")
+message_file = open("generated_messages.txt", "w")
 with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 fp.close()
@@ -17,10 +17,20 @@ for line in path_lines:
     size = int(line_arr[3])
     desired_TTL = random.randint(minTTL, TTL)
 
-    t = random.randint(0, int(1.5 * T))
+    path = line_arr[4:]
 
-    if src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
-        p = random.randint(0, 1)
+    generateMessage = False
+
+    if len(set(path)) >2:
+        for nodeId in path:
+            if int(nodeId) >= NoOfSources + NoOfDataCenters:
+                generateMessage = True
+
+    t = random.randint(0, int(1.5 * 30))
+
+    if generateMessage == True and src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
+
+        p = random.uniform(0, 1)
 
         if p < 0.25:
             message_file.write(

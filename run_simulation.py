@@ -4,10 +4,10 @@ import os
 #number_of_runs = input("Input number of runs?  ")
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
-def run_simulation_files(mules, T, max_nodes):
+def run_simulation_files(mules, T, max_nodes, run):
 
    
-    for ind in range(0, 1):
+    for ind in range(0, 5):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
@@ -65,7 +65,7 @@ def run_simulation_files(mules, T, max_nodes):
 
         os.system('python3 STB_main_path.py')
         
-        if ind == 0 and max_mules == max_nodes:
+        if ind == 0 and max_mules == max_nodes and run == 1:
         	os.system('python3 generateMessage_new.py')
 
         os.system('python3 main2.py')
@@ -81,7 +81,8 @@ if generate_files == "Y":
 
     set_max_nodes = True
     # max_nodes = 50
-    for max_mules in range(15, 0, -10):
+    mule_set = [50, 35, 20, 5, 0]
+    for max_mules in mule_set:
         for run in range(1, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
@@ -121,7 +122,7 @@ if generate_files == "Y":
             os.system('python3 readLexingtonData.py')
             os.system('python3 computeLINKEXISTS.py')
 
-            run_simulation_files(max_mules, T, max_nodes)
+            run_simulation_files(max_mules, T, max_nodes, run)
 
 else:
     print("\n================ Trajectory files were NOT regenerated. \n")
