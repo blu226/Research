@@ -65,7 +65,7 @@ def run_simulation_files(mules, T, max_nodes, run):
 
         os.system('python3 STB_main_path.py')
         
-        if ind == 0 and max_mules == max_nodes and run == 1:
+        if ind == 0 and max_mules == max_nodes:
         	os.system('python3 generateMessage_new.py')
 
         os.system('python3 main2.py')
