@@ -32,7 +32,7 @@ minTTL = 20
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 10, 100, 500, 1000]
+M = [1, 50, 100, 250, 500]
 
 NoOfSources = 7
 NoOfDataCenters = 3
@@ -53,8 +53,8 @@ spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
 epsilon = 0.5             #energy consumed in temporal link
 
 #Channel sensing, transmission, spectrum handoff
-t_sd = 0.16   #in minutes - 10s
-t_td = 0.5     #in minutes - 30s
+t_sd = 0.5   #in minutes - 10s
+t_td = 1     #in minutes - 30s
 idle_channel_prob = 0.5
 
 switching_delay = 0.001 #in joules
@@ -65,13 +65,13 @@ lambda_val = 0.1   #lambda in exponential function
 messageBurst = [5, 10]
 
 
-validate_data_directory = 'Lexington50/1/Day1/'
-max_nodes = 35
+max_nodes = 50
 T = 30
-V = 45
-NoOfDMs = 35
-path_to_folder = 'Bands35/1/ALL/'
-S = [0, 1, 2, 3]
-lex_data_directory = 'Lexington35/1/'
-lex_data_directory_day = 'Lexington35/1/Day1/'
-link_exists_folder = 'Bands35/1/'
+V = 10
+NoOfDMs = 0
+path_to_folder = 'Bands0/1/CBRS/'
+S = [3]
+validate_data_directory = 'Lexington0/1/Day1/'
+lex_data_directory = 'Lexington0/1/'
+lex_data_directory_day = 'Lexington0/1/Day1/'
+link_exists_folder = 'Bands0/1/'
