@@ -28,7 +28,9 @@ for line in path_lines:
 
     t = random.randint(0, int(1.5 * 30))
 
-    if generateMessage == True and src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
+    rand = random.uniform(0, 1)
+
+    if generateMessage == True and rand < 0.2 and src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
 
         p = random.uniform(0, 1)
 
