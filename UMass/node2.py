@@ -50,7 +50,7 @@ class Node(object):                                                             
         curr_coorX, curr_coorY = self.get_attributes(curr, t + StartTime, s)
         next_coorX, next_coorY = self.get_attributes(next, t + StartTime, s)
 
-        print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
+       # print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
         # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
         if curr_coorX == -1 or next_coorX == -1:
             return False

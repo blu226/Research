@@ -31,10 +31,7 @@ minTTL = 15
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 10, 100, 1000]
-
-NoOfSources = 3
-NoOfDataCenters = 3
+M = [1, 10, 25, 50, 100, 500, 750, 1000]
 
 numSpec = 4 #always even if we only use one band
 
@@ -44,9 +41,9 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
-spectRange = [300, 80, 200, 30]        # Transmission coverage for each spectrum band
+spectRange = [900, 230, 600, 180]        # Transmission coverage for each spectrum band
 # specRange = [1, 2, 0.5]
-spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
+spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 
 epsilon = 0.5             #energy consumed in temporal link
 
@@ -62,17 +59,21 @@ sensing_power = 0.04 #in Watts
 lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
+
+T = 120
+V = 22
+NoOfDMs = 10
+NoOfSources = 8
+NoOfDataCenters = 4
+
+
+
+lex_data_directory_day = 'DataMules/2007-11-03_2007-11-04/Day1/'
+link_exists_folder = 'Bands/'
 validate_data_directory = 'DataMules/2007-11-03_2007-11-04/Day1/'
 lex_data_directory = 'DataMules/2007-11-03_2007-11-04/'
 
-T = 250
-V = 14
-NoOfDMs = 3
-path_to_folder = 'Bands50/10/ALL/'
-S = [0, 1, 2, 3]
-
-lex_data_directory_day = 'DataMules/2007-11-03_2007-11-04/Day1/'
-link_exists_folder = 'Bands50/10/'
-
-
+#Used for UMass data simulation
 StartTime = 775
+path_to_folder = 'Bands/ALL/'
+S = [0, 1, 2, 3]

@@ -68,11 +68,11 @@ def createLinkExistenceADJ():
 
     if ".DS_Store" in fileList:
         fileList.remove(".DS_Store")
-    # fileList.sort()
-    noOfFiles = len(fileList)
+        noOfFiles = len(fileList)
 
-    print("Files " + str(noOfFiles), fileList)
-    print("#ts te i j s \n")
+    #print("Files " + str(noOfFiles), fileList)
+    #print("#ts te i j s \n")
+
     for ts in range(0, T - dt, dt):
         for te in range(ts + dt, ts + maxTau, dt):
             for file1 in fileList:

@@ -37,7 +37,7 @@ def getCoord():
 
         fileLen = len(lines)
         for j in range(2):
-            rand = random.randint(0, fileLen)
+            rand = random.randint(0, fileLen - 1)
 
             line = lines[rand].strip()
             line = line.split()
@@ -45,7 +45,7 @@ def getCoord():
             longs.append(line[3])
 
     with open("src_dst.txt", "w") as fp:
-        while(len(lats) > 0):
+        while(len(lats) > 8):
             fp.write(lats.pop() + " " + longs.pop() + "\n")
 
 
@@ -65,4 +65,4 @@ for i in range(len(lines)):
         for j in range(StartTime, T + StartTime):
             fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")
 
-findDistance()
+#findDistance()
