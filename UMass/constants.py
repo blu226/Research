@@ -29,12 +29,12 @@ tau = 1 # Instead of looking at each dt, we would look at tau as this is the min
 TTL = 30
 minTTL = 15
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
-maxTau = 5
+maxTau = 10
 # Message size
 M = [1, 10, 100, 1000]
 
-NoOfSources = 5
-NoOfDataCenters = 4
+NoOfSources = 3
+NoOfDataCenters = 3
 
 numSpec = 4 #always even if we only use one band
 
@@ -44,15 +44,15 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
-spectRange = [2000, 500, 1500, 350]        # Transmission coverage for each spectrum band
+spectRange = [300, 80, 200, 30]        # Transmission coverage for each spectrum band
 # specRange = [1, 2, 0.5]
 spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
 
 epsilon = 0.5             #energy consumed in temporal link
 
 #Channel sensing, transmission, spectrum handoff
-t_sd = 0.16   #in minutes - 10s
-t_td = 0.5     #in minutes - 30s
+t_sd = 0.5   #in minutes - 10s
+t_td = 1     #in minutes - 30s
 idle_channel_prob = 0.5
 
 switching_delay = 0.001 #in joules
@@ -62,15 +62,17 @@ sensing_power = 0.04 #in Watts
 lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
-validate_data_directory = 'DataMules/2007-10-30_2007-11-08/Day1/'
-lex_data_directory = 'DataMules/2007-10-30_2007-11-08/'
+validate_data_directory = 'DataMules/2007-11-03_2007-11-04/Day1/'
+lex_data_directory = 'DataMules/2007-11-03_2007-11-04/'
 
-
-T = 800
+T = 250
 V = 14
-NoOfDMs = 4
+NoOfDMs = 3
 path_to_folder = 'Bands50/10/ALL/'
 S = [0, 1, 2, 3]
 
-lex_data_directory_day = 'DataMules/2007-10-30_2007-11-08/Day1/'
+lex_data_directory_day = 'DataMules/2007-11-03_2007-11-04/Day1/'
 link_exists_folder = 'Bands50/10/'
+
+
+StartTime = 775

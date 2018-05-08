@@ -35,9 +35,12 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
             currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
             currIndexInFile2 += 1
 
+        if (currTimeInFile1 < ts or currTimeInFile2 < ts):
+
+            return False
         # Check if these two buses are in range between time period [ts, te]
-        while currTimeInFile1 < te and currTimeInFile2 < te and currIndexInFile1 < len(
-                linesInFile1) and currIndexInFile2 < len(linesInFile2):
+
+        while currTimeInFile1 < te and currTimeInFile2 < te and currIndexInFile1 < len(linesInFile1) and currIndexInFile2 < len(linesInFile2) and currTimeInFile1 >= ts and currTimeInFile2 >= ts :
 
             line1Arr = linesInFile1[currIndexInFile1].split()
             line2Arr = linesInFile2[currIndexInFile2].split()
@@ -45,7 +48,10 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
             # print("Here: " + str(currTimeInFile1) + " " + str(currTimeInFile2))
             # print(filepath1, filepath2, line1Arr[1], line1Arr[2], line2Arr[1], line2Arr[2], funHaversine(float(line1Arr[3]), float(line1Arr[2]), float(line2Arr[3]), float(line2Arr[2])) )
             #if euclideanDistance(float(line1Arr[1]), float(line1Arr[2]), float(line2Arr[1]), float(line2Arr[2])) > spectRange[s]:
-            if funHaversine(float(line1Arr[3]), float(line1Arr[2]), float(line2Arr[3]), float(line2Arr[2])) > spectRange[s]:
+            dist = funHaversine(float(line1Arr[3]), float(line1Arr[2]), float(line2Arr[3]), float(line2Arr[2]))
+            # if  '0' in filepath1 and ts == StartTime:
+            #     print(filepath1, filepath2, str(dist), str(spectRange[s]) )
+            if dist > spectRange[s]:
                 # print("Out of range")
                 return False
 
@@ -58,6 +64,7 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
 def createLinkExistenceADJ():
     fileList = findfiles(lex_data_directory_day)
+    fileList.sort()
 
     if ".DS_Store" in fileList:
         fileList.remove(".DS_Store")
@@ -66,7 +73,7 @@ def createLinkExistenceADJ():
 
     print("Files " + str(noOfFiles), fileList)
     print("#ts te i j s \n")
-    for ts in range(700, T - dt, dt):
+    for ts in range(0, T - dt, dt):
         for te in range(ts + dt, ts + maxTau, dt):
             for file1 in fileList:
                 for file2 in fileList:
@@ -85,10 +92,10 @@ def createLinkExistenceADJ():
                                 filepath2 = lex_data_directory_day + file2
 
                                 # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s))
-                                if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te) == True:
+                                if CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts + StartTime, te + StartTime) == True:
                                     LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
 
-                                    print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
+                                  #  print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
 
 # Main starts here
 
@@ -105,7 +112,7 @@ if not os.path.exists(path_to_folder):
     os.makedirs(path_to_folder)
 
 LE_file = open(link_exists_folder + "LINK_EXISTS.pkl", 'wb')
-pickle.dump(LINK_EXISTS, LE_file)
+pickle.dump(LINK_EXISTS, LE_file, protocol = 4)
 LE_file.close()
 
 print("Size of Link Exists: " + str(len(LINK_EXISTS)) + " " + str(len(LINK_EXISTS[0])) + " " + str(len(LINK_EXISTS[0][0])) + " " + str(len(LINK_EXISTS[0][0][0])))
@@ -117,7 +124,7 @@ print("Spectrum bandwidth assigned: ")
 specBW = getSpecBW(lex_data_directory_day, V, S, T)             # Get the dynamic spectrum bandwidth
 
 specBW_file = open(link_exists_folder + "specBW.pkl", 'wb')
-pickle.dump(specBW, specBW_file)
+pickle.dump(specBW, specBW_file, protocol = 4)
 specBW_file.close()
 
 save_4D_in_file(link_exists_folder + "specBW.txt", specBW)
