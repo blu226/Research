@@ -8,15 +8,15 @@ maxY = 100
 
 #Required to generate lexington synthetic data
 VMIN = 1000                    # Minimum Data Mule speed (in m/s)
-VMAX = 3000                   # Maximum Data mule speed (in m/s)
+VMAX = 2000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
 
 #Only required for main2.py to validate the created STB graph for different day
 
-delivery_file_name = "delivery_day2.txt"
+delivery_file_name = "delivery_day1.txt"
 
-metrics_file_name = "metrics_LLC_day2.txt"
+metrics_file_name = "metrics_LLC_day1.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
@@ -68,12 +68,12 @@ messageBurst = [5, 10]
 
 
 max_nodes = 50
-T = 30
-V = 45
-NoOfDMs = 35
-path_to_folder = 'Bands35/5/ALL/'
+T = 45
+V = 62
+NoOfDMs = 50
+path_to_folder = 'Bands50/1/ALL/'
 S = [0, 1, 2, 3]
-validate_data_directory = 'Lexington35/5/Day2/'
-lex_data_directory = 'Lexington35/5/'
-lex_data_directory_day = 'Lexington35/5/Day2/'
-link_exists_folder = 'Bands35/5/'
+validate_data_directory = 'Lexington50/1/Day1/'
+lex_data_directory = 'Lexington50/1/'
+lex_data_directory_day = 'Lexington50/1/Day1/'
+link_exists_folder = 'Bands50/1/'

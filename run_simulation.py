@@ -5,8 +5,8 @@ import os
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
 
 def run_simulation_files(mules, T, max_nodes, run):
-
-    band_types = [0, 3, 4, 1, 2]
+    #4, 1, 2
+    band_types = [0, 3, 2, 1, 4]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
@@ -47,13 +47,10 @@ def run_simulation_files(mules, T, max_nodes, run):
             for line in lines:
                 if ("path_to_folder" not in line) and ("S = " not in line) and (
                     "validate_data_directory" not in line) \
-                        and ("link_exists_folder" not in line) and ("lex_data_directory" not in line) \
-                        and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T =" not in line):
+                        and ("link_exists_folder" not in line) and ("lex_data_directory" not in line):
                     f.write(line)
 
-            f.write("T = " + str(T) + "\n")
-            f.write("V = " + str(mules + 12) + "\n")
-            f.write("NoOfDMs = " + str(mules) + "\n")
+
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
             f.write("S = " + str(S) + "\n")
             f.write("validate_data_directory = '" + str(validate_data_directory) + "'\n")
@@ -81,11 +78,11 @@ if generate_files == "Y":
 
     set_max_nodes = True
     max_nodes = 50
-    #mule_set = [65]
-    # mule_set = [50, 0, 45, 40, 35, 30, 25, 15, 10, 5]
-    mule_set = [50, 0, 1, 35, 30, 25, 20, 15, 10, 5, 2, 3]
+    src_des_nodes = 12
+    mule_set = [50, 0, 35, 20, 5]
+
     for max_mules in mule_set:
-        for run in range(1, 6):
+        for run in range(1, 4):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -94,10 +91,10 @@ if generate_files == "Y":
             lex_data_directory = "Lexington" + str(max_mules) + "/" + str(run) +"/"
             lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-            if max_mules == 25:
-                T = 60
+            if max_mules == 35:
+                T = 90
             else:
-                T = 30
+                T = 45
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -116,7 +113,7 @@ if generate_files == "Y":
                 
                 f.write("max_nodes = " + str(max_nodes) + "\n")
                 f.write("T = " + str(T) + "\n")
-                f.write("V = " + str(max_mules + 12) + "\n")
+                f.write("V = " + str(max_mules + src_des_nodes) + "\n")
                 f.write("NoOfDMs = " + str(max_mules) + "\n")
                 f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
                 f.write("S = " + str(S) + "\n")
