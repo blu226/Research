@@ -21,18 +21,20 @@ def funHaversine(lon1, lat1, lon2, lat2):
     # print(" dist: " + str(km))
     return m
 
+#top left
+lat1 = 42.378161
+lon1 = -72.633090
+#bottom left
+lat2 = 42.249248
+lon2 = -72.622827
+#bottom right
+lat3 = 42.265221
+lon3 = -72.472817
 
-lat1 = 42.457806
-lon1 = -72.581505
-lat2 = 42.36241
-lon2 = -72.48823
-
-lat3 = 42.390926
-lon3 = -72.525154
-
+#print distances to get dimensions of UMass bus routes
 dist1 = funHaversine(lon1, lat1, lon2, lat2)
-dist2 = funHaversine(lon1, lat1, lon3, lat3)
+#dist2 = funHaversine(lon1, lat1, lon3, lat3)
 dist3 = funHaversine(lon2, lat2, lon3, lat3)
 
-#print(str(dist1) + " " + str(dist2) + " " + str(dist3))
+#print(str(dist1/1000) + " "  + str(dist3/1000))
 

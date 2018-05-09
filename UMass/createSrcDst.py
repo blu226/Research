@@ -33,6 +33,7 @@ def getCoord():
     for i in range(NoOfDMs):
         with open(lex_data_directory_day + str(i) + ".txt") as fp:
             lines = fp.readlines()
+            #print(fp)
         fp.close()
 
         fileLen = len(lines)
@@ -41,8 +42,14 @@ def getCoord():
 
             line = lines[rand].strip()
             line = line.split()
+            while line[2] == '-' or line[2] == '0.0':
+                rand = random.randint(0, fileLen - 1)
+                line = lines[rand].strip()
+                line = line.split()
+
             lats.append(line[2])
             longs.append(line[3])
+
 
     with open("src_dst.txt", "w") as fp:
         while(len(lats) > 8):
@@ -56,11 +63,12 @@ with open("src_dst.txt", "r") as fp:
     lines = fp.readlines()
 fp.close()
 
+StartTime = 850
 
 for i in range(len(lines)):
     line = lines[i].strip()
 
-    with open(lex_data_directory_day + str(i+NoOfDMs) + ".txt", "w") as fp:
+    with open(lex_data_directory_day + str(i+NoOfDMs+1) + ".txt", "w") as fp:
 
         for j in range(StartTime, T + StartTime):
             fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")

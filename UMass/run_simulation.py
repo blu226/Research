@@ -45,7 +45,7 @@ def run_simulation_files():
             f.write("S = " + str(S) + "\n")
 
 
-        # print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
+        #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
         if ind == 0:
             os.system('python3 computeLINKEXISTS_UMass.py')
 
@@ -57,9 +57,6 @@ def run_simulation_files():
 
 
 #main
-
-
-os.system('python3 createSrcDst.py')
-
+# os.system('python3 createSrcDst.py')
 run_simulation_files()
 

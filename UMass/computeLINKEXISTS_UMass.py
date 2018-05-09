@@ -5,6 +5,19 @@ from STB_help import *
 from constants import *
 from computeHarvesine import *
 
+def getIndex(ts, currTimeInFile1, currTimeInFile2, currIndexInFile1, currIndexInFile2, linesInFile1, linesInFile2):
+    while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
+        currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+        currIndexInFile1 += 1
+
+    # # Go to ts - Skip all other lines up to ts
+    while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
+        currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
+        currIndexInFile2 += 1
+
+    return currIndexInFile1, currIndexInFile2
+
+
 def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
     with open(filepath1) as f1:
@@ -25,19 +38,23 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
     if currTimeInFile1 > ts or currTimeInFile2 > ts:
         return False
+
     else:
         # Go to ts - Skip all other lines up to ts
         while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
             currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
             currIndexInFile1 += 1
+
         # # Go to ts - Skip all other lines up to ts
         while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
             currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
             currIndexInFile2 += 1
 
-        if (currTimeInFile1 < ts or currTimeInFile2 < ts):
-
+        if (currTimeInFile1 != ts or currTimeInFile2 != ts):
+            #print(currTimeInFile1, currTimeInFile2, ts)
             return False
+
+        #print(currTimeInFile1, currTimeInFile2, ts)
         # Check if these two buses are in range between time period [ts, te]
 
         while currTimeInFile1 < te and currTimeInFile2 < te and currIndexInFile1 < len(linesInFile1) and currIndexInFile2 < len(linesInFile2) and currTimeInFile1 >= ts and currTimeInFile2 >= ts :
@@ -55,10 +72,27 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
                 # print("Out of range")
                 return False
 
-            currIndexInFile1 += 1
-            currIndexInFile2 += 1
-            currTimeInFile1 = float(line1Arr[0])
-            currTimeInFile2 = float(line2Arr[0])
+
+            ts += 1
+            if ts != te:
+                while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
+                    currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+                    currIndexInFile1 += 1
+
+                # # Go to ts - Skip all other lines up to ts
+                while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
+                    currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
+                    currIndexInFile2 += 1
+
+                if (currTimeInFile1 != ts or currTimeInFile2 != ts):
+                    # print(currTimeInFile1, currTimeInFile2, ts)
+                    return False
+
+            # currIndexInFile1 += 1
+            # currIndexInFile2 += 1
+            # currTimeInFile1 = float(line1Arr[0])
+            # currTimeInFile2 = float(line2Arr[0])
+
 
         return True
 

@@ -33,7 +33,7 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-delivery_times = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]
+delivery_times = [i for i in range(10, T + 10, 10)]
 
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\n")

@@ -22,15 +22,15 @@ for line in path_lines:
     generateMessage = False
 
     if len(set(path)) >2:
-        # for nodeId in path:
-        #     if int(nodeId) >= NoOfSources + NoOfDataCenters:
-        generateMessage = True
+        for nodeId in path:
+            if int(nodeId) <= NoOfDMs:
+                generateMessage = True
 
-    t = random.randint(0, int(1.5 * T))
+    t = random.randint(0, int(1.5 * T * 0.5))
 
     rand = random.uniform(0, 1)
 
-    if generateMessage == True and src < NoOfSources + NoOfDataCenters and des < NoOfSources + NoOfDataCenters:
+    if generateMessage == True and rand <= .05 and src > NoOfDMs -1 and src < NoOfDMs + NoOfSources and des > NoOfDMs + NoOfSources - 1:
 
         p = random.uniform(0, 1)
 
