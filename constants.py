@@ -7,20 +7,22 @@ minY = 0
 maxY = 100
 
 #Required to generate lexington synthetic data
-VMIN = 1000                    # Minimum Data Mule speed (in m/s)
-VMAX = 3000                   # Maximum Data mule speed (in m/s)
+VMIN = 2000                    # Minimum Data Mule speed (in m/s)
+VMAX = 6000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
 
 #Only required for main2.py to validate the created STB graph for different day
 
-delivery_file_name = "delivery_day1.txt"
+delivery_file_name = "delivery_day2.txt"
 
-metrics_file_name = "metrics_LLC_day1.txt"
+metrics_file_name = "metrics_LLC_day2.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
 route_start_time2 = 10
+
+wait_time = [3, 10]
 
 # Simulation Time  ---- 1 plus
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
@@ -32,10 +34,10 @@ minTTL = 20
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 50, 100, 250, 500]
+M = [1, 10, 25, 50, 100, 500, 750, 1000]
 
-NoOfSources = 7
-NoOfDataCenters = 3
+NoOfSources = 8
+NoOfDataCenters = 4
 
 numSpec = 4 #always even if we only use one band
 
@@ -46,9 +48,9 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
-spectRange = [1700, 250, 600, 450]
+spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
-spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
+spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 
 epsilon = 0.5             #energy consumed in temporal link
 
@@ -67,11 +69,11 @@ messageBurst = [5, 10]
 
 max_nodes = 50
 T = 30
-V = 10
-NoOfDMs = 0
-path_to_folder = 'Bands0/1/CBRS/'
-S = [3]
-validate_data_directory = 'Lexington0/1/Day1/'
-lex_data_directory = 'Lexington0/1/'
-lex_data_directory_day = 'Lexington0/1/Day1/'
-link_exists_folder = 'Bands0/1/'
+V = 45
+NoOfDMs = 35
+path_to_folder = 'Bands35/5/TV/'
+S = [0]
+validate_data_directory = 'Lexington35/5/Day2/'
+lex_data_directory = 'Lexington35/5/'
+lex_data_directory_day = 'Lexington35/5/Day2/'
+link_exists_folder = 'Bands35/5/'

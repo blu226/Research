@@ -4,7 +4,7 @@ from STB_help import *
 
 
 #TODO: This is the number of nodes [10, 20, 30, 40, 50]
-time_epochs = 5 #No of nodes
+time_epochs = 10 #No of nodes
 runs = 5
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(time_epochs,runs))
@@ -13,10 +13,11 @@ TV = np.zeros(shape=(time_epochs,runs))
 CBRS = np.zeros(shape=(time_epochs,runs))
 ISM = np.zeros(shape=(time_epochs,runs))
 
-# folder_names = ["Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands35/", "Bands40/", "Bands45/", "Bands50/" ]
-folder_names = ["Bands5/","Bands20/", "Bands35/", "Bands50/", "Bands65/" ]
+folder_names = ["Bands0/", "Bands1/", "Bands3/", "Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands50/"]
+# folder_names = ["Bands5/","Bands20/", "Bands35/", "Bands50/"]
 file_name = "metrics_LLC_day1.txt"
-p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+p_id = 2 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+
 
 #TODO: Here t is the number of nodes
 t = 0
@@ -25,11 +26,11 @@ for folder_name in folder_names:
     folders = os.listdir(folder_name)
     folders.sort()
     # folders = ["1", "2", "3", "4", "5"]
-    print("Folders: ", folders)
+    # print("Folders: ", folders)
 
     #For each run
     for f_id in range(runs):
-        print("============= Current folder ", folder_name, " ", folders[f_id])
+        # print("============= Current folder ", folder_name, " ", folders[f_id])
         band_type_folders = os.listdir(folder_name + folders[f_id])
 
         #For each band type
@@ -45,7 +46,7 @@ for folder_name in folder_names:
                     if "30" in line_arr[0]:
 
                         if "ALL" in band_type_folders[bt_id]:
-                            print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
+                            # print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
                             ALL[t][f_id] = line_arr[p_id].split(" ")[0]
 
                         elif "TV" in band_type_folders[bt_id]:
@@ -79,8 +80,8 @@ CBRS_SD = []
 
 
 for i in range(time_epochs):
-    print("\n", ALL[i])
-    print(TV[i])
+    print("\n", " Node ", i, ALL[i])
+    #print(TV[i])
 
     ALL_mean.append(np.mean(ALL[i]))
     ALL_SD.append(np.std(ALL[i]))
@@ -94,9 +95,10 @@ for i in range(time_epochs):
     CBRS_SD.append(np.std(CBRS[i]))
 
 
-# x = np.array([5, 10, 15, 20, 25, 30, 35, 40, 45, 50])
-x = np.array([5, 20, 35, 50, 65])
+x = np.array([2, 5, 7, 10, 15, 20, 25, 30, 35, 40])
+# x = np.array([5, 20, 35, 50])
 # plt.xlim(8, 51)
+plt.xticks(x)
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
@@ -105,18 +107,25 @@ if p_id == 1:
     plt.ylabel('Packet delivery ratio',  fontsize=25)
     plt.xlabel('Number of nodes', fontsize=25)
     plt.ylim(0, 1)
+    # plt.xlim(0, 50)
     plt.yticks(fontsize=25)
     fig_name = "Plots/pdr_nodes_error_bars.eps"
 
-    plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
-    plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
-    plt.errorbar(x, TV_mean, [x * 0.5 for x in TV_SD])
-    plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
-    plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
+    # plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
+    # plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
+    # plt.errorbar(x, TV_mean, [x * 0.5 for x in TV_SD])
+    # plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
+    # plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
+
+    plt.errorbar(x, ALL_mean, [x  for x in ALL_SD])
+    plt.errorbar(x, LTE_mean, [x for x in LTE_SD])
+    plt.errorbar(x, TV_mean, [x for x in TV_SD])
+    plt.errorbar(x, ISM_mean, [x for x in ISM_SD])
+    plt.errorbar(x, CBRS_mean, [x for x in CBRS_SD])
 
 if p_id == 2:
     plt.ylabel('Latency (in minutes)',  fontsize=25)
-    plt.xlabel('Simulation time',  fontsize=25)
+    plt.xlabel('Number of nodes',  fontsize=25)
     fig_name = "Plots/latency_nodes_error_bars.eps"
 
     plt.errorbar(x, [x * 2 for x in ALL_mean], [x * 0.5 for x in ALL_SD])
@@ -136,7 +145,7 @@ if p_id == 3:
     plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
     plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
 
-plt.legend(['X-CHANTS', 'LTE', 'TV', 'ISM', 'CBRS'], loc = "upper left", fontsize = 15)
+plt.legend(['X-CHANTS', 'LTE', 'TV', 'ISM', 'CBRS'], loc = "upper left", ncol = 3, fontsize = 15)
 
 plt.tight_layout()
 plt.savefig(fig_name)

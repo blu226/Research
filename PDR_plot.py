@@ -4,7 +4,7 @@ from STB_help import *
 
 
 time_epochs = 7
-runs = 10
+runs = 5
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(time_epochs,runs))
 LTE = np.zeros(shape=(time_epochs,runs))
