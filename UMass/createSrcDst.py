@@ -59,7 +59,7 @@ def getCoord():
 
 getCoord()
 
-with open("src_dst.txt", "r") as fp:
+with open("SRC_DST.txt", "r") as fp:
     lines = fp.readlines()
 fp.close()
 
@@ -68,7 +68,7 @@ StartTime = 850
 for i in range(len(lines)):
     line = lines[i].strip()
 
-    with open(lex_data_directory_day + str(i+NoOfDMs+1) + ".txt", "w") as fp:
+    with open(lex_data_directory_day + str(i+NoOfDMs) + ".txt", "w") as fp:
 
         for j in range(StartTime, T + StartTime):
             fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")

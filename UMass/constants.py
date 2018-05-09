@@ -31,7 +31,7 @@ minTTL = 15
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 10, 25, 50, 100, 500, 750, 1000]
+M = [1, 10, 25, 50, 100]
 
 numSpec = 4 #always even if we only use one band
 
@@ -61,9 +61,9 @@ messageBurst = [2, 5]
 
 
 T = 120
-V = 13
+V = 16
 NoOfDMs = 7
-NoOfSources = 3
+NoOfSources = 6
 NoOfDataCenters = 3
 
 
@@ -75,5 +75,5 @@ lex_data_directory = 'DataMules/2007-11-03_2007-11-04/'
 
 #Used for UMass data simulation
 StartTime = 850
-path_to_folder = 'Bands/ALL/'
-S = [0, 1, 2, 3]
+path_to_folder = 'Bands/CBRS/'
+S = [3]
