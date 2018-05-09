@@ -52,7 +52,7 @@ def run_simulation_files(mules, T, max_nodes, run):
                     f.write(line)
 
             f.write("T = " + str(T) + "\n")
-            f.write("V = " + str(mules + 10) + "\n")
+            f.write("V = " + str(mules + 12) + "\n")
             f.write("NoOfDMs = " + str(mules) + "\n")
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
             f.write("S = " + str(S) + "\n")
@@ -83,7 +83,7 @@ if generate_files == "Y":
     max_nodes = 50
     #mule_set = [65]
     # mule_set = [50, 0, 45, 40, 35, 30, 25, 15, 10, 5]
-    mule_set = [25]
+    mule_set = [50, 0, 1, 35, 30, 25, 20, 15, 10, 5, 2, 3]
     for max_mules in mule_set:
         for run in range(1, 6):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))

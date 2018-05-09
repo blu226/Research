@@ -7,8 +7,8 @@ minY = 0
 maxY = 100
 
 #Required to generate lexington synthetic data
-VMIN = 2000                    # Minimum Data Mule speed (in m/s)
-VMAX = 6000                   # Maximum Data mule speed (in m/s)
+VMIN = 1000                    # Minimum Data Mule speed (in m/s)
+VMAX = 3000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
 
@@ -71,8 +71,8 @@ max_nodes = 50
 T = 30
 V = 45
 NoOfDMs = 35
-path_to_folder = 'Bands35/5/TV/'
-S = [0]
+path_to_folder = 'Bands35/5/ALL/'
+S = [0, 1, 2, 3]
 validate_data_directory = 'Lexington35/5/Day2/'
 lex_data_directory = 'Lexington35/5/'
 lex_data_directory_day = 'Lexington35/5/Day2/'

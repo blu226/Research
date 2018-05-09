@@ -52,7 +52,7 @@ def run_simulation_files(mules, T, max_nodes, run):
                     f.write(line)
 
             f.write("T = " + str(T) + "\n")
-            f.write("V = " + str(mules + 10) + "\n")
+            f.write("V = " + str(mules + 12) + "\n")
             f.write("NoOfDMs = " + str(mules) + "\n")
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
             f.write("S = " + str(S) + "\n")
@@ -82,7 +82,7 @@ if generate_files == "Y":
     set_max_nodes = True
     max_nodes = 50
     #mule_set = [65]
-    mule_set = [50, 0, 1, 2, 3, 4, 45, 40, 35, 30, 25, 20, 15, 10, 5]
+    mule_set = [50, 0, 1, 35, 30, 25, 20, 15, 10, 5, 2, 3]
     # mule_set = [25]
     for max_mules in mule_set:
         for run in range(1, 6):
@@ -95,7 +95,7 @@ if generate_files == "Y":
             lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
 
             if max_mules == 25:
-                T = 30
+                T = 60
             else:
                 T = 30
 

@@ -27,7 +27,9 @@ def readTrajectoryFile(DMTrajectories):
 def getSourceDesCoordinates(src_start, src_end, des_end):
     village_coors = []
     for srcID in range(src_start, des_end, 1):
-        village_coors.append(random.choice(DMTrajectories[srcID % len(DMTrajectories)]))
+        rand_location = random.choice(DMTrajectories[srcID % len(DMTrajectories)])
+        print("Route ID", srcID%len(DMTrajectories), rand_location)
+        village_coors.append(rand_location)
 
     f = open(lex_data_directory + "village_coor.pkl", 'wb')
     pickle.dump(village_coors, f)
@@ -88,6 +90,11 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
         chosen_trajectory_id  = bus_route_ids[ind]
         eachDM = DMTrajectories[chosen_trajectory_id]
 
+        villageCoor = pickle.load(open(lex_data_directory + "village_coor.pkl", "rb"))
+
+        # print("Village coors", villageCoor)
+        # print("Bus route ", bus_route_ids[ind], DMTrajectories[bus_route_ids[ind]], "\n")
+
         # print("Trajectory " +  str(len(eachDM)) + " : " + str(eachDM))
 
         with open(lex_data_directory_day + "/"+ str(dmID)+".txt", "w") as dmP:
@@ -100,6 +107,8 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
             # By default, move in the forward direction
             isDirectionForward = True
 
+            chosen_wait_time = random.choice(wait_time)
+
             for t in range(currTime, T, dt):
                 prevCoors = eachDM[currCoorID].strip().split(' ')
                 currCoors = eachDM[nextCoorID].strip().split(' ')
@@ -107,7 +116,15 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
                 consumedTime = euclideanDistance(prevCoors[0], prevCoors[1], currCoors[0], currCoors[1])/dmSpeed
                 # print("Curr " + str(currCoorID) + " Next " + str(nextCoorID) + " consTime: " + str(consumedTime))
 
-                if consumedTime > t or t == T- dt:
+
+                # if prevCoors in villageCoor:
+                if eachDM[currCoorID] in villageCoor and chosen_wait_time > 0:
+                    chosen_wait_time -= 1
+                    dmP.write(str(t) + " " + eachDM[currCoorID].strip() + " ")
+                    # if chosen_wait_time == 1:
+                    #     print("Bus ", chosen_trajectory_id, " Time: " , t, " Coor: ", prevCoors, " Cons Time: ", consumedTime)
+
+                elif consumedTime > t or t == T- dt:
                     # Stay in the same location
                     # print (str(t) + " " + str(eachDM[currCoorID]))
                     dmP.write(str(t) + " " + eachDM[currCoorID].strip() + " ")
@@ -151,8 +168,6 @@ def copy_files():
         dst = lex_data_directory_day + str(i) + ".txt"
         copyfile(src, dst)
 
-
-
 # Main starts here
 
 # This function is independent of tau
@@ -172,7 +187,7 @@ readTrajectoryFile(DMTrajectories)
 
 print("Length of DM trajectories: ", len(DMTrajectories))
 
-#Just copy files, we don't have to get the trajectories
+# #Just copy files, we don't have to get the trajectories
 if V - NoOfDataCenters - NoOfSources < max_nodes:
     copy_files()
 
