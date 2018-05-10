@@ -6,7 +6,7 @@ import os
 
 def run_simulation_files():
 
-    for ind in range(0, 5):
+    for ind in range(5):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]

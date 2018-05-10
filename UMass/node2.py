@@ -82,13 +82,13 @@ class Node(object):                                                             
 
             # print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next,
             #       " over band: ", s - 1)
-            # print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
+           # print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
 
             #Change s in between 0 and S
             s = s % 10
             # print("S is greater 9, ", s)
 
-            # If two nodes are not in communication range
+            #If two nodes are not in communication range
             # if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
             #     #we keep it to the current node
             #     print("========= Not in range. Do not forward the message." + str(message.curr) + " " + str(next))

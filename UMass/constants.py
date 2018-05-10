@@ -31,7 +31,7 @@ minTTL = 15
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 10, 25, 50, 100]
+M = [1, 10, 25, 50, 100, 500, 750, 1000]
 
 numSpec = 4 #always even if we only use one band
 
@@ -60,7 +60,7 @@ lambda_val = 1   #lambda in exponential function
 messageBurst = [2, 5]
 
 
-T = 120
+T = 90
 V = 16
 NoOfDMs = 7
 NoOfSources = 6

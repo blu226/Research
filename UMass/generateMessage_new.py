@@ -30,7 +30,7 @@ for line in path_lines:
 
     rand = random.uniform(0, 1)
 
-    if generateMessage == True and rand <= .5 and src >= NoOfDMs -1 and src < NoOfDMs + NoOfSources and des >= NoOfDMs + NoOfSources:
+    if generateMessage == True and rand <= .5 and src >= NoOfDMs and src < NoOfDMs + NoOfSources and des >= NoOfDMs + NoOfSources :
 
         p = random.uniform(0, 1)
 

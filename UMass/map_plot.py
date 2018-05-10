@@ -58,26 +58,27 @@ folders.sort()
 
 folderLen = len(folders)
 
-print("All folders: "  + str(folders))
+#print("All folders: "  + str(folders))
 
 curr = os.getcwd()
 
 #For each bus
-for ind in range(0, folderLen, 1):
+for ind in range(0, 1, 1):
 #    if ".DS_Store" not in folders:
  #       print("Current Folder " + folders[ind])
 
-    print("Folder is: " + str(folders[ind]))
-    folderPath = directory + "/" + str(folders[ind])
+    #print("Folder is: " + str(folders[ind]))
+    folderPath = directory + str(folders[ind])
     currFiles = findfiles(folderPath)
     currFiles.sort()
+    print(currFiles)
 
     # For all days
     allPaths = []
     numOfFiles = len(currFiles)
     #For each day
     for fInd in range(0, numOfFiles):
-        print("Current File "  + currFiles[fInd])
+        #print("Current File "  + currFiles[fInd])
         filePath = folderPath + "/" + currFiles[fInd]
         currPath = readFile(filePath, folders[ind] + "_" + currFiles[fInd])
         allPaths.append(currPath)
@@ -96,8 +97,9 @@ for ind in range(0, folderLen, 1):
     if not os.path.exists("HTML_UMass"):
         os.makedirs("HTML_UMass")
     os.chdir("HTML_UMass")
-
-    for pInd in range(len(allPaths)):
+    #2,3,4,5,6,7,13,14,15
+    #[2,3,4,5,6,7,13,14,15]
+    for pInd in [2,3,4,5,6,7,13,14,15]:
 
         # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
         # print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))

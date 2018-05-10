@@ -57,7 +57,7 @@ def getCoord():
 
 
 
-getCoord()
+#getCoord()
 
 with open("SRC_DST.txt", "r") as fp:
     lines = fp.readlines()
