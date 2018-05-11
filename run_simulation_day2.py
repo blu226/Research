@@ -45,8 +45,8 @@ def run_simulation_files(mules, T, max_nodes, run):
 
         with open("constants.py", "w") as f:
             for line in lines:
-                if ("path_to_folder" not in line) and ("S = " not in line) and (
-                    "validate_data_directory" not in line) \
+                if ("path_to_folder" not in line) and ("S = " not in line) \
+                and ("validate_data_directory" not in line) \
                 and ("link_exists_folder" not in line) and ("lex_data_directory" not in line):
                     f.write(line)
 
@@ -56,6 +56,7 @@ def run_simulation_files(mules, T, max_nodes, run):
             f.write("lex_data_directory = '" + str(lex_data_directory) + "'\n")
             f.write("lex_data_directory_day = '" + str(lex_data_directory_day) + "'\n")
             f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
+
 
         # print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
 
@@ -105,9 +106,11 @@ if generate_files == "Y":
             with open("constants.py", "w") as f:
                 for line in lines:
                     if ("path_to_folder" not in line) and ("S = " not in line) \
-                            and ("link_exists_folder" not in line) and ("lex_data_directory" not in line) \
-                            and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T = " not in line) \
-                            and ("max_nodes = " not in line):
+                        and ("link_exists_folder" not in line) and ("lex_data_directory" not in line) \
+                        and ("V = " not in line) and ("NoOfDMs = " not in line) and ("T = " not in line) \
+                        and ("max_nodes = " not in line) \
+                        and ("delivery_file_name" not in line) \
+                        and ("metrics_file_name" not in line):
                         f.write(line)
                 
                 f.write("max_nodes = " + str(max_nodes) + "\n")
@@ -119,6 +122,8 @@ if generate_files == "Y":
                 f.write("lex_data_directory = '" + str(lex_data_directory) + "'\n")
                 f.write("lex_data_directory_day = '" + str(lex_data_directory_day) + "'\n")
                 f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
+                f.write("delivery_file_name = " + '"delivery_day2.txt"' + "\n")
+                f.write("metrics_file_name = " + '"metrics_LLC_day2.txt"' + "\n")
 
             os.system('python3 readLexingtonData.py')
             # os.system('python3 computeLINKEXISTS.py')
