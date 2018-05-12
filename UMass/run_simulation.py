@@ -27,6 +27,8 @@ def create_new_constants_file(day, V, T):
     f.close()
     
 def run_simulation_files(day, V, T):
+    
+    print("Day: ", str(day), " V: ", str(V), " T: ", str(T))
 
     create_new_constants_file(day, V, T)
 
