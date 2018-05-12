@@ -14,8 +14,8 @@ VMAX = 5000                   # Maximum Data mule speed (in m/s)
 
 #Only required for main2.py to validate the created STB graph for different day
 
-delivery_file_name = "delivery_day1.txt"
-metrics_file_name = "metrics_LLC_day1.txt"
+delivery_file_name = "delivery_day2.txt"
+metrics_file_name = "metrics_LLC_day2.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
@@ -41,7 +41,7 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
-spectRange = [1800, 460, 1200, 360]        # Transmission coverage for each spectrum band
+spectRange = [2700, 690, 1800, 540]        # Transmission coverage for each spectrum band
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 
@@ -68,9 +68,9 @@ NoOfDataCenters = 3
 
 
 
-lex_data_directory_day = 'DataMules/2007-11-03_2007-11-04/Day1/'
+lex_data_directory_day = 'DataMules/2007-11-03_2007-11-04/Day2/'
 link_exists_folder = 'Bands/'
-validate_data_directory = 'DataMules/2007-11-03_2007-11-04/Day1/'
+validate_data_directory = 'DataMules/2007-11-03_2007-11-04/Day2/'
 lex_data_directory = 'DataMules/2007-11-03_2007-11-04/'
 
 #Used for UMass data simulation

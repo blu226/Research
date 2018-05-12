@@ -63,7 +63,7 @@ folderLen = len(folders)
 curr = os.getcwd()
 
 #For each bus
-for ind in range(0, 1, 1):
+for ind in range(0, 2, 1):
 #    if ".DS_Store" not in folders:
  #       print("Current Folder " + folders[ind])
 

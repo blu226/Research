@@ -4,7 +4,7 @@ import random
 from computeHarvesine import *
 
 def findDistance():
-    with open("src_dst.txt", "r") as fp:
+    with open("srcdst.txt", "r") as fp:
         lines = fp.readlines()
     fp.close()
 
@@ -21,7 +21,7 @@ def findDistance():
 
         for j in range(len(dst)):
             line2 = dst[j].split()
-            print(funHaversine(float(line[1]),float(line[0]), float(line2[1]), float(line2[0])))
+            print(funHaversine(float(line[1]),float(line[0]), float(line2[1]), float(line2[0])) / 1000)
 def getCoord():
     fileList = findfiles(lex_data_directory_day)
     fileList.sort()
@@ -59,18 +59,18 @@ def getCoord():
 
 #getCoord()
 
-with open("SRC_DST.txt", "r") as fp:
-    lines = fp.readlines()
-fp.close()
+# with open("srcdst.txt", "r") as fp:
+#     lines = fp.readlines()
+# fp.close()
+#
+# StartTime = 850
+#
+# for i in range(len(lines)):
+#     line = lines[i].strip()
+#
+#     with open(lex_data_directory_day + str(i+NoOfDMs) + ".txt", "w") as fp:
+#
+#         for j in range(StartTime, T + StartTime):
+#             fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")
 
-StartTime = 850
-
-for i in range(len(lines)):
-    line = lines[i].strip()
-
-    with open(lex_data_directory_day + str(i+NoOfDMs) + ".txt", "w") as fp:
-
-        for j in range(StartTime, T + StartTime):
-            fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")
-
-#findDistance()
+findDistance()

@@ -26,11 +26,11 @@ for line in path_lines:
             if int(nodeId) <= NoOfDMs:
                 generateMessage = True
 
-    t = random.randint(int(0.5 * T * 0.5), int(1.5 * T * 0.5))
+    t = random.randint(int(0.5 * T ), int(1.5 * T ))
 
     rand = random.uniform(0, 1)
 
-    if generateMessage == True and rand <= .5 and src >= NoOfDMs and src < NoOfDMs + NoOfSources and des >= NoOfDMs + NoOfSources :
+    if generateMessage == True and rand <= .85 and src >= NoOfDMs and src < NoOfDMs + NoOfSources and des >= NoOfDMs + NoOfSources :
 
         p = random.uniform(0, 1)
 

@@ -46,12 +46,12 @@ def run_simulation_files():
 
 
         #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        if ind == 0:
-            os.system('python3 computeLINKEXISTS_UMass.py')
+        # if ind == 0:
+        #    os.system('python3 computeLINKEXISTS_UMass.py')
 
         os.system('python3 STB_main_path.py')
-        if ind == 0:
-            os.system('python3 generateMessage_new.py')
+        # if ind == 0:
+        #     os.system('python3 generateMessage_new.py')
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
 
@@ -59,4 +59,5 @@ def run_simulation_files():
 #main
 # os.system('python3 createSrcDst.py')
 run_simulation_files()
+os.system('python3 plot_UMass.py')
 
