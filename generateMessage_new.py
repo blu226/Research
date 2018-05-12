@@ -26,7 +26,7 @@ for line in path_lines:
             if int(nodeId) > NoOfSources + NoOfDataCenters:
                 generateMessage = True
 
-    t = random.randint(int(0.5 * 30), int(1.5 * 30))
+    t = random.randint(int(0.5 * T), int(1.5 * T))
 
     rand = random.uniform(0, 1)
 

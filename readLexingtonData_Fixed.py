@@ -211,8 +211,9 @@ def copy_files():
     # for run in range(1, 11, 1):
     for i in range(V):
         run = lex_data_directory_day.split("/")[1]
+        day = lex_data_directory_day.split("/")[2]
         # print("Current run is: ", run)
-        src = "Lexington" + str(max_nodes) + "/" + str(run) + "/Day1/" + str(i) + ".txt"
+        src = "Lexington" + str(max_nodes) + "/" + str(run) + "/" + str(day) + "/" + str(i) + ".txt"
         dst = lex_data_directory_day + str(i) + ".txt"
         copyfile(src, dst)
 
