@@ -93,23 +93,12 @@ class Network(object):
 
         for i in range(len(self.nodes)):                #send all messages to their next hop
             node = self.nodes[i]
-            #print("\n For " +  node.name + " At time: " + str(t)  + " Buffer size: " + str(len(node.buf)))
-            # print("Current messages at node : ", node.name)
-            # for msg in node.buf:
-            #     print(msg.ID, "-", msg.path, end= " ")
-
             isVisited = len(node.buf) #Get the initial buffer size
-            # print("\n--------------------------------------")
 
             while len(node.buf) > 0 and isVisited > 0:
                 msg = node.buf[isVisited - 1]
-                #print("Buffer: ", [msg.ID for msg in node.buf])
-                #print("\nMsg: " + str(msg.ID), " src " + str(msg.src), " des: " + str(msg.des), " genT: " + str(msg.T), "path: ", msg.path )
                 node.send_message( self, msg, t)
                 isVisited -= 1
 
-            # print("-------------------------------------- ")
-
-        # self.epoch_it += 1
 
 

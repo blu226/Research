@@ -37,6 +37,8 @@ class Node(object):                                                             
 
                     curr_coorX = curr_line_arr[2]
                     curr_coorY = curr_line_arr[3]
+                    return curr_coorX, curr_coorY
+                    break
 
                     if s < 0:
                         print("S can not be less than 0", s)
@@ -55,9 +57,11 @@ class Node(object):                                                             
         if curr_coorX == -1 or next_coorX == -1:
             return False
 
-        elif funHaversine(float(curr_coorY),float(curr_coorX), float(next_coorY), float(next_coorX)) <= spectRange[s]:
-            #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
-            return True
+        else:
+            dist = funHaversine(float(curr_coorY),float(curr_coorX), float(next_coorY), float(next_coorX))
+            if dist <= spectRange[s]:
+                #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
+                return True
 
         return False
 
@@ -87,12 +91,23 @@ class Node(object):                                                             
             #Change s in between 0 and S
             s = s % 10
             # print("S is greater 9, ", s)
-
+           # check_all_spec = True
             #If two nodes are not in communication range
-            # if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
-            #     #we keep it to the current node
-            #     print("========= Not in range. Do not forward the message." + str(message.curr) + " " + str(next))
-            #
+            # while message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
+            #     #try another spectrum with better range
+            #    # print(str(s))
+            #     if s == 4:
+            #         s = 2
+            #     elif s == 2:
+            #         s = 3
+            #     elif s == 3:
+            #         s = 1
+            #     else:
+            #      #   print("Break\n")
+            #         break
+#            if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False and message.buf[0] == '9':
+                
+
             # else:
             if self.is_in_communication_range(message.curr, next, t, s - 1) == True:
                 message.path.pop()

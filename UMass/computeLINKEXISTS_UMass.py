@@ -7,13 +7,14 @@ from computeHarvesine import *
 
 def getIndex(ts, currTimeInFile1, currTimeInFile2, currIndexInFile1, currIndexInFile2, linesInFile1, linesInFile2):
     while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
-        currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
         currIndexInFile1 += 1
+        currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+
 
     # # Go to ts - Skip all other lines up to ts
     while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
-        currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
         currIndexInFile2 += 1
+        currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
 
     return currIndexInFile1, currIndexInFile2
 
@@ -41,14 +42,14 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
     else:
         # Go to ts - Skip all other lines up to ts
-        while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
-            currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+        while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1) -1:
             currIndexInFile1 += 1
+            currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
 
         # # Go to ts - Skip all other lines up to ts
-        while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
-            currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
+        while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2) -1:
             currIndexInFile2 += 1
+            currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
 
         if (currTimeInFile1 != ts or currTimeInFile2 != ts):
             #print(currTimeInFile1, currTimeInFile2, ts)
@@ -75,14 +76,14 @@ def CHECK_IF_LINK_EXISTS(filepath1, filepath2, s, ts, te):
 
             ts += 1
             if ts != te:
-                while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):
-                    currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
+                while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1) - 1:
                     currIndexInFile1 += 1
+                    currTimeInFile1 = float(linesInFile1[currIndexInFile1].split()[0])
 
                 # # Go to ts - Skip all other lines up to ts
-                while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2):
-                    currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
+                while currTimeInFile2 < ts and currIndexInFile2 < len(linesInFile2) - 1:
                     currIndexInFile2 += 1
+                    currTimeInFile2 = float(linesInFile2[currIndexInFile2].split()[0])
 
                 if (currTimeInFile1 != ts or currTimeInFile2 != ts):
                     # print(currTimeInFile1, currTimeInFile2, ts)

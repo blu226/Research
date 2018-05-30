@@ -1,10 +1,10 @@
-from map_plot import findfiles
+from STB_help import *
 from computeHarvesine import *
 import numpy as np
 import os
 import shutil
 
-directory = "DataMules/2007-11-03_2007-11-04/Day1/"
+directory = "DataMules/2007-11-04_2007-11-05/Day1/"
 time_in_range = 10
 
 folders = findfiles(directory)

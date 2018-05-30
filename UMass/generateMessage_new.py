@@ -8,8 +8,9 @@ fp.close()
 
 id = 0
 
-for line in path_lines:
-    line_arr = line.strip().split()
+while id < 500:
+    rand_line = random.randint(0, len(path_lines) - 1)
+    line_arr = path_lines[rand_line].strip().split()
 
     src = int(line_arr[0])
     des = int(line_arr[1])
@@ -19,22 +20,22 @@ for line in path_lines:
 
     path = line_arr[4:]
 
-    generateMessage = False
+    generateMessage = True
 
-    if len(set(path)) >2:
-        for nodeId in path:
-            if int(nodeId) <= NoOfDMs:
-                generateMessage = True
+    # if len(set(path)) >2:
+    #     for nodeId in path:
+    #         if int(nodeId) <= NoOfDMs:
+    #             generateMessage = True
 
-    t = random.randint(int(0.5 * T ), int(1.5 * T ))
+    t = random.randint(int(45), int(60))
 
-    rand = random.uniform(0, 1)
+    #rand = random.uniform(0, 1)
 
-    if generateMessage == True and rand <= .85 and src >= NoOfDMs and src < NoOfDMs + NoOfSources and des >= NoOfDMs + NoOfSources :
+    if generateMessage == True  and src < NoOfSources and  des >= NoOfSources and des <= NoOfSources + NoOfDataCenters and genT <= 60:
 
         p = random.uniform(0, 1)
 
-        if p < 0.25:
+        if p < .1:
             message_file.write(
                 str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
                     t) + "\n")
@@ -46,5 +47,7 @@ for line in path_lines:
         # print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(genT) )
 
         id += 1
+        # if id > 500:
+        #     break
 
 

@@ -1,5 +1,5 @@
 from constants import *
-from map_plot import *
+from STB_help import *
 import random
 from computeHarvesine import *
 
@@ -58,19 +58,28 @@ def getCoord():
 
 
 #getCoord()
+def getSrcDst(time, day):
+    with open("srcdst.txt", "r") as fp:
+        lines = fp.readlines()
+    fp.close()
 
-# with open("srcdst.txt", "r") as fp:
-#     lines = fp.readlines()
-# fp.close()
-#
-# StartTime = 850
-#
-# for i in range(len(lines)):
-#     line = lines[i].strip()
-#
-#     with open(lex_data_directory_day + str(i+NoOfDMs) + ".txt", "w") as fp:
-#
-#         for j in range(StartTime, T + StartTime):
-#             fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")
+    StartTime = time
 
-findDistance()
+    for day_num in ["1","2"]:
+
+        for i in range(len(lines)):
+            line = lines[i].strip()
+
+            with open("DataMules/" + day + "Day" + day_num + "/" + str(i) + ".txt", "w") as fp:
+
+                for j in range(StartTime, T + StartTime + 1):
+                    fp.write(str(j) + "  00:00:00 " + line + "\t5\t15\t50\n")
+
+# findDistance()
+
+# directorys = ['2007-10-23_2007-10-24/', '2007-10-24_2007-10-25/', '2007-10-25_2007-10-26/', '2007-10-26_2007-10-27/','2007-10-29_2007-10-30/','2007-10-30_2007-10-31/','2007-10-31_2007-11-01/','2007-11-01_2007-11-02/','2007-11-02_2007-11-03/','2007-11-03_2007-11-04/','2007-11-04_2007-11-05/','2007-11-05_2007-11-06/','2007-11-06_2007-11-07/','2007-11-07_2007-11-08/','2007-11-09_2007-11-10/','2007-11-10_2007-11-11/']
+# startTime = [400,950,850,500,950,650,950,400,400,900,950,600,900,850,400,900,950,950]
+directorys = ['2007-11-07_2007-11-08/']
+startTime = [500]
+for i in range(len(directorys)):
+    getSrcDst(startTime[i],directorys[i])

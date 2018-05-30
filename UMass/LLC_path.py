@@ -189,7 +189,7 @@ def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
             d = d - tau
 
 
-        print (print_path_str, end = " ")
+        #print(print_path_str, end = " ")
         file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
         file2.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" +  str(ELC_PATH[i, j, t, m]) + "\t" + str(LLC_PATH[i, j, t, m]) + "\t:\t" + print_path_str + "\n")
         file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spectrum_str + "\n")
