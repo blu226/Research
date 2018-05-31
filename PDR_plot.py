@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from STB_help import *
 
 
-time_epochs = 7
-runs = 5
+time_epochs = 8
+runs = 3
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(time_epochs,runs))
 LTE = np.zeros(shape=(time_epochs,runs))
@@ -15,12 +15,12 @@ ISM = np.zeros(shape=(time_epochs,runs))
 folder_name = "Bands35/"
 folders = os.listdir(folder_name)
 file_name = "metrics_LLC_day1.txt"
-p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+p_id = 2 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
 folders.sort()
 # folders = "1"
 print("Folders: ", folders)
-for f_id in range(len(folders)):
+for f_id in range(runs):
     print("============= Current folder ", folders[f_id])
     band_type_folders = os.listdir(folder_name + folders[f_id])
     for bt_id in range(len(band_type_folders)):
@@ -32,6 +32,7 @@ for f_id in range(len(folders)):
 
             for line in lines:
                 line_arr = line.strip().split("\t")
+                # print (line_arr[p_id])
                 if "ALL" in band_type_folders[bt_id]:
                     ALL[t][f_id] = line_arr[p_id].split(" ")[0]
 
@@ -77,22 +78,23 @@ for i in range(len(ALL)):
     CBRS_SD.append(np.std(CBRS[i]))
 
 
-x = np.array([10, 20, 40, 60, 80, 100, 120])
-plt.xlim(0, 130)
+x = np.array([10, 20, 30, 60, 90, 120, 150, 180])
+plt.xlim(5, 182)
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
 fig_name = "dummy.eps"
 if p_id == 1:
     plt.ylabel('Packet delivery ratio',  fontsize=25)
-    plt.xlabel('Simulation time', fontsize=25)
-    plt.ylim(0, 1)
+    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.ylim(-0.01, 1)
     plt.yticks(fontsize=25)
     fig_name = "Plots/pdr_error_bars.eps"
 
 if p_id == 2:
-    plt.ylabel('Latency',  fontsize=25)
-    plt.xlabel('Simulation time',  fontsize=25)
+    plt.ylim(-0.5, 50)
+    plt.ylabel('Latency (in minutes)',  fontsize=25)
+    plt.xlabel('Simulation time (in minutes)',  fontsize=25)
     fig_name = "Plots/latency_error_bars.eps"
 
 
@@ -101,11 +103,17 @@ if p_id == 3:
     plt.xlabel('Simulation time', fontsize=25)
     fig_name = "Plots/energy_error_bars.eps"
 
-plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
-plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
-plt.errorbar(x, TV_mean, [x * 0.5 for x in TV_SD])
-plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
-plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
+# plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
+# plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
+# plt.errorbar(x, TV_mean, [x * 0.5 for x in TV_SD])
+# plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
+# plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
+
+plt.errorbar(x, ALL_mean, ALL_SD,  marker='o', linestyle='-', linewidth=2)
+plt.errorbar(x, LTE_mean, LTE_SD,  marker='*', linestyle='--', linewidth=2)
+plt.errorbar(x, TV_mean, TV_SD,  marker='^', linestyle=':', linewidth=2 )
+plt.errorbar(x, ISM_mean, ISM_SD, marker='s', linestyle='-.', linewidth=2)
+plt.errorbar(x, CBRS_mean, CBRS_SD,  marker='D', linestyle='--', linewidth=2)
 
 plt.legend(['X-CHANTS', 'LTE', 'TV', 'ISM', 'CBRS'], loc = "upper left", fontsize = 20)
 

@@ -4,19 +4,20 @@ from STB_help import *
 
 
 #TODO: This is the number of nodes [10, 20, 30, 40, 50]
-time_epochs = 5 #No of nodes
+time_epochs = 4 #No of nodes
 runs = 3
+days = 4
 #4 time stamps (15,30,45,60) and 10 runs
-ALL = np.zeros(shape=(time_epochs,runs))
-LTE = np.zeros(shape=(time_epochs,runs))
-TV = np.zeros(shape=(time_epochs,runs))
-CBRS = np.zeros(shape=(time_epochs,runs))
-ISM = np.zeros(shape=(time_epochs,runs))
+ALL = np.zeros(shape=(days, time_epochs,runs))
+# LTE = np.zeros(shape=(days, time_epochs,runs))
+# TV = np.zeros(shape=(days, time_epochs,runs))
+# CBRS = np.zeros(shape=(days, time_epochs,runs))
+# ISM = np.zeros(shape=(days, time_epochs,runs))
 
 #folder_names = ["Bands0/", "Bands1/", "Bands3/", "Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands50/"]
-folder_names = ["Bands5/","Bands15/",  "Bands25/",  "Bands35/", "Bands50/"]
-file_name = "metrics_LLC_day1.txt"
-p_id = 2 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+folder_names = ["Bands5/","Bands15/", "Bands25/",  "Bands35/"]
+file_names = ["metrics_LLC_day1.txt", "metrics_LLC_day2.txt", "metrics_LLC_day3.txt", "metrics_LLC_day4.txt"]
+p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
 
 #TODO: Here t is the number of nodes
@@ -34,70 +35,75 @@ for folder_name in folder_names:
         band_type_folders = os.listdir(folder_name + folders[f_id])
 
         #For each band type
-        for bt_id in range(len(band_type_folders)):
+        for bt_id in range(1):
             if os.path.isdir(folder_name + folders[f_id] +"/" + band_type_folders[bt_id]):
 
-                # if "ALL" in band_type_folders[bt_id]:
-                f = open(folder_name + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_name, "r")
-                lines = f.readlines()[1:]
+                for day_id in range(len(file_names)):
+                    # if "ALL" in band_type_folders[bt_id]:
+                    f = open(folder_name + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_names[day_id], "r")
+                    lines = f.readlines()[1:]
 
-                for line in lines:
-                    line_arr = line.strip().split("\t")
-                    if "90" in line_arr[0]:
+                    for line in lines:
+                        line_arr = line.strip().split("\t")
+                        if "90" in line_arr[0]:
 
-                        if "ALL" in band_type_folders[bt_id]:
-                            # print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
-                            ALL[t][f_id] = line_arr[p_id].split(" ")[0]
+                            if "ALL" in band_type_folders[bt_id]:
+                                # print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
+                                ALL[day_id][t][f_id] = line_arr[p_id].split(" ")[0]
 
-                        elif "TV" in band_type_folders[bt_id]:
-                            TV[t][f_id] = line_arr[p_id].split(" ")[0]
-
-                        elif "CBRS" in band_type_folders[bt_id]:
-                            CBRS[t][f_id] = line_arr[p_id].split(" ")[0]
-
-                        elif "ISM" in band_type_folders[bt_id]:
-                            ISM[t][f_id] = line_arr[p_id].split(" ")[0]
-
-                        elif "LTE" in band_type_folders[bt_id]:
-                            LTE[t][f_id] = line_arr[p_id].split(" ")[0]
+                            # elif "TV" in band_type_folders[bt_id]:
+                            #     TV[t][f_id] = line_arr[p_id].split(" ")[0]
+                            #
+                            # elif "CBRS" in band_type_folders[bt_id]:
+                            #     CBRS[t][f_id] = line_arr[p_id].split(" ")[0]
+                            #
+                            # elif "ISM" in band_type_folders[bt_id]:
+                            #     ISM[t][f_id] = line_arr[p_id].split(" ")[0]
+                            #
+                            # elif "LTE" in band_type_folders[bt_id]:
+                            #     LTE[t][f_id] = line_arr[p_id].split(" ")[0]
 
     t += 1
 
 
 
 #TODO: Plot the graph now
-ALL_mean = []
-ALL_SD = []
-LTE_mean = []
-LTE_SD = []
-TV_mean = []
-TV_SD = []
-ISM_mean = []
-ISM_SD = []
-CBRS_mean = []
-CBRS_SD = []
+ALL_mean = [[None for _ in range(time_epochs)] for _ in range(days)]
+ALL_SD =  [[None for _ in range(time_epochs)] for _ in range(days)]
+# LTE_mean = []
+# LTE_SD = []
+# TV_mean = []
+# TV_SD = []
+# ISM_mean = []
+# ISM_SD = []
+# CBRS_mean = []
+# CBRS_SD = []
 
+print(ALL_SD[0])
 
-
-for i in range(time_epochs):
+for i in range(days):
     print("\n", " Node ", i, ALL[i])
-    #print(TV[i])
+    for j in range(time_epochs):
+        # print("\n", " Node ", i, ALL[i][j])
+        #print(TV[i])
+        # print("Mean: ", np.mean(ALL[i][j]))
+        # print("STD: ", np.std(ALL[i][j]))
+        ALL_mean[i][j] = np.mean(ALL[i][j])
+        ALL_SD[i][j] = np.std(ALL[i][j])
+        # LTE_mean.append(np.mean(LTE[i]))
+        # LTE_SD.append(np.std(LTE[i]))
+        # TV_mean.append(np.mean(TV[i]))
+        # TV_SD.append(np.std(TV[i]))
+        # ISM_mean.append(np.mean(ISM[i]))
+        # ISM_SD.append(np.std(ISM[i]))
+        # CBRS_mean.append(np.mean(CBRS[i]))
+        # CBRS_SD.append(np.std(CBRS[i]))
 
-    ALL_mean.append(np.mean(ALL[i]))
-    ALL_SD.append(np.std(ALL[i]))
-    LTE_mean.append(np.mean(LTE[i]))
-    LTE_SD.append(np.std(LTE[i]))
-    TV_mean.append(np.mean(TV[i]))
-    TV_SD.append(np.std(TV[i]))
-    ISM_mean.append(np.mean(ISM[i]))
-    ISM_SD.append(np.std(ISM[i]))
-    CBRS_mean.append(np.mean(CBRS[i]))
-    CBRS_SD.append(np.std(CBRS[i]))
-
-
+print(ALL_SD[0])
+print(ALL_SD[1])
 #x = np.array([2, 5, 7, 10, 15, 20, 25, 30, 35, 40])
-x = np.array([5, 15, 25, 35, 50])
-plt.xlim(3, 52)
+x = np.array([5, 15, 25, 35])
+plt.xlim(3, 36)
 plt.xticks(x)
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
@@ -109,7 +115,7 @@ if p_id == 1:
     plt.ylim(-0.05, 1)
     # plt.xlim(0, 50)
     plt.yticks(fontsize=25)
-    fig_name = "Plots/pdr_nodes_error_bars.eps"
+    fig_name = "Plots/pdr_nodes_error_bars_day2.eps"
 
     # plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
@@ -117,17 +123,17 @@ if p_id == 1:
     # plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
     # plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
 
-    # plt.errorbar(x, ALL_mean, [x  for x in ALL_SD])
+
     # plt.errorbar(x, LTE_mean, [x for x in LTE_SD])
     # plt.errorbar(x, TV_mean, [x for x in TV_SD])
     # plt.errorbar(x, ISM_mean, [x for x in ISM_SD])
     # plt.errorbar(x, CBRS_mean, [x for x in CBRS_SD])
 
 if p_id == 2:
-    plt.ylim(-1, 80)
     plt.ylabel('Latency (in minutes)',  fontsize=25)
     plt.xlabel('Number of nodes',  fontsize=25)
-    fig_name = "Plots/latency_nodes_error_bars.eps"
+    plt.ylim(-0.5, 50)
+    fig_name = "Plots/latency_nodes_error_bars_day2.eps"
 
     # plt.errorbar(x, [x * 2 for x in ALL_mean], [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, [x * 2 for x in LTE_mean], [x * 0.5 for x in LTE_SD])
@@ -138,7 +144,7 @@ if p_id == 2:
 if p_id == 3:
     plt.ylabel('Energy consumed', fontsize=25)
     plt.xlabel('Simulation time', fontsize=25)
-    fig_name = "Plots/energy_nodes_error_bars.eps"
+    fig_name = "Plots/energy_nodes_error_bars_day2.eps"
 
     # plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
@@ -146,14 +152,16 @@ if p_id == 3:
     # plt.errorbar(x, ISM_mean, [x * 0.5 for x in ISM_SD])
     # plt.errorbar(x, CBRS_mean, [x * 0.5 for x in CBRS_SD])
 
+# for i in range(days):
+#     plt.errorbar(x, ALL_mean[i], [x for x in ALL_SD[i]])
+    #plt.errorbar(x, ALL_mean[1], [x for x in ALL_SD[1]])
 
-plt.errorbar(x, ALL_mean, ALL_SD,  marker='o', linestyle='-', linewidth=2)
-plt.errorbar(x, LTE_mean, LTE_SD,  marker='*', linestyle='--', linewidth=2)
-plt.errorbar(x, TV_mean, TV_SD,  marker='^', linestyle=':', linewidth=2 )
-plt.errorbar(x, ISM_mean, ISM_SD, marker='s', linestyle='-.', linewidth=2)
-plt.errorbar(x, CBRS_mean, CBRS_SD,  marker='D', linestyle='--', linewidth=2)
+plt.errorbar(x, ALL_mean[0], ALL_SD[0],  marker='o', linestyle='-', linewidth=2)
+plt.errorbar(x, ALL_mean[1], ALL_SD[1],  marker='*', linestyle='--', linewidth=2)
+plt.errorbar(x, ALL_mean[2], ALL_SD[2],  marker='^', linestyle=':', linewidth=2 )
+plt.errorbar(x, ALL_mean[3], ALL_SD[3], marker='s', linestyle='-.', linewidth=2)
 
-plt.legend(['X-CHANTS', 'LTE', 'TV', 'ISM', 'CBRS'], loc = "best", ncol = 3, fontsize = 15)
+plt.legend(['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'], loc = "lower right", ncol = 1, fontsize = 20)
 
 plt.tight_layout()
 plt.savefig(fig_name)
