@@ -67,9 +67,8 @@ class Node(object):                                                             
         # print ( msg.ID, i, " - ", msg.des, msg.T, " Int: ", j, t, time_to_transfer)
         return time_to_transfer
 
-    def send_message(self, net, message, t):
+    def send_message(self, net, message, t, specBW):
 
-        specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
         nodes = net.nodes
 
         #print("\n Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
@@ -85,19 +84,14 @@ class Node(object):                                                             
                 message.path.pop()
                 message.bands.pop()
 
-            if message.curr != next and message.last_sent <= t:
+            elif message.curr != next and message.last_sent <= t:
                 transfer_time = self.compute_transfer_time(message.size, s - 1, specBW, message.curr, next, t, message)
 
                 if self.is_in_communication_range(message.curr, next, t, t + transfer_time, s - 1) == True:
                     # print("In range: ", message.curr, next, t, t + transfer_time)
                     message.path.pop()
                     message.bands.pop()
-
                     message.last_sent = t + transfer_time
-
-                    # if message.curr != next:  # temporal link
-                    #     print("Store the message for this time epoch")
-                    # else:
 
                     if message.curr != next:
                         # print("Remove the node: ", next)
@@ -112,10 +106,11 @@ class Node(object):                                                             
         else: #Message has been delivered
             nodes[message.curr].buf.remove(message)  # remove message from destination node buffer
 
-            # if message has reached its destination
-            # if len(message.path) == 0: #and message.src != message.des: # and message.T  + message.totalDelay <= T:
             if t <= T: #delivered time is less than the allowed TTL deadline
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
+
+                if t > message.last_sent:
+                    message.last_sent = t
 
                 output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
                     message.T) + "\t" + str(int(message.last_sent)) + "\t" + str(message.size) +"\t" + str(

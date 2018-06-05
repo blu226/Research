@@ -15,8 +15,21 @@ output_file.write("ID\ts\td\tts\tte\tLLC\tELC\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
+specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
+
+with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
+    path_lines = fp.readlines()[1:]
+
+
+with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
+    spec_lines = fs.readlines()[1:]
+
+
+with open("Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt", "r") as fg:
+    msg_lines = fg.readlines()[1:]
+
 #run simulation
 for t in range(0, T, tau):
-    net.network_GO(t)
+    net.network_GO(t, specBW, path_lines, spec_lines, msg_lines)
 
 
