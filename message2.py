@@ -12,4 +12,5 @@ class Message(object):                                                          
         self.type = int(type)
         self.totalDelay = 0
         self.totalEnergy = 0
+        self.last_sent = -1
 
