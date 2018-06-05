@@ -64,29 +64,27 @@ class Network(object):
             msg_lines = fg.readlines()[1:]
 
         for msg_id in range(len(msg_lines)):
-            msg_line =  msg_lines[msg_id].strip()
+            msg_line = msg_lines[msg_id].strip()
             msg_line_arr = msg_line.split("\t")
 
-
-            if (int(msg_line_arr[5]) == t ):         #if a new message needs to be generated at this time
+            if (int(msg_line_arr[5]) == t):  # if a new message needs to be generated at this time
                 # print(msg_line_arr)
                 id = msg_line_arr[0]
-                src = msg_line_arr[1]                           #get information from that line
+                src = msg_line_arr[1]  # get information from that line
                 des = msg_line_arr[2]
                 TTL = msg_line_arr[3]
                 size = msg_line_arr[4]
 
                 path, band = self.get_message_info(path_lines, spec_lines, src, des, t, size)
 
-                message = Message(src, des, t, id, TTL, size, path, band, 0, 0, 0)   #create the message
+                message = Message(src, des, t, id, TTL, size, path, band, 0, 0, 0)  # create the message
                 curr = int(message.curr)
 
-                #If a path exists for this message
+                # If a path exists for this message
                 if len(message.path) > 0:
-                    self.nodes[curr].buf.append(message)      #put the message in the source nodes buffer
+                    self.nodes[curr].buf.append(message)  # put the message in the source nodes buffer
                     self.nodes[curr].buf_size += 1
                     self.message_num += 1
-
 
         # print("Network Status -- Time: ", t)            #console output for debugging
         # self.network_status()
@@ -99,6 +97,8 @@ class Network(object):
                 msg = node.buf[isVisited - 1]
                 node.send_message( self, msg, t)
                 isVisited -= 1
+
+
 
 
 

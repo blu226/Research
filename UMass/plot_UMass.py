@@ -5,17 +5,17 @@ from constants import *
 
 def spectrumGraph(num, graph_title, dir):
 
-    metrics_file = "metrics_LLC_day1_" + str(num) + "_120.txt"
+    metrics_file = "metrics_LLC_day1_" + str(num) + "_180.txt"
 
     choice = 1
     if choice == 0:
-        fig_name = dir + "/day1_delivery_" + graph_title + ".png"
+        fig_name = dir + dir[5:] + "_DATA/deliveryDay1_" + graph_title + ".png"
     else:
-        fig_name = dir + "/day1_latency_" + graph_title + ".png"
+        fig_name = dir + dir[5:] + "_DATA/latencyDay1_" + graph_title + ".png"
 
     folders = ["ALL/", "ISM/", "LTE/", "TV/", "CBRS/"]
     bands = dir + "/"
-    time = [i for i in range(0,130,10)]
+    time = [i for i in range(0,T + 10,10)]
 
     delivered = []
     latency = []

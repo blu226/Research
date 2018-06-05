@@ -26,7 +26,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
 #Main starts here
 msg_file = open("generated_messages.txt", "r")
-total_messages = len(msg_file.readlines()[1:])
+total_messages = len(msg_file.readlines())
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
 f = open(path_to_folder + delivery_file_name, "r")

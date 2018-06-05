@@ -4,16 +4,16 @@ import matplotlib.pyplot as plt
 from constants import *
 
 def day1vsday2graph(graph_choice, directory, files, graph_title):
-    time = [i for i in range(0,130, 10)]
+    time = [i for i in range(0,T+10, 10)]
     choice = graph_choice
 
     delivered = []
     latency = []
 
     if choice == 0:
-        fig_name = directory + "/delivery_" + graph_title + ".png"
+        fig_name = directory + directory[5:] +"_DATA/delivery_" + graph_title + ".png"
     else:
-        fig_name = directory + "/latency_" + graph_title + ".png"
+        fig_name = directory + directory[5:] + "_DATA/latency_" + graph_title + ".png"
 
     for file in files:
         path = directory + file
@@ -67,8 +67,8 @@ for i in range(len(folders)):
         dir = directory + folders[i]
         dir_day = "DataMules/" + folders[i] + "/Day1/"
         num_buses = len(os.listdir(dir_day))
-        file1 = "/ALL/metrics_LLC_day1_" + str(num_buses) + "_120.txt"
-        file2 = "/ALL/metrics_LLC_day2_" + str(num_buses) + "_120.txt"
+        file1 = "/ALL/metrics_LLC_day1_" + str(num_buses) + "_" + str(T) + ".txt"
+        file2 = "/ALL/metrics_LLC_day2_" + str(num_buses) + "_" + str(T) + ".txt"
         files = [file1, file2]
         day1vsday2graph(j, dir, files, folders[i])
 

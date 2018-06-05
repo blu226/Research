@@ -8,7 +8,7 @@ def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\nminX = 0\nmaxX = 100\nminY = 0\nmaxY = 100\nroute_start_time1 = 0\nroute_start_time2 = 15\ndt = 1\ntau = 1\n")
-    f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [1800,460,1200,350]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
+    f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [3600,920,2400,700]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 10\nM = [1,10,25,50,100,500,750,1000]\n")
@@ -48,7 +48,7 @@ def run_simulation_files(day, V, T,directory,time):
     getSrcDst(time, directory)
 
     if day == 1:
-        run = [0,1,2,3,4]
+        run = [0]
     else:
         run = [0]
 
@@ -91,7 +91,7 @@ def run_simulation_files(day, V, T,directory,time):
             f.write("S = " + str(S) + "\n")
 
 
-        #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
+        # #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
         # if ind == 0 and day == 1:
         #    os.system('python3 computeLINKEXISTS_UMass.py')
 
@@ -106,10 +106,12 @@ def run_simulation_files(day, V, T,directory,time):
 # os.system('python3 createSrcDst.py')
 #run_simulation_files(day, V, T)
 dir = "DataMules/"
-directorys = ['2007-10-23_2007-10-24/', '2007-10-24_2007-10-25/', '2007-10-25_2007-10-26/', '2007-10-26_2007-10-27/','2007-10-29_2007-10-30/','2007-10-30_2007-10-31/','2007-10-31_2007-11-01/','2007-11-01_2007-11-02/','2007-11-02_2007-11-03/','2007-11-03_2007-11-04/','2007-11-04_2007-11-05/','2007-11-05_2007-11-06/','2007-11-06_2007-11-07/','2007-11-07_2007-11-08/','2007-11-09_2007-11-10/','2007-11-10_2007-11-11/']
-startTime = [800,800,680,920,680,920,680,1040,680,560,800,560,680,560,800,560,800,560]
+# directorys = ['2007-10-23_2007-10-24/', '2007-10-24_2007-10-25/', '2007-10-25_2007-10-26/', '2007-10-26_2007-10-27/','2007-10-29_2007-10-30/','2007-10-30_2007-10-31/','2007-10-31_2007-11-01/','2007-11-01_2007-11-02/','2007-11-02_2007-11-03/','2007-11-03_2007-11-04/','2007-11-04_2007-11-05/','2007-11-05_2007-11-06/','2007-11-06_2007-11-07/','2007-11-07_2007-11-08/','2007-11-09_2007-11-10/','2007-11-10_2007-11-11/']
+# startTime = [800,800,680,920,680,920,680,920,680,560,800,560,680,560,800,560,800,560]
 # directorys = ['2007-11-03_2007-11-05/']
 # startTime = [800]
+directorys = ['2007-10-25_2007-10-26/']
+startTime = [800]
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day1"
     files = findfiles(path)

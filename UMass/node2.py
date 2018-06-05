@@ -24,54 +24,56 @@ class Node(object):                                                             
             message = self.buf[i].ID
             print("Message ID: " + str(message))
 
-    def get_attributes(self, curr, t, s):
+    def get_attributes(self, curr, ts, te, s):
         curr_coorX = -1
         curr_coorY  = -1
 
         with open(validate_data_directory + str(curr) + ".txt", "r") as fc:
             lines = fc.readlines()[1:]
-            for line in lines:
-                curr_line_arr = line.strip().split()
-                #print(str(curr_line_arr))
-                if str(int(float(curr_line_arr[0]))) == str(t):
+            for time in range(ts, te + 1):
+                for line in lines:
+                    curr_line_arr = line.strip().split()
+                    #print(str(curr_line_arr))
+                    if str(int(float(curr_line_arr[0]))) >= str(time):
 
-                    curr_coorX = curr_line_arr[2]
-                    curr_coorY = curr_line_arr[3]
-                    return curr_coorX, curr_coorY
-                    break
+                        curr_coorX.append(curr_line_arr[2])
+                        curr_coorY.append(curr_line_arr[3])
+            return curr_coorX, curr_coorY
 
-                    if s < 0:
-                        print("S can not be less than 0", s)
 
-                    # else:
-                    #     curr_bandwidth = curr_line_arr[s + 2]
-
-        return curr_coorX, curr_coorY
-
-    def is_in_communication_range(self, curr, next, t, s):
-        curr_coorX, curr_coorY = self.get_attributes(curr, t + StartTime, s)
-        next_coorX, next_coorY = self.get_attributes(next, t + StartTime, s)
+    def is_in_communication_range(self, curr, next, ts, te, s):
+        curr_coorX, curr_coorY = self.get_attributes(curr, ts + StartTime, te + StartTime,  s)
+        next_coorX, next_coorY = self.get_attributes(next, ts + StartTime, te + StartTime, s)
 
        # print(curr_coorX, curr_coorY, next_coorX, next_coorY, s)
         # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
-        if curr_coorX == -1 or next_coorX == -1:
-            return False
 
-        else:
-            dist = funHaversine(float(curr_coorY),float(curr_coorX), float(next_coorY), float(next_coorX))
-            if dist <= spectRange[s]:
-                #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
-                return True
+        for i in range(len(curr_coorX)):
+            if curr_coorX[i] == -1 or next_coorX[i] == -1:
+                return False
 
-        return False
+            else:
+                dist = funHaversine(float(curr_coorY[i]),float(curr_coorX[i]), float(next_coorY[i]), float(next_coorX[i]))
+                if dist > spectRange[s]:
+                    #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
+                    return False
+
+        return True
+
+    def compute_transfer_time(self, size, s, specBW, i, j, t, msgID):
+        numerator = math.ceil(size / specBW[i, j, s, t]) * (t_sd + idle_channel_prob * t_td)
+        time_to_transfer = tau * math.ceil(numerator / tau)
+        return time_to_transfer
 
     def send_message(self, net, message, t):
 
         # This file is equivalent to LLC (for LLC path) and TLLC (for TLEC path)
-        ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb"))
+        # ADJ_T = pickle.load(open(path_to_folder + "ADJ_T.pkl", "rb"))
 
         # This file is equivalent to ELC (for LLC path) and TLEC (for TLEC path)
-        ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb"))
+        # ADJ_E = pickle.load(open(path_to_folder + "ADJ_E.pkl", "rb"))
+
+        specBW = pickle.load(open(path_to_folder + "specBW.pkl", "rb"))
 
         nodes = net.nodes
 
@@ -81,57 +83,35 @@ class Node(object):                                                             
             next = int(message.path[len(message.path) - 1])  # get next node in path
             s = int(message.bands[len(message.bands) - 1])
 
-            # if next == message.src:                                     #if the next node is src then pop it off
-            #     next = int(message.path.pop())
-
-            # print("Time: ", t, " try sending msg ", str(message.ID), " from " + str(message.curr), " to ", next,
-            #       " over band: ", s - 1)
-           # print("genT: ", message.T, " src: ", message.src, " des: ", message.des, " path: ", message.path)
-
             #Change s in between 0 and S
             s = s % 10
-            # print("S is greater 9, ", s)
-           # check_all_spec = True
-            #If two nodes are not in communication range
-            # while message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False:
-            #     #try another spectrum with better range
-            #    # print(str(s))
-            #     if s == 4:
-            #         s = 2
-            #     elif s == 2:
-            #         s = 3
-            #     elif s == 3:
-            #         s = 1
-            #     else:
-            #      #   print("Break\n")
-            #         break
-#            if message.curr != next and self.is_in_communication_range(message.curr, next, t, s - 1) == False and message.buf[0] == '9':
-                
 
-            # else:
-            if self.is_in_communication_range(message.curr, next, t, s - 1) == True:
+
+
+            # self.is_in_communication_range(message.curr, next, t, s - 1)
+            if message.last_sent <= t:
                 message.path.pop()
                 message.bands.pop()
 
-                # calculate total energy consumption from ADJ_E matrix
-                if message.totalDelay < math.inf:
-                    message.totalEnergy += ADJ_E[message.curr, next, int(message.totalDelay), 0]
-                    # calculate total delay from ADJ_T matrix
-                    message.totalDelay += ADJ_T[message.curr, next, int(message.totalDelay), 0]
+                transfer_time = self.compute_transfer_time(message.size, s - 1, specBW, message.curr, next, t, message.ID)
 
-                # if message.curr != next:  # temporal link
-                #     print("Store the message for this time epoch")
-                # else:
+                if self.is_in_communication_range(message.curr, next, t, t + transfer_time, s - 1) == True:
+                    message.last_sent = t + transfer_time
 
-                if message.curr != next:
-                    # print("Remove the node: ", next)
-                    #handle message transferred
-                    nodes[next].buf.append(message)							    #add message to next node buffer
-                    nodes[message.curr].buf.remove(message)						#remove message from current node buffer
-                    message.curr = next								            #update messages current node
-                    self.buf_size -= 1                                          #update current nodes buffer
+                    # if message.curr != next:  # temporal link
+                    #     print("Store the message for this time epoch")
+                    # else:
+
+                    if message.curr != next:
+                        # print("Remove the node: ", next)
+                        #handle message transferred
+                        nodes[next].buf.append(message)							    #add message to next node buffer
+                        nodes[message.curr].buf.remove(message)						#remove message from current node buffer
+                        message.curr = next								            #update messages current node
+                        self.buf_size -= 1                                          #update current nodes buffer
 
 
+        #This is else to the len(message.path) > 0
         else: #Message has been delivered
             nodes[message.curr].buf.remove(message)  # remove message from destination node buffer
 
@@ -141,8 +121,8 @@ class Node(object):                                                             
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
 
                 output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
-                    message.T) + "\t" + str(int(t)) + "\t" + str(message.size) +"\t" + str(
-                    int(message.totalDelay)) + "\t" + str(message.totalEnergy) + "\n"
+                    message.T) + "\t" + str(int(message.last_sent)) + "\t" + str(message.size) +"\t" + str(
+                    int(message.last_sent - message.T )) + "\t" + str(message.totalEnergy) + "\n"
 
                 output_file.write(output_msg)
                 output_file.close()

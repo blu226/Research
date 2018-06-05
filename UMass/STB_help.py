@@ -4,6 +4,7 @@ import os
 import random
 
 from constants import *
+import pickle
 
 # Get minimum of spectrum bandwidths available at two nodes i and j at time t
 # This is important because we can only use the common channels (available at both the nodes) as the total bandwidth of the band
@@ -57,6 +58,9 @@ def getSpecBW(directory, V, S, T):
                     specBW[i, j, s, t] = random.randint(minBW[s], maxBW[s])
                     # getMinBWFromDMFiles(directory, i, j, s, t)
                     # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
+    specBW_file = open(link_exists_folder + "specBW.pkl", 'wb')
+    pickle.dump(specBW, specBW_file, protocol=4)
+    specBW_file.close()
     return specBW
 
 
