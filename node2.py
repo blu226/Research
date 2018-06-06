@@ -42,11 +42,10 @@ class Node(object):                                                             
                 k = k + 1
         return curr_coorX, curr_coorY
 
-    def is_in_communication_range(self, curr, next, ts, te, s):
+    def is_in_communication_range(self, curr, next, ts, te, s, msg):
         curr_coorX, curr_coorY = self.get_attributes(curr, ts + StartTime, te + StartTime,  s)
         next_coorX, next_coorY = self.get_attributes(next, ts + StartTime, te + StartTime, s)
 
-        # print(curr_coorX)
         # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
 
         for i in range(len(curr_coorX)):
@@ -56,7 +55,8 @@ class Node(object):                                                             
             else:
                 dist = euclideanDistance(curr_coorX[i], curr_coorY[i], next_coorX[i], next_coorY[i])
                 if dist > spectRange[s]:
-                    #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
+                    if msg.ID == debug_message:
+                        print("t: " + str(ts) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY), dist)
                     return False
 
         return True
@@ -71,24 +71,34 @@ class Node(object):                                                             
 
         nodes = net.nodes
 
-        #print("\n Message ID: " + str(message.ID) + " path: " + str(message.path))         #console output for debugging
 
-        if len(message.path) > 0 and '' not in message.path:        #if the message still has a valid path
+        if len(message.path) > 0:        #if the message still has a valid path
             next = int(message.path[len(message.path) - 1])  # get next node in path
             s = int(message.bands[len(message.bands) - 1])
 
             #Change s in between 0 and S
-            s = s % 10
+            if s > 9:
+                s = s % 10
+            s = s - 1
 
-            if message.curr == next:
-                message.path.pop()
-                message.bands.pop()
+            if message.ID == debug_message:
+                print( "\n Message ID: " + str(message.ID) + " t " + str(t) + " node ", message.curr, " BW ", + specBW[message.curr, next, s, t], " path: " + str(message.path))         #console output for debugging
 
-            elif message.curr != next and message.last_sent <= t:
-                transfer_time = self.compute_transfer_time(message.size, s - 1, specBW, message.curr, next, t, message)
 
-                if self.is_in_communication_range(message.curr, next, t, t + transfer_time, s - 1) == True:
-                    # print("In range: ", message.curr, next, t, t + transfer_time)
+            if message.curr != next and message.last_sent <= t:
+                # pot_next = int(message.path[len(message.path) - 2])
+                # pot_curr = next
+
+                pot_next = next
+                pot_curr = message.curr
+
+                transfer_time = self.compute_transfer_time(message.size, s, specBW, pot_curr, pot_next, t, message)
+                if message.ID == debug_message:
+                    print("pot_curr: ", pot_curr, " pot_next: ", pot_next, " ttt: ", transfer_time)
+
+                if self.is_in_communication_range(pot_curr, pot_next, t, t + transfer_time, s, message) == True:
+                    if message.ID == debug_message:
+                        print("In range: ", message.curr, next, t, t + transfer_time)
                     message.path.pop()
                     message.bands.pop()
                     message.last_sent = t + transfer_time
@@ -101,16 +111,20 @@ class Node(object):                                                             
                         message.curr = next								            #update messages current node
                         self.buf_size -= 1                                          #update current nodes buffer
 
+            elif message.curr == next and message.last_sent <= t:
+                message.path.pop()
+                message.bands.pop()
+                message.last_sent += 1
 
         #This is else to the len(message.path) > 0
         else: #Message has been delivered
+            if message.ID == debug_message:
+                print("\n Message ID: " + str(message.ID) + " t " + str(t) + " delivered ")  # console output for debugging
+
             nodes[message.curr].buf.remove(message)  # remove message from destination node buffer
 
             if t <= T: #delivered time is less than the allowed TTL deadline
                 output_file = open(path_to_folder + delivery_file_name, "a")        #print confirmation to output file
-
-                if t > message.last_sent:
-                    message.last_sent = t
 
                 output_msg = str(message.ID) + "\t" + str(message.src) + "\t" + str(message.des) + "\t" + str(
                     message.T) + "\t" + str(int(message.last_sent)) + "\t" + str(message.size) +"\t" + str(

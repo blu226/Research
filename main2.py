@@ -24,12 +24,16 @@ with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
 with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
+message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt"
+print("Message file: ", message_path_file)
 
-with open("Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt", "r") as fg:
+with open(message_path_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
+    print(msg_lines[1])
 
 #run simulation
 for t in range(0, T, tau):
+    # print("Time: ", t)
     net.network_GO(t, specBW, path_lines, spec_lines, msg_lines)
 
 
