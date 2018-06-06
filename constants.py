@@ -7,22 +7,17 @@ minY = 0
 maxY = 100
 
 #Required to generate lexington synthetic data
-VMIN = 1000                    # Minimum Data Mule speed (in m/s)
-VMAX = 2000                   # Maximum Data mule speed (in m/s)
 
 #Required in readLexingtonData, computeLINKEXISTS, and STB_Main_Graph - to create the STB graph
 
 #Only required for main2.py to validate the created STB graph for different day
 
-delivery_file_name = "delivery_day1.txt"
 
-metrics_file_name = "metrics_LLC_day1.txt"
 
 # Start times may be different for different buses
 route_start_time1 = 0
 route_start_time2 = 10
 
-wait_time = [3, 10]
 
 # Simulation Time  ---- 1 plus
 dt = 1  # this is the discrete time interval such as 0, 2, 4, 6, 8, ...
@@ -48,6 +43,7 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
+# spectRange = [1200, 345, 900, 263]
 spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
@@ -66,14 +62,23 @@ sensing_power = 0.04 #in Watts
 lambda_val = 0.1   #lambda in exponential function
 messageBurst = [5, 10]
 
+StartTime = 0
 
-max_nodes = 50
-T = 45
-V = 62
-NoOfDMs = 50
-path_to_folder = 'Bands50/1/ALL/'
+
+debug_message = -1
+validate_data_directory = 'Lexington35/1/Day1/'
+max_nodes = 35
+T = 90
+V = 47
+NoOfDMs = 35
+path_to_folder = 'Bands35/1/Day1/ALL/'
 S = [0, 1, 2, 3]
-validate_data_directory = 'Lexington50/1/Day1/'
-lex_data_directory = 'Lexington50/1/'
-lex_data_directory_day = 'Lexington50/1/Day1/'
-link_exists_folder = 'Bands50/1/'
+lex_data_directory = 'Lexington35/1/'
+lex_data_directory_day = 'Lexington35/1/Day1/'
+link_exists_folder = 'Bands35/1/Day1/'
+delivery_file_name = "delivery_day1.txt"
+metrics_file_name = "metrics_LLC_day1.txt"
+VMIN = 100
+VMAX = 150
+wait_time = [2, 5]
+run_start_time = 1
