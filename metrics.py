@@ -25,7 +25,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
 
 #Main starts here
-msg_file = open ("Bands"+ str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt")
+msg_file = open ("Bands"+ str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
@@ -33,7 +33,7 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-delivery_times = [5, 10, 20, 30, 40, 50, 60]
+delivery_times = [i for i in range(0, T + 10, 10)]
 
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\n")

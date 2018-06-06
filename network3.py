@@ -77,7 +77,7 @@ class Network(object):
 
                 else:
                     print("Error 2: ", " ID ", id, " src: ", src, " des: ", des, " t ", t)
-        print("Network Status -- Time: ", t)            #console output for debugging
+        # print("Network Status -- Time: ", t)            #console output for debugging
         # self.network_status()
 
         for i in range(len(self.nodes)):                #send all messages to their next hop

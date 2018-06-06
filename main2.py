@@ -24,7 +24,7 @@ with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
 with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
-message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + "generated_messages.txt"
+message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + link_exists_folder.split("/")[2] + "/" + "generated_messages.txt"
 print("Message file: ", message_path_file)
 
 with open(message_path_file, "r") as fg:
