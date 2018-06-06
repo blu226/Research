@@ -16,7 +16,7 @@ def readTrajectoryFile(DMTrajectories):
             if patternMatch:
                 # print ("Pattern 1: ", patternMatch.group(1))
                 trajectoryCoord = patternMatch.group(1)
-                if len(trajectoryCoord.strip().split(',')) > 27:
+                if len(trajectoryCoord.strip().split(',')) > 30:
                     DMTrajectories.append(trajectoryCoord.strip().split(','))
 
             else:
@@ -34,7 +34,7 @@ def getSourceDesCoordinates(src_start, src_end, des_end):
     for srcID in range(src_start, src_end, 1):
         #Choose src and des from bus routes
         route_id = random.choice(bus_routes)
-        # bus_routes.remove(route_id)
+        #bus_routes.remove(route_id)
         src = random.choice(DMTrajectories[route_id])
 
         if srcID + src_end >= des_end:
@@ -45,7 +45,7 @@ def getSourceDesCoordinates(src_start, src_end, des_end):
             des = random.choice(DMTrajectories[route_id])
             dist = euclideanDistance(float(str(src).split()[0]), float(str(src).split()[1]), float(str(des).split()[0]), float(str(des).split()[1]))
             count = 0
-            adequate_dist = random.randint(1500, 3000)
+            adequate_dist = random.randint(1500, 2000)
             while dist < adequate_dist:
                 count = count + 1
                 if count > len(DMTrajectories[route_id]):
@@ -60,7 +60,7 @@ def getSourceDesCoordinates(src_start, src_end, des_end):
                 # print(route_id, dist)
 
             print("SRC Route ID", route_id, srcID, src)
-            print("SRC Route ID", route_id, srcID + src_end, des)
+            print("DES Route ID", route_id, srcID + src_end, des, "dist: ", dist, "\n")
             village_coors[srcID] = src
             village_coors[srcID + src_end] = des
 
@@ -213,7 +213,7 @@ def copy_files():
         run = lex_data_directory_day.split("/")[1]
         day = lex_data_directory_day.split("/")[2]
         # print("Current run is: ", run)
-        src = "Lexington" + str(max_nodes) + "/" + str(run) + "/" + str(day) + "/" + str(i) + ".txt"
+        src = "Lexington" + str(max_nodes) + "/" + str(run) + "/" + day  + "/" + str(i) + ".txt"
         dst = lex_data_directory_day + str(i) + ".txt"
         copyfile(src, dst)
 
@@ -226,7 +226,7 @@ lex_data_directory = lex_data_directory.split("/")[0] +"/"
 LINK_EXISTS = numpy.empty(shape=(V, V, numSpec, int(T/dt), int(T/dt)))
 LINK_EXISTS.fill(math.inf)
 
-T = 120
+T = T + 30
 
 if not os.path.exists(lex_data_directory_day):
     os.makedirs(lex_data_directory_day)
@@ -239,13 +239,13 @@ readTrajectoryFile(DMTrajectories)
 
 print("Length of DM trajectories: ", len(DMTrajectories))
 
-#Just copy files, we don't have to get the trajectories
+#Just copy files, we don't have to generate the trajectories
 if V - NoOfDataCenters - NoOfSources < max_nodes:
     copy_files()
 
 else:
     #TODO: Run it only for Day1
-    if "Day1" in lex_data_directory_day and lex_data_directory_day.split("/")[1] == "1":
+    if "Day1" in lex_data_directory_day and lex_data_directory_day.split("/")[1] == str(run_start_time):
         print("New locations generated\n")
         getBusRoutes(0, NoOfDMs)
         getSourceDesCoordinates(0, NoOfSources, (NoOfSources + NoOfDataCenters))
