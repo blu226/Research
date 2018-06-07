@@ -15,16 +15,18 @@ output_file.write("ID\ts\td\tts\tte\tLLC\tELC\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
-specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
+day1_link_exists = link_exists_folder.split("/")
+specBW = pickle.load(open(day1_link_exists[0] + "/" + day1_link_exists[1] + "/Day1/specBW.pkl", "rb"))
 
-with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
+day1_folder_path = path_to_folder.split("/")
+with open(day1_folder_path[0] + "/" + day1_folder_path[1] + "/Day1/" + day1_folder_path[3] + "/LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 
 
-with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
+with open(day1_folder_path[0] +"/" + day1_folder_path[1] + "/Day1/" + day1_folder_path[3] + "/LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
-message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/" + link_exists_folder.split("/")[2] + "/" + "generated_messages.txt"
+message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/Day1/generated_messages.txt"
 print("Message file: ", message_path_file)
 
 with open(message_path_file, "r") as fg:

@@ -62,11 +62,11 @@ def run_simulation_files(mules, T, max_nodes, run):
 
         os.system('python3 STB_main_path.py')
         
-        if ind == 0 and mules == max_nodes:
-        	os.system('python3 generateMessage_new.py')
-
-        os.system('python3 main2.py')
-        os.system('python3 metrics.py')
+        # if ind == 0 and mules == max_nodes:
+        # 	os.system('python3 generateMessage_new.py')
+        #
+        # os.system('python3 main2.py')
+        # os.system('python3 metrics.py')
 
 
 number_of_runs = 1
@@ -81,10 +81,10 @@ if generate_files == "Y":
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [35, 25]
+    mule_set = [5]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 3):
+        for run in range(run_start_time, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -93,7 +93,7 @@ if generate_files == "Y":
             lex_data_directory = "Lexington" + str(max_mules) + "/" + str(run) +"/"
             lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
            
-            T = 90
+            T = 15
 
             if set_max_nodes == True:
                 # max_nodes = max_mules

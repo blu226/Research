@@ -30,21 +30,20 @@ ADJ_T, Parent, Spectrum, ADJ_E = computeADJ_T_2(specBW, LINK_EXISTS)
 # print("LLC path computation started: ")
 LLC_Path, Parent, Spectrum, ELC_Path = LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M)
 
-ADJ_T_file = open(path_to_folder + "ADJ_T.pkl", 'wb')
-pickle.dump(ADJ_T, ADJ_T_file)
-ADJ_T_file.close()
-
-ADJ_E_file = open(path_to_folder + "ADJ_E.pkl", 'wb')
-pickle.dump(ADJ_E, ADJ_E_file)
-ADJ_E_file.close()
-
-save_4D_in_file(path_to_folder + "ADJ_T.txt", LLC_Path)
-save_4D_in_file(path_to_folder + "ADJ_E.txt", ELC_Path)
-
-
-spec_file = open(path_to_folder + "Spectrum.pkl", 'wb')
-pickle.dump(Spectrum, spec_file)
-spec_file.close()
+# ADJ_T_file = open(path_to_folder + "ADJ_T.pkl", 'wb')
+# pickle.dump(ADJ_T, ADJ_T_file)
+# ADJ_T_file.close()
+#
+# ADJ_E_file = open(path_to_folder + "ADJ_E.pkl", 'wb')
+# pickle.dump(ADJ_E, ADJ_E_file)
+# ADJ_E_file.close()
+#
+# save_4D_in_file(path_to_folder + "ADJ_T.txt", LLC_Path)
+# save_4D_in_file(path_to_folder + "ADJ_E.txt", ELC_Path)
+#
+# spec_file = open(path_to_folder + "Spectrum.pkl", 'wb')
+# pickle.dump(Spectrum, spec_file)
+# spec_file.close()
 
 save_4D_in_file(path_to_folder + "Parent.txt", Parent)
 save_4D_in_file(path_to_folder+ "Spectrum.txt", Spectrum)
