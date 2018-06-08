@@ -252,14 +252,15 @@ def print4d(adj, adj2):
 
 
 def save_4D_in_file(filename, adj):
+    #adj[i, j, s, t] for specBW, adj[i, j, t, m] for ADJ_T
     with open(filename, "w") as f:
-        f.write("#i j t m\n")
+        f.write("#i j s t\n")
         for i in range(len(adj)):
             for j in range(len(adj[0])):
-                for t in range(len(adj[0][0])):
-                    for m in range(len(adj[0][0][0])):
-                        if adj[i, j, t, m] != math.inf and i != j and adj[i, j, t, m] != -1:
-                            f.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " = " + str(adj[i, j, t, m]) + "\n")
+                for s in range(len(adj[0][0])):
+                    for t in range(len(adj[0][0][0])):
+                        if adj[i, j, s, t] != math.inf and i != j and adj[i, j, s, t] != -1:
+                            f.write(str(i) + " " + str(j) + " " + str(s) + " " + str(t) + " = " + str(adj[i, j, s, t]) + "\n")
 
     f.close()
 

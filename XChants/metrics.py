@@ -7,7 +7,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
     for line in lines:
         line_arr = line.strip().split("\t")
-        if int(line_arr[4]) < delivery_time:
+        if int(line_arr[4]) <= delivery_time:
             delivered += 1
             latency += int(line_arr[6])
             energy += float(line_arr[7])

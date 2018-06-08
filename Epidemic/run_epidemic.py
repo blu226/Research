@@ -56,8 +56,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 35
-mule_set = [35, 25, 15, 5]
+max_nodes = 15
+mule_set = [15]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -69,7 +69,7 @@ for max_mules in mule_set:
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-        T = 90
+        T = 30
 
         if set_max_nodes == True:
             # max_nodes = max_mules

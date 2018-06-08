@@ -54,6 +54,17 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
+fsorted = open(path_to_folder + "sorted_epidemic_delivery.txt", "w")
+#sort the lines based on LLC i.e., column 5
+
+fsorted.write("ID	s	d	ts	te	LLC	size	parent	parentTime	replica\n")
+
+lines = sorted(lines, key=lambda line: int(line.split()[5]))
+
+for line in lines:
+    fsorted.write(line)
+fsorted.close()
+
 delivery_times = [i for i in range(0, T + 10, 10)]
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\n")

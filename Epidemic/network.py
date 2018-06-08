@@ -44,17 +44,17 @@ class network(object):
             to_send = True
 
             if des_node != src_node:
-                for mes in des_node.buf:
-                    if mes.ID == message.IDcl:
-                        to_send = False
-
-                if to_send == True:
+                # for mes in des_node.buf:
+                #     if mes.ID == message.IDcl:
+                #         to_send = False
+                #
+                # if to_send == True:
                     # if message.ID == 1:
                     #     print("SENDING: " + str(message.ID) + " at time " + str(tau) + " from " + str(
                     #         src_node.ID) + " to: " + str(des_node))
 
-                    if src_node.try_sending_message(des_node, message, tau, replica, LINK_EXISTS, specBW):
-                        replica += 1
+                if src_node.try_sending_message(des_node, message, tau, replica, LINK_EXISTS, specBW):
+                    replica += 1
 
 
 #Function is_in_communication_range: checks if 2 nodes are within range of a certain spectrum
@@ -84,6 +84,9 @@ class network(object):
         for node in self.nodes:
             for mes in node.buf:
                 if int(mes.des) == int(node.ID):
+                    if mes.ID == debug_message:
+                        print("Dest - t: " + str(mes.last_sent) + " Node: " + str(node.ID))
+
                     f = open(path_to_folder + delivery_file_name, "a")
                     line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\n"
 
@@ -101,6 +104,31 @@ class network(object):
                 f.write(line)
         f.close()
 
+    def remove_duplicate_messages(self, node):
+
+        to_be_removed = []
+        for i in range(0, len(node.buf) - 1):
+            for j in range(i + 1, len(node.buf)):
+                msg1 = node.buf[i]
+                msg2 = node.buf[j]
+
+                if msg1 in to_be_removed:
+                    break
+
+                if msg1.ID == msg2.ID:
+                    if msg1.last_sent < msg2.last_sent:
+                        to_be_removed.append(msg2)
+
+                    else:
+                        to_be_removed.append(msg1)
+
+
+
+        for msg in to_be_removed:
+            if msg.ID == debug_message:
+                print(" Remove " + str(msg.ID) + " src " + str(msg.src) + " des: " + str(msg.des) +" curr: " + str(node.ID) )
+            node.buf.remove(msg)
+
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
@@ -111,10 +139,13 @@ class network(object):
         for i in range(len(self.nodes)):
             #For each message in this nodes buffer
             node = self.nodes[i]
+            self.remove_duplicate_messages(node)
+
 
             for mes in node.buf:
                 if mes.last_sent <= ts:
                     if mes.ID == debug_message:
+
                         print("t: " + str(ts) + " Node: " + str(node.ID))
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)
         #Handle messages that got delivered

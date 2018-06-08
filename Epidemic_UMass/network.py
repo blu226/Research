@@ -111,6 +111,7 @@ class network(object):
         for i in range(len(self.nodes)):
             #For each message in this nodes buffer
             node = self.nodes[i]
+            remove_duplicate_message(node)
             for mes in node.buf:
                 if mes.last_sent <= ts:
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)

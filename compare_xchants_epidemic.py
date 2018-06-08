@@ -1,10 +1,10 @@
 import math
 import pickle
 
-path_to_folder = 'Bands25/1/Day1/ALL/'
-link_exists_folder = 'Bands25/1/Day1/'
+path_to_folder = 'Bands15/1/Day1/ALL/'
+link_exists_folder = 'Bands15/1/Day1/'
 
-specBW = pickle.load(open("Bands25/1/Day1/specBW.pkl", "rb"))
+specBW = pickle.load(open("Bands15/1/Day1/specBW.pkl", "rb"))
 
 fx = open(path_to_folder + "delivery_day1.txt", "r")
 xLines = fx.readlines()[2:]
@@ -75,18 +75,18 @@ for ind in range(len(llc_path_lines)):
                     for i in range(len(path)-1, 0, -1):
                         j = i - 1
 
-                        if int(spec[j]) > 4:
-                            BW_arr.insert(0, 1)
-                            consTime_arr.insert(0, 1)
-                            curr_time += 1
+                        # if int(spec[j]) > 4:
+                        #     BW_arr.insert(0, 1)
+                        #     consTime_arr.insert(0, 1)
+                        #     curr_time += 1
 
-                        else:
-                            consTime = math.ceil(int(ll_path_arr[3])/specBW[int(path[i]), int(path[j]), int(spec[j]) - 1, curr_time])
-                            consTime_arr.insert(0, consTime)
-                            BW_arr.insert(0, specBW[
-                                int(path[i]), int(path[j]), int(spec[j]) - 1, curr_time])
 
-                            curr_time += consTime
+                        consTime = math.ceil(int(ll_path_arr[3])/specBW[int(path[i]), int(path[j]), int(spec[j])%10 - 1, curr_time])
+                        consTime_arr.insert(0, consTime)
+                        BW_arr.insert(0, specBW[
+                            int(path[i]), int(path[j]), int(spec[j])%10 - 1, curr_time])
+
+                        curr_time += consTime
 
                     print("BW: ", BW_arr)
                     print("LLC: ", consTime_arr, " Tot: ", sum(consTime_arr) , "\n")

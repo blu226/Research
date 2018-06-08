@@ -4,12 +4,20 @@ from computeHarvesine import *
 from constants import *
 from STB_help import *
 
+
+def load_pkl(nodeID):
+    coord = pickle.load(open(validate_pkl_folder + str(nodeID) + ".pkl", "rb"))
+    return coord
+
+
 class Node(object):                                                                     #Node Object
     def __init__(self, name):
-        self.name = name                                                                #Node ID or name (string)
+        self.ID = name                                                                #Node ID or name (string)
         self.buf = []                                                                   #Node message buffer
-        self.coord = [0, 0]
+        self.coord = []
         self.buf_size = 0
+
+
 
     def place(self, x, y):                                                              #place node on x-y plane
         self.coord[0] = x
@@ -24,28 +32,41 @@ class Node(object):                                                             
             message = self.buf[i].ID
             print("Message ID: " + str(message))
 
-    def get_attributes(self, curr, ts, te, s):
-        with open(validate_data_directory + str(curr) + ".txt", "r") as fc:
-            lines = fc.readlines()[1:]
+    # def get_attributes(self, curr, ts, te, s):
+    #     with open(validate_data_directory + str(curr) + ".txt", "r") as fc:
+    #         lines = fc.readlines()[1:]
+    #
+    #     curr_coorX = [-1 for i in range(te-ts)]
+    #     curr_coorY  = [-1 for i in range(te-ts)]
+    #
+    #
+    #     k = 0
+    #     for i in range(len(lines)):
+    #         curr_line_arr = lines[i].strip().split()
+    #
+    #         if int(float(curr_line_arr[0])) >= ts and int(float(curr_line_arr[0])) < te:
+    #             curr_coorX[k] = curr_line_arr[1]
+    #             curr_coorY[k] = curr_line_arr[2]
+    #             k = k + 1
+    #     return curr_coorX, curr_coorY
 
-        curr_coorX = [-1 for i in range(te-ts)]
-        curr_coorY  = [-1 for i in range(te-ts)]
+    def get_attributes(self, nodeID, ts, te, s):
+        coord = load_pkl(nodeID)
+        curr_coorX = []
+        curr_coorY  = []
 
+        if te > T:
+            te = T
 
-        k = 0
-        for i in range(len(lines)):
-            curr_line_arr = lines[i].strip().split()
+        for i in range(ts, te):
+            curr_coorX.append(coord[i][0])
+            curr_coorY.append(coord[i][1])
 
-            if int(float(curr_line_arr[0])) >= ts and int(float(curr_line_arr[0])) < te:
-                curr_coorX[k] = curr_line_arr[1]
-                curr_coorY[k] = curr_line_arr[2]
-                k = k + 1
         return curr_coorX, curr_coorY
 
     def is_in_communication_range(self, curr, next, ts, te, s, msg):
-        curr_coorX, curr_coorY = self.get_attributes(curr, ts + StartTime, te + StartTime,  s)
-        next_coorX, next_coorY = self.get_attributes(next, ts + StartTime, te + StartTime, s)
-
+        curr_coorX, curr_coorY = self.get_attributes(curr, ts, te, s)
+        next_coorX, next_coorY = self.get_attributes(next, ts, te, s)
         # print("Dist: ", euclideanDistance(curr_coorX, curr_coorY, next_coorX, next_coorY), s, spectRange[s])
 
         for i in range(len(curr_coorX)):

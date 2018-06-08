@@ -16,8 +16,9 @@ class Network(object):
 
     def fill_network(self, num_nodes, MAX_X, MAX_Y):          #quickly fill network and randomly place nodes
         for i in range(num_nodes):                            #create and add nodes to network
-            ide = "Node " + str(i)
+            ide = str(i)
             node = Node(ide)
+            # node.load_pkl()
             self.add_node(node)
 
     def network_status(self):                          #console output for debugging (prints all messages in each nodes buffer)

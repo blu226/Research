@@ -62,8 +62,8 @@ def run_simulation_files(mules, T, max_nodes, run):
 
         os.system('python3 STB_main_path.py')
         
-        # if ind == 0 and mules == max_nodes:
-        # 	os.system('python3 generateMessage_new.py')
+        if ind == 0 and mules == max_nodes:
+        	os.system('python3 generateMessage_new.py')
 
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
@@ -77,11 +77,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 35
+    max_nodes = 15
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [35, 25, 15, 5]
+    mule_set = [15]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
@@ -92,8 +92,9 @@ if generate_files == "Y":
             link_exists_folder = "../Bands" + str(max_mules) + "/" + str(run) +"/Day1/"
             lex_data_directory = "../Lexington" + str(max_mules) + "/" + str(run) +"/"
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
-           
-            T = 90
+            pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
+            validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
+            T = 30
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -112,7 +113,8 @@ if generate_files == "Y":
                             and ("delivery_file_name" not in line) \
                             and ("metrics_file_name" not in line) \
                             and ("VMIN" not in line) and ("VMAX" not in line)\
-                            and ("wait_time" not in line) and ("run_start_time" not in line):
+                            and ("wait_time" not in line) and ("run_start_time" not in line) \
+                            and ("pkl_folder" not in line) and ("validate_pkl_folder" not in line):
                         f.write(line)
                 
                 f.write("max_nodes = " + str(max_nodes) + "\n")
@@ -130,9 +132,12 @@ if generate_files == "Y":
                 f.write("VMAX = 150" + "\n")
                 f.write("wait_time = [2, 5]" + "\n")
                 f.write("run_start_time = "  + str(run_start_time) + "\n")
+                f.write("pkl_folder = '" + pkl_folder + "'\n")
+                f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
 
             os.system('python3 readLexingtonData_Fixed.py')
-            os.system('python3 computeLINKEXISTS.py')
+            os.system('python3 create_pickles_Lex.py')
+            os.system('python3 computeLINKEXISTS_Lex.py')
             run_simulation_files(max_mules, T, max_nodes, run)
 
 else:

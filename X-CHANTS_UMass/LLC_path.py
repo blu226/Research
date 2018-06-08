@@ -80,7 +80,7 @@ def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M):
                 for j in range(V):
                     for t in range(0, T, tau):
                         # leastTime = LLC_PATH[i, j, t, m]
-                        #leastTime = math.inf
+                        # leastTime = math.inf
 
                         dcurr = ADJ_T[i, j, t, m]
                         d2 = math.inf
@@ -95,152 +95,28 @@ def LLC_PATH_ADJ_2(ADJ_T, ADJ_E, Parent, Spectrum, V, T, M):
 
                         if d1 + d2 < dcurr:
                             ADJ_T[i, j, t, m] = d1 + d2
-                            ADJ_E[i, j, t, m]  = e1 + e2
+                            ADJ_E[i, j, t, m] = e1 + e2
                             Parent[i, j, t, m] = Parent[k, j, (t + int(d1)), m]
                             Spectrum[i, j, t, m] = Spectrum[k, j, (t + int(d1)), m]
-                            # if i ==4 and j == 10 and t  == 0:
+                            # if i == 4 and j == 11 and t  == 12:
                             #     print(str(k) + " " + str(i) + " " + str(j) + " " + str(t) + " : " + str(
                             #                     ADJ_T[i, j, t, m]) + " " + str(Parent[i, j, t, m]))
 
     return ADJ_T, Parent, Spectrum, ADJ_E
 
-def PRINT_LLC_PATH_FILE(LLC_PATH, ELC_PATH, Parent, Spectrum):
-    m = 0
 
-    file = open(path_to_folder + "LLC_PATH.txt", "w")
-    file2 = open(path_to_folder + "LLC_PATH_Spectrum.txt", "w")
-    file3 = open(path_to_folder + "LLC_Spectrum.txt", "w")
-
-    file.write("#i\tj\tt\tm:\tPATH\n")
-    file2.write("#i\tj\tt\tm:\tPATH\n")
-    file3.write("#i\tj\tt\tm:\tPATH\n")
-
-    # for t in range(0, T, tau):
-        # for i in range(V):
-        #     for j in range(V):
-    i = 4
-    j = 26
-    t = 0
-
-    # if i == j:
-    #     continue
-    # print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(LLC_PATH[i, j, t, m]) + " : ", end=" ")
-    # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
-
-    if LLC_PATH[i, j, t, m] != math.inf:
-        d = t + int(LLC_PATH[i, j, t, m])  # total delay
-
-        print(i, j, t, d, LLC_PATH[i, j, t, m])
-
-        path_str = str(j) + "\t"
-        print_path_str = str(j) + "\t"
-        spectrum_str = ""
-        print("1. ", d, j)
-
-        d = d - tau #this is important because of Spectrum[par_u, j, d, m]
-
-        par_u = int(Parent[i, j, t, m])
-
-        # temporal link
-        while d > t and Spectrum[par_u, j, d, m] > 10:
-            # Spectrum[par_u, j, d, m] -= 10
-            print("2. ", d, par_u)
-            spectrum_str += str(Spectrum[par_u, j, d, m]) + "\t"
-            print_path_str += str(par_u) + " [" + str(Spectrum[par_u, j, d, m]) + ", " + str(d) + "]\t"
-            path_str += str(par_u) + "\t"
-            d = d - tau
-
-        old_par_u = j
-        while (par_u != -1 and par_u != i):
-            print("3. ", d, par_u)
-            spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
-            print_path_str += str(par_u) + " (" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + ")\t"
-            path_str += str(par_u) + "\t"
-            d = d - tau
-
-            old_par_u = par_u
-            par_u = int(Parent[i, par_u, d, m])
-
-            # temporal link
-            while d > t and Spectrum[par_u, old_par_u, d, m] > 10:
-                # Spectrum[par_u, old_par_u, t, m] -= 10
-                print("4. ", d, par_u)
-                spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
-                print_path_str += str(par_u) + " [" + str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) + "]\t"
-                path_str += str(par_u) + "\t"
-                d = d - tau
-
-
-
-        spectrum_str +=  str(Spectrum[par_u, old_par_u, d, m]) + "\t"
-        print_path_str += str(i) + " (" +  str(Spectrum[par_u, old_par_u, d, m]) + ", " + str(d) +")\t"
-        path_str += str(i) + "\t"
-
-        print("5. ", d, i)
-
-        d = d - tau
-        while d >= t and Spectrum[i, old_par_u, d, m] > 10:
-            # Spectrum[par_u, old_par_u, t, m] -= 10
-            print("6. ", d, i)
-            spectrum_str += str(Spectrum[par_u, old_par_u, d, m]) + "\t"
-            print_path_str += str(i) + " [" + str(Spectrum[i, old_par_u, d, m]) + ", " + str(
-                d) + "]\t"
-            path_str += str(i) + "\t"
-            d = d - tau
-
-
-        #print(print_path_str, end = " ")
-        file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
-        file2.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" +  str(ELC_PATH[i, j, t, m]) + "\t" + str(LLC_PATH[i, j, t, m]) + "\t:\t" + print_path_str + "\n")
-        file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spectrum_str + "\n")
-
-    file.close()
-    file2.close()
-    file3.close()
-
-def PRINT_PATH_FILE_backup(LLC_PATH, Parent, Spectrum):
-
-    file = open(path_to_folder + "path.txt", "w")
-
-    i = 4
-    j = 26
-    t = 0
-    m = 0
-    # if i == 1 and j == 3:
-    print("\n" + str(i) + " " + str(j) + " " + str(t) + " " + str(m) + " " + str(
-        LLC_PATH[i, j, t, m]) + " : ", end=" ")
-    # print("Path from " + str(u) + " -> "+ str(v) + " at time " + str(t) + " for message 0 is")
-    if LLC_PATH[i, j, t, m] != math.inf:
-        print_path_str = str(j) + " (" + str(Spectrum[i, j, t, m]) + ")  "
-        par_u = int(Parent[i, j, t, m])
-
-        path_str = str(j) + " "
-
-        while par_u != -1 and t < T and par_u != i:
-            path_str += str(par_u) + " "
-            print_path_str += str(par_u) + " (" + str(Spectrum[i, par_u, t, m]) + ") "
-            par_u = int(Parent[i, par_u, t, m])
-
-        path_str += str(i) + " "
-        print_path_str += str(i) + " "
-
-        print("\nBackup: " , print_path_str, end=" ")
-        file.write(str(i) + " " + str(j) + " " + str(t) + " " + str(M[m]) + " " + path_str + "\n")
-    file.close()
-
-
-def PRINT_LLC_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum):
+def PRINT_LLC_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum, ADJ_T):
 
 
     file = open(path_to_folder + "LLC_PATH.txt", "w")
     file2 = open(path_to_folder + "LLC_PATH_Spectrum.txt", "w")
     file3 = open(path_to_folder + "LLC_Spectrum.txt", "w")
+    file4 = open(path_to_folder + "LLC_time.txt", "w")
 
     file.write("#i\tj\tt\tm:\tPATH\n")
     file2.write("#i\tj\tt\tm:\tPATH\n")
     file3.write("#i\tj\tt\tm:\tPATH\n")
-
-    # m = 0
+    file4.write("#i\tj\tt\tm:\tPATH\n")
 
     for m in range(len(M)):
         for t in range(0, T, tau):
@@ -249,54 +125,55 @@ def PRINT_LLC_PATH_FILE_3(LLC_PATH, ELC_PATH, Parent, Spectrum):
                     if i == j:
                         continue
 
-                    #0 9 0 ; 4 26 0; 1 4 0;
                     if LLC_PATH[i, j, t, m] != math.inf:
-                    # if LLC_PATH[i, j, t, m] != math.inf and i == 4 and j == 26 and t == 0:
                         par_u = int(Parent[i, j, t, m])
 
                         print_path_str = str(j) + " (" + str(Spectrum[i, j, t, m]) + ")\t"
                         path_str = str(j) + "\t"
                         spec_str = str(Spectrum[i, j, t, m]) + "\t"
+                        time_str = str(int(ADJ_T[i, j, t, m])) + "\t"
 
                         temp_spec_val = Spectrum[i, j, t, m]
 
-                        while temp_spec_val > 10:
-                            temp_spec_val -= 10
-                            path_str += str(par_u) + "\t"
-                            spec_str += str(temp_spec_val) + "\t"
-                            print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")  "
+                        # while temp_spec_val > 10:
+                        #     temp_spec_val -= 10
+                        #     path_str += str(par_u) + "\t"
+                        #     spec_str += str(temp_spec_val) + "\t"
+                        #     time_str += "1\t"
+                        #     print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")  "
 
                         while par_u != -1 and t < T and par_u != i:
                             path_str += str(par_u) + "\t"
                             print_path_str += str(par_u) + " (" + str(Spectrum[i, par_u, t, m]) + ")\t"
                             spec_str += str(Spectrum[i, par_u, t, m]) + "\t"
+                            time_str += str(int(ADJ_T[i, par_u, t, m])) + "\t"
 
                             #Get the value earlier than updating par_u
                             temp_spec_val = Spectrum[i, par_u, t, m]
 
                             par_u = int(Parent[i, par_u, t, m])
 
-                            while temp_spec_val > 10:
-                                temp_spec_val -= 10
-                                path_str += str(par_u) + "\t"
-                                spec_str += str(temp_spec_val) + "\t"
-                                print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")\t"
+                            # while temp_spec_val > 10:
+                            #     temp_spec_val -= 10
+                            #     path_str += str(par_u) + "\t"
+                            #     spec_str += str(temp_spec_val) + "\t"
+                            #     time_str += "1\t"
+                            #     print_path_str += str(par_u) + " (" + str(temp_spec_val) + ")\t"
 
 
                         path_str += str(i)
                         print_path_str += str(i) +"\t"
 
-
-                        # if i == 1 and j == 4 and t == 0:
-                        # print("\nPath " , print_path_str + " LLC: " , LLC_PATH[i, j, t, m], end=" ")
-
-                        file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + path_str + "\n")
+                        file.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + str(int(LLC_PATH[i, j, t, m])) + "\t" + path_str + "\n")
                         file2.write(
                             str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + str(ELC_PATH[i, j, t, m]) + "\t" + str(
-                                LLC_PATH[i, j, t, m]) + "\t:\t" + print_path_str + "\n")
-                        file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + spec_str + "\n")
+                                int(LLC_PATH[i, j, t, m])) + "\t" + print_path_str + "\n")
+                        file3.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + str(int(LLC_PATH[i, j, t, m])) + "\t" + spec_str + "\n")
+                        file4.write(str(i) + "\t" + str(j) + "\t" + str(t) + "\t" + str(M[m]) + "\t" + str(
+                            int(LLC_PATH[i, j, t, m])) + "\t" + time_str + "\n")
 
     file.close()
     file2.close()
     file3.close()
+    file4.close()
 
