@@ -45,7 +45,7 @@ class network(object):
 
             if des_node != src_node:
                 for mes in des_node.buf:
-                    if mes.ID == message.ID:
+                    if mes.ID == message.IDcl:
                         to_send = False
 
                 if to_send == True:
@@ -61,7 +61,7 @@ class network(object):
     def is_in_communication_range(self, node1, node2):
         # dist = funHaversine(node1.coord[1], node1.coord[0], node2.coord[1], node2.coord[0])
         dist = self.euclideanDistance(node1.coord[0], node1.coord[1], node2.coord[0], node2.coord[1])
-        if dist < 1800:
+        if dist < spectRange[0]:
             return True
         else:
             return False
@@ -84,7 +84,7 @@ class network(object):
         for node in self.nodes:
             for mes in node.buf:
                 if int(mes.des) == int(node.ID):
-                    f = open(Link_Exists_path + delivery_file_name, "a")
+                    f = open(path_to_folder + delivery_file_name, "a")
                     line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\n"
 
                     f.write(line)
@@ -92,7 +92,7 @@ class network(object):
                     node.buf.remove(mes)
 
     def all_messages(self):
-        f = open(Link_Exists_path + notDelivered_file_name, "a")
+        f = open(path_to_folder + notDelivered_file_name, "a")
         for node in self.nodes:
             # print("Node " + str(node.ID) + ": ")
             for mes in node.buf:
@@ -111,8 +111,11 @@ class network(object):
         for i in range(len(self.nodes)):
             #For each message in this nodes buffer
             node = self.nodes[i]
+
             for mes in node.buf:
                 if mes.last_sent <= ts:
+                    if mes.ID == debug_message:
+                        print("t: " + str(ts) + " Node: " + str(node.ID))
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)
         #Handle messages that got delivered
         self.messages_delivered()

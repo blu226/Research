@@ -52,6 +52,9 @@ class node(object):
                         new_message.set(te, replicaID, te, self.ID)
                         des_node.buf.append(new_message)
 
+                        if mes.ID == debug_message:
+                            print("ID "+ str(mes.ID) + " t " +  str(ts) + " src: " + str(self.ID) + " des: " + str(des_node.ID) + " ttt " + str((te - ts)))
+
                         return True
             return False
 

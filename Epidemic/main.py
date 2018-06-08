@@ -163,12 +163,12 @@ def create_constants(startTime):
 
 time = 0
     # print(day)
-output_file = open(Link_Exists_path + delivery_file_name, "w")
+output_file = open(path_to_folder + delivery_file_name, "w")
 output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
-output_file2 = open(Link_Exists_path + notDelivered_file_name, "w")
+output_file2 = open(path_to_folder + notDelivered_file_name, "w")
 output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
 output_file2.write("----------------------------------------------------\n")
 output_file2.close()
@@ -192,10 +192,10 @@ net.fill_network()
 # path = "Bands/" + day + "/"
 # create_messages(path)
 
-message_path_file = "../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/" + "generated_messages.txt"
-print(message_path_file)
+message_path_file = "../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt"
 with open(message_path_file, "r") as f:
     msg_lines = f.readlines()[1:]
+print(msg_lines[0])
 
 #Run simulation
 for i in range(T):
