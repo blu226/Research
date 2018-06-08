@@ -10,7 +10,7 @@ id = 0
 count_messages = 0
 
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while count_messages < 50:
+while count_messages < 100:
     line = random.choice(path_lines)
     path_lines.remove(line)
     line_arr = line.strip().split()

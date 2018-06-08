@@ -77,11 +77,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 15
+    max_nodes = 35
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [15]
+    mule_set = [35, 15]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
@@ -94,7 +94,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
-            T = 30
+            T = 60
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
