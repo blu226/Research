@@ -29,7 +29,7 @@ with open(day1_folder_path[0] +"/" + day1_folder_path[1] + "/Day1/" + day1_folde
 message_path_file = "Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[1] + "/Day1/generated_messages.txt"
 print("Message file: ", message_path_file)
 
-with open(message_path_file, "r") as fg:
+with open(generated_message_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
     print(msg_lines[1])
 

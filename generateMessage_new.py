@@ -1,7 +1,7 @@
 from constants import *
 import random
 
-message_file = open(link_exists_folder + "generated_messages.txt", "w")
+message_file = open("generated_messages.txt", "w")
 with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 fp.close()
@@ -10,7 +10,7 @@ id = 0
 count_messages = 0
 
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while count_messages < 500:
+while count_messages < 10:
     line = random.choice(path_lines)
     path_lines.remove(line)
     line_arr = line.strip().split()
