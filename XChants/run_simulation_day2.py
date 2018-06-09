@@ -12,34 +12,34 @@ def run_simulation_files(mules, T, max_nodes, run):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/ALL/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/TV/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/ISM/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/LTE/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/CBRS/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/CBRS/"
             print("\nCBRS --------------------------- ")
 
         # Set correct folder names
-        link_exists_folder = "Bands" + str(mules) + "/" + str(run) + "/Day2/"
-        lex_data_directory = "Lexington" + str(mules) + "/" + str(run) + "/"
-        lex_data_directory_day = "Lexington" + str(mules) + "/" + str(run) + "/Day2/"
-        validate_data_directory = "Lexington" + str(mules) + "/" + str(run) + "/Day2/"
+        link_exists_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/"
+        lex_data_directory = "../Lexington" + str(mules) + "/" + str(run) + "/"
+        lex_data_directory_day = "../Lexington" + str(mules) + "/" + str(run) + "/Day2/"
+        validate_data_directory = "../Lexington" + str(mules) + "/" + str(run) + "/Day2/"
 
         with open("constants.py", "r") as f:
             lines = f.readlines()
@@ -81,19 +81,20 @@ if generate_files == "Y":
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [35, 25]
+    mule_set = [35, 15]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
-            path_to_folder = "Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/"
-            link_exists_folder = "Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
-            lex_data_directory = "Lexington" + str(max_mules) + "/" + str(run) + "/"
-            lex_data_directory_day = "Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
-
-            T = 90
+            path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/"
+            link_exists_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
+            lex_data_directory = "../Lexington" + str(max_mules) + "/" + str(run) + "/"
+            lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
+            pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
+            validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
+            T = 60
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -112,7 +113,9 @@ if generate_files == "Y":
                             and ("delivery_file_name" not in line) \
                             and ("metrics_file_name" not in line) \
                             and ("VMIN" not in line) and ("VMAX" not in line) \
-                            and ("wait_time" not in line) and ("run_start_time" not in line):
+                            and ("wait_time" not in line) and ("run_start_time" not in line)\
+                            and ("pkl_folder" not in line) and ("validate_pkl_folder" not in line):
+
                         f.write(line)
 
                 f.write("max_nodes = " + str(max_nodes) + "\n")
@@ -130,9 +133,12 @@ if generate_files == "Y":
                 f.write("VMAX = 150" + "\n")
                 f.write("wait_time = [2, 5]" + "\n")
                 f.write("run_start_time = " + str(run_start_time) + "\n")
+                f.write("pkl_folder = '" + pkl_folder + "'\n")
+                f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
 
             os.system('python3 readLexingtonData_Fixed.py')
-            os.system('python3 computeLINKEXISTS.py')
+            os.system('python3 create_pickles_Lex.py')
+            os.system('python3 computeLINKEXISTS_Lex.py')
             run_simulation_files(max_mules, T, max_nodes, run)
 
 else:
