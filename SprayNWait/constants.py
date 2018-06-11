@@ -1,7 +1,5 @@
-day = '2007-10-23_2007-10-24/'
 notDelivered_file_name = 'not_delivered_messages_SnW.txt'
-generated_messages_file = '../Bands_UMass/' + day + 'generated_messages.txt'
-spectRange = [3600,920,2400,700]
+spectRange = [1800, 460, 1200, 350]
 startTime = 0
 num_mess_replicas = 25
 debug_message = -1

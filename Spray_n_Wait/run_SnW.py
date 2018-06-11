@@ -56,8 +56,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 50
-mule_set = [50, 35, 25, 15, 5]
+max_nodes = 15
+mule_set = [15]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -96,7 +96,7 @@ for max_mules in mule_set:
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("T = " + str(T) + "\n")
             f.write("max_nodes = " + str(max_nodes) + "\n")
-            f.write("delivery_file_name = " + '"delivery_epidemic_day1.txt"' + "\n")
-            f.write("metrics_file_name = " + '"metrics_epidemic_day1.txt"' + "\n")
+            f.write("delivery_file_name = " + '"delivery_SnW_day1.txt"' + "\n")
+            f.write("metrics_file_name = " + '"metrics_SnW_day1.txt"' + "\n")
 
         run_simulation_files(max_mules, T, max_nodes, run)

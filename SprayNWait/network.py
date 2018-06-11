@@ -39,7 +39,7 @@ class network(object):
 
         #Function send_message: sends message to all nodes in range
     def try_forwarding_message_to_all(self,src_node, message, tau, LINK_EXISTS, specBW):
-        replica = 0
+
         for des_node in self.nodes:
             to_send = True
 
@@ -49,18 +49,17 @@ class network(object):
                         to_send = False
 
                 if to_send == True:
-                    if message.ID == debug_message:
-                        print("SENDING: " + str(message.ID) + " at time " + str(tau) + " from " + str(
-                            src_node.ID) + " to: " + str(des_node))
+                    # if message.ID == 1:
+                    #     print("SENDING: " + str(message.ID) + " at time " + str(tau) + " from " + str(
+                    #         src_node.ID) + " to: " + str(des_node))
+                    src_node.try_sending_message(des_node, message, tau, LINK_EXISTS, specBW)
 
-                    if src_node.try_sending_message(des_node, message, tau, replica, LINK_EXISTS, specBW):
-                        replica += 1
 
 
 #Function is_in_communication_range: checks if 2 nodes are within range of a certain spectrum
     def is_in_communication_range(self, node1, node2):
-        # dist = funHaversine(node1.coord[1], node1.coord[0], node2.coord[1], node2.coord[0])
-        dist = self.euclideanDistance(node1.coord[0], node1.coord[1], node2.coord[0], node2.coord[1])
+        dist = funHaversine(node1.coord[1], node1.coord[0], node2.coord[1], node2.coord[0])
+        # dist = self.euclideanDistance(node1.coord[0], node1.coord[1], node2.coord[0], node2.coord[1])
         if dist < spectRange[0]:
             return True
         else:
@@ -73,9 +72,10 @@ class network(object):
             line_arr = line.strip().split()
 
             if int(line_arr[5]) == time:
-                new_mes = message(line_arr[0], line_arr[1], line_arr[2], line_arr[5], line_arr[4])
-                src = int(line_arr[1])
-                self.nodes[src].buf.append(new_mes)
+                for i in range(num_mess_replicas):
+                    new_mes = message(line_arr[0], line_arr[1], line_arr[2], line_arr[5], line_arr[4], i)
+                    src = int(line_arr[1])
+                    self.nodes[src].buf.append(new_mes)
                 # print("New message: ", new_mes.ID, new_mes.src, new_mes.des)
 
 
@@ -84,22 +84,19 @@ class network(object):
         for node in self.nodes:
             for mes in node.buf:
                 if int(mes.des) == int(node.ID):
-                    if mes.ID == debug_message or mes.ID == debug_delivery_message:
-                        print("Delivered-- t: " + str(mes.last_sent) + " Node: " + str(node.ID))
-
-                    f = open(path_to_folder + delivery_file_name, "a")
-                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\n"
+                    f = open(Link_Exists_path + delivery_file_name, "a")
+                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t"  + str(mes.replica) + "\n"
 
                     f.write(line)
                     f.close()
                     node.buf.remove(mes)
 
     def all_messages(self):
-        f = open(path_to_folder + notDelivered_file_name, "a")
+        f = open(Link_Exists_path + notDelivered_file_name, "a")
         for node in self.nodes:
             # print("Node " + str(node.ID) + ": ")
             for mes in node.buf:
-                line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent) + "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t" + str(mes.parent) + "\t" + str(mes.parentTime) + "\t" + str(mes.replica) + "\n"
+                line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent) + "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.replica) + "\n"
                 # print(line)
                 f.write(line)
         f.close()
@@ -122,12 +119,13 @@ class network(object):
                     else:
                         to_be_removed.append(msg1)
 
-
-
         for msg in to_be_removed:
             if msg.ID == debug_message:
-                print(" Remove " + str(msg.ID) + " src " + str(msg.src) + " des: " + str(msg.des) +" curr: " + str(node.ID) )
+                print(" Remove " + str(msg.ID) + " src " + str(msg.src) + " des: " + str(msg.des) + " curr: " + str(
+                    node.ID))
             node.buf.remove(msg)
+
+
 
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
@@ -139,14 +137,9 @@ class network(object):
         for i in range(len(self.nodes)):
             #For each message in this nodes buffer
             node = self.nodes[i]
-            #self.remove_duplicate_messages(node)
-
-
+            # self.remove_duplicate_messages(node)
             for mes in node.buf:
                 if mes.last_sent <= ts:
-                    if mes.ID == debug_message:
-
-                        print("t: " + str(ts) + " Node: " + str(node.ID))
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)
         #Handle messages that got delivered
         self.messages_delivered()

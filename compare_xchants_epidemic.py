@@ -1,10 +1,10 @@
 import math
 import pickle
 
-path_to_folder = 'Bands15/1/Day1/ALL/'
-link_exists_folder = 'Bands15/1/Day1/'
+path_to_folder = 'Bands15/3/Day1/ALL/'
+link_exists_folder = 'Bands15/3/Day1/'
 
-specBW = pickle.load(open("Bands15/1/Day1/specBW.pkl", "rb"))
+specBW = pickle.load(open("Bands15/3/Day1/specBW.pkl", "rb"))
 
 fx = open(path_to_folder + "delivery_day1.txt", "r")
 xLines = fx.readlines()[2:]
@@ -28,7 +28,7 @@ ft_time.close()
 
 fc = open(path_to_folder + "xchants_epidemic.txt", "w")
 
-str_line = "s\td\tt\tm\tLLC\tXchants\tEpidemic"
+str_line = "ID\ts\td\tt\tm\tLLC\tXchants\tEpidemic"
 fc.write(str_line + "\n")
 fc.write("---------------------------------\n")
 

@@ -31,7 +31,7 @@ print("Message file: ", message_path_file)
 
 with open(message_path_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
-    print(msg_lines[1])
+    print(msg_lines[0])
 
 #run simulation
 for t in range(0, T, tau):
