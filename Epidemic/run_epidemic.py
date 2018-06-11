@@ -69,7 +69,7 @@ for max_mules in mule_set:
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-        T = 30
+        T = 90
 
         if set_max_nodes == True:
             # max_nodes = max_mules

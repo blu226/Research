@@ -94,7 +94,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
-            T = 30
+            T = 90
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
