@@ -8,7 +8,7 @@ fp.close()
 
 id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while id < 10:
+while id < 100:
     rand_line = random.randint(0, len(path_lines) - 1)
     line_arr = path_lines[rand_line].strip().split()
 

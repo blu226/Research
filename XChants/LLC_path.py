@@ -61,11 +61,13 @@ def computeADJ_T_2(specBW, LINK_EXISTS):
                                     Spectrum[i, j, t, m] = s + 1
                                     Parent[i, j, t, m] = i
 
-                    if (t + tau) < T and ADJ_T[i, j, t, m] == math.inf and ADJ_T[i, j, (t + tau), m] != math.inf:
+                    if (t + tau) < T and ADJ_T[i, j, t, m] > ADJ_T[i, j, (t + tau), m] + tau and ADJ_T[i, j, (t + tau), m] != math.inf:
                         ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau
                         ADJ_E[i, j, t, m] = ADJ_E[i, j, (t + tau), m] + epsilon
                         Parent[i, j, t, m] = Parent[i, j, t + tau, m]
                         Spectrum[i, j, t, m] = Spectrum[i, j, t + tau, m] + 10
+
+
 
     return ADJ_T, Parent, Spectrum, ADJ_E
 

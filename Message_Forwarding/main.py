@@ -1,6 +1,7 @@
 #MAIN
 from network import *
 import pickle
+import os
 
 #Function create_constants: creates a constants file for the given simulation
 def create_constants(dir, startTime):
@@ -51,7 +52,7 @@ def create_constants(dir, startTime):
 # time = 0
     # print(day)
 
-def spray_n_wait_simulation(dir,time):
+def MF_simulation(dir,time):
     # Create constants
     create_constants(dir,time)
 
@@ -91,4 +92,9 @@ def spray_n_wait_simulation(dir,time):
 
     net.all_messages()
 
-spray_n_wait_simulation('2007-10-23_2007-10-24/', 0)
+# days = os.listdir("../DataMules/")
+# days.sort()
+#
+# for day in days:
+
+MF_simulation('2007-10-23_2007-10-24/', 0)

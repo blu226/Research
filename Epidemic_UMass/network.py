@@ -101,6 +101,23 @@ class network(object):
                 f.write(line)
         f.close()
 
+    def remove_duplicate_messages(self, node):
+
+        to_be_removed = []
+        for i in range(0, len(node.buf) - 1):
+            for j in range(i + 1, len(node.buf)):
+                msg1 = node.buf[i]
+                msg2 = node.buf[j]
+
+                if msg1 in to_be_removed:
+                    break
+
+                if msg1.ID == msg2.ID:
+                    if msg1.last_sent < msg2.last_sent:
+                        to_be_removed.append(msg2)
+
+                    else:
+                        to_be_removed.append(msg1)
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
@@ -111,7 +128,7 @@ class network(object):
         for i in range(len(self.nodes)):
             #For each message in this nodes buffer
             node = self.nodes[i]
-            remove_duplicate_message(node)
+            self.remove_duplicate_messages(node)
             for mes in node.buf:
                 if mes.last_sent <= ts:
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)

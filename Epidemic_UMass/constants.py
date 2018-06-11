@@ -1,10 +1,10 @@
 day = '2007-10-23_2007-10-24/'
-Link_Exists_path = '../Bands/' + day
+Link_Exists_path = '../Bands_UMass/' + day
 DataMule_path = '../DataMules/' +  day + 'Day1/'
 metrics_file_name = 'metrics_epidemic.txt'
 delivery_file_name = 'delivered_messages_epidemic.txt'
 notDelivered_file_name = 'not_delivered_messages_epidemic.txt'
-generated_messages_file = '../Bands/' + day + 'generated_messages.txt'
+generated_messages_file = '../Bands_UMass/' + day + 'generated_messages.txt'
 spectRange = [3600,920,2400,700]
 startTime = 0
 t_sd = 0.5

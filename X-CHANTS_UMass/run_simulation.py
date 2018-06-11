@@ -100,10 +100,10 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         # #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        # if ind == 0 and day == 1:
-        #     # os.system('python3 create_pickles.py')
-        #    os.system('python3 computeLINKEXISTS_UMass.py')
-        #
+        if ind == 0 and day == 1:
+            # os.system('python3 create_pickles.py')
+           os.system('python3 computeLINKEXISTS_UMass.py')
+
         os.system('python3 STB_main_path.py')
         # if ind == 0 and day == 1:
         #     os.system('python3 generateMessage_new.py')
@@ -127,7 +127,7 @@ for i in range(len(directorys)):
     v = len(files)
 
     run_simulation_files(1,v,120, directorys[i], startTime[i])
-    # run_simulation_files(2,v,120, directorys[i], startTime[i])
+    run_simulation_files(2,v,120, directorys[i], startTime[i])
 
 
 

@@ -5,12 +5,12 @@ import pickle
 #Function create_constants: creates a constants file for the given simulation
 def create_constants(dir, startTime):
     day_directory = "day = " + "\'" + dir + "\'\n"
-    Link_Exists_path = "Link_Exists_path = \'../Bands/\' + day" +  "\n"
+    Link_Exists_path = "Link_Exists_path = \'../Bands_UMass/\' + day" +  "\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day1/\'" + "\n"
     time = "startTime = " + str(startTime) + "\n"
     metrics = "metrics_file_name = \'metrics_epidemic.txt\'\n"
     delivery = "delivery_file_name = \'delivered_messages_epidemic.txt\'\n"
-    genM = "generated_messages_file = \'../Bands/\' + day + \'generated_messages.txt\'\n"
+    genM = "generated_messages_file = \'../Bands_UMass/\' + day + \'generated_messages.txt\'\n"
     specRan = "spectRange = [3600,920,2400,700]\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_epidemic.txt\'\n"
     power_var = "t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\ntau = 1\n"
@@ -88,5 +88,7 @@ def epidemic_simulation(dir,time):
         net.network_GO(i , LINK_EXISTS, specBW, msg_lines)
 
     net.all_messages()
+
+
 
 epidemic_simulation('2007-10-23_2007-10-24/', 0)
