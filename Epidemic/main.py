@@ -193,9 +193,9 @@ net.fill_network()
 # create_messages(path)
 
 message_path_file = "../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt"
+print(message_path_file)
 with open(message_path_file, "r") as f:
     msg_lines = f.readlines()[1:]
-print(msg_lines[0])
 
 #Run simulation
 for i in range(T):

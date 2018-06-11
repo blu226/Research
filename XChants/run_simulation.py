@@ -79,12 +79,12 @@ if generate_files == "Y":
     set_max_nodes = True
     max_nodes = 15
     src_des_nodes = 12
-    run_start_time = 3
+    run_start_time = 1
 
     mule_set = [15]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 4):
+        for run in range(run_start_time, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
