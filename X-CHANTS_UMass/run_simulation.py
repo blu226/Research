@@ -64,27 +64,27 @@ def run_simulation_files(day, V, T,directory,time):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands_UMass/" + directory+ "ALL/"
+            path_to_folder = "../Bands_UMass/" + directory+ "/ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands_UMass/" + directory + "TV/"
+            path_to_folder = "../Bands_UMass/" + directory + "/TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands_UMass/" + directory +"ISM/"
+            path_to_folder = "../Bands_UMass/" + directory +"/ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands_UMass/" + directory + "LTE/"
+            path_to_folder = "../Bands_UMass/" + directory + "/LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands_UMass/" + directory + "CBRS/"
+            path_to_folder = "../Bands_UMass/" + directory + "/CBRS/"
             print("\nCBRS --------------------------- ")
 
         with open("constants.py", "r") as f:
@@ -104,23 +104,23 @@ def run_simulation_files(day, V, T,directory,time):
         #     # os.system('python3 create_pickles.py')
         #    os.system('python3 computeLINKEXISTS_UMass.py')
         #
-        # os.system('python3 STB_main_path.py')
-        if ind == 0 and day == 1:
-            os.system('python3 generateMessage_new.py')
-        # os.system('python3 main2.py')
-        # os.system('python3 metrics.py')
+        os.system('python3 STB_main_path.py')
+        # if ind == 0 and day == 1:
+        #     os.system('python3 generateMessage_new.py')
+        os.system('python3 main2.py')
+        os.system('python3 metrics.py')
 
 
 #main
 # os.system('python3 createSrcDst.py')
 #run_simulation_files(day, V, T)
 dir = "../DataMules/"
-directorys = ['2007-10-23_2007-10-24/', '2007-10-24_2007-10-25/', '2007-10-25_2007-10-26/', '2007-10-26_2007-10-27/','2007-10-29_2007-10-30/','2007-10-30_2007-10-31/','2007-10-31_2007-11-01/','2007-11-01_2007-11-02/','2007-11-02_2007-11-03/','2007-11-03_2007-11-04/','2007-11-04_2007-11-05/','2007-11-05_2007-11-06/','2007-11-06_2007-11-07/','2007-11-07_2007-11-08/','2007-11-09_2007-11-10/','2007-11-10_2007-11-11/']
-startTime = [800,800,680,920,680,920,680,920,680,560,800,560,680,560,800,560,800,560]
+# directorys = ['2007-10-23_2007-10-24/', '2007-10-24_2007-10-25/', '2007-10-25_2007-10-26/', '2007-10-26_2007-10-27/','2007-10-29_2007-10-30/','2007-10-30_2007-10-31/','2007-10-31_2007-11-01/','2007-11-01_2007-11-02/','2007-11-02_2007-11-03/','2007-11-03_2007-11-04/','2007-11-04_2007-11-05/','2007-11-05_2007-11-06/','2007-11-06_2007-11-07/','2007-11-07_2007-11-08/','2007-11-09_2007-11-10/','2007-11-10_2007-11-11/']
+# startTime = [800,800,680,920,680,920,680,920,680,560,800,560,680,560,800,560,800,560]
 # directorys = ['2007-11-03_2007-11-05/']
 # startTime = [800]
-# directorys = ['2007-10-23_2007-10-24/']
-# startTime = [800]
+directorys = ['2007-10-23_2007-10-24/']
+startTime = [800]
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day1"
     files = findfiles(path)

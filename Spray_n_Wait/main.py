@@ -13,7 +13,7 @@ def create_constants(dir, startTime):
     genM = "generated_messages_file = \'../Bands_UMass/\' + day + \'generated_messages.txt\'\n"
     specRan = "spectRange = [3600,920,2400,700]\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_SnW.txt\'\n"
-    num_reps = "num_mess_replicas = 100\n"
+    num_reps = "num_mess_replicas = 150\n"
     debug_mes = "debug_message = -1\n"
     power_var = "t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\ntau = 1\n"
 
@@ -34,7 +34,7 @@ def create_constants(dir, startTime):
     f.write(power_var)
     f.write("M = [1,10,25,50,100,500,750,1000]\n")
     f.write("maxTau = 10\n")
-    f.write("num_messages = 100\n")
+    f.write("num_messages = 10\n")
     f.write("num_sources = 6\n")
     f.write("num_des = 3\n")
     f.write("T = 120\n")
