@@ -62,8 +62,8 @@ def run_simulation_files(mules, T, max_nodes, run):
 
         os.system('python3 STB_main_path.py')
         
-        if ind == 0 and mules == max_nodes:
-        	os.system('python3 generateMessage_new.py')
+        # if ind == 0 and mules == max_nodes:
+        # 	os.system('python3 generateMessage_new.py')
 
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
@@ -77,14 +77,14 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 35
+    max_nodes = 15
     src_des_nodes = 12
-    run_start_time = 1
+    run_start_time = 3
 
-    mule_set = [35, 15]
+    mule_set = [15]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 2):
+        for run in range(run_start_time, 4):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -94,7 +94,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
-            T = 60
+            T = 30
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -135,9 +135,9 @@ if generate_files == "Y":
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
 
-            os.system('python3 readLexingtonData_Fixed.py')
-            os.system('python3 create_pickles_Lex.py')
-            os.system('python3 computeLINKEXISTS_Lex.py')
+            # os.system('python3 readLexingtonData_Fixed.py')
+            # os.system('python3 create_pickles_Lex.py')
+            # os.system('python3 computeLINKEXISTS_Lex.py')
             run_simulation_files(max_mules, T, max_nodes, run)
 
 else:
