@@ -31,8 +31,8 @@ maxTau = 10
 # Message size
 M = [1, 10, 25, 50, 100, 500, 750, 1000]
 
-NoOfSources = 8
-NoOfDataCenters = 4
+NoOfSources = 6
+NoOfDataCenters = 3
 
 numSpec = 4 #always even if we only use one band
 

@@ -8,7 +8,7 @@ fp.close()
 
 id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while id < 3:
+while id < 100:
     rand_line = random.randint(0, len(path_lines) - 1)
     line_arr = path_lines[rand_line].strip().split()
 
@@ -35,7 +35,7 @@ while id < 3:
 
         p = random.uniform(0, 1)
 
-        if p < .1:
+        if p < 0:
             message_file.write(
                 str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
                     t) + "\n")

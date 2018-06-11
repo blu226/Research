@@ -36,45 +36,50 @@ def find_index(t, lines):
         return -1
 
 
-dataMules = os.listdir(validate_data_directory)
-dataMules.sort()
+days = os.listdir("../DataMules/")
+days.sort()
 
-for bus in dataMules:
+for day in days:
 
-    if not os.path.exists(pkl_folder):
-        os.makedirs(pkl_folder)
+    dataMules = os.listdir("../DataMules/" + day + "/Day1/")
+    dataMules.sort()
 
-    print(bus)
+    for bus in dataMules:
 
-    coord_at_time = []
+        if not os.path.exists("../DataMules/" + day + "/Day1_pkl/" ):
+            os.makedirs("../DataMules/" + day + "/Day1_pkl/" )
 
-    with open(validate_data_directory + bus, 'r') as f:
-        lines = f.readlines()
-    f.close()
+        print(bus)
 
-    file_len = len(lines)
+        coord_at_time = []
+
+        with open("../DataMules/" + day + "/Day1/" + bus, 'r') as f:
+            lines = f.readlines()
+        f.close()
+
+        file_len = len(lines)
 
 
 
-    for t in range(StartTime, StartTime + T + 1):
+        for t in range(StartTime, StartTime + T + 1):
 
-        index = find_index(t, lines)
-        if index != -1:
-            line_arr = lines[index].strip().split()
-            coord = [line_arr[2], line_arr[3]]
-        else:
-            coord = [-1, -1]
+            index = find_index(t, lines)
+            if index != -1:
+                line_arr = lines[index].strip().split()
+                coord = [line_arr[2], line_arr[3]]
+            else:
+                coord = [-1, -1]
 
-        coord_at_time.append(coord)
+            coord_at_time.append(coord)
 
-    filename = get_dataMule_ID(bus)
-    filename = filename + ".pkl"
+        filename = get_dataMule_ID(bus)
+        filename = filename + ".pkl"
 
-    # print(coord_at_time)
+        # print(coord_at_time)
 
-    pickle_file = open(pkl_folder + filename, 'wb')
-    pickle.dump(coord_at_time, pickle_file, protocol=4)
-    pickle_file.close()
+        pickle_file = open("../DataMules/" + day + "/Day1_pkl/" + filename, 'wb')
+        pickle.dump(coord_at_time, pickle_file, protocol=4)
+        pickle_file.close()
 
 
 
