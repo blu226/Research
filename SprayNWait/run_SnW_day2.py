@@ -1,6 +1,6 @@
 import os
 
-def run_simulation_files(mules, T, max_nodes, run):
+def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
     # 4, 1, 2
     band_types = [0]
     for ind in band_types:
@@ -30,6 +30,7 @@ def run_simulation_files(mules, T, max_nodes, run):
             path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/CBRS/"
             print("\nCBRS --------------------------- ")
 
+        path_to_folder = path_to_folder + "SnW" + str(num_mess_replicas) + "/"
         # Set correct folder names
         Link_Exists_path = "../Bands" + str(mules) + "/" + str(run) + "/Day2/"
         DataMule_path = "../Lexington" + str(mules) + "/" + str(run) + "/Day2/"
@@ -56,8 +57,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 50
-mule_set = [50, 35, 25, 15, 5]
+max_nodes = 35
+mule_set = [35]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -65,11 +66,12 @@ for max_mules in mule_set:
         print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
         S = [0, 1, 2, 3]
-        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/"
+        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/SnW/"
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
 
         T = 120
+        num_mess_replicas = 40
 
         if set_max_nodes == True:
             # max_nodes = max_mules
@@ -87,7 +89,8 @@ for max_mules in mule_set:
                         and ("T = " not in line) \
                         and ("max_nodes = " not in line) \
                         and ("delivery_file_name" not in line) \
-                        and ("metrics_file_name" not in line):
+                        and ("metrics_file_name" not in line) \
+                        and ("num_mess_replicas" not in line):
                     f.write(line)
 
 
@@ -98,5 +101,6 @@ for max_mules in mule_set:
             f.write("max_nodes = " + str(max_nodes) + "\n")
             f.write("delivery_file_name = " + '"delivery_SnW_day2.txt"' + "\n")
             f.write("metrics_file_name = " + '"metrics_SnW_day2.txt"' + "\n")
+            f.write("num_mess_replicas = " + str(num_mess_replicas) + "\n")
 
-        run_simulation_files(max_mules, T, max_nodes, run)
+        run_simulation_files(max_mules, T, max_nodes, run, num_mess_replicas)

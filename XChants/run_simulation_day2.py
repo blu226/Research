@@ -35,6 +35,7 @@ def run_simulation_files(mules, T, max_nodes, run):
             path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/CBRS/"
             print("\nCBRS --------------------------- ")
 
+        path_to_folder = path_to_folder + "XChants/"
         # Set correct folder names
         link_exists_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/"
         lex_data_directory = "../Lexington" + str(mules) + "/" + str(run) + "/"
@@ -77,18 +78,18 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 50
+    max_nodes = 35
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [50, 35, 25, 15, 5]
+    mule_set = [35]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 4):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/"
+            path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/XChants/"
             link_exists_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
             lex_data_directory = "../Lexington" + str(max_mules) + "/" + str(run) + "/"
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
@@ -129,8 +130,8 @@ if generate_files == "Y":
                 f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
                 f.write("delivery_file_name = " + '"delivery_day2.txt"' + "\n")
                 f.write("metrics_file_name = " + '"metrics_LLC_day2.txt"' + "\n")
-                f.write("VMIN = 100" + "\n")
-                f.write("VMAX = 150" + "\n")
+                f.write("VMIN = 400" + "\n")
+                f.write("VMAX = 500" + "\n")
                 f.write("wait_time = [2, 5]" + "\n")
                 f.write("run_start_time = " + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")

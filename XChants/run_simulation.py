@@ -96,7 +96,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1_pkl/"
-            T = 90
+            T = 120
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -130,8 +130,8 @@ if generate_files == "Y":
                 f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
                 f.write("delivery_file_name = " + '"delivery_day1.txt"' + "\n")
                 f.write("metrics_file_name = " + '"metrics_LLC_day1.txt"' + "\n")
-                f.write("VMIN = 200" + "\n")
-                f.write("VMAX = 300" + "\n")
+                f.write("VMIN = 400" + "\n")
+                f.write("VMAX = 500" + "\n")
                 f.write("wait_time = [2, 5]" + "\n")
                 f.write("run_start_time = "  + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")

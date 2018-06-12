@@ -1,40 +1,40 @@
 import os
 
-def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
+def run_simulation_files(mules, T, max_nodes, run):
     # 4, 1, 2
     band_types = [0]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/ALL/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/TV/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/ISM/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/LTE/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/CBRS/"
+            path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day2/CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "SnW"  + str(num_mess_replicas) + "/"
+        path_to_folder = path_to_folder + "EpidemicSmart/"
         # Set correct folder names
-        Link_Exists_path = "../Bands" + str(mules) + "/" + str(run) + "/Day1/"
-        DataMule_path = "../Lexington" + str(mules) + "/" + str(run) + "/Day1/"
-        validate_data_directory = "../Lexington" + str(mules) + "/" + str(run) + "/Day1/"
+        Link_Exists_path = "../Bands" + str(mules) + "/" + str(run) + "/Day2/"
+        DataMule_path = "../Lexington" + str(mules) + "/" + str(run) + "/Day2/"
+        validate_data_directory = "../Lexington" + str(mules) + "/" + str(run) + "/Day2/"
 
         with open("constants.py", "r") as f:
             lines = f.readlines()
@@ -58,7 +58,7 @@ def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
 
 set_max_nodes = True
 max_nodes = 35
-mule_set = [25, 15, 5]
+mule_set = [35]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -66,13 +66,11 @@ for max_mules in mule_set:
         print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
         S = [0, 1, 2, 3]
-        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/ALL/SnW/"
-        Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/"
-        DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
-
+        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/ALL/EpidemicSmart/"
+        Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
+        DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
 
         T = 120
-        num_mess_replicas = 40
 
         if set_max_nodes == True:
             # max_nodes = max_mules
@@ -90,8 +88,7 @@ for max_mules in mule_set:
                         and ("T = " not in line) \
                         and ("max_nodes = " not in line) \
                         and ("delivery_file_name" not in line) \
-                        and ("metrics_file_name" not in line)\
-                        and ("num_mess_replicas" not in line):
+                        and ("metrics_file_name" not in line):
                     f.write(line)
 
 
@@ -100,8 +97,7 @@ for max_mules in mule_set:
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("T = " + str(T) + "\n")
             f.write("max_nodes = " + str(max_nodes) + "\n")
-            f.write("delivery_file_name = " + '"delivery_SnW_day1.txt"' + "\n")
-            f.write("metrics_file_name = " + '"metrics_SnW_day1.txt"' + "\n")
-            f.write("num_mess_replicas = " + str(num_mess_replicas) + "\n")
+            f.write("delivery_file_name = " + '"delivery_epidemic_smart_day2.txt"' + "\n")
+            f.write("metrics_file_name = " + '"metrics_epidemic_smart_day2.txt"' + "\n")
 
-        run_simulation_files(max_mules, T, max_nodes, run, num_mess_replicas)
+        run_simulation_files(max_mules, T, max_nodes, run)

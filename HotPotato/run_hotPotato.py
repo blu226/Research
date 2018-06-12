@@ -30,6 +30,7 @@ def run_simulation_files(mules, T, max_nodes, run):
             path_to_folder = "../Bands" + str(mules) + "/" + str(run) + "/Day1/CBRS/"
             print("\nCBRS --------------------------- ")
 
+        path_to_folder = path_to_folder + "HotPotato/"
         # Set correct folder names
         Link_Exists_path = "../Bands" + str(mules) + "/" + str(run) + "/Day1/"
         DataMule_path = "../Lexington" + str(mules) + "/" + str(run) + "/Day1/"
@@ -65,11 +66,11 @@ for max_mules in mule_set:
         print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
         S = [0, 1, 2, 3]
-        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/ALL/"
+        path_to_folder = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/ALL/HotPotato/"
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-        T = 90
+        T = 120
 
         if set_max_nodes == True:
             # max_nodes = max_mules

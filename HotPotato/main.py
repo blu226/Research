@@ -56,13 +56,15 @@ def MF_simulation():
     # Create constants
     #create_constants(dir,time)
 
+    if not os.path.exists(path_to_folder):
+        os.makedirs(path_to_folder)
 
-    output_file = open(Link_Exists_path + delivery_file_name, "w")
+    output_file = open(path_to_folder + delivery_file_name, "w")
     output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\n")
     output_file.write("----------------------------------------------------\n")
     output_file.close()
 
-    output_file2 = open(Link_Exists_path + notDelivered_file_name, "w")
+    output_file2 = open(path_to_folder + notDelivered_file_name, "w")
     output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\n")
     output_file2.write("----------------------------------------------------\n")
     output_file2.close()
