@@ -127,7 +127,7 @@ for first_file in range(folderLen - 1):
                     numRows[day1_bus][day2_bus] += 1
                     dist = funHaversine(float(Y1), float(X1), float(Y2), float(X2))
 #                print(dist)
-                    if dist < .2 and dist > 0:
+                    if dist < .5 and dist > 0:
                         rowSimilar[day1_bus][day2_bus] += 1
 
     f = open("Similarity_Ratios.txt", "a")
@@ -142,7 +142,7 @@ for first_file in range(folderLen - 1):
 
     for i in range(day1_num_buses):
         for j in range(day2_num_buses):
-            if numRows[i][j] != 0 and numRows[i][j] > 50:
+            if numRows[i][j] != 0 and numRows[i][j] > 20:
                 ratio = (rowSimilar[i][j]/numRows[i][j]) * 100
                 if ratio > 10:
                     # print(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio) + "%")

@@ -16,6 +16,7 @@ def create_constants(dir, startTime):
     num_reps = "num_mess_replicas = 25\n"
     debug_mes = "debug_message = -1\n"
     power_var = "t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\ntau = 1\n"
+    ptf = "path_to_folder = Link_Exists_path + \'ALL/\'\n"
 
 
     f = open("constants.py", "w")
@@ -32,6 +33,7 @@ def create_constants(dir, startTime):
     f.write(num_reps)
     f.write(debug_mes)
     f.write(power_var)
+    f.write(ptf)
     f.write("M = [1,10,25,50,100,500,750,1000]\n")
     f.write("maxTau = 10\n")
     f.write("num_messages = 100\n")
@@ -55,15 +57,15 @@ def create_constants(dir, startTime):
 
 def spray_n_wait_simulation(dir,time):
     # Create constants
-    create_constants(dir,time)
+    # create_constants(dir,time)
 
 
-    output_file = open(Link_Exists_path + delivery_file_name, "w")
+    output_file = open(path_to_folder + delivery_file_name, "w")
     output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\treplica\n")
     output_file.write("----------------------------------------------------\n")
     output_file.close()
 
-    output_file2 = open(Link_Exists_path + notDelivered_file_name, "w")
+    output_file2 = open(path_to_folder + notDelivered_file_name, "w")
     output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\treplica\n")
     output_file2.write("----------------------------------------------------\n")
     output_file2.close()
@@ -93,4 +95,4 @@ def spray_n_wait_simulation(dir,time):
 
     net.all_messages()
 
-spray_n_wait_simulation('2007-10-23_2007-10-24/', 0)
+spray_n_wait_simulation('2007-10-31_2007-11-01/', 0)

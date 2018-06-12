@@ -8,15 +8,15 @@ from STB_help import *
 def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
-    f.write("numSpec = 4\nroute_start_time1 = 0\nroute_start_time2 = 15\ndt = 1\ntau = 1\n")
+    f.write("numSpec = 4\ndt = 1\ntau = 1\n")
     f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [3600,920,2400,700]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 10\nM = [1,10,25,50,100,500,750,1000]\n")
     NoOfDMs = V - 9
     link_exists = "link_exists_folder = '../Bands_UMass/" + directory +"\'\n"
-    delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "X-CHANTS.txt\"\n"
-    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "X-CHANTS.txt\"\n"
+    delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_X-CHANTS.txt\"\n"
+    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_X-CHANTS.txt\"\n"
     lex_data_file_name = "lex_data_directory = \"../DataMules/" + directory + "\"\n"
     if day == 1:
         dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day1/\"\n"
@@ -64,28 +64,30 @@ def run_simulation_files(day, V, T,directory,time):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands_UMass/" + directory+ "/ALL/"
+            path_to_folder = "../Bands_UMass/" + directory+ "ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands_UMass/" + directory + "/TV/"
+            path_to_folder = "../Bands_UMass/" + directory + "TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands_UMass/" + directory +"/ISM/"
+            path_to_folder = "../Bands_UMass/" + directory +"ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands_UMass/" + directory + "/LTE/"
+            path_to_folder = "../Bands_UMass/" + directory + "LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands_UMass/" + directory + "/CBRS/"
+            path_to_folder = "../Bands_UMass/" + directory + "CBRS/"
             print("\nCBRS --------------------------- ")
+
+        path_to_folder += "X-Chants/"
 
         with open("constants.py", "r") as f:
             lines = f.readlines()
@@ -105,8 +107,8 @@ def run_simulation_files(day, V, T,directory,time):
            os.system('python3 computeLINKEXISTS_UMass.py')
 
         os.system('python3 STB_main_path.py')
-        # if ind == 0 and day == 1:
-        #     os.system('python3 generateMessage_new.py')
+        if ind == 0 and day == 1:
+            os.system('python3 generateMessage_new.py')
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
 
@@ -119,13 +121,14 @@ dir = "../DataMules/"
 # startTime = [800,800,680,920,680,920,680,920,680,560,800,560,680,560,800,560,800,560]
 # directorys = ['2007-11-03_2007-11-05/']
 # startTime = [800]
-directorys = ['2007-10-23_2007-10-24/']
-startTime = [800]
+directorys = ['2007-10-31_2007-11-01/']
+startTime = [680]
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day1"
     files = findfiles(path)
     v = len(files)
-
+    #
+    # print(directorys[i])
     run_simulation_files(1,v,120, directorys[i], startTime[i])
     run_simulation_files(2,v,120, directorys[i], startTime[i])
 
