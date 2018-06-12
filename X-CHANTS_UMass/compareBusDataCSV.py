@@ -5,7 +5,7 @@ import os
 import shutil
 from constants import *
 
-directory = "DateWiseRoutes_CSV"
+directory = "../DateWiseRoutes_CSV"
 
 folders = findfiles(directory)
 folders.sort()
@@ -34,14 +34,14 @@ def moveFiles2(day1, day2, similarity, day1_name, day2_name):
         day2.pop(maxIndex)
         similarity.pop(maxIndex)
 
-    day1_path = "DateWiseRoutes/" + day1_name[:10]
+    day1_path = "../DateWiseRoutes/" + day1_name[:10]
     day1_folder = findfiles(day1_path)
     day1_folder.sort()
-    day2_path = "DateWiseRoutes/" + day2_name[:10]
+    day2_path = "../DateWiseRoutes/" + day2_name[:10]
     day2_folder = findfiles(day2_path)
     day2_folder.sort()
 
-    destFolder = "DataMules/" + day1_name[:10] + "_" + day2_name[:10]
+    destFolder = "../DataMules/" + day1_name[:10] + "_" + day2_name[:10]
     if not os.path.exists(destFolder):
         os.makedirs(destFolder)
 
@@ -64,8 +64,8 @@ def moveFiles2(day1, day2, similarity, day1_name, day2_name):
         day1_dest = destFolder1 + "/" + str(i + NoOfSources + NoOfDataCenters) + ".txt"
         day2_dest = destFolder2 + "/" +str(i + NoOfSources + NoOfDataCenters) + ".txt"
 
-        shutil.copyfile(day1_filePath, day1_dest)
-        shutil.copyfile(day2_filePath, day2_dest)
+        # shutil.copyfile(day1_filePath, day1_dest)
+        # shutil.copyfile(day2_filePath, day2_dest)
 
 
 def moveFiles(day1, day2, similarity, day1_name, day2_name):
@@ -92,14 +92,14 @@ def moveFiles(day1, day2, similarity, day1_name, day2_name):
         day2.pop(maxIndex)
         similarity.pop(maxIndex)
 
-    day1_path = "DateWiseRoutes/" + day1_name[:10]
+    day1_path = "../DateWiseRoutes/" + day1_name[:10]
     day1_folder = findfiles(day1_path)
     day1_folder.sort()
-    day2_path = "DateWiseRoutes/" + day2_name[:10]
+    day2_path = "../DateWiseRoutes/" + day2_name[:10]
     day2_folder = findfiles(day2_path)
     day2_folder.sort()
 
-    destFolder = "DataMules/" + day1_name[:10] + "_" + day2_name[:10]
+    destFolder = "../DataMules/" + day1_name[:10] + "_" + day2_name[:10]
     if not os.path.exists(destFolder):
         os.makedirs(destFolder)
 
@@ -203,7 +203,7 @@ for first_file in range(folderLen - 2):
                         numRows[day1_bus][day2_bus] += 1
                         dist = funHaversine(float(Y1), float(X1), float(Y2), float(X2))
 #                print(dist)
-                        if dist < 1000 and dist > 0:
+                        if dist < 1500 and dist > 0:
                             rowSimilar[day1_bus][day2_bus] += 1
 
 
@@ -298,7 +298,6 @@ for new_file in range(folderLen - 2):
                 #            print("X1: " + str(X1) + " Y1: " + str(Y1) + " X2: " + str(X2) + " Y2: " + str(Y2))
 
                 if (X1 != "-" and X1 != "0.0" and X2 != "-" and X2 != "0.0"):
-                    print(X1, Y1, X2, Y2)
                     numRows[day1_bus][day2_bus] += 1
                     dist = funHaversine(float(Y1), float(X1), float(Y2), float(X2))
 
@@ -322,5 +321,5 @@ for new_file in range(folderLen - 2):
                     day1_buses.append(i)
                     day2_buses.append(j)
                     similarity.append(ratio)
-                    print(day1_buses)
-   # moveFiles2(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]))
+                    # print(day1_buses)
+    moveFiles2(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]))

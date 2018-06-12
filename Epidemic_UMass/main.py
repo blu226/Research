@@ -14,6 +14,7 @@ def create_constants(dir, startTime):
     specRan = "spectRange = [3600,920,2400,700]\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_epidemic.txt\'\n"
     power_var = "t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\ntau = 1\n"
+    ptf = "path_to_folder = Link_Exists_path + \'ALL/\'\n"
 
 
     f = open("constants.py", "w")
@@ -27,6 +28,7 @@ def create_constants(dir, startTime):
     f.write(genM)
     f.write(specRan)
     f.write(time)
+    f.write(ptf)
     f.write(power_var)
     f.write("M = [1,10,25,50,100,500,750,1000]\n")
     f.write("maxTau = 10\n")
@@ -51,15 +53,15 @@ def create_constants(dir, startTime):
 
 def epidemic_simulation(dir,time):
     # Create constants
-    create_constants(dir,time)
+    # create_constants(dir,time)
 
 
-    output_file = open(Link_Exists_path + delivery_file_name, "w")
+    output_file = open(path_to_folder + delivery_file_name, "w")
     output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
     output_file.write("----------------------------------------------------\n")
     output_file.close()
 
-    output_file2 = open(Link_Exists_path + notDelivered_file_name, "w")
+    output_file2 = open(path_to_folder + notDelivered_file_name, "w")
     output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
     output_file2.write("----------------------------------------------------\n")
     output_file2.close()
@@ -91,4 +93,4 @@ def epidemic_simulation(dir,time):
 
 
 
-epidemic_simulation('2007-10-23_2007-10-24/', 0)
+epidemic_simulation('2007-10-31_2007-11-01/', 0)

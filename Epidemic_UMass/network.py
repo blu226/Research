@@ -45,7 +45,7 @@ class network(object):
 
             if des_node != src_node:
                 for mes in des_node.buf:
-                    if mes.ID == message.ID and mes.last_sent < self.time:
+                    if mes.ID == message.ID:
                         to_send = False
 
                 if to_send == True:
@@ -84,7 +84,7 @@ class network(object):
         for node in self.nodes:
             for mes in node.buf:
                 if int(mes.des) == int(node.ID):
-                    f = open(Link_Exists_path + delivery_file_name, "a")
+                    f = open(path_to_folder+ delivery_file_name, "a")
                     line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\n"
 
                     f.write(line)
@@ -92,7 +92,7 @@ class network(object):
                     node.buf.remove(mes)
 
     def all_messages(self):
-        f = open(Link_Exists_path + notDelivered_file_name, "a")
+        f = open(path_to_folder + notDelivered_file_name, "a")
         for node in self.nodes:
             # print("Node " + str(node.ID) + ": ")
             for mes in node.buf:

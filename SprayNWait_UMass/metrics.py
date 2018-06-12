@@ -2,10 +2,10 @@ from constants import *
 
 
 def message_info(mes_list):
-    with open(Link_Exists_path + delivery_file_name, 'r') as f:
+    with open(path_to_folder + delivery_file_name, 'r') as f:
         lines = f.readlines()
 
-    file = open(Link_Exists_path + notDelivered_file_name, 'w')
+    file = open(path_to_folder + notDelivered_file_name, 'w')
 
     for id in mes_list:
         for line in lines:
@@ -49,12 +49,12 @@ def compute_metrics(lines, total_messages, delivery_time):
 msg_file = open(generated_messages_file, "r")
 total_messages = len(msg_file.readlines()[1:])
 
-metric_file = open(Link_Exists_path + metrics_file_name, "w")
-f = open(Link_Exists_path + delivery_file_name, "r")
+metric_file = open(path_to_folder + metrics_file_name, "w")
+f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-fsorted = open(Link_Exists_path+ "sorted_SnW_delivery.txt", "w")
+fsorted = open(path_to_folder+ "sorted_SnW_delivery.txt", "w")
 #sort the lines based on LLC i.e., column 5
 
 fsorted.write("ID	s	d	ts	te	LLC	size	parent	parentTime	replica\n")
@@ -75,7 +75,7 @@ for t in delivery_times:
 metric_file.close()
 print("Delivered messages", sorted(mes_IDs))
 
-with open(Link_Exists_path + "unique_SnW_messages.txt", "w") as f:
+with open(path_to_folder + "unique_SnW_messages.txt", "w") as f:
     f.write("ID\ts\td\tts\tte\tLLC\tsize\n")
     f.write("------------------------------\n")
 
