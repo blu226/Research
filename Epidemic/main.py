@@ -199,7 +199,7 @@ with open(message_path_file, "r") as f:
 
 #Run simulation
 for i in range(T):
-    print("TIME: " + str(i))
+    # print("TIME: " + str(i))
     net.network_GO(i , LINK_EXISTS, specBW, msg_lines)
 
 net.all_messages()

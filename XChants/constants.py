@@ -43,8 +43,8 @@ minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
-# spectRange = [1200, 345, 900, 263]
-spectRange = [1800, 460, 1200, 350]
+spectRange = [1200, 345, 900, 263]
+#spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 

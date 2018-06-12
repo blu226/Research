@@ -90,7 +90,7 @@ def MF_simulation():
 
     #Run simulation
     for i in range(T):
-        print("TIME: " + str(i))
+        # print("TIME: " + str(i))
         net.network_GO(i , LINK_EXISTS, specBW, msg_lines)
 
     net.all_messages()

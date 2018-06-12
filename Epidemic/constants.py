@@ -1,7 +1,8 @@
 startTime = 0
 generated_file_name = "generated_messages.txt"
 notDelivered_file_name = "not_delivered_messages_epidemic.txt"
-spectRange = [1800, 460, 1200, 350]
+#spectRange = [1800, 460, 1200, 350]
+spectRange = [1200, 345, 800, 263]
 M = [1, 10, 25, 50, 100, 500, 750, 1000]
 maxTau = 10
 num_messages = 500

@@ -1,7 +1,6 @@
-day = '2007-10-23_2007-10-24/'
 notDelivered_file_name = 'not_delivered_messages_MF.txt'
-generated_messages_file = '../Bands_UMass/' + day + 'generated_messages.txt'
-spectRange = [3600,920,2400,700]
+#spectRange = [1800, 460, 1200, 350]
+spectRange = [1200, 345, 800, 263]
 startTime = 0
 debug_message = -1
 t_sd = 0.5

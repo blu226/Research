@@ -56,12 +56,12 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 15
-mule_set = [15]
+max_nodes = 50
+mule_set = [50, 35, 25, 15, 5]
 run_start_time = 1
 
 for max_mules in mule_set:
-    for run in range(run_start_time, 2):
+    for run in range(run_start_time, 4):
         print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
         S = [0, 1, 2, 3]
@@ -69,7 +69,7 @@ for max_mules in mule_set:
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day1/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day1/"
 
-        T = 20
+        T = 120
 
         if set_max_nodes == True:
             # max_nodes = max_mules

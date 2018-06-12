@@ -73,7 +73,7 @@ for t in delivery_times:
     metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\n")
 
 metric_file.close()
-print("Delivered messages", sorted(mes_IDs))
+# print("Delivered messages", sorted(mes_IDs))
 
 with open(Link_Exists_path + "unique_SnW_messages.txt", "w") as f:
     f.write("ID\ts\td\tts\tte\tLLC\tsize\n")

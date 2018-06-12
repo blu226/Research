@@ -96,7 +96,7 @@ for max_mules in mule_set:
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("T = " + str(T) + "\n")
             f.write("max_nodes = " + str(max_nodes) + "\n")
-            f.write("delivery_file_name = " + '"delivery_epidemic_day2.txt"' + "\n")
-            f.write("metrics_file_name = " + '"metrics_epidemic_day2.txt"' + "\n")
+            f.write("delivery_file_name = " + '"delivery_hotPotato_day2.txt"' + "\n")
+            f.write("metrics_file_name = " + '"metrics_hotPotato_day2.txt"' + "\n")
 
         run_simulation_files(max_mules, T, max_nodes, run)

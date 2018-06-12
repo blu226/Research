@@ -69,15 +69,16 @@ class Network(object):
 
                 # If a path exists for this message
                 if len(message.path) > 0:
-                    if len(message.path) + t >= 90:
-                        print("Error 1: ", " ID ", id, " src: ", src, " des: ", des, " t ", t)
+                    # if len(message.path) + t >= 90:
+                    #     print("Error 1: ", " ID ", id, " src: ", src, " des: ", des, " t ", t)
 
                     self.nodes[curr].buf.append(message)  # put the message in the source nodes buffer
                     self.nodes[curr].buf_size += 1
                     self.message_num += 1
 
-                else:
-                    print("Error 2: ", " ID ", id, " src: ", src, " des: ", des, " t ", t)
+                # else:
+                #     print("Error 2: ", " ID ", id, " src: ", src, " des: ", des, " t ", t)
+
         # print("Network Status -- Time: ", t)            #console output for debugging
         # self.network_status()
 
