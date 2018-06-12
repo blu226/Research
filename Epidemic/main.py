@@ -162,7 +162,10 @@ def create_constants(startTime):
 #         break
 
 time = 0
-    # print(day)
+
+if not os.path.exists(path_to_folder):
+    os.makedirs(path_to_folder)
+
 output_file = open(path_to_folder + delivery_file_name, "w")
 output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
 output_file.write("----------------------------------------------------\n")
@@ -196,6 +199,7 @@ message_path_file = "../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("
 print(message_path_file)
 with open(message_path_file, "r") as f:
     msg_lines = f.readlines()[1:]
+
 
 #Run simulation
 for i in range(T):

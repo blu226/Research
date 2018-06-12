@@ -19,11 +19,11 @@ day1_link_exists = link_exists_folder.split("/")
 specBW = pickle.load(open("../" + day1_link_exists[1] + "/" + day1_link_exists[2] + "/Day1/specBW.pkl", "rb"))
 
 day1_folder_path = path_to_folder.split("/")
-with open("../" + day1_folder_path[1] + "/" + day1_folder_path[2] + "/Day1/" + day1_folder_path[4] + "/LLC_PATH.txt", "r") as fp:
+with open("../" + day1_folder_path[1] + "/" + day1_folder_path[2] + "/Day1/" + day1_folder_path[4] + "/" + day1_folder_path[5] + "/LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 
 
-with open("../" + day1_folder_path[1] +"/" + day1_folder_path[2] + "/Day1/" + day1_folder_path[4] + "/LLC_Spectrum.txt", "r") as fs:
+with open("../" + day1_folder_path[1] +"/" + day1_folder_path[2] + "/Day1/" + day1_folder_path[4] + "/"  + day1_folder_path[5] + "/LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
 message_path_file = "../Bands" + str(max_nodes) + "/" + link_exists_folder.split("/")[2] + "/Day1/generated_messages.txt"
