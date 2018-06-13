@@ -1,9 +1,11 @@
 from constants import *
+import os
 
 def compute_metrics(lines, total_messages, delivery_time):
     delivered = 0
     latency = 0
     energy = 0
+    overhead = 0
 
     for line in lines:
         line_arr = line.strip().split("\t")
@@ -19,9 +21,12 @@ def compute_metrics(lines, total_messages, delivery_time):
     if total_messages > 0:
         delivered = float(delivered) / total_messages
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
+    if delivered > 0:
+        overhead = 1
 
-    return delivered, latency, energy
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead)
+
+    return delivered, latency, energy, overhead
 
 
 #Main starts here
@@ -33,12 +38,13 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-delivery_times = [i for i in range(0, T + 10, 10)]
+delivery_times = [i for i in range(0, T + 10, 15)]
 
 
-metric_file.write("#t\tPDR\tLatency\tEnergy\n")
+metric_file.write("#t\tPDR\tLatency\tEnergy\Overhead\n")
+
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\n")
+    avg_pdr, avg_latency, avg_energy, overhead = compute_metrics(lines, total_messages, t)
+    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
 
 metric_file.close()

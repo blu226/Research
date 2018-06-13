@@ -59,13 +59,6 @@ def run_simulation_files(mules, T, max_nodes, run):
             f.write("lex_data_directory_day = '" + str(lex_data_directory_day) + "'\n")
             f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
 
-        # print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-
-        # os.system('python3 STB_main_path.py')
-
-        # if ind == 0 and mules == max_nodes:
-        #     os.system('python3 generateMessage_new.py')
-
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
 
@@ -79,10 +72,10 @@ if generate_files == "Y":
 
     set_max_nodes = True
     max_nodes = 35
-    src_des_nodes = 12
+    src_des_nodes = 9
     run_start_time = 1
 
-    mule_set = [35, 0, 25, 15, 5]
+    mule_set = [35, 0, 5, 25, 15, 10]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 4):
@@ -95,7 +88,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
-            T = 90
+            T = 120
 
             if set_max_nodes == True:
                 # max_nodes = max_mules
@@ -131,8 +124,8 @@ if generate_files == "Y":
                 f.write("delivery_file_name = " + '"delivery_day2.txt"' + "\n")
                 f.write("metrics_file_name = " + '"metrics_LLC_day2.txt"' + "\n")
                 f.write("VMIN = 400" + "\n")
-                f.write("VMAX = 500" + "\n")
-                f.write("wait_time = [2, 5]" + "\n")
+                f.write("VMAX = 600" + "\n")
+                f.write("wait_time = [2, 7]" + "\n")
                 f.write("run_start_time = " + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
