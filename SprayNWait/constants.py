@@ -1,6 +1,6 @@
 notDelivered_file_name = 'not_delivered_messages_SnW.txt'
-#spectRange = [1800, 460, 1200, 350]
-spectRange = [1200, 345, 800, 263]
+spectRange = [1800, 460, 1200, 350]
+# spectRange = [1200, 345, 800, 263]
 
 startTime = 0
 debug_message = -1

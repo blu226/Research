@@ -25,11 +25,11 @@ tau = 1 # Instead of looking at each dt, we would look at tau as this is the min
 
 #TTL Bound ----  1 plus
 TTL = 30
-minTTL = 20
+minTTL = 30
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
-maxTau = 10
+maxTau = 30
 # Message size
-M = [1, 10, 25, 50, 100, 500, 750, 1000]
+M = [1, 10, 25, 50, 100, 250, 500]
 
 NoOfSources = 8
 NoOfDataCenters = 4
@@ -66,21 +66,21 @@ StartTime = 0
 
 
 debug_message = -1
-validate_data_directory = '../Lexington35/3/Day2/'
+validate_data_directory = '../Lexington15/2/Day2/'
 max_nodes = 35
-T = 120
-V = 47
-NoOfDMs = 35
-path_to_folder = '../Bands35/1/Day2/ALL/XChants/'
+T = 90
+V = 27
+NoOfDMs = 15
+path_to_folder = '../Bands15/3/Day2/ALL/XChants/'
 S = [0, 1, 2, 3]
-lex_data_directory = '../Lexington35/1/'
-lex_data_directory_day = '../Lexington35/1/Day2/'
-link_exists_folder = '../Bands35/1/Day2/'
+lex_data_directory = '../Lexington15/3/'
+lex_data_directory_day = '../Lexington15/3/Day2/'
+link_exists_folder = '../Bands15/3/Day2/'
 delivery_file_name = "delivery_day2.txt"
 metrics_file_name = "metrics_LLC_day2.txt"
 VMIN = 400
 VMAX = 500
 wait_time = [2, 5]
 run_start_time = 1
-pkl_folder = '../Lexington35/1/Day2_pkl/'
-validate_pkl_folder = '../Lexington35/1/Day2_pkl/'
+pkl_folder = '../Lexington15/3/Day2_pkl/'
+validate_pkl_folder = '../Lexington15/3/Day2_pkl/'

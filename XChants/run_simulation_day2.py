@@ -82,7 +82,7 @@ if generate_files == "Y":
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [35]
+    mule_set = [35, 0, 25, 15, 5]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 4):
@@ -95,7 +95,7 @@ if generate_files == "Y":
             lex_data_directory_day = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
             pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
             validate_pkl_folder = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2_pkl/"
-            T = 120
+            T = 90
 
             if set_max_nodes == True:
                 # max_nodes = max_mules

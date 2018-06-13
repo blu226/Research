@@ -57,8 +57,8 @@ def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 35
-mule_set = [25, 15, 5]
+max_nodes = 50
+mule_set = [50, 35, 25, 15, 5]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -72,7 +72,7 @@ for max_mules in mule_set:
 
 
         T = 120
-        num_mess_replicas = 40
+        num_mess_replicas = 25
 
         if set_max_nodes == True:
             # max_nodes = max_mules

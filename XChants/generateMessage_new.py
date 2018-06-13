@@ -10,7 +10,7 @@ id = 0
 count_messages = 0
 
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while count_messages < 100:
+while count_messages < 300:
     line = random.choice(path_lines)
     path_lines.remove(line)
     line_arr = line.strip().split()
@@ -23,7 +23,7 @@ while count_messages < 100:
 
     path = line_arr[4:]
 
-    generateMessage = True
+    generateMessage = False
 
     if len(set(path)) >2:
         for nodeId in path:

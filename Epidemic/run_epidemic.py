@@ -57,8 +57,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 35
-mule_set = [35]
+max_nodes = 50
+mule_set = [50, 35, 25, 15, 5]
 run_start_time = 1
 
 for max_mules in mule_set:

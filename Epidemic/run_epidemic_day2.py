@@ -2,7 +2,7 @@ import os
 
 def run_simulation_files(mules, T, max_nodes, run):
     # 4, 1, 2
-    band_types = [0]
+    band_types = [0, 1, 2, 3, 4]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
@@ -58,7 +58,7 @@ def run_simulation_files(mules, T, max_nodes, run):
 
 set_max_nodes = True
 max_nodes = 35
-mule_set = [35]
+mule_set = [35, 0, 25, 15, 5]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -70,7 +70,7 @@ for max_mules in mule_set:
         Link_Exists_path = "../Bands" + str(max_mules) + "/" + str(run) + "/Day2/"
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
 
-        T = 120
+        T = 90
 
         if set_max_nodes == True:
             # max_nodes = max_mules
