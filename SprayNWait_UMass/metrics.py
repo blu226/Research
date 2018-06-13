@@ -1,5 +1,43 @@
 from constants import *
 
+def compute_overhead(time):
+
+    with open(generated_messages_file, 'r') as f:
+        generated_lines = f.readlines()[1:]
+
+    with open(path_to_folder + delivery_file_name, 'r') as f:
+        delivered_lines = f.readlines()[2:]
+
+    with open(path_to_folder + notDelivered_file_name, 'r') as f:
+        NotDelivered_lines = f.readlines()[2:]
+
+    num_mes_gen = 0
+    num_mes_del = 0
+    num_mes_NotDel = 0
+
+    for line in generated_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[4]) <= time:
+            num_mes_gen += 1
+
+    for line in delivered_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[4]) <= time:
+            num_mes_del += 1
+
+    for line in NotDelivered_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[4]) <= time:
+            num_mes_NotDel += 1
+
+    if num_mes_gen == 0:
+        return 0
+
+    overhead = (num_mes_del + num_mes_NotDel) / num_mes_gen
+
+    return overhead
+
+
 
 def message_info(mes_list):
     with open(path_to_folder + delivery_file_name, 'r') as f:
@@ -20,8 +58,9 @@ def compute_metrics(lines, total_messages, delivery_time):
     latency = 0
     energy = 0
     mes_IDs = []
-    all_IDs = [x for x in range(num_messages)]
     unique_messages = []
+
+    overhead = compute_overhead(delivery_time)
 
     for line in lines:
         line_arr = line.strip().split("\t")
@@ -31,7 +70,6 @@ def compute_metrics(lines, total_messages, delivery_time):
             # energy += float(line_arr[7])
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))
-            all_IDs.remove(int(line_arr[0]))
 
 
     if delivered > 0:
@@ -41,9 +79,9 @@ def compute_metrics(lines, total_messages, delivery_time):
     if total_messages > 0:
         delivered = float(delivered) / total_messages
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, "overhead: ", overhead)
 
-    return delivered, latency, energy, all_IDs, mes_IDs, unique_messages
+    return delivered, latency, energy, mes_IDs, unique_messages, overhead
 
 #Main starts here
 msg_file = open(generated_messages_file, "r")
@@ -54,7 +92,7 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-fsorted = open(path_to_folder+ "sorted_SnW_delivery.txt", "w")
+fsorted = open(path_to_folder+ "sorted_Epidemic_delivery.txt", "w")
 #sort the lines based on LLC i.e., column 5
 
 fsorted.write("ID	s	d	ts	te	LLC	size	parent	parentTime	replica\n")
@@ -65,17 +103,17 @@ for line in lines:
     fsorted.write(line)
 fsorted.close()
 
-delivery_times = [i for i in range(0, T + 10, 10)]
+delivery_times = [i for i in range(0, T + 10, 15)]
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\n")
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy, all_IDs, mes_IDs, unique_messages = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\n")
+    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages, overhead = compute_metrics(lines, total_messages, t)
+    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
 
 metric_file.close()
 print("Delivered messages", sorted(mes_IDs))
 
-with open(path_to_folder + "unique_SnW_messages.txt", "w") as f:
+with open(path_to_folder + "unique_Epidemic_messages.txt", "w") as f:
     f.write("ID\ts\td\tts\tte\tLLC\tsize\n")
     f.write("------------------------------\n")
 

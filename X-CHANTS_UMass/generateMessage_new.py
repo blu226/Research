@@ -1,16 +1,17 @@
 from constants import *
 import random
 
-message_file = open(generated_message_file, "w")
+message_file = open(generated_messages_file, "w")
 with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 fp.close()
 
 id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while id < 100:
+while id < 300:
     # print(id)
     rand_line = random.randint(0, len(path_lines) - 1)
+    path_lines.remove(rand_line)
     line_arr = path_lines[rand_line].strip().split()
 
     src = int(line_arr[0])
@@ -21,18 +22,18 @@ while id < 100:
 
     path = line_arr[4:]
 
-    generateMessage = True
+    generateMessage = False
 
-    # if len(set(path)) >2:
-    #     for nodeId in path:
-    #         if int(nodeId) <= NoOfDMs:
-    #             generateMessage = True
+    if len(set(path)) >2:
+        for nodeId in path:
+            if int(nodeId) <= NoOfDMs:
+                generateMessage = True
 
-    t = random.randint(int(45), int(60))
+    t = random.randint(int(.25 * T), int(.5 * T))
 
     #rand = random.uniform(0, 1)
 
-    if generateMessage == True  and src < NoOfSources and  des >= NoOfSources and des <= NoOfSources + NoOfDataCenters and genT <= 60:
+    if generateMessage == True  and src < NoOfSources and  des >= NoOfSources and des <= NoOfSources + NoOfDataCenters and genT <= .5 * T:
 
         p = random.uniform(0, 1)
 

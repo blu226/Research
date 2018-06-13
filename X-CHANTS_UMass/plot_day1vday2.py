@@ -11,9 +11,9 @@ def day1vsday2graph(graph_choice, directory, files, graph_title):
     latency = []
 
     if choice == 0:
-        fig_name = directory + directory[5:] +"_DATA/delivery_" + graph_title + ".png"
+        fig_name = directory + "/ALL/X-Chants/" + graph_title + "_PDR.png"
     else:
-        fig_name = directory + directory[5:] + "_DATA/latency_" + graph_title + ".png"
+        fig_name = directory + "/ALL/X-Chants/" + graph_title + "_LLC.png"
 
     for file in files:
         path = directory + file
@@ -41,8 +41,6 @@ def day1vsday2graph(graph_choice, directory, files, graph_title):
             plt.ylim(0, 1)
             plt.ylabel('Packet delivery ratio', fontsize=25)
             for i in range(len(delivered)):
-                print(time)
-                print(delivered[i])
                 plt.plot(time, delivered[i])
 
         # Latency
@@ -58,18 +56,18 @@ def day1vsday2graph(graph_choice, directory, files, graph_title):
         plt.savefig(fig_name, format="png")
         plt.show()
 
-directory = "Bands/"
+directory = "../Bands_UMass/"
 folders = os.listdir(directory)
 folders.sort()
 
-for i in range(len(folders)):
-    for j in range(2):
-        dir = directory + folders[i]
-        dir_day = "DataMules/" + folders[i] + "/Day1/"
-        num_buses = len(os.listdir(dir_day))
-        file1 = "/ALL/metrics_LLC_day1_" + str(num_buses) + "_" + str(T) + ".txt"
-        file2 = "/ALL/metrics_LLC_day2_" + str(num_buses) + "_" + str(T) + ".txt"
-        files = [file1, file2]
-        day1vsday2graph(j, dir, files, folders[i])
+# for i in range(len(folders)):
+for j in range(2):
+    dir = directory + "2007-10-31_2007-11-01"
+    dir_day = "../DataMules/2007-10-31_2007-11-01/Day1/"
+    num_buses = len(os.listdir(dir_day))
+    file1 = "/ALL/X-Chants/metrics_LLC_day1_X-CHANTS.txt"
+    file2 = "/ALL/X-Chants/metrics_LLC_day2_X-CHANTS.txt"
+    files = [file1, file2]
+    day1vsday2graph(j, dir, files, "X-CHANTS_Day1vDay2")
 
 
