@@ -1,8 +1,8 @@
 startTime = 0
 generated_file_name = "generated_messages.txt"
 notDelivered_file_name = "not_delivered_messages_epidemic.txt"
-#spectRange = [1800, 460, 1200, 350]
-spectRange = [1200, 345, 800, 263]
+spectRange = [1800, 460, 1200, 350]
+# spectRange = [1200, 345, 800, 263]
 M = [1, 10, 25, 50, 100, 500, 750, 1000]
 maxTau = 30
 
@@ -18,7 +18,7 @@ T = 120
 max_nodes = 25
 delivery_file_name = "delivery_epidemic_day2.txt"
 metrics_file_name = "metrics_epidemic_day2.txt"
-path_to_folder = '../Bands0/2/Day2/CBRS/Epidemic/'
+path_to_folder = '../Bands25/1/Day2/CBRS/Epidemic/'
 S = [3]
-DataMule_path = '../Lexington0/2/Day2/'
-Link_Exists_path = '../Bands0/2/Day2/'
+DataMule_path = '../Lexington25/1/Day2/'
+Link_Exists_path = '../Bands25/1/Day2/'

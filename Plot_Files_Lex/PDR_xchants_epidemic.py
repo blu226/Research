@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 
 time_epochs = 9
-runs = 1
+runs = 3
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
 Epidemic_ALL = np.zeros(shape=(time_epochs,runs))
@@ -13,12 +13,12 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_name = ["../Bands25/"]
+folder_name = ["../Bands15/"]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
 
 folders = os.listdir(folder_name[0])
 
-p_id = 2  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 folders.sort()
 # folders = "1"
@@ -117,18 +117,18 @@ if p_id == 1:
     plt.ylabel('Packet delivery ratio', fontsize=25)
     plt.xlabel('Simulation time (in minutes)', fontsize=25)
     plt.yticks(fontsize=25)
-    fig_name = "../Plots/pdr_routing_error_bars_day2.eps"
+    fig_name = "../Plots/pdr_time_day2.eps"
 
 if p_id == 2:
     plt.ylabel('Latency (in minutes)', fontsize=25)
     plt.xlabel('Simulation time (in minutes)', fontsize=25)
-    fig_name = "../Plots/latency_routing_error_bars_day2.eps"
+    fig_name = "../Plots/latency_time_bars_day2.eps"
 
 
 if p_id == 4:
     plt.ylabel('Message overhead', fontsize=25)
     plt.xlabel('Simulation time (in minutes)', fontsize=25)
-    fig_name = "../Plots/overhead_routing_error_bars_day2.eps"
+    fig_name = "../Plots/overhead_time_day2.eps"
 
 
 

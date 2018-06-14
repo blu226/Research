@@ -73,7 +73,7 @@ class network(object):
             line_arr = line.strip().split()
 
             if int(line_arr[5]) == time:
-                new_mes = message(line_arr[0], line_arr[1], line_arr[2], line_arr[5], line_arr[4])
+                new_mes = message(line_arr[0], line_arr[1], line_arr[2], line_arr[5], line_arr[4], [0, 0, 0, 0])
                 src = int(line_arr[1])
                 self.nodes[src].buf.append(new_mes)
                 # print("New message: ", new_mes.ID, new_mes.src, new_mes.des)
@@ -88,7 +88,9 @@ class network(object):
                         print("Delivered-- t: " + str(mes.last_sent) + " Node: " + str(node.ID))
 
                     f = open(path_to_folder + delivery_file_name, "a")
-                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\n"
+                    band_usage_str = str(mes.band_usage[0]) + '\t' + str(mes.band_usage[1]) + '\t' + str(
+                        mes.band_usage[2]) + '\t' + str(mes.band_usage[3])
+                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t\t" + str(mes.replica) + "\t" + band_usage_str + "\n"
 
                     f.write(line)
                     f.close()

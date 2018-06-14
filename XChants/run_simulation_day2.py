@@ -73,9 +73,9 @@ if generate_files == "Y":
     set_max_nodes = True
     max_nodes = 25
     src_des_nodes = 12
-    run_start_time = 2
+    run_start_time = 1
 
-    mule_set =  [25, 0, 5, 15, 10]
+    mule_set =  [25, 0, 5, 10, 15, 20]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 4):

@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 
 time_epochs = 5
-runs = 1
+runs = 3
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
 Epidemic_ALL = np.zeros(shape=(time_epochs,runs))
@@ -13,9 +13,9 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_names = ["../Bands0/", "../Bands5/", "../Bands10/" ,"../Bands15/", "../Bands25/"]
+folder_names = ["../Bands5/", "../Bands10/" ,"../Bands15/", "../Bands20/", "../Bands25/"]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
-p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
 for folder_name in folder_names:
@@ -57,7 +57,7 @@ for folder_name in folder_names:
                 for line in lines:
                     line_arr = line.strip().split("\t")
 
-                    if "105" in line_arr[0]:
+                    if "120" in line_arr[0]:
                         if "XChants" == routing_folder:
                             if "ALL" == band:
                                 Xchants[t][run] = line_arr[p_id]
@@ -107,7 +107,7 @@ for i in range(len(Xchants)):
     Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
     Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
 
-x = np.array([0, 5, 10, 15, 25])
+x = np.array([5, 10, 15, 20, 25])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
@@ -115,20 +115,21 @@ fig_name = "dummy.eps"
 
 if p_id == 1:
     plt.ylabel('Packet delivery ratio', fontsize=25)
-    plt.xlabel('Number of DSA nodes', fontsize=25)
+    plt.xlabel('Number of d-DSA nodes', fontsize=25)
     plt.yticks(fontsize=25)
-    fig_name = "../Plots/pdr_routing_nodes_day2.eps"
+    fig_name = "../Plots/pdr_nodes_day2.eps"
+
 
 if p_id == 2:
     plt.ylabel('Latency (in minutes)', fontsize=25)
-    plt.xlabel('Number of DSA nodes', fontsize=25)
-    fig_name = "../Plots/latency_routing_nodes_day2.eps"
+    plt.xlabel('Number of d-DSA nodes', fontsize=25)
+    fig_name = "../Plots/latency__nodes_day2.eps"
 
 
 if p_id == 4:
     plt.ylabel('Message overhead', fontsize=25)
-    plt.xlabel('Number of DSA nodes', fontsize=25)
-    fig_name = "../Plots/overhead_routing_nodes_day2.eps"
+    plt.xlabel('Number of d-DSA nodes', fontsize=25)
+    fig_name = "../Plots/overhead_nodes_day2.eps"
 
 plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
@@ -137,7 +138,14 @@ plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', 
 plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
 plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
 
-plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=20)
+if p_id == 1:
+    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="lower right", ncol = 3, fontsize=18)
+
+if p_id == 2:
+    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="lower center", ncol = 3, fontsize=20)
+
+if p_id == 4:
+    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", ncol = 2, fontsize=18)
 
 plt.tight_layout()
 plt.savefig(fig_name)

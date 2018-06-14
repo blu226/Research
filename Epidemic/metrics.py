@@ -62,19 +62,27 @@ def compute_metrics(lines, total_messages, delivery_time):
     latency = 0
     energy = 0
     mes_IDs = []
+    band_usage = [0, 0, 0, 0]
+
     #all_IDs = [x for x in range(num_messages)]
     unique_messages = []
 
     for line in lines:
-        line_arr = line.strip().split("\t")
+        line_arr = line.strip().split()
         if int(line_arr[4]) <= delivery_time and int(line_arr[0]) not in mes_IDs:
             delivered += 1
             latency += int(line_arr[5])
             # energy += float(line_arr[7])
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))
-            #all_IDs.remove(int(line_arr[0]))
+            band_usage[0] += int(line_arr[10])
+            band_usage[1] += int(line_arr[11])
+            band_usage[2] += int(line_arr[12])
+            band_usage[3] += int(line_arr[13])
 
+        total = sum(band_usage)
+        if total > 0:
+            band_usage = [ele / total for ele in band_usage]
 
     if delivered > 0:
         latency = float(latency)/delivered
@@ -87,7 +95,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
     print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead)
 
-    return delivered, latency, energy, mes_IDs, unique_messages, overhead
+    return delivered, latency, energy, mes_IDs, unique_messages, overhead, band_usage
 
 #Main starts here
 msg_file = open("../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")
@@ -113,8 +121,10 @@ delivery_times = [i for i in range(0, T + 10, 15)]
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\Overhead\n")
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages, overhead = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
+    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages, overhead, band_usage = compute_metrics(lines, total_messages, t)
+    metric_file.write(
+        str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +
+        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + "\n")
 
 metric_file.close()
 # print("Delivered messages", sorted(mes_IDs))

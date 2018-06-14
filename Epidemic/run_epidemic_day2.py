@@ -60,8 +60,8 @@ def run_simulation_files(mules, T, max_nodes, run):
 set_max_nodes = True
 max_nodes = 25
 
-mule_set = [25, 0, 5, 15, 10]
-run_start_time = 2
+mule_set = [25, 0, 5, 10, 15, 20]
+run_start_time = 1
 
 for max_mules in mule_set:
     for run in range(run_start_time, 4):

@@ -38,13 +38,13 @@ numSpec = 4 #always even if we only use one band
 
 #TV ISM LTE CBRS
 #3, 10, 40
-minBW = [6, 10, 25, 50]               # Minimum bandwidth for each spectrum band
+minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
-spectRange = [1200, 345, 900, 263]
-#spectRange = [1800, 460, 1200, 350]
+# spectRange = [1200, 345, 900, 263]
+spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 
@@ -66,21 +66,21 @@ StartTime = 0
 
 
 debug_message = -1
+validate_data_directory = '../Lexington20/3/Day2/'
 max_nodes = 25
 T = 120
-V = 22
-NoOfDMs = 10
-delivery_file_name = "delivery_day2.txt"
-metrics_file_name = "metrics_LLC_day2.txt"
+V = 37
+NoOfDMs = 25
+path_to_folder = '../Bands25/1/Day1/ALL/XChants/'
+S = [0, 1, 2, 3]
+lex_data_directory = '../Lexington25/1/'
+lex_data_directory_day = '../Lexington25/1/Day1/'
+link_exists_folder = '../Bands25/1/Day1/'
+delivery_file_name = "delivery_day1.txt"
+metrics_file_name = "metrics_LLC_day1.txt"
 VMIN = 400
 VMAX = 600
 wait_time = [2, 7]
-run_start_time = 2
-pkl_folder = '../Lexington10/3/Day2_pkl/'
-validate_pkl_folder = '../Lexington10/3/Day2_pkl/'
-path_to_folder = '../Bands10/3/Day2/ALL/XChants/'
-S = [0, 1, 2, 3]
-validate_data_directory = '../Lexington10/3/Day2/'
-lex_data_directory = '../Lexington10/3/'
-lex_data_directory_day = '../Lexington10/3/Day2/'
-link_exists_folder = '../Bands10/3/Day2/'
+run_start_time = 1
+pkl_folder = '../Lexington25/1/Day1_pkl/'
+validate_pkl_folder = '../Lexington25/1/Day1_pkl/'
