@@ -29,9 +29,9 @@ class network(object):
         nodeIDs = [int(self.get_ID(file)) for file in files]
         nodeIDs.sort()
 
-        for i in range(len(nodeIDs)):
-            node_ID = nodeIDs[i]
-            node_curr = node(node_ID)
+        for i in range(V):
+            # node_ID = nodeIDs[i]
+            node_curr = node(i)
             self.add_node(node_curr)
 
     def euclideanDistance(coor1X, coor1Y, coor2X, coor2Y):

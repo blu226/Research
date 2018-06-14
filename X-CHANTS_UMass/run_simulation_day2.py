@@ -23,13 +23,13 @@ def create_new_constants_file(day, V, T, directory, time):
 
     dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day2/\"\n"
     dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day2/\"\n"
-    link_exists = "link_exists_folder = '../Bands_UMass/" + directory + "Day2/" + "\'\n"
+    link_exists = "link_exists_folder = '../Bands_UMass" + str(V) + "/" + directory + "Day2/" + "\'\n"
 
     DM_line = "NoOfDMs = " + str(NoOfDMs) + "\n"
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = link_exists_folder + \'generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -54,12 +54,9 @@ def run_simulation_files(day, V, T,directory,time):
     create_new_constants_file(day, V, T,directory,time)
     #getSrcDst(time, directory)
 
+    run = [0, 1, 2, 3, 4]
+    link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
-
-    if day == 1:
-        run = [0]
-    else:
-        run = [0]
 
     for ind in run:
         # for run in range(1, 4):
@@ -88,7 +85,7 @@ def run_simulation_files(day, V, T,directory,time):
             path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "XChants/" + str(V-9) + "/"
+        path_to_folder = path_to_folder + "XChants/"
 
         if not os.path.exists(path_to_folder):
             os.makedirs(path_to_folder)
@@ -107,11 +104,10 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         # #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        if ind == 0 and day == 2:
-            # os.system('python3 create_pickles.py')
-           os.system('python3 computeLINKEXISTS_UMass.py')
-
-        os.system('python3 main2.py')
+        # if ind == 0 and day == 2:
+        #    os.system('python3 computeLINKEXISTS_UMass.py')
+        #
+        # os.system('python3 main2.py')
         os.system('python3 metrics.py')
 
 
@@ -122,8 +118,8 @@ dir = "../DataMules/"
 directorys = ['2007-11-06_2007-11-07/']
 startTime = [560]
 for i in range(len(directorys)):
-    path = dir + directorys[i] + "Day1"
-    files = findfiles(path)
-    v = len(files)
-
-    run_simulation_files(2,v,120, directorys[i], startTime[i])
+    # path = dir + directorys[i] + "Day1"
+    # files = findfiles(path)
+    # v = len(files)
+    for v in range(20, 11, -2):
+        run_simulation_files(2,v,120, directorys[i], startTime[i])

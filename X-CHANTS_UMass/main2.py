@@ -28,7 +28,7 @@ with open(path_to_Day1_LLC + "LLC_PATH.txt", "r") as fp:
 with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
-with open(path_to_mess, "r") as fg:
+with open(generated_messages_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
 specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))

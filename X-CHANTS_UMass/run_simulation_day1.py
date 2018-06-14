@@ -22,7 +22,7 @@ def create_new_constants_file(day, V, T, directory, time):
     if day == 1:
         dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day1/\"\n"
         dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day1/\"\n"
-        link_exists = "link_exists_folder = '../Bands_UMass/" + directory + "Day1/" + "\'\n"
+        link_exists = "link_exists_folder = '../Bands_UMass" + str(V) + "/" + directory + "Day1/" + "\'\n"
     else:
         dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day2/\"\n"
         dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day2/\"\n"
@@ -32,7 +32,7 @@ def create_new_constants_file(day, V, T, directory, time):
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = link_exists_folder + \'generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -57,12 +57,9 @@ def run_simulation_files(day, V, T,directory,time):
     create_new_constants_file(day, V, T,directory,time)
     #getSrcDst(time, directory)
 
+    run = [0, 1, 2, 3, 4]
 
-
-    if day == 1:
-        run = [0]
-    else:
-        run = [0]
+    link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day1/"
 
     for ind in run:
         # for run in range(1, 4):
@@ -91,7 +88,7 @@ def run_simulation_files(day, V, T,directory,time):
             path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "XChants/" + str(V-9) + "/"
+        path_to_folder = path_to_folder + "XChants/"
 
         if not os.path.exists(path_to_folder):
             os.makedirs(path_to_folder)
@@ -134,7 +131,7 @@ for i in range(len(directorys)):
     #v = len(files)
     #
     # print(directorys[i])
-    for v in range(18, 11, -2):
+    for v in range(20, 11, -2):
         run_simulation_files(1, v, 120, directorys[i], startTime[i])
 
 

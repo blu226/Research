@@ -4,7 +4,7 @@ def compute_overhead(time):
     path_to_mess_arr = Link_Exists_path.split('/')
     path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-    with open(path_to_mess, 'r') as f:
+    with open(generated_messages_file, 'r') as f:
         generated_lines = f.readlines()[1:]
 
     with open(path_to_folder + delivery_file_name, 'r') as f:
@@ -99,7 +99,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 path_to_mess_arr = Link_Exists_path.split('/')
 path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-msg_file = open(path_to_mess, "r")
+msg_file = open(generated_messages_file, "r")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")

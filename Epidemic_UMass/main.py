@@ -84,7 +84,7 @@ def epidemic_simulation(dir,time):
     path_to_mess_arr = Link_Exists_path.split('/')
     path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-    with open(path_to_mess, "r") as f:
+    with open(generated_messages_file, "r") as f:
         msg_lines = f.readlines()[1:]
 
     #Run simulation

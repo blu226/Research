@@ -13,9 +13,9 @@ id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
 while id < 300:
     # print(id)
-    rand_line = random.randint(0, len(path_lines) - 1)
-    path_lines.remove(path_lines[rand_line])
-    line_arr = path_lines[rand_line].strip().split()
+    rand_line = random.choice(path_lines)
+    path_lines.remove(rand_line)
+    line_arr = rand_line.strip().split()
 
     src = int(line_arr[0])
     des = int(line_arr[1])

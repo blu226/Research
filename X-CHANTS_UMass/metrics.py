@@ -71,23 +71,26 @@ def compute_metrics(lines, total_messages, delivery_time):
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))
 
+    overhead = 0
 
     if delivered > 0:
         latency = float(latency)/delivered
         energy = float(energy)/delivered
+        overhead = 1
 
     if total_messages > 0:
         delivered = float(delivered) / total_messages
 
+
     print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
 
-    return delivered, latency, energy, mes_IDs, unique_messages
+    return delivered, latency, energy, mes_IDs, unique_messages, overhead
 
 #Main starts here
 path_to_mess_arr = link_exists_folder.split('/')
 path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-msg_file = open(path_to_mess, "r")
+msg_file = open(generated_messages_file, "r")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
@@ -100,8 +103,8 @@ delivery_times = [i for i in range(0, T + 10, 15)]
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\n")
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) +  "\n")
+    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages, overhead = compute_metrics(lines, total_messages, t)
+    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
 
 metric_file.close()
 # print("Delivered messages", sorted(mes_IDs))
