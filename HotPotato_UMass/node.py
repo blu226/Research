@@ -51,7 +51,7 @@ class node(object):
             max_end = ts + maxTau
 
             if max_end > T:
-                return False
+                max_end = T
 
             for te in range(ts+1, max_end):
                 spec_to_use = []
@@ -69,7 +69,7 @@ class node(object):
 
                        mes.set(te, self.ID)
                        des_node.buf.append(mes)
-
+                       # print("ID: ", mes.ID, "src: ", mes.src, "des: ", mes.des)
                        return True
 
             return False

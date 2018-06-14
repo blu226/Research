@@ -11,28 +11,27 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [3600,920,2400,700]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
-    f.write("TTL = 30\nminTTL=15\nmaxTau = 10\nM = [1,10,25,50,100,500,750,1000]\n")
-    f.write("num_mess_replicas = 25\n")
+    f.write("TTL = 30\nminTTL=15\nmaxTau = 120\nM = [1,10,25,50,100,500,750,1000]\n")
     NoOfDMs = V - 9
-    link_exists = "Link_Exists_path = '../Bands_UMass/" + directory +"\'\n"
-    delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_SnW.txt\"\n"
+    link_exists = "Link_Exists_path = '../Bands_UMass/" + directory + "Day2/" + "\'\n"
+    delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+".txt\"\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_SnW.txt\'\n"
     file_day = "day = " + "\'" + directory + '\'\n'
     metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_SnW.txt\"\n"
     lex_data_file_name = "lex_data_directory = \"../DataMules/" + directory + "\"\n"
-    if day == 1:
-        dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day1/\"\n"
-        dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day1/\"\n"
-    else:
-        dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day2/\"\n"
-        dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day2/\"\n"
+    num_reps = "num_mess_replicas = 25\n"
+
+
+    dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day2/\"\n"
+    dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day2/\"\n"
+
     DM_line = "NoOfDMs = " + str(NoOfDMs) + "\n"
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
-    num_mess = "num_messages = 100\n"
+    num_mess = "num_messages = 300\n"
     message_line = "generated_messages_file = Link_Exists_path + \'generated_messages.txt\'\n"
-    DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day1/\'" + "\n"
+    DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(file_day)
     f.write(DM_line)
@@ -47,6 +46,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write(notDel)
     f.write(str(metrics_file_name))
     f.write(dir2)
+    f.write(num_reps)
     # f.write(dir3)
 
     f.write(message_line)
@@ -72,27 +72,27 @@ def run_simulation_files(day, V, T,directory,time):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands_UMass/" + directory+ "ALL/"
+            path_to_folder = "../Bands_UMass/" + directory+ "Day2/ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands_UMass/" + directory + "TV/"
+            path_to_folder = "../Bands_UMass/" + directory + "Day2/TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands_UMass/" + directory +"ISM/"
+            path_to_folder = "../Bands_UMass/" + directory +"Day2/ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands_UMass/" + directory + "LTE/"
+            path_to_folder = "../Bands_UMass/" + directory + "Day2/LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands_UMass/" + directory + "CBRS/"
+            path_to_folder = "../Bands_UMass/" + directory + "Day2/CBRS/"
             print("\nCBRS --------------------------- ")
 
         path_to_folder = path_to_folder + "SprayNWait/" + str(V - 9) + "/"
@@ -119,22 +119,10 @@ def run_simulation_files(day, V, T,directory,time):
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-10-31_2007-11-01/']
+directorys = ['2007-11-06_2007-11-07/']
 for i in range(len(directorys)):
-    path = dir + directorys[i] + "Day1"
+    path = dir + directorys[i] + "Day2"
     files = findfiles(path)
     v = len(files)
 
-    run_simulation_files(2,v,120, directorys[i], 0)
-
-
-
-
-
-
-
-
-
-
-
-
+    run_simulation_files(2,v-2,120, directorys[i], 0)

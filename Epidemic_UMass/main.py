@@ -57,7 +57,7 @@ def epidemic_simulation(dir,time):
 
 
     output_file = open(path_to_folder + delivery_file_name, "w")
-    output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
+    output_file.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\tTV\tISM\tLTE\tCBRS\n")
     output_file.write("----------------------------------------------------\n")
     output_file.close()
 
@@ -89,7 +89,8 @@ def epidemic_simulation(dir,time):
 
     #Run simulation
     for i in range(T):
-        print("TIME: " + str(i))
+        if i % 20 == 0:
+            print("TIME: " + str(i))
         net.network_GO(i , LINK_EXISTS, specBW, msg_lines)
 
     net.all_messages()

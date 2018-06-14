@@ -14,6 +14,7 @@ sensing_power = 0.04
 lambda_val = 1
 messageBurst = [2, 5]
 
+debug_message = -1
 NoOfSources = 6
 NoOfDataCenters = 3
 TTL = 30

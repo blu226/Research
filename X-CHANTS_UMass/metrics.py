@@ -66,7 +66,7 @@ def compute_metrics(lines, total_messages, delivery_time):
         line_arr = line.strip().split("\t")
         if int(line_arr[4]) <= delivery_time and int(line_arr[0]) not in mes_IDs:
             delivered += 1
-            latency += int(line_arr[6])
+            latency += int(line_arr[5])
             # energy += float(line_arr[7])
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))

@@ -54,7 +54,7 @@ class network(object):
 
                 if des_node != src_node:
 
-                    for s in range(4):
+                    for s in S:
                         delay = find_delay(message.size, s, specBW, src_node.ID, des_node.ID, t)
                         temp_delays.append(delay)
 

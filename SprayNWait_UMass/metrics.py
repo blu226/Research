@@ -1,8 +1,9 @@
 from constants import *
 
 def compute_overhead(time):
-
-    with open(generated_messages_file, 'r') as f:
+    path_to_mess_arr = Link_Exists_path.split('/')
+    path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+    with open(path_to_mess, 'r') as f:
         generated_lines = f.readlines()[1:]
 
     with open(path_to_folder + delivery_file_name, 'r') as f:
@@ -84,7 +85,9 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, energy, mes_IDs, unique_messages, overhead
 
 #Main starts here
-msg_file = open(generated_messages_file, "r")
+path_to_mess_arr = Link_Exists_path.split('/')
+path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+msg_file = open(path_to_mess, "r")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
@@ -92,7 +95,7 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-fsorted = open(path_to_folder+ "sorted_Epidemic_delivery.txt", "w")
+fsorted = open(path_to_folder+ "sorted_SnW_delivery.txt", "w")
 #sort the lines based on LLC i.e., column 5
 
 fsorted.write("ID	s	d	ts	te	LLC	size	parent	parentTime	replica\n")
@@ -113,7 +116,7 @@ for t in delivery_times:
 metric_file.close()
 print("Delivered messages", sorted(mes_IDs))
 
-with open(path_to_folder + "unique_Epidemic_messages.txt", "w") as f:
+with open(path_to_folder + "unique_SnW_messages.txt", "w") as f:
     f.write("ID\ts\td\tts\tte\tLLC\tsize\n")
     f.write("------------------------------\n")
 

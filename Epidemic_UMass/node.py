@@ -48,9 +48,13 @@ class node(object):
 
                 for spec in range(len(spec_to_use)):
                     if can_transfer(mes.size, spec_to_use[spec], (te - ts), specBW, self.ID, des_node.ID, ts, mes):
-                        new_message = message(mes.ID, mes.src, mes.des, mes.genT, mes.size )
+                        new_message = message(mes.ID, mes.src, mes.des, mes.genT, mes.size, [mes.band_usage[0], mes.band_usage[1], mes.band_usage[2], mes.band_usage[3]])
                         new_message.set(te, replicaID, te, self.ID)
+                        new_message.band_used(spec_to_use[spec])
+                        if new_message.ID == debug_message:
+                            print("time: ", ts, "src", self.ID, "des", des_node.ID, "prev Bands used", mes.band_usage, "next band ", new_message.band_usage)
                         des_node.buf.append(new_message)
+
 
                         return True
             return False
@@ -72,7 +76,7 @@ class node(object):
                 if te < T:
 
                     if LINK_EXISTS[i, j, s, ts, te] == 1:
-                        new_message = message(mes.ID, mes.src, mes.des, mes.genT, mes.size)
+                        new_message = message(mes.ID, mes.src, mes.des, mes.genT, mes.size, mes.band_usage)
                         new_message.set(te, replicaID, te, i)
                         des_node.buf.append(new_message)
 

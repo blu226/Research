@@ -118,10 +118,12 @@ def CHECK_IF_LINK_EXISTS(file1_pkl, file2_pkl, s, ts, te):
 
 def createLinkExistenceADJ():
     pkl_files = []
-    fileList = findfiles(pkl_folder)
-    fileList.sort()
-
-
+    # fileList = findfiles(pkl_folder)
+    # fileList.sort()
+    fileList = []
+    file_nums = [i for i in range(V)]
+    for i in range(len(file_nums)):
+        fileList.append(str(i) + ".pkl")
 
     if ".DS_Store" in fileList:
         fileList.remove(".DS_Store")

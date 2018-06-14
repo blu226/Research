@@ -59,20 +59,29 @@ def compute_metrics(lines, total_messages, delivery_time):
     delivered = 0
     latency = 0
     energy = 0
+    band_usage = [0,0,0,0]
     mes_IDs = []
     unique_messages = []
 
     overhead = compute_overhead(delivery_time)
 
     for line in lines:
-        line_arr = line.strip().split("\t")
+        line_arr = line.strip().split()
+
         if int(line_arr[4]) <= delivery_time and int(line_arr[0]) not in mes_IDs:
             delivered += 1
-            latency += int(line_arr[5])
+            latency += int(line_arr[6])
+            band_usage[0] += int(line_arr[10])
+            band_usage[1] += int(line_arr[11])
+            band_usage[2] += int(line_arr[12])
+            band_usage[3] += int(line_arr[13])
             # energy += float(line_arr[7])
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))
 
+    total_links = sum(band_usage)
+    if total_links == 0:
+        total_links = 1
 
     if delivered > 0:
         latency = float(latency)/delivered
@@ -82,6 +91,7 @@ def compute_metrics(lines, total_messages, delivery_time):
         delivered = float(delivered) / total_messages
 
     print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, "overhead: ", overhead)
+    print("band usage: TV = " + str(band_usage[0]/total_links) + " ISM = " + str(band_usage[1]/total_links) + " LTE = " + str(band_usage[2]/total_links) + " CBRS = " + str(band_usage[3]/total_links))
 
     return delivered, latency, energy, mes_IDs, unique_messages, overhead
 

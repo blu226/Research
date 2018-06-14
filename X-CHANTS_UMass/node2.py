@@ -86,7 +86,7 @@ class Node(object):                                                             
 
                 transfer_time = self.compute_transfer_time(message, s, specBW, message.curr, next, ts)
                 te = ts + transfer_time
-
+                # print("curr: ", message.curr, "next: ", next)
                 if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s) == True:
 
                     message.path.pop()

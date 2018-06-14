@@ -11,16 +11,16 @@ def findDistance():
     src = []
     dst = []
     for i in range(len(lines)):
-        if i % 2 == 0:
-            src.append(lines[i])
-        else:
-            dst.append(lines[i])
+        # if i % 2 == 0:
+        src.append(lines[i])
+        # else:
+        #     dst.append(lines[i])
 
     for i in range(len(src)):
         line = src[i].split()
 
-        for j in range(len(dst)):
-            line2 = dst[j].split()
+        for j in range(len(src)):
+            line2 = src[j].split()
             print(funHaversine(float(line[1]),float(line[0]), float(line2[1]), float(line2[0])) / 1000)
 def getCoord():
     fileList = findfiles(lex_data_directory_day)
@@ -87,4 +87,5 @@ def getSrcDst(time, day):
 directorys = ['2007-11-06_2007-11-07/']
 startTime = [560]
 for i in range(len(directorys)):
-    getSrcDst(startTime[i],directorys[i])
+    # getSrcDst(startTime[i],directorys[i])
+    findDistance()
