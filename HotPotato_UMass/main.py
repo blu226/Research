@@ -6,7 +6,7 @@ import os
 #Function create_constants: creates a constants file for the given simulation
 def create_constants(dir, startTime):
     day_directory = "day = " + "\'" + dir + "\'\n"
-    Link_Exists_path = "Link_Exists_path = \'../Bands_UMass/\' + day" +  "\n"
+    Link_Exists_path = "Link_Exists_path = \'../Bands_UMass/\' + day + \'Day2\'" +  "\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day1/\'" + "\n"
     time = "startTime = " + str(startTime) + "\n"
     metrics = "metrics_file_name = \'metrics_HP.txt\'\n"
@@ -99,4 +99,4 @@ def HP_simulation(dir,time):
 #
 # for day in days:
 
-HP_simulation('2007-10-31_2007-11-01/', 0)
+HP_simulation('2007-11-06_2007-11-07/', 0)

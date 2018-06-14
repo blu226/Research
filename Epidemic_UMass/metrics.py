@@ -1,8 +1,10 @@
 from constants import *
 
 def compute_overhead(time):
+    path_to_mess_arr = Link_Exists_path.split('/')
+    path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-    with open(generated_messages_file, 'r') as f:
+    with open(path_to_mess, 'r') as f:
         generated_lines = f.readlines()[1:]
 
     with open(path_to_folder + delivery_file_name, 'r') as f:
@@ -84,7 +86,10 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, energy, mes_IDs, unique_messages, overhead
 
 #Main starts here
-msg_file = open(generated_messages_file, "r")
+path_to_mess_arr = Link_Exists_path.split('/')
+path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+
+msg_file = open(path_to_mess, "r")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
@@ -111,7 +116,7 @@ for t in delivery_times:
     metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
 
 metric_file.close()
-print("Delivered messages", sorted(mes_IDs))
+# print("Delivered messages", sorted(mes_IDs))
 
 with open(path_to_folder + "unique_Epidemic_messages.txt", "w") as f:
     f.write("ID\ts\td\tts\tte\tLLC\tsize\n")

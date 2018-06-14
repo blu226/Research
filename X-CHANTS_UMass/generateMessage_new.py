@@ -2,7 +2,10 @@ from constants import *
 import random
 
 message_file = open(generated_messages_file, "w")
-with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
+path_to_LLC_arr = path_to_folder.split('/')
+path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
+
+with open(path_to_Day1_LLC + "LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 fp.close()
 
@@ -11,7 +14,7 @@ message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
 while id < 300:
     # print(id)
     rand_line = random.randint(0, len(path_lines) - 1)
-    path_lines.remove(rand_line)
+    path_lines.remove(path_lines[rand_line])
     line_arr = path_lines[rand_line].strip().split()
 
     src = int(line_arr[0])

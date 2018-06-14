@@ -1,28 +1,29 @@
 import math
 import pickle
 
-path_to_folder = 'Bands15/3/Day1/ALL/'
-link_exists_folder = 'Bands15/3/Day1/'
+path_to_folder = 'Bands_UMass/2007-11-06_2007-11-07/Day2/ALL/XChants/11/'
+path_to_folder_epi = 'Bands_UMass/2007-11-06_2007-11-07/Day2/ALL/Epidemic/11/'
+link_exists_folder = 'Bands_UMass/2007-11-06_2007-11-07/Day1/'
 
-specBW = pickle.load(open("Bands15/3/Day1/specBW.pkl", "rb"))
+specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
 
-fx = open(path_to_folder + "delivery_day1.txt", "r")
+fx = open(path_to_folder + "delivery_day2_X-CHANTS.txt", "r")
 xLines = fx.readlines()[2:]
 fx.close()
 
-fe = open(path_to_folder + "unique_epidemic_messages.txt", "r")
+fe = open(path_to_folder_epi + "unique_Epidemic_messages.txt", "r")
 eLines = fe.readlines()[2:]
 fe.close()
 
-fl_path = open(path_to_folder + "LLC_PATH.txt")
+fl_path = open(link_exists_folder + "ALL/XChants/11/LLC_PATH.txt")
 llc_path_lines = fl_path.readlines()[1:]
 fl_path.close()
 
-fl_spec = open(path_to_folder + "LLC_Spectrum.txt")
+fl_spec = open(link_exists_folder + "ALL/XChants/11/LLC_Spectrum.txt")
 llc_spec_lines = fl_spec.readlines()[1:]
 fl_spec.close()
 
-ft_time = open(path_to_folder + "LLC_time.txt")
+ft_time = open(link_exists_folder + "ALL/XChants/11/LLC_time.txt")
 llc_time_lines = ft_time.readlines()[1:]
 ft_time.close()
 

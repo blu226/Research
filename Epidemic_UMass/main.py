@@ -5,7 +5,7 @@ import pickle
 #Function create_constants: creates a constants file for the given simulation
 def create_constants(dir, startTime):
     day_directory = "day = " + "\'" + dir + "\'\n"
-    Link_Exists_path = "Link_Exists_path = \'../Bands_UMass/\' + day" +  "\n"
+    Link_Exists_path = "Link_Exists_path = \'../Bands_UMass/\' + day + \'Day2\'" +  "\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day1/\'" + "\n"
     time = "startTime = " + str(startTime) + "\n"
     metrics = "metrics_file_name = \'metrics_epidemic.txt\'\n"
@@ -65,11 +65,11 @@ def epidemic_simulation(dir,time):
     output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
     output_file2.write("----------------------------------------------------\n")
     output_file2.close()
+
     #Load Link Exists
     LINK_EXISTS = pickle.load(open(Link_Exists_path + "LINK_EXISTS.pkl", "rb"))
     specBW = pickle.load(open(Link_Exists_path + "specBW.pkl", "rb"))
-    # LINK_EXISTS = createLinkExistenceADJ()
-    # print(LINK_EXISTS[3,4,])
+
 
 
 
@@ -81,7 +81,10 @@ def epidemic_simulation(dir,time):
     # path = "Bands/" + day + "/"
     # create_messages(path)
 
-    with open(generated_messages_file, "r") as f:
+    path_to_mess_arr = Link_Exists_path.split('/')
+    path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+
+    with open(path_to_mess, "r") as f:
         msg_lines = f.readlines()[1:]
 
     #Run simulation
@@ -93,4 +96,4 @@ def epidemic_simulation(dir,time):
 
 
 
-epidemic_simulation('2007-10-31_2007-11-01/', 0)
+epidemic_simulation('2007-11-06_2007-11-07/', 0)

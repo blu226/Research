@@ -41,7 +41,7 @@ class node(object):
             for te in range(ts+1, max_end):
                 spec_to_use = []
 
-                for s in range(4):
+                for s in S:
 
                     if LINK_EXISTS[self.ID, des_node.ID, s, int(ts - startTime), int(te - startTime)] == 1:
                         spec_to_use.append(s)

@@ -68,7 +68,7 @@ def moveFiles2(day1, day2, similarity, day1_name, day2_name):
         # shutil.copyfile(day2_filePath, day2_dest)
 
 
-def moveFiles(day1, day2, similarity, day1_name, day2_name):
+def moveFiles(day1, day2, similarity, day1_name, day2_name, time):
 
     day1_chosen = []
     day2_chosen = []
@@ -112,31 +112,36 @@ def moveFiles(day1, day2, similarity, day1_name, day2_name):
         os.makedirs(destFolder2)
     #print(day1_chosen)
 
-    for i in range(len(day1_chosen)):
-        day1_file = day1_folder[day1_chosen[i]]
-        day1_filePath = day1_path + "/" + day1_file
-        day2_file = day2_folder[day2_chosen[i]]
-        day2_filePath = day2_path + "/" + day2_file
+    if ("2007-11-06" in day1_name and time == 560):
+        for i in range(len(day1_chosen)):
+            day1_file = day1_folder[day1_chosen[i]]
+            day1_filePath = day1_path + "/" + day1_file
+            day2_file = day2_folder[day2_chosen[i]]
+            day2_filePath = day2_path + "/" + day2_file
 
-        day1_dest = destFolder1 + "/" + str(i + NoOfSources + NoOfDataCenters) + ".txt"
-        day2_dest = destFolder2 + "/" +str(i + NoOfSources + NoOfDataCenters) + ".txt"
+            day1_dest = destFolder1 + "/" + str(i + NoOfSources + NoOfDataCenters) + ".txt"
+            day2_dest = destFolder2 + "/" +str(i + NoOfSources + NoOfDataCenters) + ".txt"
 
-        # shutil.copyfile(day1_filePath, day1_dest)
-        # shutil.copyfile(day2_filePath, day2_dest)
+            shutil.copyfile(day1_filePath, day1_dest)
+            shutil.copyfile(day2_filePath, day2_dest)
 
-        #print(str(day1_chosen[i]) + '\t' + str(day2_chosen[i]) + '\t' + str(similarity_chosen[i]))
+        # if ("2007-10-25" in day1_name and time == 800) or ("2007-11-06" in day1_name and time == 560):
+        #     print(str(day1_chosen[i]) + '\t' + str(day2_chosen[i]) + '\t' + str(similarity_chosen[i]))
 
     # print("total similarity: " + str(sum(similarity_chosen)/len(similarity_chosen)))
+
+
     if len(similarity_chosen) == 0:
         return 0
     else:
-        return sum(similarity_chosen)/len(similarity_chosen)
+        return sum(similarity_chosen)/len(similarity_chosen), len(day1_chosen)
 
 
 day_sim_times = []
 
 for first_file in range(folderLen - 2):
     all_sims = []
+    num_bus_arr = []
     times = [ 170, 290, 410, 530, 650]
     print("---------------------------------------------------------------\n")
     print("Days: " + str(folders[first_file]) + " and " + str(folders[first_file + 1]))
@@ -233,16 +238,17 @@ for first_file in range(folderLen - 2):
                         similarity.append(ratio)
         # if total_row != 0:
         #     print("Total similarity: " + str(100*total_sim/total_row)[:4])
-
-        ave_sim = moveFiles(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]))
+        # print("time: ", start_time + 390)
+        ave_sim, num_buses = moveFiles(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]), start_time + 390)
         all_sims.append(ave_sim)
+        num_bus_arr.append(num_buses)
 
     max_sim = max(all_sims)
     index = all_sims.index(max_sim)
     sim_time = times[index]
     day_sim_times.append(sim_time)
-    print(max_sim, sim_time + 390)
-print(day_sim_times)
+    print("Similarity: ", max_sim, "Time: ", sim_time + 390, "Num Buses: ", num_bus_arr[index] )
+
 for new_file in range(folderLen - 2):
     file1 = directory + "/" + str(folders[first_file])  # 2007-10-23
     file2 = directory + "/" + str(folders[first_file + 1])  # 2007-11-06
@@ -322,4 +328,4 @@ for new_file in range(folderLen - 2):
                     day2_buses.append(j)
                     similarity.append(ratio)
                     # print(day1_buses)
-    moveFiles2(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]))
+    # moveFiles2(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[first_file + 1]))

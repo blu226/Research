@@ -15,14 +15,20 @@ output_file.write("ID\ts\td\tts\tte\tLLC\tELC\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
-with open(path_to_folder + "LLC_PATH.txt", "r") as fp:
+path_to_LLC_arr = path_to_folder.split('/')
+path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
+
+path_to_mess_arr = link_exists_folder.split('/')
+path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+
+with open(path_to_Day1_LLC + "LLC_PATH.txt", "r") as fp:
     path_lines = fp.readlines()[1:]
 
 
-with open(path_to_folder + "LLC_Spectrum.txt", "r") as fs:
+with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as fs:
     spec_lines = fs.readlines()[1:]
 
-with open(generated_messages_file, "r") as fg:
+with open(path_to_mess, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
 specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))

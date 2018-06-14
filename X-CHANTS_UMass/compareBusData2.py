@@ -70,9 +70,10 @@ def getIndex(ts, currTimeInFile1, currTimeInFile2, currIndexInFile1, currIndexIn
     return currIndexInFile1, currIndexInFile2
 
 #
-directory = "DataMules/"
+directory = "../DataMules/"
 days = os.listdir(directory)
 days.sort()
+
 
 for file in days:
 # directory1 = "DataMules/2007-11-03_2007-11-04/Day1"
@@ -81,7 +82,7 @@ for file in days:
 # directory1 = "DataMules/2007-10-23_2007-10-25/Day1"
 # directory2 = "DataMules/2007-10-23_2007-10-25/Day2"
 
-    if file == "2007-11-03_2007-11-05":
+    if file == "2007-10-31_2007-11-01":
         directory1 = directory + file + "/Day1"
         directory2 = directory + file + "/Day2"
         folders = findfiles(directory1)
@@ -125,6 +126,7 @@ for file in days:
                     for i in range(120):
                         ind1, ind2 = getIndex(time + i, time1, time2, ind1, ind2, day1_lines, day2_lines)
                         time1 = float(day1_lines[ind1].split()[0])
+                        print(ind2)
                         time2 = float(day2_lines[ind2].split()[0])
 
                         if (time1 == float(time + i)  and time2 == float(time + i)):
@@ -142,18 +144,16 @@ for file in days:
 
                                 dist = funHaversine(float(Y1), float(X1), float(Y2), float(X2))
                         #                print(dist)
-                                if dist < 1200 and dist >= 0:
+                                if dist < 1000 and dist >= 0:
                                     rowSimilar += 1
 
 
                     total_row += numRows
                     total_sim += rowSimilar
 
-                    if str(folders[first_file]) not in ["0.txt","1.txt","2.txt","3.txt","4.txt","5.txt", "6.txt", "7.txt", "8.txt"]:
+                    # if str(folders[first_file]) not in ["0.txt","1.txt","2.txt","3.txt","4.txt","5.txt", "6.txt", "7.txt", "8.txt"]:
                         # print(str(folders[first_file]))
-                        if numRows == 0:
-                            # print("Similarity: 0\n")
-                            print("", end = "")
+
                        # else:
                             # print("NumRows:", str(numRows),"\nRowsSimilar: ", str(rowSimilar),"\nSimilarity: ", str(100*rowSimilar/numRows), "\n")
                             #sum += rowSimilar
@@ -165,20 +165,21 @@ for file in days:
                    # print(directory1)
                     print(str(time) + ": " + str(ratio*100)[:4] + " " + str(total_row))
         # #
-        # if len(ratios) > 0:
-        #     max_ratio = min(ratios)
-        #     index = ratios.index(max_ratio)
-        #     print(str(times[index]) + ": " + str(max_ratio*100)[:4])
-      #  f = open("Similarity_Ratios.txt", "a")
+        if len(ratios) > 0:
+            max_ratio = min(ratios)
+            index = ratios.index(max_ratio)
+            print(str(times[index]) + ": " + str(max_ratio*100)[:4])
 
-                    # print("---------------------------------------------------------------\n")
-                    # print("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]))
-                    # print("i\tj\tNumRows\tSimilarity")
+        f = open("Similarity_Ratios.txt", "a")
 
-                    # f.write("---------------------------------------------------------------\n")
-                    # f.write("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]) + "\n")
-                    # f.write("i\tj\tNumRows\tSimilarity\n")
-        #
+        print("---------------------------------------------------------------\n")
+        print("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]))
+        print("i\tj\tNumRows\tSimilarity")
+
+        f.write("---------------------------------------------------------------\n")
+        f.write("Days: " + str(folders[first_file]) + " and " + str(folders[second_file]) + "\n")
+        f.write("i\tj\tNumRows\tSimilarity\n")
+
 
 
        # moveFiles(day1_buses, day2_buses, similarity, str(folders[first_file]), str(folders[second_file]))

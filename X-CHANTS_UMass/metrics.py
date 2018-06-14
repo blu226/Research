@@ -66,7 +66,7 @@ def compute_metrics(lines, total_messages, delivery_time):
         line_arr = line.strip().split("\t")
         if int(line_arr[4]) <= delivery_time and int(line_arr[0]) not in mes_IDs:
             delivered += 1
-            latency += int(line_arr[5])
+            latency += int(line_arr[6])
             # energy += float(line_arr[7])
             unique_messages.append(line_arr)
             mes_IDs.append(int(line_arr[0]))
@@ -84,7 +84,10 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, energy, mes_IDs, unique_messages
 
 #Main starts here
-msg_file = open(generated_messages_file, "r")
+path_to_mess_arr = link_exists_folder.split('/')
+path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
+
+msg_file = open(path_to_mess, "r")
 total_messages = len(msg_file.readlines()[1:])
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
@@ -92,16 +95,6 @@ f = open(path_to_folder + delivery_file_name, "r")
 
 lines = f.readlines()[2:]
 
-fsorted = open(path_to_folder+ "sorted_Epidemic_delivery.txt", "w")
-#sort the lines based on LLC i.e., column 5
-
-fsorted.write("ID	s	d	ts	te	LLC	size	parent	parentTime	replica\n")
-
-lines = sorted(lines, key=lambda line: int(line.split()[5]))
-
-for line in lines:
-    fsorted.write(line)
-fsorted.close()
 
 delivery_times = [i for i in range(0, T + 10, 15)]
 
@@ -111,16 +104,9 @@ for t in delivery_times:
     metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) +  "\n")
 
 metric_file.close()
-print("Delivered messages", sorted(mes_IDs))
+# print("Delivered messages", sorted(mes_IDs))
 
-with open(path_to_folder + "unique_Epidemic_messages.txt", "w") as f:
-    f.write("ID\ts\td\tts\tte\tLLC\tsize\n")
-    f.write("------------------------------\n")
 
-    for msg_line in unique_messages:
-        for word in msg_line[:7]:
-            f.write(str(word) + "\t")
-        f.write("\n")
 
 # message_info(all_IDs)
 

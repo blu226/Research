@@ -24,7 +24,7 @@ def isFile(object):
     except Exception:  # if not, it's a file
         return True
 
-def readFile(fileName, busName):
+def readFile(fileName):
     currPath = []
     with open(fileName) as f:
         listOfLines = f.readlines()
@@ -32,12 +32,13 @@ def readFile(fileName, busName):
 
         for line in listOfLines:
             lineStr = line.strip()
-            lineStr = lineStr.split(" ")
+            lineStr = lineStr.split()
             # if count%2 == 0:
             # print(lineStr[3])
-            currPath.append((float(lineStr[1]), float(lineStr[2])))
+            if(float(lineStr[0]) >= 560) and float(lineStr[0]) <= 680:
+                currPath.append((float(lineStr[2]), float(lineStr[3])))
 
-            count += 1
+                count += 1
             # with open("UMASS/" + busName + ".txt", "a") as fw:
             #     newStr = lineStr[1] + " , " + lineStr[2]
             #     fw.write( newStr + "\n")
@@ -49,7 +50,7 @@ def readFile(fileName, busName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "DieselNet-2007/gps_logs"
+directory = "DataMules/2007-11-06_2007-11-07/Day1/"
 #generateData(directory)
 
 folders = findfiles(directory)
@@ -61,51 +62,54 @@ folderLen = len(folders)
 
 curr = os.getcwd()
 
-#For each bus
-for ind in range(1, folderLen, 1):
+
 #    if ".DS_Store" not in folders:
- #       print("Current Folder " + folders[ind])
+#       print("Current Folder " + folders[ind])
 
-  #  print("Folder is: " + str(folders[ind]))
-    folderPath = directory + "/" + str(folders[ind])
-    currFiles = findfiles(folderPath)
-    currFiles.sort()
+#  print("Folder is: " + str(folders[ind]))
 
-    # For all days
-    allPaths = []
-    numOfFiles = len(currFiles)
-    #For each day
-    for fInd in range(0, 1):
-   #     print("Current File "  + currFiles[fInd])
-        filePath = folderPath + "/" + currFiles[fInd]
-        currPath = readFile(filePath, folders[ind] + "_" + currFiles[fInd])
+currFiles = findfiles(directory)
+
+currFiles.sort()
+print(currFiles)
+# For all days
+allPaths = []
+numOfFiles = len(currFiles)
+
+#For each day
+for fInd in range(0, numOfFiles):
+    filePath = directory + "/" + currFiles[fInd]
+
+    if currFiles[fInd] not in ["0.txt", "1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "7.txt", "8.txt"]:
+
+        currPath = readFile(filePath)
         allPaths.append(currPath)
 
 
-    # import pygmaps
-    # Place map
-    gmap = gmplot.GoogleMapPlotter(42.393658, -72.53295, 12)
-    # gmap = pygmaps.maps(42.340382, -72.496819, 15)
+# import pygmaps
+# Place map
+gmap = gmplot.GoogleMapPlotter(42.393658, -72.53295, 12)
+# gmap = pygmaps.maps(42.340382, -72.496819, 15)
 
-            # 0            1        2           3           4              5          6          7           8
-            #Lime          Gold     Dark Red   Deep Pink  Forest Green    Blue       Black     Chocolate   Magneta
-    colors = ['#00FF00', '#FFD700', '#8B0000', '#FF1493', '#228B22',     '#0000FF', '#000000', '#D2691E', '#FF00FF', '#00008B', '#8B008B']
-    count = 0
+        # 0            1        2           3           4              5          6          7           8
+        #Lime          Gold     Dark Red   Deep Pink  Forest Green    Blue       Black     Chocolate   Magneta
+colors = ['#00FF00', '#FFD700', '#8B0000', '#FF1493', '#228B22', '#0000FF', '#000000', '#D2691E', '#FF00FF', '#00008B', '#8B008B']
+count = 0
 
-    if not os.path.exists("HTML"):
-        os.makedirs("HTML")
-    os.chdir("HTML")
+if not os.path.exists("HTML"):
+    os.makedirs("HTML")
+os.chdir("HTML")
 
-    for pInd in range(len(allPaths)):
+for pInd in range(len(allPaths)):
 
-        # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
-        # print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
-        path_lats, path_lons = zip(* allPaths[pInd])
-        colorInd = int(pInd%8)
-        # print ("index: ", colorInd)
-        gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
+    # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
+    # print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
+    path_lats, path_lons = zip(* allPaths[pInd])
+    colorInd = int(pInd%8)
+    # print ("index: ", colorInd)
+    gmap.scatter(path_lats, path_lons, colors[pInd], size=60, marker=False)
 
 
-    # Draw
-    gmap.draw(str(folders[ind]) + ".html")
-    os.chdir(curr)
+# Draw
+gmap.draw("Day1.html")
+os.chdir(curr)
