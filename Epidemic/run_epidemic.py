@@ -42,13 +42,14 @@ def run_simulation_files(mules, T, max_nodes, run):
         with open("constants.py", "w") as f:
             for line in lines:
                 if ("path_to_folder" not in line)\
+                    and ("S = " not in line)\
                     and ("Link_Exists_path" not in line)\
                     and ("DataMule_path" not in line):
                     f.write(line)
 
 
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
-            #f.write("S = " + str(S) + "\n")
+            f.write("S = " + str(S) + "\n")
             #f.write("validate_data_directory = '" + str(validate_data_directory) + "'\n")
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("Link_Exists_path = '" + str(Link_Exists_path) + "'\n")
@@ -57,8 +58,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 50
-mule_set = [50, 35, 25, 15, 5]
+max_nodes = 35
+mule_set = [35, 0, 5, 25, 15, 10]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -96,6 +97,7 @@ for max_mules in mule_set:
             f.write("Link_Exists_path = '" + str(Link_Exists_path) + "'\n")
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("T = " + str(T) + "\n")
+            f.write("S = ", str(S) + "\n")
             f.write("max_nodes = " + str(max_nodes) + "\n")
             f.write("delivery_file_name = " + '"delivery_epidemic_day1.txt"' + "\n")
             f.write("metrics_file_name = " + '"metrics_epidemic_day1.txt"' + "\n")

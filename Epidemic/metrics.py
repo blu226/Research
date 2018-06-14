@@ -1,5 +1,47 @@
 from constants import *
 
+def compute_overhead(time):
+    with open( "../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r") as f:
+        generated_lines = f.readlines()[1:]
+
+    with open(path_to_folder + delivery_file_name, 'r') as f:
+        delivered_lines = f.readlines()[2:]
+
+    with open(path_to_folder + notDelivered_file_name, 'r') as f:
+        NotDelivered_lines = f.readlines()[2:]
+
+    num_mes_gen = 0
+    num_mes_del = 0
+    num_mes_NotDel = 0
+
+    sum_mes_gen = 0
+    sum_mes_del = 0
+    sum_mes_NotDel = 0
+
+    for line in generated_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[5]) < time:
+            num_mes_gen += 1
+            sum_mes_gen += int(line_arr[4])
+    for line in delivered_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[4]) < time:
+            num_mes_del += 1
+            sum_mes_del += int(line_arr[6])
+
+    for line in NotDelivered_lines:
+        line_arr = line.strip().split()
+        if int(line_arr[4]) < time:
+            num_mes_NotDel += 1
+            sum_mes_NotDel += int(line_arr[6])
+
+    if num_mes_gen == 0:
+        return 0
+
+    overhead = (num_mes_del + num_mes_NotDel) / num_mes_gen
+    overhead_size = (sum_mes_gen + sum_mes_NotDel)/sum_mes_gen
+
+    return overhead
 
 def message_info(mes_list):
     with open(Link_Exists_path + generated_file_name, 'r') as f:
@@ -41,9 +83,11 @@ def compute_metrics(lines, total_messages, delivery_time):
     if total_messages > 0:
         delivered = float(delivered) / total_messages
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency)
+    overhead = compute_overhead(delivery_time)
 
-    return delivered, latency, energy, mes_IDs, unique_messages
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead)
+
+    return delivered, latency, energy, mes_IDs, unique_messages, overhead
 
 #Main starts here
 msg_file = open("../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")
@@ -65,12 +109,12 @@ for line in lines:
     fsorted.write(line)
 fsorted.close()
 
-delivery_times = [i for i in range(0, T + 10, 10)]
+delivery_times = [i for i in range(0, T + 10, 15)]
 
-metric_file.write("#t\tPDR\tLatency\tEnergy\n")
+metric_file.write("#t\tPDR\tLatency\tEnergy\Overhead\n")
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages = compute_metrics(lines, total_messages, t)
-    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\n")
+    avg_pdr, avg_latency, avg_energy, mes_IDs, unique_messages, overhead = compute_metrics(lines, total_messages, t)
+    metric_file.write(str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\n")
 
 metric_file.close()
 # print("Delivered messages", sorted(mes_IDs))

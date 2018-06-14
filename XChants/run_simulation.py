@@ -77,11 +77,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 35
-    src_des_nodes = 9
-    run_start_time = 1
+    max_nodes = 25
+    src_des_nodes = 12
+    run_start_time = 2
 
-    mule_set =  [15, 10]
+    mule_set =  [25, 0, 5, 15, 10]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 4):

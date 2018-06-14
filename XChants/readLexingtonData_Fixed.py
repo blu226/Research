@@ -114,7 +114,7 @@ def getLocationsOfSourcesAndDataCenters(startIndex, endIndex):
                 srcP.write(str(t) + " " + str(srcLocationX) + " " + str(srcLocationY) + " ")
 
                 # Change the bandwidth of each spectrum at each DSA node at each time epoch
-                specBW = [random.randrange(minBW[s], maxBW[s]) for s in S]
+                specBW = [minBW[s] for s in S]
                 # print ("Length of spectrum: " + str(S))
                 for sBW in specBW:
                     srcP.write(str(sBW) + " ")
@@ -199,7 +199,7 @@ def getLocationsOfDMs(DMTrajectories, startIndex, endIndex):
                         nextCoorID = currCoorID - 1
 
                 # Change the bandwidth of each spectrum at each DSA node at each time epoch
-                specBW = [random.randrange(minBW[s], maxBW[s]) for s in S]
+                specBW = [minBW[s] for s in S]
                 # print ("Length of spectrum: " + str(S))
                 for sBW in specBW:
                     dmP.write(str(sBW) + " ")
