@@ -20,7 +20,7 @@ def compute_band_usage(lines, delivery_time, spec_lines):
 
     total = sum(band_usage)
     if total > 0:
-        band_usage = [(ele*100)/total for ele in band_usage]
+        band_usage = [ele/total for ele in band_usage]
 
     print("Del time ", delivery_time, "Band usage: ",  band_usage, "\n")
     return band_usage
@@ -71,18 +71,18 @@ lines = f.readlines()[2:]
 with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as f:
     spec_lines = f.readlines()[1:]
 
-# with open(path_to_Day1_LLC + "delivered_messages_spectrum.txt", "w") as f:
-#     for sLine in spec_lines:
-#         sLine_arr = sLine.strip().split()
-#         sLine_arr = [int(obj) for obj in sLine_arr]
-#
-#         for line in lines:
-#             line = line.strip().split()
-#             line = [int(obj) for obj in line]
-#
-#             if sLine_arr[0] == line[1] and sLine_arr[1] == line[2] and sLine_arr[2] == line[3] and sLine_arr[2] + sLine_arr[4] <= T and sLine_arr[3] == line[5]:
-#                 f.write(sLine)
-#                 break
+with open(path_to_Day1_LLC + "delivered_messages_spectrum.txt", "w") as f:
+    for sLine in spec_lines:
+        sLine_arr = sLine.strip().split()
+        sLine_arr = [int(obj) for obj in sLine_arr]
+
+        for line in lines:
+            line = line.strip().split()
+            line = [int(obj) for obj in line]
+
+            if sLine_arr[0] == line[1] and sLine_arr[1] == line[2] and sLine_arr[2] == line[3] and sLine_arr[2] + sLine_arr[4] <= T and sLine_arr[3] == line[5]:
+                f.write(sLine)
+                break
 
 with open(path_to_Day1_LLC + "delivered_messages_spectrum.txt", "r") as f:
     del_spec_lines = f.readlines()
@@ -97,6 +97,6 @@ for t in delivery_times:
     band_usage = compute_band_usage(lines, t, del_spec_lines)
     metric_file.write(
         str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +
-        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + "\n")
+        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + str(band_usage[4]) + "\n")
 
 metric_file.close()
