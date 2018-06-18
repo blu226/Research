@@ -13,7 +13,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 120\nM = [1,10,25,50,100,500,750,1000]\n")
     NoOfDMs = V - 9
-    link_exists = "Link_Exists_path = '../Bands_UMass/" + directory + "Day2/" + "\'\n"
+    link_exists = "Link_Exists_path = '../Bands_UMass" + str(V) + "/" + directory + "Day2/" + "\'\n"
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_HP.txt\"\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_HP.txt\'\n"
     file_day = "day = " + "\'" + directory + '\'\n'
@@ -28,7 +28,7 @@ def create_new_constants_file(day, V, T, directory, time):
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
     num_mess = "num_messages = 300\n"
-    message_line = "generated_messages_file = Link_Exists_path + \'generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(file_day)
@@ -60,39 +60,37 @@ def run_simulation_files(day, V, T,directory,time):
 
 
 
-    if day == 1:
-        run = [0]
-    else:
-        run = [0]
+    run = [0]
+    link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
     for ind in run:
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands_UMass/" + directory+ "Day2/ALL/"
+            path_to_folder = link_exists_folder + "ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands_UMass/" + directory + "Day2/TV/"
+            path_to_folder = link_exists_folder + "TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands_UMass/" + directory +"Day2/ISM/"
+            path_to_folder = link_exists_folder + "ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands_UMass/" + directory + "Day2/LTE/"
+            path_to_folder = link_exists_folder + "LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands_UMass/" + directory + "Day2/CBRS/"
+            path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "HotPotato/" + str(V - 9) + "/"
+        path_to_folder = path_to_folder + "HotPotato/"
 
         if not os.path.exists(path_to_folder):
             os.makedirs(path_to_folder)
@@ -108,7 +106,6 @@ def run_simulation_files(day, V, T,directory,time):
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
             f.write("S = " + str(S) + "\n")
 
-
         os.system('python3 main.py')
         os.system('python3 metrics.py')
 
@@ -118,8 +115,8 @@ dir = "../DataMules/"
 
 directorys = ['2007-11-06_2007-11-07/']
 for i in range(len(directorys)):
-    path = dir + directorys[i] + "Day2"
-    files = findfiles(path)
-    v = len(files)
-
-    run_simulation_files(2,v-4,120, directorys[i], 0)
+    # path = dir + directorys[i] + "Day2"
+    # files = findfiles(path)
+    # v = len(files)
+    for v in range(20, 11, -2):
+        run_simulation_files(2,v,120, directorys[i], 0)

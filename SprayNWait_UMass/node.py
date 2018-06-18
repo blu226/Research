@@ -2,6 +2,7 @@
 from constants import *
 from message import *
 import math
+import pickle
 
 
 
@@ -27,6 +28,9 @@ class node(object):
     def __init__(self, id):
         self.ID = int(id)
         self.buf = []
+
+    def load_pkl(self):
+        self.coord = pickle.load(open(pkl_folder + str(self.ID) + ".pkl", "rb"))
 
     def choose_messages_to_send(self, mesID):
         all_mes_list = []

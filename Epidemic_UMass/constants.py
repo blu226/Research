@@ -36,5 +36,5 @@ metrics_file_name = "metrics_LLC_day2_Epi.txt"
 validate_data_directory = "../DataMules/2007-11-06_2007-11-07/Day2/"
 generated_messages_file = '../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt'
 pkl_folder = lex_data_directory + "Day2_pkl/"
-path_to_folder = '../Bands_UMass12/2007-11-06_2007-11-07/Day2/CBRS/Epidemic/'
-S = [3]
+path_to_folder = '../Bands_UMass12/2007-11-06_2007-11-07/Day2/ALL/Epidemic/'
+S = [0, 1, 2, 3]

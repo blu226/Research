@@ -80,14 +80,14 @@ def spray_n_wait_simulation(dir,time):
     #Create network
     net = network()
     #Fill network with datamules, sources, and destinations
-    net.fill_network()
+    net.fill_network(V)
     #Create messages
     # path = "Bands/" + day + "/"
     # create_messages(path)
     path_to_mess_arr = Link_Exists_path.split('/')
     path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
-    with open(path_to_mess, "r") as f:
+    with open(generated_messages_file, "r") as f:
         msg_lines = f.readlines()[1:]
 
     #Run simulation

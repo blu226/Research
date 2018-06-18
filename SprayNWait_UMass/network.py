@@ -24,15 +24,12 @@ class network(object):
             return filename[:2]
 
 # Function fill_network: create node objects for each datamule, source, and destination
-    def fill_network(self):
-        files = os.listdir(DataMule_path)
-        nodeIDs = [int(self.get_ID(file)) for file in files]
-        nodeIDs.sort()
-
-        for i in range(len(nodeIDs)):
-            node_ID = nodeIDs[i]
-            node_curr = node(node_ID)
-            self.add_node(node_curr)
+    def fill_network(self, num_nodes):          #quickly fill network and randomly place nodes
+        for i in range(num_nodes):                            #create and add nodes to network
+            ide = str(i)
+            node_temp = node(ide)
+            node_temp.load_pkl()
+            self.add_node(node_temp)
 
     def euclideanDistance(coor1X, coor1Y, coor2X, coor2Y):
         return (math.sqrt((float(coor1X) - float(coor2X)) ** 2 + (float(coor1Y) - float(coor2Y)) ** 2))
