@@ -105,7 +105,7 @@ def run_simulation_files(day, V, T,directory,time):
             f.write("S = " + str(S) + "\n")
 
 
-        # os.system('python3 main.py')
+        os.system('python3 main.py')
         os.system('python3 metrics.py')
 
 

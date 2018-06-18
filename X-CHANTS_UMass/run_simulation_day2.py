@@ -54,7 +54,7 @@ def run_simulation_files(day, V, T,directory,time):
     create_new_constants_file(day, V, T,directory,time)
     #getSrcDst(time, directory)
 
-    run = [0, 1, 2, 3, 4]
+    run = [0]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 

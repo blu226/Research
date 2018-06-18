@@ -122,8 +122,8 @@ def moveFiles(day1, day2, similarity, day1_name, day2_name, time):
             day1_dest = destFolder1 + "/" + str(i + NoOfSources + NoOfDataCenters) + ".txt"
             day2_dest = destFolder2 + "/" +str(i + NoOfSources + NoOfDataCenters) + ".txt"
 
-            shutil.copyfile(day1_filePath, day1_dest)
-            shutil.copyfile(day2_filePath, day2_dest)
+            # shutil.copyfile(day1_filePath, day1_dest)
+            # shutil.copyfile(day2_filePath, day2_dest)
 
         # if ("2007-10-25" in day1_name and time == 800) or ("2007-11-06" in day1_name and time == 560):
         #     print(str(day1_chosen[i]) + '\t' + str(day2_chosen[i]) + '\t' + str(similarity_chosen[i]))
@@ -227,8 +227,8 @@ for first_file in range(folderLen - 2):
                 if numRows[i][j] != 0 and numRows[i][j] > 50:
                     ratio = (rowSimilar[i][j]/120) * 100
 
-                    if ratio > 0:
-                        # print(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio)[:4] + "%")
+                    if ratio > 30:
+                        print(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio)[:4] + "%")
                         total_row += numRows[i][j]
                         total_sim += rowSimilar[i][j]
                         # f.write(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio) + "%\n")
@@ -318,7 +318,7 @@ for new_file in range(folderLen - 2):
             if numRows[i][j] != 0:
                 ratio = (rowSimilar[i][j] / 120) * 100
 
-                if ratio > 0:
+                if ratio > 10:
                     # print(str(i) + "\t" + str(j) + "\t" + str(numRows[i][j]) + "\t" + str(ratio)[:4] + "%")
                     total_row += numRows[i][j]
                     total_sim += rowSimilar[i][j]

@@ -97,6 +97,6 @@ for t in delivery_times:
     band_usage = compute_band_usage(lines, t, del_spec_lines)
     metric_file.write(
         str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +
-        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + str(band_usage[4]) + "\n")
+        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + "\t" + str(band_usage[4]) + "\n")
 
 metric_file.close()

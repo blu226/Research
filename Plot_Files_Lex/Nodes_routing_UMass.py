@@ -17,7 +17,7 @@ Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 folder_names = ["../Bands_UMass12/", "../Bands_UMass14/", "../Bands_UMass16/", "../Bands_UMass18/", "../Bands_UMass20/"]
 band_folders = ["ALL"]
-p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 2  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
 for folder_name in folder_names:
@@ -141,17 +141,17 @@ if p_id == 4:
     fig_name = "../Plots/routing_overhead_nodes_UMass.eps"
 
 plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
-plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
+# plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 plt.errorbar(x, SprayNWait_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 plt.errorbar(x, HotPotato_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 
 
 if p_id == 1 or p_id == 4:
-    plt.legend(["X-CHANTs", "Epidemic", "SprayNWait", "HotPotato"], loc="upper left", fontsize=15, ncol = 2)
+    plt.legend(["X-CHANTs",  "SprayNWait", "HotPotato"], loc="upper left", fontsize=15, ncol = 2)
 elif p_id == 2:
-    plt.legend(["X-CHANTs", "Epidemic", "SprayNWait", "HotPotato"], loc="center", fontsize=20, ncol = 3)
+    plt.legend(["X-CHANTs",  "SprayNWait", "HotPotato"], loc="center", fontsize=20, ncol = 2)
 elif p_id ==4:
-    plt.legend(["X-CHANTs", "Epidemic", "SprayNWait", "HotPotato"], loc="upper left", fontsize=18, ncol=2)
+    plt.legend(["X-CHANTs",  "SprayNWait", "HotPotato"], loc="upper left", fontsize=18, ncol=2)
 
 
 plt.tight_layout()
