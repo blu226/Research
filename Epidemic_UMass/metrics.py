@@ -36,13 +36,26 @@ def compute_overhead(time):
             num_mes_NotDel += 1
             sum_mes_NotDel += int(line_arr[6])
 
-    if num_mes_gen == 0:
+
+
+    if num_mes_gen == 0 or num_mes_del + num_mes_NotDel == 0:
         return 0
 
     overhead = (num_mes_del + num_mes_NotDel) / num_mes_gen
     overhead_size = (sum_mes_gen + sum_mes_NotDel)/sum_mes_gen
 
     return overhead
+
+def find_avg_energy(time):
+
+    with open(path_to_folder + consumedEnergyFile, 'r') as f:
+        lines = f.readlines()[1:]
+
+    for line in lines:
+        line_arr = line.strip().split()
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+            return line_arr[1]
+
 
 def message_info(mes_list):
     with open(Link_Exists_path + generated_file_name, 'r') as f:
@@ -86,17 +99,19 @@ def compute_metrics(lines, total_messages, delivery_time):
             band_usage = [ele/ total for ele in band_usage]
 
     if delivered > 0:
-        latency = float(latency)/delivered
+        latency = round(float(latency)/delivered, 2)
         energy = float(energy)/delivered
 
     if total_messages > 0:
-        delivered = float(delivered) / total_messages
+        delivered = round(float(delivered) / total_messages, 2)
 
-    overhead = compute_overhead(delivery_time)
+    avg_energy = find_avg_energy(delivery_time)
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead)
+    overhead = round(compute_overhead(delivery_time), 2)
 
-    return delivered, latency, energy, mes_IDs, unique_messages, overhead, band_usage
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead, "Energy: ", avg_energy)
+
+    return delivered, latency, avg_energy, mes_IDs, unique_messages, overhead, band_usage
 
 #Main starts here
 max_nodes = 20

@@ -27,6 +27,7 @@ def find_delay(size, s, specBW, i, j, t):
 class node(object):
     def __init__(self, id):
         self.ID = int(id)
+        self.energy = 0
         self.buf = []
 
 #Function send_message: sends message to a node if it doesn't have the message already
@@ -48,6 +49,18 @@ class node(object):
 
                 for spec in range(len(spec_to_use)):
                     if can_transfer(mes.size, spec_to_use[spec], (te - ts), specBW, self.ID, des_node.ID, ts, mes):
+                        #calculate energy consumed
+                        sensing_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * t_sd * sensing_power
+                        switching_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * idle_channel_prob * switching_delay
+                        transmission_energy = math.ceil(mes.size / specBW[self.ID, des_node.ID, spec_to_use[spec], ts]) * idle_channel_prob * t_td * spectPower[spec_to_use[spec]]
+
+                        consumedEnergy = sensing_energy + switching_energy + transmission_energy
+                        consumedEnergy = round(consumedEnergy, 2)
+
+                        self.energy += consumedEnergy
+                        des_node.energy += consumedEnergy
+
+
                         new_message = message(mes.ID, mes.src, mes.des, mes.genT, mes.size, [mes.band_usage[0], mes.band_usage[1], mes.band_usage[2], mes.band_usage[3]])
                         new_message.set(te, replicaID, te, self.ID)
                         new_message.band_used(spec_to_use[spec])

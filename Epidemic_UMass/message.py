@@ -20,6 +20,7 @@ class message(object):
         self.parentTime = pt
         self.parent = parent
 
+
     def band_used(self, s):
         self.band_usage[s] += 1
 

@@ -13,6 +13,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("debug_message = -1\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500,750,1000]\n")
+    f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
     NoOfDMs = V - 9
     link_exists = "Link_Exists_path = '../Bands_UMass" + str(V) + "/" + directory + "Day2/" + "\'\n"
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_Epi.txt\"\n"

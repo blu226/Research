@@ -86,7 +86,7 @@ class network(object):
                 if int(mes.des) == int(node.ID):
                     f = open(path_to_folder+ delivery_file_name, "a")
                     band_usage_str = str(mes.band_usage[0]) + '\t' + str(mes.band_usage[1]) + '\t' + str(mes.band_usage[2]) + '\t' + str(mes.band_usage[3])
-                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t" + str(mes.replica)+ '\t' + band_usage_str + "\n"
+                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(mes.parentTime) + "\t\t" + str(mes.replica)+  '\t' + band_usage_str +  "\n"
 
                     f.write(line)
                     f.close()
@@ -119,9 +119,24 @@ class network(object):
 
                     else:
                         to_be_removed.append(msg1)
+
+    def find_avg_energy_consumption(self, time):
+        total_energy = 0
+
+        for node in self.nodes:
+            total_energy += node.energy
+
+        avg_energy = total_energy / V
+
+        f = open(path_to_folder + consumedEnergyFile, 'a')
+        f.write(str(time) + "\t" + str(avg_energy) + "\n")
+        f.close()
+
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
+        if ts % 15 == 0 or ts == 119:
+            self.find_avg_energy_consumption(ts)
         # Check if new messages were generated
         self.add_messages(ts, msg_lines)
         #Send all messages
@@ -135,5 +150,6 @@ class network(object):
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)
         #Handle messages that got delivered
         self.messages_delivered()
+
         #self.all_messages()
 

@@ -21,6 +21,7 @@ TTL = 30
 minTTL=15
 maxTau = 30
 M = [1,10,25,50,100,500,750,1000]
+consumedEnergyFile = 'energy_metrics.txt'
 day = '2007-11-06_2007-11-07/'
 NoOfDMs = 3
 DataMule_path = '../DataMules/' +  day + 'Day2/'
