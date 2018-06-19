@@ -175,6 +175,10 @@ output_file2 = open(path_to_folder + notDelivered_file_name, "w")
 output_file2.write("ID\ts\td\tts\tte\tLLC\tsize\tparent\tparentTime\treplica\n")
 output_file2.write("----------------------------------------------------\n")
 output_file2.close()
+
+output_file3 = open(path_to_folder + consumedEnergyFile, 'w')
+output_file3.write("Time\tEnergy\n")
+output_file3.close()
 #Load Link Exists
 LINK_EXISTS = pickle.load(open(Link_Exists_path + "LINK_EXISTS.pkl", "rb"))
 specBW = pickle.load(open(Link_Exists_path + "specBW.pkl", "rb"))
