@@ -43,6 +43,16 @@ def compute_overhead(time):
 
     return overhead
 
+def find_avg_energy(time):
+
+    with open(path_to_folder + consumedEnergyFile, 'r') as f:
+        lines = f.readlines()[1:]
+
+    for line in lines:
+        line_arr = line.strip().split()
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+            return line_arr[1]
+
 def message_info(mes_list):
     with open(Link_Exists_path + generated_file_name, 'r') as f:
         lines = f.readlines()
@@ -91,11 +101,13 @@ def compute_metrics(lines, total_messages, delivery_time):
     if total_messages > 0:
         delivered = float(delivered) / total_messages
 
+    avg_energy = find_avg_energy(delivery_time)
+
     overhead = compute_overhead(delivery_time)
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead)
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: ", overhead, "Energy: ", avg_energy)
 
-    return delivered, latency, energy, mes_IDs, unique_messages, overhead, band_usage
+    return delivered, latency, avg_energy, mes_IDs, unique_messages, overhead, band_usage
 
 #Main starts here
 msg_file = open("../Bands" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")

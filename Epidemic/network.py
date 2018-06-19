@@ -131,9 +131,23 @@ class network(object):
                 print(" Remove " + str(msg.ID) + " src " + str(msg.src) + " des: " + str(msg.des) +" curr: " + str(node.ID) )
             node.buf.remove(msg)
 
+    def find_avg_energy_consumption(self, time):
+        total_energy = 0
+
+        for node in self.nodes:
+            total_energy += node.energy
+
+        avg_energy = total_energy / V
+
+        f = open(path_to_folder + consumedEnergyFile, 'a')
+        f.write(str(time) + "\t" + str(avg_energy) + "\n")
+        f.close()
+
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
+        if ts % 15 == 0 or ts == 119:
+            self.find_avg_energy_consumption(ts)
         # Check if new messages were generated
         self.add_messages(ts, msg_lines)
         #Send all messages
