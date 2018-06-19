@@ -25,6 +25,16 @@ def compute_band_usage(lines, delivery_time, spec_lines):
     print("Del time ", delivery_time, "Band usage: ",  band_usage, "\n")
     return band_usage
 
+def find_avg_energy(time):
+
+    with open(path_to_folder + consumedEnergyFile, 'r') as f:
+        lines = f.readlines()[1:]
+
+    for line in lines:
+        line_arr = line.strip().split()
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+            return line_arr[1]
+
 def compute_metrics(lines, total_messages, delivery_time):
     delivered = 0
     latency = 0
@@ -48,9 +58,12 @@ def compute_metrics(lines, total_messages, delivery_time):
     if delivered > 0:
         overhead = 1
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead)
+    avg_energy = find_avg_energy(delivery_time)
 
-    return delivered, latency, energy, overhead
+
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead, " Energy: ", avg_energy)
+
+    return delivered, latency, avg_energy, overhead
 
 
 #Main starts here

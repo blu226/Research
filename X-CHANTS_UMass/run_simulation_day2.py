@@ -13,6 +13,8 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500,750,1000]\n")
+    f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+
     NoOfDMs = V - 9
 
 

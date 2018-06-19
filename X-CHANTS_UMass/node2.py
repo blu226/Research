@@ -9,6 +9,7 @@ class Node(object):                                                             
         self.ID = name                                                                #Node ID or name (string)
         self.buf = []                                                                   #Node message buffer
         self.coord = []
+        self.energy = 0
         self.buf_size = 0
 
     def load_pkl(self):
@@ -88,7 +89,16 @@ class Node(object):                                                             
                 te = ts + transfer_time
                 # print("curr: ", message.curr, "next: ", next)
                 if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s) == True:
+                    # calculate energy consumed
+                    sensing_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * t_sd * sensing_power
+                    switching_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * idle_channel_prob * switching_delay
+                    transmission_energy = math.ceil(message.size / specBW[message.curr, next, s, ts]) * idle_channel_prob * t_td * spectPower[s]
 
+                    consumedEnergy = sensing_energy + switching_energy + transmission_energy
+                    consumedEnergy = round(consumedEnergy, 2)
+
+                    self.energy += consumedEnergy
+                    net.nodes[next].energy += consumedEnergy
                     message.path.pop()
                     message.bands.pop()
                     message.last_sent = ts + transfer_time

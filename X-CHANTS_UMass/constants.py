@@ -20,6 +20,7 @@ TTL = 30
 minTTL=15
 maxTau = 30
 M = [1,10,25,50,100,500,750,1000]
+consumedEnergyFile = 'energy_metrics.txt'
 NoOfDMs = 3
 T = 120
 V = 12

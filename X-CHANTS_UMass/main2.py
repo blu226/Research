@@ -15,6 +15,10 @@ output_file.write("ID\ts\td\tts\tte\tLLC\tELC\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
+output_file2 = open(path_to_folder + consumedEnergyFile, 'w')
+output_file2.write("Time\tEnergy\n")
+output_file2.close()
+
 path_to_LLC_arr = path_to_folder.split('/')
 path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
 

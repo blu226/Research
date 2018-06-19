@@ -21,6 +21,18 @@ class Network(object):
             node.load_pkl()
             self.add_node(node)
 
+    def find_avg_energy_consumption(self, time):
+        total_energy = 0
+
+        for node in self.nodes:
+            total_energy += node.energy
+
+        avg_energy = total_energy / V
+
+        f = open(path_to_folder + consumedEnergyFile, 'a')
+        f.write(str(time) + "\t" + str(avg_energy) + "\n")
+        f.close()
+
     def network_status(self):                          #console output for debugging (prints all messages in each nodes buffer)
         for i in range(len(self.nodes)):
             self.nodes[i].print_buf()
@@ -49,6 +61,9 @@ class Network(object):
 
 
     def network_GO(self, t, specBW, path_lines, spec_lines, msg_lines):                            #function that sends all messages at a given tau
+
+        if t % 15 == 0 or t == 119:
+            self.find_avg_energy_consumption(t)
 
         for msg_id in range(len(msg_lines)):
             msg_line = msg_lines[msg_id].strip()
