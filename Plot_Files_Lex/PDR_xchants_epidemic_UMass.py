@@ -2,7 +2,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-time_epochs = 9
+time_epochs = 13
 runs = 1
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
@@ -13,12 +13,12 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_name = ["../Bands_UMass20/"]
-band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
+folder_name = ["../Bands_UMass23/"]
+band_folders = ["ALL", "CBRS", "ISM", "LTE", "TV"]
 
 folders = os.listdir(folder_name[0])
 
-p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 folders.sort()
 # folders = "1"
@@ -46,7 +46,7 @@ for run in range(runs):
             if "ALL" == band and "XChants" == routing_folder:
                 metric_file = open(so_far_folder + band + "/" + routing_folder + "/metrics_LLC_day2_X-CHANTS.txt")
 
-            elif routing_folder == "Epidemic":
+            elif routing_folder == "Epidemic" and band != "ALL":
                 metric_file = open(so_far_folder + band + "/" + routing_folder + "/metrics_LLC_day2_Epi.txt")
 
             if metric_file != "":
@@ -107,7 +107,7 @@ for i in range(len(Xchants)):
     Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
     Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
 
-x = np.array([0, 15, 30, 45, 60, 75, 90, 105, 120])
+x = np.array([0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
@@ -120,7 +120,7 @@ if p_id == 1:
     fig_name = "../Plots/pdr_time_UMass.eps"
 
 if p_id == 2:
-    plt.ylim(0, 50)
+    plt.ylim(0, 60)
     plt.ylabel('Latency (in minutes)', fontsize=25)
     plt.xlabel('Simulation time (in minutes)', fontsize=25)
     fig_name = "../Plots/latency_time_UMass.eps"
@@ -134,18 +134,18 @@ if p_id == 4:
 
 
 plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
-plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
+# plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_CBRS_mean, Epidemic_CBRS_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
 plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
 
 if p_id == 1:
-    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=17)
+    plt.legend(["X-CHANTs", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=17)
 elif p_id == 2:
-    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper right", fontsize=18, ncol=3)
+    plt.legend(["X-CHANTs", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
 elif p_id == 4:
-    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
+    plt.legend(["X-CHANTs", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
 
 
 plt.tight_layout()

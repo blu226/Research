@@ -61,7 +61,7 @@ def run_simulation_files(day, V, T,directory,time):
 
 
 
-    run = [0]
+    run = [1,2,3,4]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 
@@ -109,21 +109,21 @@ def run_simulation_files(day, V, T,directory,time):
             f.write("S = " + str(S) + "\n")
 
 
-        # os.system('python3 main.py')
+        os.system('python3 main.py')
         os.system('python3 metrics.py')
 
 
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-11-06_2007-11-07/']
+directorys = ['2007-11-06/']
 for i in range(len(directorys)):
-    # path = dir + directorys[i] + "Day2"
-    # files = findfiles(path)
-    # v = len(files)
+    path = dir + directorys[i] + "Day2"
+    files = findfiles(path)
+    v = len(files)
 
-    for v in range(20, 11, -2):
-        run_simulation_files(2, v, 120, directorys[i], 0)
+    # for v in range(20, 11, -2):
+    run_simulation_files(2, v, 180, directorys[i], 0)
 
 
 

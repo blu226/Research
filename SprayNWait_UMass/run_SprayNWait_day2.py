@@ -29,7 +29,7 @@ def create_new_constants_file(day, V, T, directory, time):
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
     num_mess = "num_messages = 300\n"
-    message_line = "generated_messages_file = \'../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass23/2007-11-06/Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(file_day)
@@ -112,10 +112,10 @@ def run_simulation_files(day, V, T,directory,time):
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-11-06_2007-11-07/']
+directorys = ['2007-11-06/']
 for i in range(len(directorys)):
-    # path = dir + directorys[i] + "Day2"
-    # files = findfiles(path)
-    # v = len(files)
-    for v in range(20, 11, -2):
-        run_simulation_files(2, v, 120, directorys[i], 0)
+    path = dir + directorys[i] + "Day2"
+    files = findfiles(path)
+    v = len(files)
+    # for v in range(20, 11, -2):
+    run_simulation_files(2, v, 180, directorys[i], 0)

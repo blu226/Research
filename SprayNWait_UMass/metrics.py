@@ -46,7 +46,7 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, energy, mes_IDs, unique_messages
 
 #Main starts here
-max_nodes = 20
+max_nodes = 23
 msg_file = open("../Bands_UMass" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")
 total_messages = len(msg_file.readlines()[1:])
 

@@ -8,12 +8,14 @@ def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
+    f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+    f.write("debug_message = -1\n")
     f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [1800,410,1200,350]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 120\nM = [1,10,25,50,100,500,750,1000]\n")
     NoOfDMs = V - 9
-    link_exists = "Link_Exists_path = '../Bands_UMass/" + directory + "Day1/" + "\'\n"
+    link_exists = "Link_Exists_path = '../Bands_UMass23/" + directory + "Day1/" + "\'\n"
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_Epi.txt\"\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_Epi.txt\'\n"
     file_day = "day = " + "\'" + directory + '\'\n'
@@ -69,27 +71,27 @@ def run_simulation_files(day, V, T,directory,time):
         # for run in range(1, 4):
         if ind == 0:
             S = [0, 1, 2, 3]
-            path_to_folder = "../Bands_UMass/" + directory+ "Day1/ALL/"
+            path_to_folder = "../Bands_UMass23/" + directory+ "Day1/ALL/"
             print("\nALL -----------------------")
 
         elif ind == 1:
             S = [0]
-            path_to_folder = "../Bands_UMass/" + directory + "Day1/TV/"
+            path_to_folder = "../Bands_UMass23/" + directory + "Day1/TV/"
             print("\nTV ----------------------  ")
 
         elif ind == 3:
             S = [1]
-            path_to_folder = "../Bands_UMass/" + directory +"Day1/ISM/"
+            path_to_folder = "../Bands_UMass23/" + directory +"Day1/ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
             S = [2]
-            path_to_folder = "../Bands_UMass/" + directory + "Day1/LTE/"
+            path_to_folder = "../Bands_UMass23/" + directory + "Day1/LTE/"
             print("\nLTE ----------------------------")
 
         elif ind == 4:
             S = [3]
-            path_to_folder = "../Bands_UMass/" + directory + "Day1/CBRS/"
+            path_to_folder = "../Bands_UMass23/" + directory + "Day1/CBRS/"
             print("\nCBRS --------------------------- ")
 
         path_to_folder = path_to_folder + "Epidemic/" + str(V - 9) + "/"
@@ -116,13 +118,13 @@ def run_simulation_files(day, V, T,directory,time):
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-11-06_2007-11-07/']
+directorys = ['2007-11-06/']
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day1"
     files = findfiles(path)
     v = len(files)
 
-    run_simulation_files(1,v,120, directorys[i], 0)
+    run_simulation_files(1,v,180, directorys[i], 0)
 
 
 

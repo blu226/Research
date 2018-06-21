@@ -46,7 +46,7 @@ def create_time_arr(lines, startTime, sim_length):
 def write_to_file(bus_file, similarity, startTime, filename, rows):
 
 
-    if similarity > 40 and rows > 90:
+    if similarity > 40:
         bus_arr = bus_file.split('.')
         busID = bus_arr[0]
         messageLine = str(busID) + "\t\t" + str(startTime) + "\t\t\t\t" + str(similarity) + "\t\t\t" + str(rows) + "\n"
@@ -58,6 +58,7 @@ def write_to_file(bus_file, similarity, startTime, filename, rows):
 
 #MAIN
 simulation_length = 180
+amount_of_data_needed = simulation_length * 2
 similarity_restraint = 500 #meters
 
 directory = "DateWiseRoutes/"
@@ -85,29 +86,47 @@ for day in days:
         f.write("-----------------------------------------------------------------------------------\n")
         f.close()
 
+        num_valid_buses = 0
+
         for bus_file in buses:
 
             with open(path + bus_file, 'r') as f:
                 lines = f.readlines()
 
-            bus_round1 = create_time_arr(lines, startTime, simulation_length)
-            bus_round2 = create_time_arr(lines, startTime + simulation_length, simulation_length)
+            time_begin_arr = lines[0].strip().split()
+            time_end_arr = lines[len(lines) - 1].strip().split()
 
-            similar = 0
-            num_rows_w_data = 0
+            time_begin = float(time_begin_arr[0])
+            time_end = float(time_end_arr[0])
 
-            for i in range(simulation_length):
+            # print("end ", time_end," begin ", time_begin)
+            if time_end - time_begin > amount_of_data_needed:
 
-                if bus_round1[i][0] != -1 and bus_round2[i][0] != -1:
-                    num_rows_w_data += 1
-                    dist = funHaversine(float(bus_round1[i][1]), float(bus_round1[i][0]), float(bus_round2[i][1]), float(bus_round2[i][0]))
+                num_valid_buses += 1
 
-                    if dist < similarity_restraint:
-                        similar +=1
+                bus_round1 = create_time_arr(lines, startTime, simulation_length)
+                bus_round2 = create_time_arr(lines, startTime + simulation_length, simulation_length)
 
-            if num_rows_w_data > 0:
-                similarity = round((similar / num_rows_w_data) * 100, 2)
-                write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data)
+                similar = 0
+                num_rows_w_data = 0
 
+                for i in range(simulation_length):
 
+                    if bus_round1[i][0] != -1:
+                        num_rows_w_data += 1
+
+                    if bus_round1[i][0] != -1 and bus_round2[i][0] != -1:
+
+                        dist = funHaversine(float(bus_round1[i][1]), float(bus_round1[i][0]), float(bus_round2[i][1]), float(bus_round2[i][0]))
+
+                        if dist < similarity_restraint:
+                            similar +=1
+
+                if num_rows_w_data > 0:
+                    similarity = round((similar / num_rows_w_data) * 100, 2)
+                    write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data)
+
+        f = open(filename, 'a')
+        f.write("Number of valid buses: " + str(num_valid_buses) + "\n")
+        f.close()
 

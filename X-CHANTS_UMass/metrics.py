@@ -67,7 +67,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
 
 #Main starts here
-max_nodes = 20
+max_nodes = 23
 path_to_LLC_arr = path_to_folder.split('/')
 path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
 

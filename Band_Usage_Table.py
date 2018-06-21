@@ -4,7 +4,7 @@ with open("Plots/Band_Usage.txt", 'w') as f:
 metrics_file = "metrics_LLC_day"
 metricsOptions = ["2_X-CHANTS.txt", "2_Epi.txt"]
 protocols = ["XChants/", "Epidemic/" ]
-routing_path = "Bands_UMass20/2007-11-06_2007-11-07/Day2/ALL/"
+routing_path = "Bands_UMass23/2007-11-06/Day2/ALL/"
 
 file = open("Plots/Band_Usage.txt", 'a')
 
@@ -21,9 +21,9 @@ for i in range(len(metricsOptions)):
     metrics_line_arr = metrics_line_arr.split()
 
 
-    tv = float(metrics_line_arr[5][:5]) * 100
-    ism = float(metrics_line_arr[6][:5]) * 100
-    lte = float(metrics_line_arr[7][:5]) * 100
+    tv = float(metrics_line_arr[5]) * 100
+    ism = float(metrics_line_arr[6]) * 100
+    lte = float(metrics_line_arr[7]) * 100
     cbrs = float(metrics_line_arr[8]) * 100
 
     if i == 0:

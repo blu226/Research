@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 
-T = 120
+T = 180
 choice = 1
 
 metrics_file = "metrics_LLC_day"
-metricsOptions = ["2_X-CHANTS.txt", "2_SnW.txt", "2_HP.txt"]
-protocols = ["XChants/", "SprayNWait/", "HotPotato/" ]
-routing_path = "Bands_UMass20/2007-11-06_2007-11-07/Day2/ALL/"
+metricsOptions = ["2_X-CHANTS.txt", "2_Epi.txt", "2_SnW.txt", "2_HP.txt"]
+protocols = ["XChants/", "Epidemic/", "SprayNWait/", "HotPotato/" ]
+routing_path = "Bands_UMass23/2007-11-06/Day2/ALL/"
 
 time = [i for i in range(0,T+10, 15)]
 delivered = []
@@ -34,7 +34,7 @@ for i in range(len(metricsOptions)):
     delivered.append(delivered_temp)
     latency.append(latency_temp)
 
-plt.xlabel('Simulation time', fontsize=25)
+plt.xlabel('Simulation time (in minutes)', fontsize=25)
 
 # Packet delivery
 if choice == 0:
@@ -57,7 +57,7 @@ if choice == 0:
             # Latency
 elif choice == 1:
     plt.xticks(time)
-    plt.ylabel('Latency', fontsize=25)
+    plt.ylabel('Latency (in minutes)', fontsize=25)
     for i in range(len(latency)):
         if i == 0:
             plt.plot(time, latency[i], marker='o', linestyle='-', linewidth=2)
@@ -68,9 +68,9 @@ elif choice == 1:
         elif i == 3:
             plt.plot(time, latency[i], marker='D', linestyle='--', linewidth=2)
 
-plt.legend([ 'XCHANTS', 'SnW', 'Hot Potato'], loc="upper left", fontsize=20)
+plt.legend([ 'XCHANTS', 'Epidemic', 'SnW', 'Hot Potato'], loc="upper left", fontsize=20)
 plt.tight_layout()
-plt.savefig("Plots/Routing_Latency.png", format="png")
+plt.savefig("Plots/Routing_Latency_time_UMass.png", format="png")
 plt.show()
 
 
