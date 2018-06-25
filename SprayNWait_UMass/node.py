@@ -28,6 +28,7 @@ class node(object):
     def __init__(self, id):
         self.ID = int(id)
         self.buf = []
+        self.energy = 0
 
     def load_pkl(self):
         self.coord = pickle.load(open(pkl_folder + str(self.ID) + ".pkl", "rb"))
@@ -67,23 +68,33 @@ class node(object):
 
                 for spec in range(len(spec_to_use)):
                     if can_transfer(mes.size, spec_to_use[spec], (te - ts), specBW, self.ID, des_node.ID, ts, mes):
-                       #create list of messages to send
-                       mes_to_send = self.choose_messages_to_send(mes.ID)
 
-                       if len(mes_to_send) == 0 and mes.des == des_node.ID:
-                           self.buf.remove(mes)
-                           mes.set(te, self.ID)
-                           des_node.buf.append(mes)
+                       #create list of messages to send
+                        mes_to_send = self.choose_messages_to_send(mes.ID)
+                        if len(mes_to_send) == 0 and mes.des == des_node.ID:
+                            self.buf.remove(mes)
+                            mes.set(te, self.ID)
+                            des_node.buf.append(mes)
 
                        #append messages to des buffer and remove from src buffer
-                       for message in mes_to_send:
-                           self.buf.remove(message)
+                        for message in mes_to_send:
+                            # calculate energy consumed
+                            sensing_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * t_sd * sensing_power
+                            switching_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * idle_channel_prob * switching_delay
+                            transmission_energy = math.ceil(mes.size / specBW[self.ID, des_node.ID, spec_to_use[spec], ts]) * idle_channel_prob * t_td * spectPower[spec_to_use[spec]]
 
-                           message.set(te, self.ID)
-                           des_node.buf.append(message)
+                            consumedEnergy = sensing_energy + switching_energy + transmission_energy
+                            consumedEnergy = round(consumedEnergy, 2)
 
+                            self.energy += consumedEnergy
+                            des_node.energy += consumedEnergy
 
-                       return True
+                            self.buf.remove(message)
+                            message.set(te, self.ID)
+                            message.band_used(spec_to_use[spec])
+                            des_node.buf.append(message)
+
+                        return True
 
             return False
 

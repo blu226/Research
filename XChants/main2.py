@@ -15,6 +15,10 @@ output_file.write("ID\ts\td\tts\tte\tm\tLLC\tELC\n")
 output_file.write("----------------------------------------------------\n")
 output_file.close()
 
+output_file2 = open(path_to_folder + consumedEnergyFile, 'w')
+output_file2.write("Time\tEnergy\n")
+output_file2.close()
+
 day1_link_exists = link_exists_folder.split("/")
 specBW = pickle.load(open("../" + day1_link_exists[1] + "/" + day1_link_exists[2] + "/Day1/specBW.pkl", "rb"))
 

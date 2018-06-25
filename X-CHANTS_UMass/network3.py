@@ -62,7 +62,7 @@ class Network(object):
 
     def network_GO(self, t, specBW, path_lines, spec_lines, msg_lines):                            #function that sends all messages at a given tau
 
-        if t % 15 == 0 or t == 119:
+        if t % 15 == 0 or t == T - 1:
             self.find_avg_energy_consumption(t)
 
         for msg_id in range(len(msg_lines)):

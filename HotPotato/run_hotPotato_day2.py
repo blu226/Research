@@ -57,12 +57,12 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 35
-mule_set = [35, 25, 15, 5]
+max_nodes = 10
+mule_set = [10]
 run_start_time = 1
 
 for max_mules in mule_set:
-    for run in range(run_start_time, 4):
+    for run in range(run_start_time, 2):
         print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
         S = [0, 1, 2, 3]
@@ -99,5 +99,11 @@ for max_mules in mule_set:
             f.write("max_nodes = " + str(max_nodes) + "\n")
             f.write("delivery_file_name = " + '"delivery_hotPotato_day2.txt"' + "\n")
             f.write("metrics_file_name = " + '"metrics_hotPotato_day2.txt"' + "\n")
+            f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+            f.write("V = " + str(max_mules) + "\n")
+            f.write("sensing_power = 0.04\n")
+            f.write("idle_channel_prob = 0.5\n")
+            f.write("switching_delay = 0.001\n")
+            f.write("spectPower = [1,1,1,1]\n")
 
         run_simulation_files(max_mules, T, max_nodes, run)

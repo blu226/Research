@@ -29,7 +29,7 @@ def create_new_constants_file(day, V, T, directory, time):
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
     num_mess = "num_messages = 300\n"
-    message_line = "generated_messages_file = \'../Bands_UMass20/2007-11-06_2007-11-07/Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(V) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(file_day)
@@ -61,7 +61,7 @@ def run_simulation_files(day, V, T,directory,time):
 
 
 
-    run = [1,2,3,4]
+    run = [0]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 
@@ -116,7 +116,7 @@ def run_simulation_files(day, V, T,directory,time):
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-11-06/']
+directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day2"
     files = findfiles(path)

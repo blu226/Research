@@ -7,7 +7,7 @@ from STB_help import *
 def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
-    f.write("num_mess_replicas = 15\n")
+    f.write("num_mess_replicas = 5\n")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
     f.write("minBW = [3,8,20,40]\nmaxBW = [6,20,30,60]\nspectRange = [1800,460,1200,350]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
@@ -90,7 +90,7 @@ def run_simulation_files(day, V, T,directory,time):
             path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "SprayNWait/"
+        path_to_folder = path_to_folder + "SprayNWait5/"
 
         if not os.path.exists(path_to_folder):
             os.makedirs(path_to_folder)
@@ -115,7 +115,7 @@ def run_simulation_files(day, V, T,directory,time):
 dir = "../DataMules/"
 
 directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
-directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
+# directorys = ['2007-10-23/']
 
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day2"

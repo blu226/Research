@@ -47,8 +47,8 @@ class network(object):
 
                 if to_send == True:
                     # if message.ID == 1:
-                    #     print("SENDING: " + str(message.ID) + " at time " + str(tau) + " from " + str(
-                    #         src_node.ID) + " to: " + str(des_node))
+                    # print("SENDING: " + str(message.ID) + " at time " + str(tau) + " from " + str(
+                    #     src_node.ID) + " to: " + str(des_node.ID) + " src energy: " + str(src_node.energy) + " des energy: " + str(des_node.energy) )
                     src_node.try_sending_message(des_node, message, tau, LINK_EXISTS, specBW)
 
 
@@ -82,7 +82,8 @@ class network(object):
             for mes in node.buf:
                 if int(mes.des) == int(node.ID):
                     f = open(path_to_folder + delivery_file_name, "a")
-                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent)+ "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t"  + str(mes.replica) + "\n"
+                    band_usage_str = str(mes.band_usage[0]) + '\t' + str(mes.band_usage[1]) + '\t' + str(mes.band_usage[2]) + '\t' + str(mes.band_usage[3])
+                    line = str(mes.ID) + "\t" + str(mes.src) + "\t" + str(mes.des) + "\t" + str(mes.genT) + "\t" + str(mes.last_sent) + "\t" + str(mes.last_sent - mes.genT) + "\t" + str(mes.size) + "\t\t" + str(mes.parent) + "\t\t" + str(-1) + "\t\t" + str(mes.replica) + '\t' + band_usage_str + "\n"
 
                     f.write(line)
                     f.close()
@@ -122,11 +123,25 @@ class network(object):
                     node.ID))
             node.buf.remove(msg)
 
+    def find_avg_energy_consumption(self, time):
+        total_energy = 0
 
+        for node in self.nodes:
+            total_energy += node.energy
+            # print(str(node.ID) + ": " + str(node.energy))
+
+        avg_energy = total_energy / V
+        # print("AVG_Energy: ", avg_energy)
+
+        f = open(path_to_folder + consumedEnergyFile, 'a')
+        f.write(str(time) + "\t" + str(avg_energy) + "\n")
+        f.close()
 
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
+        if ts % 15 == 0 or ts == T - 1:
+            self.find_avg_energy_consumption(ts)
         # Check if new messages were generated
         self.add_messages(ts, msg_lines)
         #Send all messages
@@ -137,6 +152,7 @@ class network(object):
             # self.remove_duplicate_messages(node)
             for mes in node.buf:
                 if mes.last_sent <= ts:
+
                     self.try_forwarding_message_to_all(node, mes, ts, LINK_EXISTS, specBW)
         #Handle messages that got delivered
         self.messages_delivered()

@@ -15,6 +15,7 @@ class Node(object):                                                             
         self.ID = name                                                                #Node ID or name (string)
         self.buf = []                                                                   #Node message buffer
         self.coord = []
+        self.energy = 0
         self.buf_size = 0
 
 
@@ -120,6 +121,18 @@ class Node(object):                                                             
                 if self.is_in_communication_range(pot_curr, pot_next, t, t + transfer_time, s, message) == True:
                     if message.ID == debug_message:
                         print("In range: ", message.curr, next, t, t + transfer_time)
+
+                    # calculate energy consumed
+                    sensing_energy = math.ceil(message.size / (specBW[message.curr, next, s, t])) * t_sd * sensing_power
+                    switching_energy = math.ceil(message.size / (specBW[message.curr, next, s, t])) * idle_channel_prob * switching_delay
+                    transmission_energy = math.ceil(message.size / specBW[message.curr, next, s, t]) * idle_channel_prob * t_td * spectPower[s]
+
+                    consumedEnergy = sensing_energy + switching_energy + transmission_energy
+                    consumedEnergy = round(consumedEnergy, 2)
+
+                    self.energy += consumedEnergy
+                    net.nodes[next].energy += consumedEnergy
+
                     message.path.pop()
                     message.bands.pop()
                     message.last_sent = t + transfer_time

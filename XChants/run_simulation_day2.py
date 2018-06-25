@@ -71,14 +71,14 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 25
+    max_nodes = 10
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set =  [25, 0, 5, 10, 15, 20]
+    mule_set =  [10]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 4):
+        for run in range(run_start_time, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -129,6 +129,8 @@ if generate_files == "Y":
                 f.write("run_start_time = " + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
+                f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+
 
             os.system('python3 readLexingtonData_Fixed.py')
             os.system('python3 create_pickles_Lex.py')

@@ -56,7 +56,6 @@ class node(object):
 
                         consumedEnergy = sensing_energy + switching_energy + transmission_energy
                         consumedEnergy = round(consumedEnergy, 2)
-
                         self.energy += consumedEnergy
                         des_node.energy += consumedEnergy
 

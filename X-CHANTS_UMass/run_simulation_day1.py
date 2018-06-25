@@ -29,7 +29,7 @@ def create_new_constants_file(day, V, T, directory, time):
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = \'../Bands_UMass23/2007-11-06/Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(V) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -108,7 +108,7 @@ def run_simulation_files(day, V, T,directory,time):
         #    os.system('python3 computeLINKEXISTS_UMass.py')
 
         os.system('python3 STB_main_path.py')
-        if ind == 0 and day == 1 and V == 23:
+        if ind == 0 and day == 1:
             os.system('python3 generateMessage_new.py')
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
@@ -117,8 +117,8 @@ def run_simulation_files(day, V, T,directory,time):
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-11-06/']
-startTime = [660]
+directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
+startTime = 660
 for i in range(len(directorys)):
     path = dir + directorys[i] + "Day1"
     files = findfiles(path)
@@ -126,7 +126,7 @@ for i in range(len(directorys)):
     #
     # print(directorys[i])
     # for v in range(20, 11, -2):
-    run_simulation_files(1, v, 150, directorys[i], startTime[i])
+    run_simulation_files(1, v, 150, directorys[i], startTime)
 
 
 

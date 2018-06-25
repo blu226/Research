@@ -32,7 +32,7 @@ def find_avg_energy(time):
 
     for line in lines:
         line_arr = line.strip().split()
-        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == T -1):
             return line_arr[1]
 
 def compute_metrics(lines, total_messages, delivery_time):
@@ -67,7 +67,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
 
 #Main starts here
-max_nodes = 23
+max_nodes = V
 path_to_LLC_arr = path_to_folder.split('/')
 path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
 

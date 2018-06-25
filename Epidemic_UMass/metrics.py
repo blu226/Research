@@ -1,7 +1,7 @@
 from constants import *
 
 def compute_overhead(time):
-    max_nodes = 23
+    max_nodes = V
     with open( "../Bands_UMass" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r") as f:
         generated_lines = f.readlines()[1:]
 
@@ -53,7 +53,7 @@ def find_avg_energy(time):
 
     for line in lines:
         line_arr = line.strip().split()
-        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == T - 1):
             return line_arr[1]
 
 
@@ -114,7 +114,7 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, avg_energy, mes_IDs, unique_messages, overhead, band_usage
 
 #Main starts here
-max_nodes = 23
+max_nodes = V
 msg_file = open("../Bands_UMass" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")
 total_messages = len(msg_file.readlines()[1:])
 

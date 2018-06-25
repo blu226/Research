@@ -131,6 +131,8 @@ if generate_files == "Y":
                 f.write("VMAX = 5000" + "\n")
                 f.write("wait_time = [2, 10]" + "\n")
                 f.write("run_start_time = "  + str(run_start_time) + "\n")
+                f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+
 
             os.system('python3 readLexingtonData_Fixed.py')
             # os.system('python3 computeLINKEXISTS.py')

@@ -74,7 +74,9 @@ def spray_n_wait_simulation(dir,time):
     specBW = pickle.load(open(Link_Exists_path + "specBW.pkl", "rb"))
     # LINK_EXISTS = createLinkExistenceADJ()
     # print(LINK_EXISTS[3,4,])
-
+    output_file3 = open(path_to_folder + consumedEnergyFile, 'w')
+    output_file3.write("Time\tEnergy\n")
+    output_file3.close()
 
 
     #Create network

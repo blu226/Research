@@ -10,10 +10,14 @@ class message(object):
         self.genT = int(genT)
         self.last_sent = int(genT)
         self.parent = -1
+        self.band_usage = [0, 0, 0, 0]
+
 
 
     def set(self, lastSent, parent):
         self.last_sent = lastSent
         self.parent = parent
 
+    def band_used(self, s):
+        self.band_usage[s] += 1
 

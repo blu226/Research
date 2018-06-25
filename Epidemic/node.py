@@ -50,13 +50,9 @@ class node(object):
                 for spec in range(len(spec_to_use)):
                     if can_transfer(mes.size, spec_to_use[spec], (te - ts), specBW, self.ID, des_node.ID, ts, mes):
                         # calculate energy consumed
-                        sensing_energy = math.ceil(
-                            mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * t_sd * sensing_power
-                        switching_energy = math.ceil(mes.size / (
-                        specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * idle_channel_prob * switching_delay
-                        transmission_energy = math.ceil(
-                            mes.size / specBW[self.ID, des_node.ID, spec_to_use[spec], ts]) * idle_channel_prob * t_td * \
-                                              spectPower[spec_to_use[spec]]
+                        sensing_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * t_sd * sensing_power
+                        switching_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * idle_channel_prob * switching_delay
+                        transmission_energy = math.ceil(mes.size / specBW[self.ID, des_node.ID, spec_to_use[spec], ts]) * idle_channel_prob * t_td * spectPower[spec_to_use[spec]]
 
                         consumedEnergy = sensing_energy + switching_energy + transmission_energy
                         consumedEnergy = round(consumedEnergy, 2)

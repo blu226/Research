@@ -146,7 +146,7 @@ class network(object):
     #Function network_GO: completes all tasks of a network in 1 tau
     def network_GO(self, ts, LINK_EXISTS, specBW, msg_lines):
         self.time = ts
-        if ts % 15 == 0 or ts == 119:
+        if ts % 15 == 0 or ts == T - 1:
             self.find_avg_energy_consumption(ts)
         # Check if new messages were generated
         self.add_messages(ts, msg_lines)

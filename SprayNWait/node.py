@@ -27,6 +27,7 @@ class node(object):
     def __init__(self, id):
         self.ID = int(id)
         self.buf = []
+        node.energy = 0
 
     def choose_messages_to_send(self, mesID):
         all_mes_list = []
@@ -73,11 +74,21 @@ class node(object):
 
                        #append messages to des buffer and remove from src buffer
                        for message in mes_to_send:
+                           # calculate energy consumed
+                           sensing_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * t_sd * sensing_power
+                           switching_energy = math.ceil(mes.size / (specBW[self.ID, des_node.ID, spec_to_use[spec], ts])) * idle_channel_prob * switching_delay
+                           transmission_energy = math.ceil(mes.size / specBW[self.ID, des_node.ID, spec_to_use[spec], ts]) * idle_channel_prob * t_td * spectPower[spec_to_use[spec]]
+
+                           consumedEnergy = sensing_energy + switching_energy + transmission_energy
+                           consumedEnergy = round(consumedEnergy, 2)
+
+                           self.energy += consumedEnergy
+                           des_node.energy += consumedEnergy
+
                            self.buf.remove(message)
-
                            message.set(te, self.ID)
+                           message.band_used(spec_to_use[spec])
                            des_node.buf.append(message)
-
 
                        return True
 

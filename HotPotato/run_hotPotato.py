@@ -99,5 +99,11 @@ for max_mules in mule_set:
             f.write("max_nodes = " + str(max_nodes) + "\n")
             f.write("delivery_file_name = " + '"delivery_hotPotato_day1.txt"' + "\n")
             f.write("metrics_file_name = " + '"metrics_hotPotato_day1.txt"' + "\n")
+            f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+            f.write("V = " + str(max_mules) + "\n")
+            f.write("sensing_power = 0.04\n")
+            f.write("idle_channel_prob = 0.5\n")
+            f.write("switching_delay = 0.001\n")
+            f.write("spectPower = [1,1,1,1]\n")
 
         run_simulation_files(max_mules, T, max_nodes, run)

@@ -25,6 +25,16 @@ def compute_band_usage(lines, delivery_time, spec_lines):
     print("Del time ", delivery_time, "Band usage: ",  band_usage, "\n")
     return band_usage
 
+def find_avg_energy(time):
+
+    with open(path_to_folder + consumedEnergyFile, 'r') as f:
+        lines = f.readlines()[1:]
+
+    for line in lines:
+        line_arr = line.strip().split()
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == T -1):
+            return line_arr[1]
+
 def compute_metrics(lines, total_messages, delivery_time):
     delivered = 0
     latency = 0
@@ -36,7 +46,7 @@ def compute_metrics(lines, total_messages, delivery_time):
         if int(line_arr[4]) <= delivery_time:
             delivered += 1
             latency += int(line_arr[6])
-            energy += float(line_arr[7])
+            # energy += float(line_arr[7])
 
     if delivered > 0:
         latency = float(latency)/delivered
@@ -48,13 +58,15 @@ def compute_metrics(lines, total_messages, delivery_time):
     if delivered > 0:
         overhead = 1
 
-    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead)
+    avg_energy = find_avg_energy(delivery_time)
 
-    return delivered, latency, energy, overhead
+
+    print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead, " Energy: ", avg_energy)
+
+    return delivered, latency, avg_energy, overhead
 
 
 #Main starts here
-
 path_to_LLC_arr = path_to_folder.split('/')
 path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
 
@@ -97,6 +109,6 @@ for t in delivery_times:
     band_usage = compute_band_usage(lines, t, del_spec_lines)
     metric_file.write(
         str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +
-        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + str(band_usage[4]) + "\n")
+        str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + "\t" + str(band_usage[4]) + "\n")
 
 metric_file.close()
