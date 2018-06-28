@@ -21,7 +21,7 @@ while count_messages < 300:
     size = int(line_arr[3])
     desired_TTL = random.randint(minTTL, TTL)
 
-    path = line_arr[4:]
+    path = line_arr[5:]
 
     generateMessage = False
 
@@ -30,11 +30,11 @@ while count_messages < 300:
             if int(nodeId) > NoOfSources + NoOfDataCenters:
                 generateMessage = True
 
-    t = random.randint(int(0.25 * T), int(0.5 * T))
+    t = random.randint(30, 60)
 
     #rand = random.uniform(0, 1)
 
-    if generateMessage == True and src < NoOfSources and des >= NoOfSources and des < NoOfSources + NoOfDataCenters and genT <= (0.5 * T):
+    if generateMessage == True and src < NoOfSources and des >= NoOfSources and des < NoOfSources + NoOfDataCenters and genT <= 60:
 
         p = random.uniform(0, 1)
 
@@ -45,7 +45,7 @@ while count_messages < 300:
         else:
             message_file.write(
                 str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(
-                    genT) + "\n")
+                    genT) + "\t" + str(path) + "\n")
 
         # print(str(id) + "\t" + str(src) + "\t" + str(des) + "\t" + str(desired_TTL) + "\t" + str(size) + "\t" + str(genT) )
 
