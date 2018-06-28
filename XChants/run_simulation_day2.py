@@ -71,11 +71,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 10
+    max_nodes = 30
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set =  [10]
+    mule_set = [10, 15, 20, 25]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
@@ -135,7 +135,7 @@ if generate_files == "Y":
             os.system('python3 readLexingtonData_Fixed.py')
             os.system('python3 create_pickles_Lex.py')
             os.system('python3 computeLINKEXISTS_Lex.py')
-            run_simulation_files(max_mules, T, max_nodes, run)
+            # run_simulation_files(max_mules, T, max_nodes, run)
 
 else:
     print("\n================ Trajectory files were NOT regenerated. \n")

@@ -13,12 +13,12 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_name = ["../Bands15/"]
+folder_name = ["../Bands20/"]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
 
 folders = os.listdir(folder_name[0])
 
-p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 2  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 folders.sort()
 # folders = "1"
@@ -46,7 +46,7 @@ for run in range(runs):
             if "ALL" == band and "XChants" == routing_folder:
                 metric_file = open(so_far_folder + band + "/" + routing_folder + "/metrics_LLC_day2.txt")
 
-            else:
+            elif routing_folder == "Epidemic":
                 metric_file = open(so_far_folder + band + "/" + routing_folder + "/metrics_epidemic_day2.txt")
 
             if metric_file != "":
@@ -114,32 +114,39 @@ plt.yticks(fontsize=25)
 fig_name = "dummy.eps"
 
 if p_id == 1:
-    plt.ylabel('Packet delivery ratio', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.ylabel('Message Delivery Ratio', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    plt.ylim(0,1)
     plt.yticks(fontsize=25)
     fig_name = "../Plots/pdr_time_day2.eps"
 
 if p_id == 2:
-    plt.ylabel('Latency (in minutes)', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
-    fig_name = "../Plots/latency_time_bars_day2.eps"
+    plt.ylabel('Network Delay (min)', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    plt.ylim(0,50)
+    fig_name = "../Plots/latency_time_day2.eps"
+
+if p_id == 3:
+    plt.ylabel('Energy Expenditure (J)', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    fig_name = "../Plots/energy_time_day2.eps"
 
 
 if p_id == 4:
-    plt.ylabel('Message overhead', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.ylabel('Message Overhead', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
     fig_name = "../Plots/overhead_time_day2.eps"
 
 
 
-plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
+# plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_CBRS_mean, Epidemic_CBRS_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
 plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
 
-plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=20)
+plt.legend(["ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=20)
 
 plt.tight_layout()
 plt.savefig(fig_name)

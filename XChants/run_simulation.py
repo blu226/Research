@@ -65,8 +65,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         if ind == 0 and mules == max_nodes:
         	os.system('python3 generateMessage_new.py')
 
-        os.system('python3 main2.py')
-        os.system('python3 metrics.py')
+        # os.system('python3 main2.py')
+        # os.system('python3 metrics.py')
 
 
 number_of_runs = 1
@@ -77,11 +77,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 10
+    max_nodes = 30
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set =  [10]
+    mule_set =  [10, 15, 20, 25]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
@@ -134,7 +134,6 @@ if generate_files == "Y":
                 f.write("run_start_time = "  + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
-                f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
 
             os.system('python3 readLexingtonData_Fixed.py')
             os.system('python3 create_pickles_Lex.py')

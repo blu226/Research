@@ -234,6 +234,19 @@ def findfiles(directory):
             files.append(i)  # if yes, append it.
     return files
 
+def findDir(directory):
+    # if directory is not 'DieselNet-2007/gps_logs/.DS_Store':
+   # print (directory)
+    objects = os.listdir(directory)  # find all objects in a dir
+    dir = []
+    files = []
+    for i in objects:  # check if very object in the folder ...
+        if isFile(directory + i):  # ... is a file.
+            files.append(i)  # if yes, append it.
+        else:
+            dir.append(i)
+    return dir
+
 def print5d(adj):
     #print("i j ts m x")
     for i in range(len(adj)):

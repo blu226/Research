@@ -2,7 +2,7 @@ import os
 
 def run_simulation_files(mules, T, max_nodes, run):
     # 4, 1, 2
-    band_types = [2, 4, 1, 0, 3]
+    band_types = [0]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
@@ -58,9 +58,9 @@ def run_simulation_files(mules, T, max_nodes, run):
         os.system('python3 metrics.py')
 
 set_max_nodes = True
-max_nodes = 10
+max_nodes = 30
 
-mule_set = [10]
+mule_set = [10, 15, 20, 25]
 run_start_time = 1
 
 for max_mules in mule_set:
@@ -97,15 +97,8 @@ for max_mules in mule_set:
             f.write("Link_Exists_path = '" + str(Link_Exists_path) + "'\n")
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("T = " + str(T) + "\n")
-            f.write("S = " + str(S) + "\n")
-            f.write("V = " + str(max_mules) + "\n")
-            f.write("sensing_power = 0.04\n")
-            f.write("idle_channel_prob = 0.5\n")
-            f.write("switching_delay = 0.001\n")
-            f.write("spectPower = [1,1,1,1]\n")
             f.write("max_nodes = " + str(max_nodes) + "\n")
             f.write("delivery_file_name = " + '"delivery_epidemic_day2.txt"' + "\n")
             f.write("metrics_file_name = " + '"metrics_epidemic_day2.txt"' + "\n")
-            f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
 
         run_simulation_files(max_mules, T, max_nodes, run)

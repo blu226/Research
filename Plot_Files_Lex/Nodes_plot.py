@@ -4,8 +4,8 @@ from STB_help import *
 
 
 #TODO: This is the number of nodes [10, 20, 30, 40, 50]
-time_epochs = 5 #No of nodes
-runs = 3
+time_epochs = 4 #No of nodes
+runs = 5
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(time_epochs,runs))
 LTE = np.zeros(shape=(time_epochs,runs))
@@ -14,9 +14,9 @@ CBRS = np.zeros(shape=(time_epochs,runs))
 ISM = np.zeros(shape=(time_epochs,runs))
 
 #folder_names = ["Bands0/", "Bands1/", "Bands3/", "Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands50/"]
-folder_names = ["Bands5/","Bands15/",  "Bands25/",  "Bands35/", "Bands50/"]
-file_name = "metrics_LLC_day1.txt"
-p_id = 2 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+folder_names = ["../Bands5/","../Bands10/",  "../Bands15/",  "../Bands20/"]
+file_name = "metrics_LLC_day2.txt"
+p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
 
 #TODO: Here t is the number of nodes
@@ -31,35 +31,38 @@ for folder_name in folder_names:
     #For each run
     for f_id in range(runs):
         # print("============= Current folder ", folder_name, " ", folders[f_id])
-        band_type_folders = os.listdir(folder_name + folders[f_id])
+        band_type_folders = os.listdir(folder_name + folders[f_id] + "/Day2/")
 
         #For each band type
         for bt_id in range(len(band_type_folders)):
-            if os.path.isdir(folder_name + folders[f_id] +"/" + band_type_folders[bt_id]):
+            metrics_path = folder_name + folders[f_id] +"/" + band_type_folders[bt_id] + '/'
+            metrics_path_arr = metrics_path.strip().split('.')
+            print(metrics_path_arr)
+            if 'txt' not in metrics_path_arr or 'pkl' not in metrics_path_arr:
 
                 # if "ALL" in band_type_folders[bt_id]:
+                print(folder_name + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_name)
                 f = open(folder_name + folders[f_id] + "/" + band_type_folders[bt_id] + "/" + file_name, "r")
                 lines = f.readlines()[1:]
 
                 for line in lines:
                     line_arr = line.strip().split("\t")
-                    if "90" in line_arr[0]:
 
-                        if "ALL" in band_type_folders[bt_id]:
-                            # print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
-                            ALL[t][f_id] = line_arr[p_id].split(" ")[0]
+                    if "ALL" in band_type_folders[bt_id]:
+                        # print(line_arr[0], " ", line_arr[p_id].split(" ")[0])
+                        ALL[t][f_id] = line_arr[p_id].split(" ")[0]
 
-                        elif "TV" in band_type_folders[bt_id]:
-                            TV[t][f_id] = line_arr[p_id].split(" ")[0]
+                    elif "TV" in band_type_folders[bt_id]:
+                        TV[t][f_id] = line_arr[p_id].split(" ")[0]
 
-                        elif "CBRS" in band_type_folders[bt_id]:
-                            CBRS[t][f_id] = line_arr[p_id].split(" ")[0]
+                    elif "CBRS" in band_type_folders[bt_id]:
+                        CBRS[t][f_id] = line_arr[p_id].split(" ")[0]
 
-                        elif "ISM" in band_type_folders[bt_id]:
-                            ISM[t][f_id] = line_arr[p_id].split(" ")[0]
+                    elif "ISM" in band_type_folders[bt_id]:
+                        ISM[t][f_id] = line_arr[p_id].split(" ")[0]
 
-                        elif "LTE" in band_type_folders[bt_id]:
-                            LTE[t][f_id] = line_arr[p_id].split(" ")[0]
+                    elif "LTE" in band_type_folders[bt_id]:
+                        LTE[t][f_id] = line_arr[p_id].split(" ")[0]
 
     t += 1
 
@@ -96,7 +99,7 @@ for i in range(time_epochs):
 
 
 #x = np.array([2, 5, 7, 10, 15, 20, 25, 30, 35, 40])
-x = np.array([5, 15, 25, 35, 50])
+x = np.array([5, 10, 15, 20])
 plt.xlim(3, 52)
 plt.xticks(x)
 plt.xticks(fontsize=25)
@@ -109,7 +112,7 @@ if p_id == 1:
     plt.ylim(-0.05, 1)
     # plt.xlim(0, 50)
     plt.yticks(fontsize=25)
-    fig_name = "Plots/pdr_nodes_error_bars.eps"
+    fig_name = "../Plots/pdr_nodes_error_bars.eps"
 
     # plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])
@@ -127,7 +130,7 @@ if p_id == 2:
     plt.ylim(-1, 80)
     plt.ylabel('Latency (in minutes)',  fontsize=25)
     plt.xlabel('Number of nodes',  fontsize=25)
-    fig_name = "Plots/latency_nodes_error_bars.eps"
+    fig_name = "../Plots/latency_nodes_error_bars.eps"
 
     # plt.errorbar(x, [x * 2 for x in ALL_mean], [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, [x * 2 for x in LTE_mean], [x * 0.5 for x in LTE_SD])
@@ -138,7 +141,7 @@ if p_id == 2:
 if p_id == 3:
     plt.ylabel('Energy consumed', fontsize=25)
     plt.xlabel('Simulation time', fontsize=25)
-    fig_name = "Plots/energy_nodes_error_bars.eps"
+    fig_name = "../Plots/energy_nodes_error_bars.eps"
 
     # plt.errorbar(x, ALL_mean, [x * 0.5 for x in ALL_SD])
     # plt.errorbar(x, LTE_mean, [x * 0.5 for x in LTE_SD])

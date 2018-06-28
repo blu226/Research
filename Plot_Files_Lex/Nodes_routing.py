@@ -2,8 +2,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-time_epochs = 5
-runs = 5
+time_epochs = 6
+runs = 1
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
 Epidemic = np.zeros(shape=(time_epochs,runs))
@@ -12,7 +12,7 @@ SnW25 = np.zeros(shape=(time_epochs,runs))
 SnW40 = np.zeros(shape=(time_epochs,runs))
 HotPotato = np.zeros(shape=(time_epochs,runs))
 
-folder_names = ["../Bands5/", "../Bands10/", "../Bands15/", "../Bands20/", "../Bands25/"]
+folder_names = ["../Bands5/", "../Bands10/", "../Bands15/", "../Bands20/", "../Bands25/", "../Bands30/"]
 #band_folders = ["XChants", "Epidemic", "SnW5", "SnW15", "HotPotato"]
 
 p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy
@@ -43,15 +43,15 @@ for folder_name in folder_names:
                 metric_file = open(folder_name + folders[
                     run] + "/" + "Day2/ALL" + "/" + routing_folder + "/" + "metrics_epidemic_day2.txt")
 
-            if "SnW5" == str(routing_folder):
+            if "SnW25" == str(routing_folder):
                 metric_file = open(folder_name + folders[
                     run] + "/" + "Day2/ALL" + "/" + routing_folder + "/" + "metrics_SnW_day2.txt")
 
-            if "SnW15" == str(routing_folder):
+            if "SnW25" == str(routing_folder):
                 metric_file = open(folder_name + folders[
                     run] + "/" + "Day2/ALL" + "/" + routing_folder + "/" + "metrics_SnW_day2.txt")
 
-            if "SnW50" == str(routing_folder):
+            if "SnW25" == str(routing_folder):
                 metric_file = open(folder_name + folders[
                     run] + "/" + "Day2/ALL" + "/" + routing_folder + "/" + "metrics_SnW_day2.txt")
 
@@ -66,14 +66,14 @@ for folder_name in folder_names:
 
             for line in lines:
                 line_arr = line.strip().split("\t")
-                if "180" in line_arr[0]:
+                if "120" in line_arr[0]:
                     if "XChants" == str(routing_folder):
                         Xchants[t][run] = line_arr[p_id]
                     if "Epidemic" == str(routing_folder):
                         Epidemic[t][run] = line_arr[p_id]
                     if "SnW5" == str(routing_folder):
                         SnW5[t][run] = line_arr[p_id]
-                    if "SnW15" == str(routing_folder):
+                    if "SnW25" == str(routing_folder):
                         SnW25[t][run] = line_arr[p_id]
                     if "SnW50" == str(routing_folder):
                         SnW40[t][run] = line_arr[p_id]
@@ -113,31 +113,58 @@ for i in range(len(Xchants)):
     HotPotato_mean.append(np.mean(HotPotato[i]))
     HotPotato_SD.append(np.std(HotPotato[i]))
 
-x = np.array([5, 10, 15, 20, 25])
+x = np.array([5, 10, 15, 20, 25, 30])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
 fig_name = "dummy.eps"
 if p_id == 1:
-    plt.ylabel('Packet delivery ratio', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.ylabel('Message Delivery Ratio', fontsize=25)
+    plt.xlabel('Number of Datamules', fontsize=25)
     plt.yticks(fontsize=25)
-    fig_name = "../Plots/pdr_routing_time_day2.eps"
+    plt.ylim(0,1.1)
+    fig_name = "../Plots/pdr_routing_nodes_day2.eps"
+
 
 if p_id == 2:
-    plt.ylabel('Latency (in minutes)', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
-    fig_name = "../Plots/latency_routing_time_day2.eps"
+    plt.ylabel('Network Delay (min)', fontsize=25)
+    plt.xlabel('Number of Datamules', fontsize=25)
+    plt.ylim(0,35)
+    fig_name = "../Plots/latency_routing_nodes_day2.eps"
+
+if p_id == 3:
+    plt.ylabel('Energy Expenditure (J)', fontsize=25)
+    plt.xlabel('Number of Datamules', fontsize=25)
+    fig_name = "../Plots/energy_routing_nodes_day2.eps"
 
 
-plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
+if p_id == 4:
+    plt.ylabel('Message Overhead', fontsize=25)
+    plt.ylim(10,65)
+    plt.xlabel('Number of Datamules', fontsize=25)
+    plt.ylim(0,65)
+    fig_name = "../Plots/overhead_routing_nodes_day2.eps"
+
+
+# plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Epidemic_mean, Epidemic_SD, marker='*', linestyle='--', linewidth=2)
-plt.errorbar(x, SnW5_mean, SnW5_SD, marker='^', linestyle=':', linewidth=2)
+# plt.errorbar(x, SnW5_mean, SnW5_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, SnW25_mean, SnW25_SD, marker='^', linestyle=':', linewidth=2)
 #plt.errorbar(x, SnW40_mean, SnW40_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, HotPotato_mean, HotPotato_SD, marker='D', linestyle='--', linewidth=2)
 
-plt.legend(["X-CHANTs", "Epidemic", "SnW (5)",  "SnW (15)", "Hot Potato"], loc="upper left", fontsize=20)
+
+if p_id == 1:
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper left", fontsize=20, ncol = 2)
+
+if p_id == 2:
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper center", fontsize=20, ncol = 2)
+
+if p_id == 3:
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper right", fontsize=20)
+
+if p_id == 4:
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="center", fontsize=20, ncol = 2)
 
 plt.tight_layout()
 plt.savefig(fig_name)

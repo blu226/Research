@@ -1,5 +1,6 @@
 import os
 from STB_help import *
+from constants import *
 #from createSrcDst import *
 
 #Take some inputs
@@ -14,6 +15,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500,750,1000]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
+    f.write("max_nodes = 23\n")
 
     NoOfDMs = V - 9
 
@@ -31,7 +33,7 @@ def create_new_constants_file(day, V, T, directory, time):
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = \'../Bands_UMass" + str(V) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(23) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -56,7 +58,7 @@ def run_simulation_files(day, V, T,directory,time):
     create_new_constants_file(day, V, T,directory,time)
     #getSrcDst(time, directory)
 
-    run = [0]
+    run = [1, 2, 3, 4]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 
@@ -106,8 +108,8 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         # #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        if ind == 0 and day == 2:
-           os.system('python3 computeLINKEXISTS_UMass.py')
+        # if ind == 0 and day == 2:
+        #    os.system('python3 computeLINKEXISTS_UMass.py')
         # #
         os.system('python3 main2.py')
         os.system('python3 metrics.py')
@@ -118,12 +120,12 @@ def run_simulation_files(day, V, T,directory,time):
 dir = "../DataMules/"
 
 # directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
-directorys = ['2007-10-31/']
+directorys = ['2007-11-06/']
 
 startTime = 840
 for i in range(len(directorys)):
-    path = dir + directorys[i] + "Day1"
-    files = findfiles(path)
-    v = len(files)
-    # for v in range(20, 11, -2):
-    run_simulation_files(2,v,180, directorys[i], startTime)
+    # path = dir + directorys[i] + "Day1"
+    # files = findfiles(path)
+    # v = len(files)
+    for v in range(23, 11, -2):
+        run_simulation_files(2,v,180, directorys[i], startTime)

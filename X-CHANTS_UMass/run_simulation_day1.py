@@ -22,14 +22,14 @@ def create_new_constants_file(day, V, T, directory, time):
     lex_data_file_name = "lex_data_directory = \"../DataMules/" + directory + "\"\n"
 
     dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day1/\"\n"
-    link_exists = "link_exists_folder = '../Bands_UMass" + str(V) + "/" + directory + "Day1/" + "\'\n"
+    link_exists = "link_exists_folder = '../Bands_UMass" + str(23) + "/" + directory + "Day1/" + "\'\n"
 
 
     DM_line = "NoOfDMs = " + str(NoOfDMs) + "\n"
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = \'../Bands_UMass" + str(V) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(23) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -110,23 +110,23 @@ def run_simulation_files(day, V, T,directory,time):
         os.system('python3 STB_main_path.py')
         if ind == 0 and day == 1:
             os.system('python3 generateMessage_new.py')
-        os.system('python3 main2.py')
-        os.system('python3 metrics.py')
+        # os.system('python3 main2.py')
+        # os.system('python3 metrics.py')
 
 
 #main
 dir = "../DataMules/"
 
-directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
+directorys = ['2007-11-06/']
 startTime = 660
 for i in range(len(directorys)):
-    path = dir + directorys[i] + "Day1"
-    files = findfiles(path)
-    v = len(files)
+    # path = dir + directorys[i] + "Day1"
+    # files = findfiles(path)
+    # v = len(files)
     #
     # print(directorys[i])
-    # for v in range(20, 11, -2):
-    run_simulation_files(1, v, 150, directorys[i], startTime)
+    for v in range(23, 21, -2):
+        run_simulation_files(1, v, 150, directorys[i], startTime)
 
 
 

@@ -2,12 +2,16 @@ from network3 import *
 from node2 import *
 from message2 import *
 from constants import *
+import os
 
                                                                                   #number of Taus
 
 #initialize and fill network with nodes
 net = Network()
 net.fill_network(V, maxX, maxY)
+
+if not os.path.exists(path_to_folder):
+    os.makdirs(path_to_folder)
 
 #initialize output file
 output_file = open(path_to_folder + delivery_file_name, "w")

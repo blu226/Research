@@ -15,15 +15,15 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_names = ["../Bands_UMass12/", "../Bands_UMass14/", "../Bands_UMass16/", "../Bands_UMass18/", "../Bands_UMass20/"]
+folder_names = ["../Bands_UMass13/", "../Bands_UMass15/", "../Bands_UMass17/", "../Bands_UMass19/", "../Bands_UMass21/", "../Bands_UMass23/"]
 band_folders = ["ALL"]
-p_id = 2  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
 for folder_name in folder_names:
     folders = os.listdir(folder_name)
     folders.sort()
-
+    folder_day = "2007-11-06"
     print("Folders: ", folders)
 
     #Run - 1, 2, 3
@@ -31,7 +31,7 @@ for folder_name in folder_names:
         print("============= Current folder ", folders[run])
 
         #TODO: Fixed - Day2
-        so_far_folder = folder_name + folders[run] + "/" + "Day2/"
+        so_far_folder = folder_name + folder_day + "/" + "Day2/"
         # band_folders = os.listdir(so_far_folder)
 
         print("Band folders: ", band_folders)

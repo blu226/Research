@@ -2,8 +2,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-time_epochs = 13
-runs = 3
+time_epochs = 9
+runs = 5
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
 Epidemic = np.zeros(shape=(time_epochs,runs))
@@ -13,10 +13,10 @@ SnW40 = np.zeros(shape=(time_epochs,runs))
 HotPotato = np.zeros(shape=(time_epochs,runs))
 
 
-folder_name = ["../Bands35/"]
+folder_name = ["../Bands20/"]
 folders = os.listdir(folder_name[0])
 #file_names = ["metrics_LLC_day1.txt", "metrics_LLC_day2.txt", "metrics_LLC_day3.txt", "metrics_LLC_day4.txt"]
-p_id = 2  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
 folders.sort()
 # folders = "1"
@@ -113,31 +113,44 @@ for i in range(len(Xchants)):
     HotPotato_mean.append(np.mean(HotPotato[i]))
     HotPotato_SD.append(np.std(HotPotato[i]))
 
-x = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120])
+x = np.array([0,15,30,45,60,75,90,105,120])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
 fig_name = "dummy.eps"
 if p_id == 1:
-    plt.ylabel('Packet delivery ratio', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.ylabel('Message Delivery Ratio', fontsize=25)
+    plt.ylim(0,1)
+    plt.xlabel('Simulation time (min)', fontsize=25)
     plt.yticks(fontsize=25)
-    fig_name = "../Plots/pdr_routing_error_bars_day2.eps"
+    fig_name = "../Plots/pdr_routing_time_day2.eps"
 
 if p_id == 2:
-    plt.ylabel('Latency (in minutes)', fontsize=25)
-    plt.xlabel('Simulation time (in minutes)', fontsize=25)
-    fig_name = "../Plots/latency_routing_error_bars_day2.eps"
+    plt.ylabel('Network Delay (min)', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    plt.ylim(0,30)
+    fig_name = "../Plots/latency_routing_time_day2.eps"
+
+if p_id == 3:
+    plt.ylabel('Energy Expenditure (J)', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    fig_name = "../Plots/energy_routing_time_day2.eps"
 
 
-plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
+if p_id == 4:
+    plt.ylabel('Message Overhead', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    fig_name = "../Plots/overhead_routing_time_day2.eps"
+
+
+# plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Epidemic_mean, Epidemic_SD, marker='*', linestyle='--', linewidth=2)
-plt.errorbar(x, SnW5_mean, SnW5_SD, marker='^', linestyle=':', linewidth=2)
+# plt.errorbar(x, SnW5_mean, SnW5_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, SnW25_mean, SnW25_SD, marker='^', linestyle=':', linewidth=2)
 #plt.errorbar(x, SnW40_mean, SnW40_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, HotPotato_mean, HotPotato_SD, marker='D', linestyle='--', linewidth=2)
 
-plt.legend(["X-CHANTs", "Epidemic", "SnW (5)",  "SnW (25)", "Hot Potato"], loc="upper left", fontsize=20)
+plt.legend(["Epidemic", "SnW (25)", "Hot Potato"], loc="upper left", fontsize=20)
 
 plt.tight_layout()
 plt.savefig(fig_name)

@@ -2,7 +2,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-time_epochs = 5
+time_epochs = 6
 runs = 1
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
@@ -12,24 +12,25 @@ Epidemic_TV = np.zeros(shape=(time_epochs,runs))
 Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
-
-folder_names = ["../Bands_UMass12/", "../Bands_UMass14/", "../Bands_UMass16/", "../Bands_UMass18/", "../Bands_UMass20/"]
+folder_name = "../Bands_UMass"
+folder_nums = [13, 15, 17, 19, 21, 23]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
 p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
-for folder_name in folder_names:
-    folders = os.listdir(folder_name)
+for num_mules in folder_nums:
+
+    full_folder_name = folder_name + str(num_mules) + '/2007-11-06/'
+    folders = os.listdir(full_folder_name)
     folders.sort()
 
-    print("Folders: ", folders)
-
     #Run - 1, 2, 3
-    for run in range(runs):
-        print("============= Current folder ", folders[run])
+    for run in range(1,2):
+        run -= 1
+        print("============= Current folder ", full_folder_name)
 
         #TODO: Fixed - Day2
-        so_far_folder = folder_name + folders[run] + "/" + "Day2/"
+        so_far_folder = full_folder_name + folders[run + 1] + "/"
         # band_folders = os.listdir(so_far_folder)
 
         print("Band folders: ", band_folders)
@@ -57,7 +58,7 @@ for folder_name in folder_names:
                 for line in lines:
                     line_arr = line.strip().split("\t")
 
-                    if "105" in line_arr[0]:
+                    if "180" in line_arr[0]:
                         if "XChants" == routing_folder:
                             if "ALL" == band:
                                 Xchants[t][run] = line_arr[p_id]
@@ -92,7 +93,6 @@ Epidemic_LTE_SD = []
 Epidemic_TV_mean = []
 Epidemic_TV_SD = []
 
-print(Epidemic_ISM)
 for i in range(len(Xchants)):
     Xchants_mean.append(np.mean(Xchants[i]))
     Xchants_SD.append(np.std(Xchants[i]))
@@ -107,28 +107,39 @@ for i in range(len(Xchants)):
     Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
     Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
 
-x = np.array([3, 5, 7, 9, 11])
+x = np.array([4, 6, 8, 10, 12, 14])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
 
 fig_name = "dummy.eps"
 
 if p_id == 1:
-    plt.ylabel('Packet delivery ratio', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.ylabel('Message Delivery Ratio', fontsize=25)
+    plt.xlabel('Number of DataMules', fontsize=25)
     plt.ylim(0,1.2)
     plt.yticks(fontsize=25)
+    plt.xticks(np.arange(4, 15, step=2))
     fig_name = "../Plots/pdr_nodes_UMass.eps"
 
 if p_id == 2:
-    plt.ylabel('Latency (in minutes)', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.ylabel('Network Delay (min)', fontsize=25)
+    plt.xlabel('Number of DataMules', fontsize=25)
+    plt.ylim(0, 85)
+    plt.xticks(np.arange(4, 15, step=2))
     fig_name = "../Plots/latency_nodes_UMass.eps"
+
+if p_id == 3:
+    plt.ylabel('Energy Expenditure (J)', fontsize=25)
+    plt.ylim(0,3000)
+    plt.xticks(np.arange(4, 15, step=2))
+    plt.xlabel('Number of DataMules', fontsize=25)
+    fig_name = "../Plots/energy_nodes_UMass.eps"
 
 
 if p_id == 4:
     plt.ylabel('Message overhead', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.xlabel('Number of DataMules', fontsize=25)
+    plt.xticks(np.arange(4, 15, step=2))
     fig_name = "../Plots/overhead_nodes_UMass.eps"
 
 plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
@@ -141,7 +152,9 @@ plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', li
 if p_id == 1 or p_id == 4:
     plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=15, ncol = 2)
 elif p_id == 2:
-    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="center", fontsize=20, ncol = 3)
+    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper center", fontsize=20, ncol = 3)
+elif p_id == 3:
+    plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper center", fontsize=20, ncol = 3)
 elif p_id ==4:
     plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
 

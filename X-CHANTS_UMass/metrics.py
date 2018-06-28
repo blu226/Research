@@ -67,9 +67,9 @@ def compute_metrics(lines, total_messages, delivery_time):
 
 
 #Main starts here
-max_nodes = V
+
 path_to_LLC_arr = path_to_folder.split('/')
-path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
+path_to_Day1_LLC = path_to_LLC_arr[0] + "/Bands_UMass" + str(V) + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
 
 print("Current file ", path_to_Day1_LLC)
 

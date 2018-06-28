@@ -5,8 +5,8 @@ from STB_help import *
 
 #TODO: This is the number of nodes [10, 20, 30, 40, 50]
 time_epochs = 4 #No of nodes
-runs = 3
-days = 4
+runs = 5
+days = 1
 #4 time stamps (15,30,45,60) and 10 runs
 ALL = np.zeros(shape=(days, time_epochs,runs))
 # LTE = np.zeros(shape=(days, time_epochs,runs))
@@ -15,7 +15,7 @@ ALL = np.zeros(shape=(days, time_epochs,runs))
 # ISM = np.zeros(shape=(days, time_epochs,runs))
 
 #folder_names = ["Bands0/", "Bands1/", "Bands3/", "Bands5/", "Bands10/", "Bands15/", "Bands20/", "Bands25/", "Bands30/", "Bands50/"]
-folder_names = ["Bands5/","Bands15/", "Bands25/",  "Bands35/"]
+folder_names = ["Bands5/","Bands10/", "Bands15/",  "Bands20/"]
 file_names = ["metrics_LLC_day1.txt", "metrics_LLC_day2.txt", "metrics_LLC_day3.txt", "metrics_LLC_day4.txt"]
 p_id = 1 #p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
