@@ -2,7 +2,7 @@ import os
 
 def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
     # 4, 1, 2
-    band_types = [0]
+    band_types = [0, 1, 2, 3, 4]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
@@ -42,13 +42,14 @@ def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
         with open("constants.py", "w") as f:
             for line in lines:
                 if ("path_to_folder" not in line)\
-                    and ("Link_Exists_path" not in line)\
+                    and ("Link_Exists_path" not in line) \
+                    and ("S = " not in line) \
                     and ("DataMule_path" not in line):
                     f.write(line)
 
 
             f.write("path_to_folder = '" + str(path_to_folder) + "'\n")
-            #f.write("S = " + str(S) + "\n")
+            f.write("S = " + str(S) + "\n")
             #f.write("validate_data_directory = '" + str(validate_data_directory) + "'\n")
             f.write("DataMule_path = '" + str(DataMule_path) + "'\n")
             f.write("Link_Exists_path = '" + str(Link_Exists_path) + "'\n")
@@ -58,7 +59,7 @@ def run_simulation_files(mules, T, max_nodes, run, num_mess_replicas):
 
 set_max_nodes = True
 max_nodes = 30
-mule_set = [30, 25, 20, 15, 10, 5]
+mule_set = [30]
 run_start_time = 1
 
 for max_mules in mule_set:

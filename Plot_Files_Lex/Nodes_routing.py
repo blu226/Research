@@ -15,7 +15,7 @@ HotPotato = np.zeros(shape=(time_epochs,runs))
 folder_names = ["../Bands5/", "../Bands10/", "../Bands15/", "../Bands20/", "../Bands25/", "../Bands30/"]
 #band_folders = ["XChants", "Epidemic", "SnW5", "SnW15", "HotPotato"]
 
-p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy
+p_id = 3  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy
 
 t = 0
 for folder_name in folder_names:
@@ -129,7 +129,7 @@ if p_id == 1:
 if p_id == 2:
     plt.ylabel('Network Delay (min)', fontsize=25)
     plt.xlabel('Number of Datamules', fontsize=25)
-    plt.ylim(0,35)
+    plt.ylim(00,55)
     fig_name = "../Plots/latency_routing_nodes_day2.eps"
 
 if p_id == 3:
@@ -158,10 +158,10 @@ if p_id == 1:
     plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper left", fontsize=20, ncol = 2)
 
 if p_id == 2:
-    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper center", fontsize=20, ncol = 2)
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper left", fontsize=20, ncol = 2)
 
 if p_id == 3:
-    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper right", fontsize=20)
+    plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="upper left", fontsize=20)
 
 if p_id == 4:
     plt.legend(["Epidemic", "SnW", "Hot Potato"], loc="center", fontsize=20, ncol = 2)

@@ -2,7 +2,7 @@ import os
 
 def run_simulation_files(mules, T, max_nodes, run):
     # 4, 1, 2
-    band_types = [0]
+    band_types = [0, 1, 2, 3, 4]
     for ind in band_types:
         # for run in range(1, 4):
         if ind == 0:
@@ -60,7 +60,7 @@ def run_simulation_files(mules, T, max_nodes, run):
 set_max_nodes = True
 max_nodes = 30
 
-mule_set = [10, 15, 20, 25]
+mule_set = [30]
 run_start_time = 1
 
 for max_mules in mule_set:

@@ -58,13 +58,15 @@ for routing_folder in routing_folders:
                         CBRS.append(float(line_arr[p_id]))
 
 
-fig, ax = plt.subplots()
-index = np.arange(num_protocols)
+
 
 bar_width = 0.15
 opacity = 0.4
 label_offset = .225
 num_protocols = len(routing_folders)
+
+fig, ax = plt.subplots()
+index = np.arange(num_protocols)
 
 rects1 = ax.bar(index, ALL, bar_width, alpha = opacity, color = 'r', label = 'ALL')
 rects2 = ax.bar(index + (1*bar_width), TV, bar_width, alpha = opacity, color = 'b', label = 'TV')
