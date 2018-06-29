@@ -16,7 +16,7 @@ def readTrajectoryFile(DMTrajectories):
             if patternMatch:
                 # print ("Pattern 1: ", patternMatch.group(1))
                 trajectoryCoord = patternMatch.group(1)
-                if len(trajectoryCoord.strip().split(',')) > 25:
+                if len(trajectoryCoord.strip().split(',')) > 30:
                     DMTrajectories.append(trajectoryCoord.strip().split(','))
 
             else:
