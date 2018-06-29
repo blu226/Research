@@ -53,7 +53,7 @@ for routing_path in routing_paths:
         plt.ylim(0, 1)
         plt.xticks(time)
         plt.ylabel('Message Delivery Ratio', fontsize=25)
-        fig_name = "Plots/Routing_PDR_time_UMass.epsT"
+        fig_name = "Plots/Routing_PDR_time_UMass.eps"
         for i in range(len(delivered)):
             if i == 0:
                 plt.plot(time, delivered[i], marker='o', linestyle='-', linewidth=2)
