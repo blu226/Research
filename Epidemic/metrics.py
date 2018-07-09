@@ -50,7 +50,7 @@ def find_avg_energy(time):
 
     for line in lines:
         line_arr = line.strip().split()
-        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == 119):
+        if (int(line_arr[0]) == int(time) or int(line_arr[0]) == T - 1):
             return line_arr[1]
 
 def message_info(mes_list):
@@ -90,9 +90,9 @@ def compute_metrics(lines, total_messages, delivery_time):
             band_usage[2] += int(line_arr[12])
             band_usage[3] += int(line_arr[13])
 
-        total = band_usage[0] + band_usage[1] + band_usage[2] + band_usage[3]
-        if total > 0:
-            band_usage = [ele/ total for ele in band_usage]
+    total = band_usage[0] + band_usage[1] + band_usage[2] + band_usage[3]
+    if total > 0:
+        band_usage = [ele/ total for ele in band_usage]
 
     if delivered > 0:
         latency = float(latency)/delivered

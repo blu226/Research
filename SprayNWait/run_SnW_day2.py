@@ -72,7 +72,7 @@ for max_mules in mule_set:
         DataMule_path = "../Lexington" + str(max_mules) + "/" + str(run) + "/Day2/"
 
         T = 120
-        num_mess_replicas = 25
+        num_mess_replicas = 15
 
         if set_max_nodes == True:
             # max_nodes = max_mules

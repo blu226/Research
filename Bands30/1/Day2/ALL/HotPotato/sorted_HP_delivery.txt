@@ -1,2 +1,0 @@
-ID	s	d	ts	te	LLC	size	parent	parentTime	replica
-61	7	9	39	48	9	25		7		-1		-1	1	0	0	0

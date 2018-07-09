@@ -27,9 +27,9 @@ tau = 1 # Instead of looking at each dt, we would look at tau as this is the min
 TTL = 30
 minTTL = 30
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
-maxTau = 30
+maxTau = 10
 # Message size
-M = [1, 10, 25, 50, 100, 500, 750, 1000]
+M = [1, 10, 50, 100, 250, 500]
 
 NoOfSources = 8
 NoOfDataCenters = 4
@@ -38,13 +38,13 @@ numSpec = 4 #always even if we only use one band
 
 #TV ISM LTE CBRS
 #3, 10, 40
-minBW = [3, 8, 20, 40]               # Minimum bandwidth for each spectrum band
+minBW = [6, 11, 20, 50]               # Minimum bandwidth for each spectrum band
 #6, 20, 60
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
 spectRange = [1200, 345, 900, 263]
-# spectRange = [1800, 460, 1200, 350]
+#spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
 spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
 
@@ -100,8 +100,28 @@ consumedEnergyFile = 'energy_metrics.txt'
 consumedEnergyFile = 'energy_metrics.txt'
 consumedEnergyFile = 'energy_metrics.txt'
 consumedEnergyFile = 'energy_metrics.txt'
-validate_data_directory = '../Lexington20/3/Day2/'
 consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+consumedEnergyFile = 'energy_metrics.txt'
+validate_data_directory = '../Lexington30/1/Day1/'
 max_nodes = 30
 T = 120
 V = 42
