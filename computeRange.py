@@ -2,11 +2,11 @@ import math
 
 c = 3*10**8 #speed of light in meters
 pi = 3.14
-alpha = 2.4
-rec_power = 3.16 * 10**(-11) # -75 dBm
+alpha = 2.45
+rec_power = 3.16 * 10**(-12) # -75 dBm
         #TV, LTE, ISM, CBRS
 trans_power = [4, 4, 1, 10]
-freq = [600, 1700, 2400, 3500]
+freq = [600, 900, 2400, 3500]
 
 d = [0 for i in range(4)]
 for i in range(4):

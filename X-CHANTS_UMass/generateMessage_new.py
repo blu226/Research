@@ -11,7 +11,7 @@ fp.close()
 
 id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while id < 300:
+while id < 200:
     # print(id)
     rand_line = random.choice(path_lines)
     path_lines.remove(rand_line)

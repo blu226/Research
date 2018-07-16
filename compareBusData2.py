@@ -1,6 +1,6 @@
 from map_plot import findfiles
 from constants import *
-from computeHarvesine import *
+from STB_help import *
 import numpy as np
 import os
 import shutil

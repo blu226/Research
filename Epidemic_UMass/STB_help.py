@@ -208,9 +208,9 @@ def funHaversine(lon1, lat1, lon2, lat2):
     a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
     c = 2 * math.asin(math.sqrt(a))
     # Radius of earth in kilometers is 6371
-    km = 6371* c
+    m = 6371* c * 1000
     # print(" dist: " + str(km))
-    return km
+    return m
 
 def euclideanDistance(coor1X, coor1Y, coor2X, coor2Y):
     return (math.sqrt((float(coor1X) - float(coor2X))**2 + (float(coor1Y) - float(coor2Y))**2))

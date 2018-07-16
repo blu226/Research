@@ -36,5 +36,5 @@ metrics_file_name = "metrics_LLC_day2_HP.txt"
 validate_data_directory = "../DataMules/2007-11-06/Day2/"
 generated_messages_file = '../Bands_UMass23/2007-11-06/Day1/generated_messages.txt'
 pkl_folder = lex_data_directory + "Day2_pkl/"
-path_to_folder = '../Bands_UMass13/2007-11-06/Day2/ALL/HotPotato/'
+path_to_folder = '../Bands_UMass23/2007-11-06/Day2/ALL/HotPotato/'
 S = [0, 1, 2, 3]

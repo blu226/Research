@@ -94,9 +94,9 @@ def compute_metrics(lines, total_messages, delivery_time):
             band_usage[2] += int(line_arr[12])
             band_usage[3] += int(line_arr[13])
 
-        total = band_usage[0] + band_usage[1] + band_usage[2] + band_usage[3]
-        if total > 0:
-            band_usage = [ele/ total for ele in band_usage]
+    total = band_usage[0] + band_usage[1] + band_usage[2] + band_usage[3]
+    if total > 0:
+        band_usage = [ele/ total for ele in band_usage]
 
     if delivered > 0:
         latency = round(float(latency)/delivered, 2)

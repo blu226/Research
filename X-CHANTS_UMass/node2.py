@@ -39,7 +39,7 @@ class Node(object):                                                             
 
 
 
-    def is_in_communication_range(self, curr, next, ts, te, s):
+    def is_in_communication_range(self, curr, next, ts, te, s, msg):
 
         if te > T:
             return False
@@ -56,6 +56,8 @@ class Node(object):                                                             
 
             else:
                 dist = funHaversine(float(curr_coorY[i]),float(curr_coorX[i]), float(next_coorY[i]), float(next_coorX[i]))
+                if int(debug_message) == int(msg.ID):
+                    print("dist =", dist, "specRange =", spectRange[s])
                 if dist > spectRange[s]:
                     #print("t: " + str(t) + " X: " + str(curr_coorX) + " Y: " + str(curr_coorY))
                     return False
@@ -88,7 +90,7 @@ class Node(object):                                                             
                 transfer_time = self.compute_transfer_time(message, s, specBW, message.curr, next, ts)
                 te = ts + transfer_time
                 # print("curr: ", message.curr, "next: ", next)
-                if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s) == True:
+                if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s, message) == True:
                     # calculate energy consumed
                     sensing_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * t_sd * sensing_power
                     switching_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * idle_channel_prob * switching_delay

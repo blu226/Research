@@ -1,9 +1,9 @@
 with open("Plots/Band_Usage.txt", 'w') as f:
-    f.write("Protocol\tTV\tISM\tLTE\tCBRS\tTemporal\n")
+    f.write("Protocol\tTV\tLTE\tISM\tCBRS\tTemporal\n")
 
 metrics_file = "metrics_LLC_day"
-metricsOptions = ["2_X-CHANTS.txt", "2_Epi.txt"]
-protocols = ["XChants/", "Epidemic/" ]
+metricsOptions = ["2_X-CHANTS.txt", "2_Epi.txt", "2_SnW.txt", "2_HP.txt"]
+protocols = ["XChants/", "Epidemic/", "SprayNWait/", "HotPotato/" ]
 routing_path = "Bands_UMass23/2007-11-06/Day2/ALL/"
 
 file = open("Plots/Band_Usage.txt", 'a')
@@ -31,7 +31,7 @@ for i in range(len(metricsOptions)):
     else:
         temporal = 0
 
-    print(protocols[i] + "\t" + str(tv) + "\t" + str(ism) + "\t" + str(lte) + "\t" + str(cbrs) + "\t" + str(temporal) + "\n")
-    file.write(protocols[i] + "\t" + str(tv) + "\t" + str(ism) + "\t" + str(lte) + "\t" + str(cbrs) + "\t" + str(temporal) + "\n")
+    print(protocols[i] + "\t" + str(tv) + "\t" + str(lte) + "\t" + str(ism) + "\t" + str(cbrs) + "\t" + str(temporal) + "\n")
+    file.write(protocols[i] + "\t" + str(tv) + "\t" + str(lte) + "\t" + str(ism) + "\t" + str(cbrs) + "\t" + str(temporal) + "\n")
 
 file.close()
