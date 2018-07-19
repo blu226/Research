@@ -20,10 +20,21 @@ def compute_band_usage(lines, delivery_time, spec_lines):
 
     total = sum(band_usage)
     if total > 0:
-        band_usage = [ele/total for ele in band_usage]
+        band_usage = [round(100*ele/total,2) for ele in band_usage]
 
-    print("Del time ", delivery_time, "Band usage: ",  band_usage, "\n")
+    print("Band usage: ",  band_usage, "\n")
     return band_usage
+
+def message_info(mes_list, msg_lines):
+
+    file = open(path_to_folder + "/NOT_delivered.txt", 'w')
+    msg_IDs = [x for x in range(len(msg_lines))]
+    for id in mes_list:
+        if id in msg_IDs:
+            msg_IDs.remove(id)
+    for id in msg_IDs:
+        file.write(str(id) + "\n")
+    file.close()
 
 def find_avg_energy(time):
 
@@ -40,6 +51,7 @@ def compute_metrics(lines, total_messages, delivery_time):
     latency = 0
     energy = 0
     overhead = 0
+    mes_IDs = []
 
     for line in lines:
         line_arr = line.strip().split("\t")
@@ -47,13 +59,14 @@ def compute_metrics(lines, total_messages, delivery_time):
             delivered += 1
             latency += int(line_arr[6])
             # energy += float(line_arr[7])
+            mes_IDs.append(int(line_arr[0]))
 
     if delivered > 0:
-        latency = float(latency)/delivered
+        latency = round(float(latency)/delivered, 2)
         energy = float(energy)/delivered
 
     if total_messages > 0:
-        delivered = float(delivered) / total_messages
+        delivered = round(float(delivered) / total_messages, 2)
 
     if delivered > 0:
         overhead = 1
@@ -63,7 +76,7 @@ def compute_metrics(lines, total_messages, delivery_time):
 
     print("t: ", t, " msg: ", total_messages, " del: ", delivered, "lat: ", latency, " Overhead: " , overhead, " Energy: ", avg_energy)
 
-    return delivered, latency, avg_energy, overhead
+    return delivered, latency, avg_energy, overhead, mes_IDs
 
 
 #Main starts here
@@ -74,7 +87,8 @@ path_to_Day1_LLC = path_to_LLC_arr[0] + "/Bands_UMass" + str(V) + '/' + path_to_
 print("Current file ", path_to_Day1_LLC)
 
 msg_file = open ("../Bands_UMass"+ str(max_nodes) + "/" + link_exists_folder.split("/")[2] + "/Day1/generated_messages.txt")
-total_messages = len(msg_file.readlines()[1:])
+msg_lines = msg_file.readlines()[1:]
+total_messages = len(msg_lines)
 
 metric_file = open(path_to_folder + metrics_file_name, "w")
 f = open(path_to_folder + delivery_file_name, "r")
@@ -106,8 +120,9 @@ delivery_times = [i for i in range(0, T + 10, 15)]
 metric_file.write("#t\tPDR\tLatency\tEnergy\tOverhead\t\n")
 
 for t in delivery_times:
-    avg_pdr, avg_latency, avg_energy, overhead = compute_metrics(lines, total_messages, t)
+    avg_pdr, avg_latency, avg_energy, overhead, mes_IDs = compute_metrics(lines, total_messages, t)
     band_usage = compute_band_usage(lines, t, del_spec_lines)
+    message_info(mes_IDs,msg_lines)
     metric_file.write(
         str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +
         str(band_usage[0]) + "\t" + str(band_usage[1]) + "\t" + str(band_usage[2]) + "\t" + str(band_usage[3]) + "\t" + str(band_usage[4]) + "\n")

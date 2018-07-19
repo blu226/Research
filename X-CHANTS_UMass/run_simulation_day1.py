@@ -9,10 +9,11 @@ def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
-    f.write("minBW = [6,20,30,60]\nmaxBW = [6,20,30,60]\nspectRange = [3500,500,2300,850]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
+    # f.write("minBW = [50,20,11,6]\nmaxBW = [60,30,20,6]\nspectRange = [860,1200,500,3500]\nspectPower = [10,4,1,4]\nepsilon = 0.5\n")
+    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [4400, 650,2950,1100]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
-    f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500]\n")
+    f.write("TTL = 30\nminTTL=15\nmaxTau = 25\nM = [1,10,50,100,250,500]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
     f.write("debug_message = -1\n")
     f.write("max_nodes = 23\n")
@@ -87,6 +88,7 @@ def run_simulation_files(day, V, T,directory,time):
             path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
+
         path_to_folder = path_to_folder + "XChants/"
 
         if not os.path.exists(path_to_folder):
@@ -106,12 +108,12 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         # #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        if ind == 0 and day == 1 and V == 23:
-           os.system('python3 computeLINKEXISTS_UMass.py')
-
-        os.system('python3 STB_main_path.py')
         # if ind == 0 and day == 1 and V == 23:
-        #     os.system('python3 generateMessage_new.py')
+        #    os.system('python3 computeLINKEXISTS_UMass.py')
+        #
+        # os.system('python3 STB_main_path.py')
+        if ind == 0 and day == 1 and V == 19:
+            os.system('python3 generateMessage_new.py')
         # os.system('python3 main2.py')
         # os.system('python3 metrics.py')
 
@@ -127,7 +129,7 @@ for i in range(len(directorys)):
     # v = len(files)
     #
     # print(directorys[i])
-    for v in range(23, 11, -2):
+    for v in range(23, 8, -2):
         run_simulation_files(1, v, 180, directorys[i], startTime)
 
 

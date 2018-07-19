@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 
 time_epochs = 9
-runs = 3
+runs = 5
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
 Epidemic_ALL = np.zeros(shape=(time_epochs,runs))
@@ -13,7 +13,7 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 
-folder_name = ["../Bands20/"]
+folder_name = ["../Bands30/"]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
 
 folders = os.listdir(folder_name[0])

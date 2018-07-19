@@ -35,11 +35,11 @@ with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as fs:
 with open(generated_messages_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
-specBW = pickle.load(open("../Bands_UMass23/2007-11-06/Day1/" + "specBW.pkl", "rb"))
-
+specBW = pickle.load(open("../Bands_UMass23/2007-11-06/Day2/" + "specBW.pkl", "rb"))
+LINK_EXISTS = pickle.load(open("../Bands_UMass23/2007-11-06/" + path_to_LLC_arr[3] + "/LINK_EXISTS.pkl", "rb"))
 #run simulation
 print("Starting Simulation.")
 for t in range(0, T, tau):
-    net.network_GO(t, specBW, path_lines, spec_lines, msg_lines)
+    net.network_GO(t, specBW, path_lines, spec_lines, msg_lines, LINK_EXISTS)
 
 

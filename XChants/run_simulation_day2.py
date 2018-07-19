@@ -75,10 +75,11 @@ if generate_files == "Y":
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [30]
+
+    mule_set =  [30, 0, 25, 20, 15,10, 5]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 2):
+        for run in range(run_start_time, 6):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -129,12 +130,11 @@ if generate_files == "Y":
                 f.write("run_start_time = " + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
-                f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
 
 
             os.system('python3 readLexingtonData_Fixed.py')
             os.system('python3 create_pickles_Lex.py')
             os.system('python3 computeLINKEXISTS_Lex.py')
-            # run_simulation_files(max_mules, T, max_nodes, run)
+            run_simulation_files(max_mules, T, max_nodes, run)
 else:
     print("\n================ Trajectory files were NOT regenerated. \n")

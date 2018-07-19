@@ -49,7 +49,7 @@ def run_simulation_files(mules, T, max_nodes, run):
             for line in lines:
                 if ("path_to_folder" not in line) and ("S = " not in line) and (
                     "validate_data_directory" not in line) \
-                        and ("link_exists_folder" not in line) and ("lex_data_directory" not in line):
+                        and ("link_exists_folder" not in line) and ("lex_data_directory" not in line)  and ("lex_data_directory_day" not in line):
                     f.write(line)
 
 
@@ -65,8 +65,8 @@ def run_simulation_files(mules, T, max_nodes, run):
         if ind == 0 and mules == max_nodes:
         	os.system('python3 generateMessage_new.py')
 
-        # os.system('python3 main2.py')
-        # os.system('python3 metrics.py')
+        os.system('python3 main2.py')
+        os.system('python3 metrics.py')
 
 
 number_of_runs = 1
@@ -81,10 +81,10 @@ if generate_files == "Y":
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set =  [30]
+    mule_set =  [30, 0, 25, 20, 15,10, 5]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 2):
+        for run in range(run_start_time, 6):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -135,9 +135,9 @@ if generate_files == "Y":
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")
 
-            os.system('python3 readLexingtonData_Fixed.py')
-            os.system('python3 create_pickles_Lex.py')
-            os.system('python3 computeLINKEXISTS_Lex.py')
+            # os.system('python3 readLexingtonData_Fixed.py')
+            # os.system('python3 create_pickles_Lex.py')
+            # os.system('python3 computeLINKEXISTS_Lex.py')
             run_simulation_files(max_mules, T, max_nodes, run)
 
 else:

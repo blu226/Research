@@ -8,11 +8,12 @@ def create_new_constants_file(day, V, T, directory, time):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
-    f.write("minBW = [6,20,30,60]\nmaxBW = [6,20,30,60]\nspectRange = [5150,1280,3400,880]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
+    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [4400, 650,2950,1100]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
+    # f.write("minBW = [50,20,11,6]\nmaxBW = [60,30,20,6]\nspectRange = [860,1200,500,3500]\nspectPower = [10,4,1,4]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("debug_message = -1\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
-    f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500,750,1000]\n")
+    f.write("TTL = 30\nminTTL=15\nmaxTau = 25\nM = [1,10,25,50,100,500,750,1000]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
     NoOfDMs = V - 9
     link_exists = "Link_Exists_path = '../Bands_UMass" + str(23) + "/" + directory + "Day2/" + "\'\n"
@@ -61,7 +62,7 @@ def run_simulation_files(day, V, T,directory,time):
 
 
 
-    run = [0, 1, 2, 3, 4]
+    run = [0, 1, 2]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 
@@ -79,7 +80,7 @@ def run_simulation_files(day, V, T,directory,time):
 
         elif ind == 3:
             S = [1]
-            path_to_folder = link_exists_folder + "ISM/"
+            path_to_folder = link_exists_folder +"ISM/"
             print("\nISM ------------------------ ")
 
         elif ind == 2:
@@ -122,7 +123,7 @@ for i in range(len(directorys)):
     # files = findfiles(path)
     # v = len(files)
 
-    for v in range(21, 11, -2):
+    for v in range(23, 8, -4):
         run_simulation_files(2, v, 180, directorys[i], 0)
 
 

@@ -54,12 +54,13 @@ def computeADJ_T_2(specBW, LINK_EXISTS):
                                 consumedEnergy = round(consumedEnergy, 2)
 
                                 # print(i, j, t, consumedTime, m, specBW[i, j, s, t])
-                                if (t + consumedTime) < T and ADJ_T[i, j, t, m] > consumedTime and LINK_EXISTS[
-                                    i, j, s, t, (t + consumedTime)] < math.inf:
-                                    ADJ_T[i, j, t, m] = consumedTime
-                                    ADJ_E[i, j, t, m] = consumedEnergy
-                                    Spectrum[i, j, t, m] = s + 1
-                                    Parent[i, j, t, m] = i
+                                if (t + consumedTime) < T  and LINK_EXISTS[i, j, s, t, (t + consumedTime)] < math.inf:
+
+                                    if ADJ_T[i, j, t, m] > consumedTime or (ADJ_T[i, j, t, m] == consumedTime and spectRange[s] > spectRange[Spectrum[i, j, t, m] - 1]):
+                                        ADJ_T[i, j, t, m] = consumedTime
+                                        ADJ_E[i, j, t, m] = consumedEnergy
+                                        Spectrum[i, j, t, m] = s + 1
+                                        Parent[i, j, t, m] = i
 
                     if (t + tau) < T and ADJ_T[i, j, t, m]  > ADJ_T[i, j, (t + tau), m] + tau and ADJ_T[i, j, (t + tau), m] != math.inf:
                         ADJ_T[i, j, t, m] = ADJ_T[i, j, (t + tau), m] + tau

@@ -6,6 +6,8 @@ time_epochs = 13
 runs = 1
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
+Xchants_pk = np.zeros(shape=(time_epochs,runs))
+
 Epidemic_ALL = np.zeros(shape=(time_epochs,runs))
 Epidemic_LTE = np.zeros(shape=(time_epochs,runs))
 Epidemic_TV = np.zeros(shape=(time_epochs,runs))
@@ -13,13 +15,13 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 # routing_paths = ["../Bands_UMass18/2007-10-23", "../Bands_UMass16/2007-10-24", "../Bands_UMass20/2007-10-31", "../Bands_UMass21/2007-11-01", "../Bands_UMass23/2007-11-06", "../Bands_UMass16/2007-11-07"]
-routing_paths = ["../Bands_UMass23/2007-11-06"]
-folder_name = ["../Bands_UMass23/"]
+routing_paths = ["../Bands_UMass19/2007-11-06"]
+folder_name = ["../Bands_UMass19/"]
 band_folders = ["ALL", "CBRS", "ISM", "LTE", "TV"]
 
 folders = os.listdir(folder_name[0])
 
-p_id = 1 # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 2 # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 folders.sort()
 # folders = "1"
@@ -84,87 +86,103 @@ for routing_path in routing_paths:
                             Epidemic_TV[t][run] = line_arr[p_id]
                     t = t + 1
 
-    Xchants_mean = []
-    Xchants_SD = []
-    Epidemic_ALL_mean = []
-    Epidemic_ALL_SD = []
-    Epidemic_CBRS_mean = []
-    Epidemic_CBRS_SD = []
-    Epidemic_ISM_mean = []
-    Epidemic_ISM_SD = []
-    Epidemic_LTE_mean = []
-    Epidemic_LTE_SD = []
-    Epidemic_TV_mean = []
-    Epidemic_TV_SD = []
+t = 0
 
-    print(Epidemic_ISM)
-    for i in range(len(Xchants)):
-        Xchants_mean.append(np.mean(Xchants[i]))
-        Xchants_SD.append(np.std(Xchants[i]))
-        Epidemic_ALL_mean.append(np.mean(Epidemic_ALL[i]))
-        Epidemic_ALL_SD.append(np.std(Epidemic_ALL[i]))
-        Epidemic_CBRS_mean.append(np.mean(Epidemic_CBRS[i]))
-        Epidemic_CBRS_SD.append(np.std(Epidemic_CBRS[i]))
-        Epidemic_ISM_mean.append(np.mean(Epidemic_ISM[i]))
-        Epidemic_ISM_SD.append(np.std(Epidemic_ISM[i]))
-        Epidemic_LTE_mean.append(np.mean(Epidemic_LTE[i]))
-        Epidemic_LTE_SD.append(np.std(Epidemic_LTE[i]))
-        Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
-        Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
+metric_file = open("../Bands_UMass" + str(19) + "/2007-11-06/Day2/ALL/XChants/metrics_LLC_day2_X-CHANTS_opt.txt", "r")
+lines = metric_file.readlines()[1:]
+for line in lines:
+    line_arr = line.strip().split("\t")
+    Xchants_pk[t][run] = line_arr[p_id]
 
-    x = np.array([0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180])
-    plt.xticks(fontsize=25)
+    t += 1
+
+Xchants_mean = []
+Xchants_SD = []
+Xchants_mean_pk = []
+Xchants_SD_pk = []
+Epidemic_ALL_mean = []
+Epidemic_ALL_SD = []
+Epidemic_CBRS_mean = []
+Epidemic_CBRS_SD = []
+Epidemic_ISM_mean = []
+Epidemic_ISM_SD = []
+Epidemic_LTE_mean = []
+Epidemic_LTE_SD = []
+Epidemic_TV_mean = []
+Epidemic_TV_SD = []
+
+print(Epidemic_ISM)
+for i in range(len(Xchants)):
+    Xchants_mean.append(np.mean(Xchants[i]))
+    Xchants_SD.append(np.std(Xchants[i]))
+    Xchants_mean_pk.append(np.mean(Xchants_pk[i]))
+    Xchants_SD_pk.append(np.std(Xchants_pk[i]))
+    Epidemic_ALL_mean.append(np.mean(Epidemic_ALL[i]))
+    Epidemic_ALL_SD.append(np.std(Epidemic_ALL[i]))
+    Epidemic_CBRS_mean.append(np.mean(Epidemic_CBRS[i]))
+    Epidemic_CBRS_SD.append(np.std(Epidemic_CBRS[i]))
+    Epidemic_ISM_mean.append(np.mean(Epidemic_ISM[i]))
+    Epidemic_ISM_SD.append(np.std(Epidemic_ISM[i]))
+    Epidemic_LTE_mean.append(np.mean(Epidemic_LTE[i]))
+    Epidemic_LTE_SD.append(np.std(Epidemic_LTE[i]))
+    Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
+    Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
+
+x = np.array([0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180])
+plt.xticks(fontsize=25)
+plt.yticks(fontsize=25)
+
+fig_name = "dummy.eps"
+
+if p_id == 1:
+    plt.ylabel('Message Delivery Ratio', fontsize=25)
+    plt.xlabel('Simulation time (min)', fontsize=25)
+    plt.ylim(0,1.4)
+    # plt.xticks(np.arange(min(x), max(x) + 1, 15), fontsize = 20)
     plt.yticks(fontsize=25)
+    plt.xticks(np.arange(0, 190, step = 30))
+    fig_name = "../Plots/pdr_time_UMass_" + unique_fig_name + ".eps"
 
-    fig_name = "dummy.eps"
+if p_id == 2:
+    plt.ylim(0, 75)
+    plt.ylabel('Network Delay (min)', fontsize=25)
+    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.xticks(np.arange(0, 190, step = 30))
+    fig_name = "../Plots/latency_time_UMass_" + unique_fig_name + ".eps"
 
-    if p_id == 1:
-        plt.ylabel('Message Delivery Ratio', fontsize=25)
-        plt.xlabel('Simulation time (min)', fontsize=25)
-        # plt.xticks(np.arange(min(x), max(x) + 1, 15), fontsize = 20)
-        plt.yticks(fontsize=25)
-        plt.xticks(np.arange(0, 190, step = 30))
-        fig_name = "../Plots/pdr_time_UMass_" + unique_fig_name + ".eps"
+if p_id == 3:
+    plt.ylabel('Energy Expenditure (J)', fontsize=25)
+    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.xticks(np.arange(0, 190, step = 30))
+    fig_name = "../Plots/energy_time_UMass_" + unique_fig_name + ".eps"
 
-    if p_id == 2:
-        plt.ylim(0, 60)
-        plt.ylabel('Network Delay (min)', fontsize=25)
-        plt.xlabel('Simulation time (in minutes)', fontsize=25)
-        plt.xticks(np.arange(0, 190, step = 30))
-        fig_name = "../Plots/latency_time_UMass_" + unique_fig_name + ".eps"
-
-    if p_id == 3:
-        plt.ylabel('Energy Expenditure (J)', fontsize=25)
-        plt.xlabel('Simulation time (in minutes)', fontsize=25)
-        plt.xticks(np.arange(0, 190, step = 30))
-        fig_name = "../Plots/energy_time_UMass_" + unique_fig_name + ".eps"
-
-    if p_id == 4:
-        plt.ylabel('Message Overhead', fontsize=25)
-        plt.xlabel('Simulation time (in minutes)', fontsize=25)
-        plt.xticks(np.arange(0, 190, step = 30))
-        fig_name = "../Plots/overhead_time_UMass_" + unique_fig_name + ".eps"
+if p_id == 4:
+    plt.ylabel('Message Overhead', fontsize=25)
+    plt.xlabel('Simulation time (in minutes)', fontsize=25)
+    plt.xticks(np.arange(0, 190, step = 30))
+    fig_name = "../Plots/overhead_time_UMass_" + unique_fig_name + ".eps"
 
 
 
-    plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
-    plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
-    plt.errorbar(x, Epidemic_CBRS_mean, Epidemic_CBRS_SD, marker='^', linestyle=':', linewidth=2)
-    plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', linewidth=2)
-    plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
-    plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
+plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
+plt.errorbar(x, Xchants_mean_pk, Xchants_SD_pk, marker='o', linestyle='-', linewidth=2)
+plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
+plt.errorbar(x, Epidemic_CBRS_mean, Epidemic_CBRS_SD, marker='^', linestyle=':', linewidth=2)
+plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', linewidth=2)
+plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
+plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
 
-    if p_id == 1:
-        plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=17)
-    elif p_id == 2:
-        plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
-    elif p_id == 3:
-        plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
-    elif p_id == 4:
-        plt.legend(["X-CHANTs", "ALL", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
+if p_id == 1:
+    plt.legend(["X-CHANT","X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=17, ncol = 3)
+elif p_id == 2:
+    plt.legend(["X-CHANT","X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
+elif p_id == 3:
+    plt.legend(["X-CHANT","X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
+elif p_id == 4:
+    plt.legend(["X-CHANT","X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=2)
 
 
-    plt.tight_layout()
-    plt.savefig(fig_name)
+plt.tight_layout()
+plt.savefig(fig_name)
 
-    plt.show()
+plt.show()

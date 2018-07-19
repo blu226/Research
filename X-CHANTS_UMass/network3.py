@@ -60,7 +60,7 @@ class Network(object):
         return path, band
 
 
-    def network_GO(self, t, specBW, path_lines, spec_lines, msg_lines):                            #function that sends all messages at a given tau
+    def network_GO(self, t, specBW, path_lines, spec_lines, msg_lines, LINK_EXISTS):                            #function that sends all messages at a given tau
 
         if t % 15 == 0 or t == T - 1:
             self.find_avg_energy_consumption(t)
@@ -102,7 +102,9 @@ class Network(object):
 
             while len(node.buf) > 0 and isVisited > 0:
                 msg = node.buf[ isVisited - 1]
-                node.send_message( self, msg, t, specBW)
+                if msg.ID == debug_message:
+                    print("Curr:", msg.curr, "Path:", msg.path)
+                node.send_message( self, msg, t, specBW, LINK_EXISTS)
                 # the message gets deleted from the current node, and buffer gets shrinked
                 # isVisited is to get to the end of the node buffer even if it is not empty
                 isVisited -= 1

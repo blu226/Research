@@ -69,7 +69,7 @@ class Node(object):                                                             
         time_to_transfer = tau * math.ceil(numerator / tau)
         return time_to_transfer
 
-    def send_message(self, net, message, ts, specBW):
+    def send_message(self, net, message, ts, specBW, LINK_EXISTS):
 
         nodes = net.nodes
 
@@ -89,8 +89,12 @@ class Node(object):                                                             
 
                 transfer_time = self.compute_transfer_time(message, s, specBW, message.curr, next, ts)
                 te = ts + transfer_time
+
+                if te >= T:
+                    te = T - 1
                 # print("curr: ", message.curr, "next: ", next)
-                if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s, message) == True:
+                # if self.is_in_communication_range(nodes[message.curr], nodes[next], ts, te, s, message) == True:
+                if LINK_EXISTS[int(nodes[message.curr].ID), int(nodes[next].ID), s, ts, te] == 1:
                     # calculate energy consumed
                     sensing_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * t_sd * sensing_power
                     switching_energy = math.ceil(message.size / (specBW[message.curr, next, s, ts])) * idle_channel_prob * switching_delay
