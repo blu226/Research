@@ -111,9 +111,9 @@ def run_simulation_files(day, V, T,directory,time):
         # if ind == 0 and day == 1 and V == 23:
         #    os.system('python3 computeLINKEXISTS_UMass.py')
         #
-        # os.system('python3 STB_main_path.py')
-        if ind == 0 and day == 1 and V == 19:
-            os.system('python3 generateMessage_new.py')
+        os.system('python3 STB_main_path.py')
+        #if ind == 0 and day == 1 and V == 19:
+         #   os.system('python3 generateMessage_new.py')
         # os.system('python3 main2.py')
         # os.system('python3 metrics.py')
 
@@ -129,7 +129,7 @@ for i in range(len(directorys)):
     # v = len(files)
     #
     # print(directorys[i])
-    for v in range(23, 8, -2):
+    for v in range(23, 8, -1):
         run_simulation_files(1, v, 180, directorys[i], startTime)
 
 

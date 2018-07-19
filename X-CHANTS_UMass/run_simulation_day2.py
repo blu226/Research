@@ -24,7 +24,7 @@ def create_new_constants_file(day, V, T, directory, time):
 
 
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_X-CHANTS.txt\"\n"
-    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_X-CHANTS_opt.txt\"\n"
+    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_X-CHANTS.txt\"\n"
     lex_data_file_name = "lex_data_directory = \"../DataMules/" + directory + "\"\n"
 
 
@@ -111,11 +111,11 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-        if ind == 0 and day == 2 and V == 23:
-            os.system('python3 computeLINKEXISTS_UMass.py')
-        os.system('python3 STB_main_path.py')
-        # os.system('python3 main2.py')
-        os.system('python3 main_opt.py')
+#        if ind == 0 and day == 2 and V == 23:
+ #           os.system('python3 computeLINKEXISTS_UMass.py')
+  #      os.system('python3 STB_main_path.py')
+        os.system('python3 main2.py')
+        #os.system('python3 main_opt.py')
         os.system('python3 metrics.py')
 
 
@@ -131,5 +131,5 @@ for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day1"
     # files = findfiles(path)
     # v = len(files)
-    for v in range(23, 8, -4):
+    for v in range(23, 8, -1):
         run_simulation_files(2, v, 180, directorys[i], startTime)
