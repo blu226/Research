@@ -16,7 +16,7 @@ Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 folder_name = "../Bands_UMass"
 folder_nums = [9, 11, 13, 15, 17, 19, 21, 23]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
-p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 3  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
 for num_mules in folder_nums:

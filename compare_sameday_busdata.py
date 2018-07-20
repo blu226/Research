@@ -66,7 +66,7 @@ days = os.listdir(directory)
 days.sort()
 
 
-for day in days:
+for day in range(days):
 
 
     filename = "Similarity_Files/bus_similarities_" + str(day) + ".txt"
@@ -74,10 +74,12 @@ for day in days:
     f.write("Bus ID\t\tStart Time\t\tSimilarity\t\tNum Rows\n")
     f.close()
 
-    path = directory + day + "/"
+    path = directory + days[day] + "/"
+    path2 = directory + days[day + 1] + "/"
 
     buses = findfiles(path)
     buses.sort()
+
 
     print(day)
     for startTime in range(420,1200,30):

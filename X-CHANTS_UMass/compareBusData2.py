@@ -74,6 +74,7 @@ directory = "../DataMules/"
 days = os.listdir(directory)
 days.sort()
 
+print(days)
 
 for file in days:
 # directory1 = "DataMules/2007-11-03_2007-11-04/Day1"

@@ -4,7 +4,7 @@ import numpy as np
 import os
 import shutil
 
-directory = "../DataMules/2007-11-04_2007-11-05/Day1/"
+directory = "../DataMules/2007-11-06_2007-11-07/Day1/"
 time_in_range = 10
 
 folders = findfiles(directory)

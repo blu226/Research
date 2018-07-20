@@ -2,6 +2,7 @@ from STB_help import *
 import numpy
 import os
 import shutil
+import math
 
 def find_index(t, lines):
     index = 0
@@ -63,22 +64,67 @@ def copy_dataMule(busID, day, new_busID):
     curr_dir = "DateWiseRoutes/" + day + "/" + busID
     new_dir = destFolder + str(new_busID) + ".txt"
 
+    print("Old:", curr_dir, "New:", new_dir)
+
     shutil.copyfile(curr_dir, new_dir)
 
+def sort_bus_sims_max(bus_arr):
+
+    new_bus_arr = []
+
+    while len(bus_arr) > 0:
+
+        max = 0
+        max_ind = -1
+
+        for i in range(len(bus_arr)):
+            sim = bus_arr[i][1]
+            if sim > max:
+                max = sim
+                max_ind = i
+
+        new_bus_arr.append(bus_arr[max_ind])
+        bus_arr.remove(bus_arr[max_ind])
+
+    return new_bus_arr
+
+def sort_bus_sims_min(bus_arr):
+
+    new_bus_arr = []
+
+    while len(bus_arr) > 0:
+
+        min = math.inf
+        min_ind = -1
+
+        for i in range(len(bus_arr)):
+            sim = bus_arr[i][1]
+            if sim < min:
+                min = sim
+                min_ind = i
+
+        new_bus_arr.append(bus_arr[min_ind])
+        bus_arr.remove(bus_arr[min_ind])
+
+    return new_bus_arr
+
+
 #MAIN
-similarity_restraint = 350 #meters
+similarity_restraint = 500 #meters
 simulation_length = 180
 similarity_min = -1
-offset = 15
+offset = 10
 
 directory = "DateWiseRoutes/"
-days = os.listdir(directory)
+# days = os.listdir(directory)
 # days = ["2007-10-31", "2007-11-01", "2007-11-06", "2007-11-07"]
-days.sort()
+days = ["2007-11-06"]
+# days.sort()
 
 
 for day in days:
 
+    bus_sims = []
 
     filename = "Similarity_Files/bus_similarities_" + str(day) + ".txt"
     f = open(filename, 'w')
@@ -143,9 +189,20 @@ for day in days:
             else:
                 similarity = 0
 
-            if num_rows_w_data > 0.5 * simulation_length and num_rows_w_data_round2 > 0.5 * simulation_length:
+            if num_rows_w_data > 0.5 * simulation_length and num_rows_w_data_round2 > 0.5 * simulation_length and similarity > 30:
                 write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data, num_rows_w_data_round2, simulation_length)
-                copy_dataMule(bus_file, day, new_busID)
-                new_busID += 1
+                # copy_dataMule(bus_file, day, new_busID)
+                bus_sims.append([bus_file, similarity])
 
+
+    sorted_bus_sims = sort_bus_sims_min(bus_sims)
+
+
+    for bus in sorted_bus_sims:
+        copy_dataMule(bus[0], day, new_busID)
+        new_busID += 1
+
+
+    for i in sorted_bus_sims:
+        print("Bus:", i[0], "Sim:", i[1])
 

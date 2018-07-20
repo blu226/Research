@@ -4,7 +4,7 @@ from STB_help import *
 #Take some inputs
 #number_of_runs = input("Input number of runs?  ")
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
-def create_new_constants_file(day, V, T, directory, time):
+def create_new_constants_file(day, V, T, directory, time, max_nodes):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
@@ -16,7 +16,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("TTL = 30\nminTTL=15\nmaxTau = 25\nM = [1,10,25,50,100,500,750,1000]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
     NoOfDMs = V - 9
-    link_exists = "Link_Exists_path = '../Bands_UMass" + str(23) + "/" + directory + "Day2/" + "\'\n"
+    link_exists = "Link_Exists_path = '../Bands_UMass" + str(max_nodes) + "/" + directory + "Day2/" + "\'\n"
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_Epi.txt\"\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_Epi.txt\'\n"
     file_day = "day = " + "\'" + directory + '\'\n'
@@ -30,7 +30,7 @@ def create_new_constants_file(day, V, T, directory, time):
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
     num_mess = "num_messages = 300\n"
-    message_line = "generated_messages_file = \'../Bands_UMass" + str(23) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(max_nodes) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(file_day)
@@ -53,16 +53,16 @@ def create_new_constants_file(day, V, T, directory, time):
     f.close()
 #    os.system('cat constants.py')
 
-def run_simulation_files(day, V, T,directory,time):
+def run_simulation_files(day, V, T, directory, time, max_nodes):
     print("_________________________________________________")
     print("Day: ", str(day), " V: ", str(V), " T: ", str(T))
 
-    create_new_constants_file(day, V, T,directory,time)
+    create_new_constants_file(day, V, T,directory,time, max_nodes)
     #getSrcDst(time, directory)
 
 
 
-    run = [0, 1, 2]
+    run = [0, 1, 2,3,4]
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
 
@@ -123,8 +123,8 @@ for i in range(len(directorys)):
     # files = findfiles(path)
     # v = len(files)
 
-    for v in range(23, 8, -4):
-        run_simulation_files(2, v, 180, directorys[i], 0)
+    for v in range(23, 8, -2):
+        run_simulation_files(2, v, 180, directorys[i], 0, 23)
 
 
 

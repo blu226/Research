@@ -21,7 +21,7 @@ output_file2.close()
 
 path_to_LLC_arr = path_to_folder.split('/')
 path_to_Day1_LLC = path_to_LLC_arr[0] + "/" + path_to_LLC_arr[1] + '/' + path_to_LLC_arr[2] + '/Day1/' + path_to_LLC_arr[4] + '/' + path_to_LLC_arr[5] + '/' + path_to_LLC_arr[6] + '/'
-
+# print("Path to Day1 LLC:", path_to_Day1_LLC)
 path_to_mess_arr = link_exists_folder.split('/')
 path_to_mess = path_to_mess_arr[0] + '/' + path_to_mess_arr[1] + '/' + path_to_mess_arr[2] + '/Day1/generated_messages.txt'
 
@@ -35,8 +35,8 @@ with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as fs:
 with open(generated_messages_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
-specBW = pickle.load(open("../Bands_UMass23/2007-11-06/Day2/" + "specBW.pkl", "rb"))
-LINK_EXISTS = pickle.load(open("../Bands_UMass23/2007-11-06/" + path_to_LLC_arr[3] + "/LINK_EXISTS.pkl", "rb"))
+specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
+LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/2007-11-06/" + path_to_LLC_arr[3] + "/LINK_EXISTS.pkl", "rb"))
 #run simulation
 print("Starting Simulation.")
 for t in range(0, T, tau):

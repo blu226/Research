@@ -6,7 +6,7 @@ from constants import *
 #Take some inputs
 #number_of_runs = input("Input number of runs?  ")
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
-def create_new_constants_file(day, V, T, directory, time):
+def create_new_constants_file(day, V, T, directory, time, max_nodes):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
@@ -17,7 +17,7 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
     f.write("TTL = 30\nminTTL=15\nmaxTau = 25\nM = [1,10,50,100,250,500]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
-    f.write("max_nodes = 23\n")
+    f.write("max_nodes = " + str(max_nodes) + "\n")
     f.write("debug_message = -1\n")
 
     NoOfDMs = V - 9
@@ -30,13 +30,13 @@ def create_new_constants_file(day, V, T, directory, time):
 
     dir2 = "validate_data_directory = \"../DataMules/" + directory + "Day2/\"\n"
     dir3 = "lex_data_directory_day = \"../DataMules/" + directory + "Day2/\"\n"
-    link_exists = "link_exists_folder = '../Bands_UMass" + str(23) + "/" + directory + "Day2/" + "\'\n"
+    link_exists = "link_exists_folder = '../Bands_UMass" + str(max_nodes) + "/" + directory + "Day2/" + "\'\n"
 
     DM_line = "NoOfDMs = " + str(NoOfDMs) + "\n"
     T_line = "T = " + str(T) + "\n"
     V_line = "V = " + str(V) + "\n"
     time_line = "StartTime = " + str(time) + '\n'
-    message_line = "generated_messages_file = \'../Bands_UMass" + str(23) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(max_nodes) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write(DM_line)
     f.write(T_line)
@@ -54,11 +54,11 @@ def create_new_constants_file(day, V, T, directory, time):
     f.close()
 #    os.system('cat constants.py')
 
-def run_simulation_files(day, V, T,directory,time):
+def run_simulation_files(day, V, T,directory,time, max_nodes):
     print("_________________________________________________")
     print("Day: ", str(day), " V: ", str(V), " T: ", str(T))
 
-    create_new_constants_file(day, V, T,directory,time)
+    create_new_constants_file(day, V, T,directory,time, max_nodes)
     #getSrcDst(time, directory)
 
     run = [0]
@@ -111,11 +111,11 @@ def run_simulation_files(day, V, T,directory,time):
 
 
         #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-#        if ind == 0 and day == 2 and V == 23:
- #           os.system('python3 computeLINKEXISTS_UMass.py')
-  #      os.system('python3 STB_main_path.py')
+        if ind == 0 and day == 2 and V == max_nodes:
+           os.system('python3 computeLINKEXISTS_UMass.py')
+        os.system('python3 STB_main_path.py')
         os.system('python3 main2.py')
-        #os.system('python3 main_opt.py')
+        # os.system('python3 main_opt.py')
         os.system('python3 metrics.py')
 
 
@@ -131,5 +131,5 @@ for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day1"
     # files = findfiles(path)
     # v = len(files)
-    for v in range(23, 8, -1):
-        run_simulation_files(2, v, 180, directorys[i], startTime)
+    for v in range(19, 8, -4):
+        run_simulation_files(2, v, 180, directorys[i], startTime, 19)
