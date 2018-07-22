@@ -71,15 +71,14 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 30
+    max_nodes = 20
     src_des_nodes = 12
     run_start_time = 1
 
-
-    mule_set =  [30, 0, 25, 20, 15,10, 5]
+    mule_set = [20, 4, 8, 12, 16]
 
     for max_mules in mule_set:
-        for run in range(run_start_time, 6):
+        for run in range(run_start_time, 2):
             print("=============== Folder: Band" + str(max_mules) + " Round: " + str(run))
 
             S = [0, 1, 2, 3]
@@ -124,9 +123,9 @@ if generate_files == "Y":
                 f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
                 f.write("delivery_file_name = " + '"delivery_day2.txt"' + "\n")
                 f.write("metrics_file_name = " + '"metrics_LLC_day2.txt"' + "\n")
-                f.write("VMIN = 400" + "\n")
-                f.write("VMAX = 600" + "\n")
-                f.write("wait_time = [2, 7]" + "\n")
+                f.write("VMIN = 300" + "\n")
+                f.write("VMAX = 700" + "\n")
+                f.write("wait_time = [0, 5]" + "\n")
                 f.write("run_start_time = " + str(run_start_time) + "\n")
                 f.write("pkl_folder = '" + pkl_folder + "'\n")
                 f.write("validate_pkl_folder = '" + validate_pkl_folder + "'\n")

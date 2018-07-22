@@ -89,7 +89,7 @@ class Node(object):                                                             
         # print ( msg.ID, i, " - ", msg.des, msg.T, " Int: ", j, t, time_to_transfer)
         return time_to_transfer
 
-    def send_message(self, net, message, t, specBW):
+    def send_message(self, net, message, t, specBW, LINK_EXISTS):
 
         nodes = net.nodes
 
@@ -118,7 +118,13 @@ class Node(object):                                                             
                 if message.ID == debug_message:
                     print("pot_curr: ", pot_curr, " pot_next: ", pot_next, " ttt: ", transfer_time)
 
-                if self.is_in_communication_range(pot_curr, pot_next, t, t + transfer_time, s, message) == True:
+                te = t + transfer_time
+                if te >= T:
+                    te = T - 1
+
+                # if self.is_in_communication_range(pot_curr, pot_next, t, t + transfer_time, s, message) == True:
+
+                if LINK_EXISTS[int(pot_curr), int(pot_next), s, t,  te] == 1:
                     if message.ID == debug_message:
                         print("In range: ", message.curr, next, t, t + transfer_time)
 

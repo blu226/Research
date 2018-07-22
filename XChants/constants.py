@@ -16,7 +16,7 @@ maxY = 100
 
 # Start times may be different for different buses
 route_start_time1 = 0
-route_start_time2 = 10
+route_start_time2 = 5
 
 
 # Simulation Time  ---- 1 plus
@@ -29,7 +29,7 @@ minTTL = 30
 #max tau is the time taken to deliver the maximum size message over slowest band (with least bandwidth)
 maxTau = 10
 # Message size
-M = [1, 10, 50, 100, 250, 500]
+M = [1, 10, 50, 100, 250, 500, 750]
 
 NoOfSources = 8
 NoOfDataCenters = 4
@@ -43,10 +43,12 @@ minBW = [6, 11, 20, 50]               # Minimum bandwidth for each spectrum band
 maxBW = [6, 20, 30, 60]             # Maximum bandwidth for each spectrum band
 #2000, 100, 500
 # spectRange = [3422, 462, 1208, 881]        # Transmission coverage for each spectrum band
-spectRange = [1200, 345, 900, 263]
+#spectRange = [1200, 345, 900, 263]
+spectRange = [1200, 180, 800, 300]
+
 #spectRange = [1800, 460, 1200, 350]
 # specRange = [1, 2, 0.5]
-spectPower = [1, 1, 1, 1]          # Transmission power for each spectrum band
+spectPower = [4, 1, 4, 10]          # Transmission power for each spectrum band
 
 epsilon = 0.5             #energy consumed in temporal link
 
@@ -69,22 +71,22 @@ debug_message = -1
 
 consumedEnergyFile = 'energy_metrics.txt'
 
-consumedEnergyFile = 'energy_metrics.txt'
-max_nodes = 30
+
+max_nodes = 20
 T = 120
-V = 17
-NoOfDMs = 5
+V = 28
+NoOfDMs = 16
 delivery_file_name = "delivery_day1.txt"
 metrics_file_name = "metrics_LLC_day1.txt"
-VMIN = 400
-VMAX = 600
-wait_time = [2, 7]
+VMIN = 350
+VMAX = 700
+wait_time = [0, 5]
 run_start_time = 1
-pkl_folder = '../Lexington5/5/Day1_pkl/'
-validate_pkl_folder = '../Lexington5/5/Day1_pkl/'
-path_to_folder = '../Bands5/5/Day1/ALL/XChants/'
+pkl_folder = '../Lexington16/1/Day1_pkl/'
+validate_pkl_folder = '../Lexington16/1/Day1_pkl/'
+path_to_folder = '../Bands16/1/Day1/ALL/XChants/'
 S = [0, 1, 2, 3]
-validate_data_directory = '../Lexington5/5/Day1/'
-lex_data_directory = '../Lexington5/5/'
-lex_data_directory_day = '../Lexington5/5/Day1/'
-link_exists_folder = '../Bands5/5/Day1/'
+validate_data_directory = '../Lexington16/1/Day1/'
+lex_data_directory = '../Lexington16/1/'
+lex_data_directory_day = '../Lexington16/1/Day1/'
+link_exists_folder = '../Bands16/1/Day1/'

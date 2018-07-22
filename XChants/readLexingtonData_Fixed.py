@@ -16,7 +16,7 @@ def readTrajectoryFile(DMTrajectories):
             if patternMatch:
                 # print ("Pattern 1: ", patternMatch.group(1))
                 trajectoryCoord = patternMatch.group(1)
-                if len(trajectoryCoord.strip().split(',')) > 30:
+                if len(trajectoryCoord.strip().split(',')) > 28:
                     DMTrajectories.append(trajectoryCoord.strip().split(','))
 
             else:
@@ -45,7 +45,7 @@ def getSourceDesCoordinates(src_start, src_end, des_end):
             des = random.choice(DMTrajectories[route_id])
             dist = euclideanDistance(float(str(src).split()[0]), float(str(src).split()[1]), float(str(des).split()[0]), float(str(des).split()[1]))
             count = 0
-            adequate_dist = random.randint(2000, 2500)
+            adequate_dist = random.randint(1000, 2500)
             while dist < adequate_dist:
                 count = count + 1
                 if count > len(DMTrajectories[route_id]):

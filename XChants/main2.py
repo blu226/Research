@@ -24,7 +24,9 @@ output_file2.write("Time\tEnergy\n")
 output_file2.close()
 
 day1_link_exists = link_exists_folder.split("/")
-specBW = pickle.load(open("../" + day1_link_exists[1] + "/" + day1_link_exists[2] + "/Day1/specBW.pkl", "rb"))
+
+specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
+LINK_EXISTS = pickle.load(open(link_exists_folder + "/LINK_EXISTS.pkl", "rb"))
 
 day1_folder_path = path_to_folder.split("/")
 with open("../" + day1_folder_path[1] + "/" + day1_folder_path[2] + "/Day1/" + day1_folder_path[4] + "/" + day1_folder_path[5] + "/LLC_PATH.txt", "r") as fp:
@@ -44,6 +46,6 @@ with open(message_path_file, "r") as fg:
 #run simulation
 for t in range(0, T, tau):
     # print("Time: ", t)
-    net.network_GO(t, specBW, path_lines, spec_lines, msg_lines)
+    net.network_GO(t, specBW, path_lines, spec_lines, msg_lines, LINK_EXISTS)
 
 
