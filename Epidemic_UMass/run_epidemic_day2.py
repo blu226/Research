@@ -8,7 +8,7 @@ def create_new_constants_file(day, V, T, directory, time, max_nodes):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
-    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [4400, 650,2950,1100]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
+    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [4400, 600,3000, 1100]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
     # f.write("minBW = [50,20,11,6]\nmaxBW = [60,30,20,6]\nspectRange = [860,1200,500,3500]\nspectPower = [10,4,1,4]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("debug_message = -1\n")
@@ -33,6 +33,7 @@ def create_new_constants_file(day, V, T, directory, time, max_nodes):
     message_line = "generated_messages_file = \'../Bands_UMass" + str(max_nodes) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
+    f.write("max_nodes = " + str(max_nodes) + "\n")
     f.write(file_day)
     f.write(DM_line)
     f.write(DataMule_path)
@@ -122,9 +123,9 @@ for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day2"
     # files = findfiles(path)
     # v = len(files)
-
-    for v in range(23, 8, -2):
-        run_simulation_files(2, v, 180, directorys[i], 0, 23)
+    max_nodes = 19
+    for v in range(max_nodes, 8, -2):
+        run_simulation_files(2, v, 180, directorys[i], 0, max_nodes)
 
 
 
