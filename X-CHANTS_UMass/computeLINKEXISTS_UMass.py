@@ -147,18 +147,23 @@ def createLinkExistenceADJ():
 
                             file1_id = file1.split(".")[0]
                             file2_id = file2.split(".")[0]
-                            # print(file1_id, file2_id)
-                            if file1_id == file2_id:
-                                LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
+
+                            if int(file1_id) < NoOfSources + NoOfDataCenters and int(file2_id) < NoOfSources  + NoOfDataCenters:
+                                break
+
                             else:
-                                # filepath1 = lex_data_directory_day + file1
-                                # filepath2 = lex_data_directory_day + file2
-
-                                # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s))
-                                if CHECK_IF_LINK_EXISTS(file1_pkl, file2_pkl, s, ts, te) == True:
+                                # print(file1_id, file2_id)
+                                if file1_id == file2_id:
                                     LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
+                                else:
+                                    # filepath1 = lex_data_directory_day + file1
+                                    # filepath2 = lex_data_directory_day + file2
 
-                                  #  print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
+                                    # print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s))
+                                    if CHECK_IF_LINK_EXISTS(file1_pkl, file2_pkl, s, ts, te) == True:
+                                        LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt] = 1
+
+                                      #  print("i: " + str(file1_id) + " j: " + str(file2_id) + " s: " + str(s) + " ts: " + str(ts_dt) + " te: " + str(te_dt) + " = " + str(LINK_EXISTS[int(file1_id), int(file2_id), s, ts_dt, te_dt]))
 
 # Main starts here
 
