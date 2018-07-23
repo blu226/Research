@@ -111,7 +111,7 @@ def sort_bus_sims_min(bus_arr):
 
 #MAIN
 similarity_restraint = 500 #meters
-simulation_length = 150
+simulation_length = 240
 similarity_min = -1
 offset = 10
 
@@ -136,7 +136,7 @@ for day in days:
     buses = findfiles(path)
     buses.sort()
 
-    for startTime in range(690, 700, 150):
+    for startTime in range(660, 1000, 180):
 
         f = open(filename, 'a')
         f.write("===================================================================================\n")

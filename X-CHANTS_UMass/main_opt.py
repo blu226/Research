@@ -37,6 +37,7 @@ with open(generated_messages_file, "r") as fg:
 
 specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
 LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/2007-11-06/Day2"  + "/LINK_EXISTS.pkl", "rb"))
+
 #run simulation
 print("Starting Simulation.")
 for t in range(0, T, tau):

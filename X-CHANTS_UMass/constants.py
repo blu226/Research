@@ -28,11 +28,13 @@ T = 180
 V = 10
 StartTime = 660
 link_exists_folder = '../Bands_UMass19/2007-11-06/Day1/'
+
 lex_data_directory = "../DataMules/2007-11-06/"
 delivery_file_name = "delivery_day1_X-CHANTS.txt"
 metrics_file_name = "metrics_LLC_day1_X-CHANTS.txt"
 validate_data_directory = "../DataMules/2007-11-06/Day1/"
 generated_messages_file = '../Bands_UMass19/2007-11-06/Day1/generated_messages.txt'
-pkl_folder = lex_data_directory + "Day1_pkl/"
-path_to_folder = '../Bands_UMass10/2007-11-06/Day1/ALL/XChants/'
+
+pkl_folder = lex_data_directory + "Day2_pkl/"
+path_to_folder = '../Bands_UMass10/2007-11-06/Day2/ALL/XChants/'
 S = [0, 1, 2, 3]
