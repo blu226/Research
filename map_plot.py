@@ -35,7 +35,7 @@ def readFile(fileName):
             lineStr = lineStr.split()
             # if count%2 == 0:
             # print(lineStr[3])
-            if(float(lineStr[0]) >= 660) and float(lineStr[0]) <= 840:
+            if(float(lineStr[0]) >= 840) and float(lineStr[0]) <= 1020:
                 currPath.append((float(lineStr[2]), float(lineStr[3])))
 
                 count += 1
@@ -50,7 +50,7 @@ def readFile(fileName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "DataMules/2007-11-06/Day1/"
+directory = "DataMules/2007-11-06/Day2/"
 #generateData(directory)
 #
 # folders = findfiles(directory)
@@ -80,8 +80,8 @@ numOfFiles = len(currFiles)
 for fInd in range(0, numOfFiles):
     filePath = directory + "/" + currFiles[fInd]
 
-    # if currFiles[fInd] not in ["0.txt", "1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "7.txt", "8.txt"]:
-    if currFiles[fInd] in ["10.txt", "11.txt", "12.txt", "15.txt", "14.txt"]:
+    if currFiles[fInd] not in ["0.txt", "1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "7.txt", "8.txt"]:
+    #if currFiles[fInd] in ["10.txt", "11.txt", "12.txt", "15.txt", "14.txt"]:
         currPath = readFile(filePath)
         allPaths.append(currPath)
 
@@ -91,9 +91,9 @@ for fInd in range(0, numOfFiles):
 gmap = gmplot.GoogleMapPlotter(42.393658, -72.53295, 12)
 # gmap = pygmaps.maps(42.340382, -72.496819, 15)
 
-        # 0            1        2           3           4              5          6          7           8
-        #Lime          Gold     Dark Red   Deep Pink  Forest Green    Blue       Black     Chocolate   Magneta
-colors = ['#00FF00', '#FFD700', '#8B0000', '#FF1493', '#228B22', '#0000FF', '#000000', '#D2691E', '#FF00FF', '#00008B', '#8B008B']
+        # 0            1        2           3           4              5          6          7           8           9             10
+        #Lime          Gold     Dark Red   Deep Pink  Forest Green    Blue       Black     Chocolate   Magneta      Royal blue     Brown
+colors = ['#00FF00', '#FFD700', '#8B0000', '#FF1493', '#228B22', '#0000FF', '#000000', '#D2691E', '#FF00FF', '#00008B', '#8B008B', '#4169E1', '#A52A2A']
 count = 0
 
 if not os.path.exists("HTML"):
@@ -105,11 +105,11 @@ for pInd in range(len(allPaths)):
     # if pInd == 1 or pInd == 4 or pInd == 6 : #or pInd == 6 or pInd > 0
     # print(str(pInd) + " " + str(len(allPaths[pInd])) + " " + str(allPaths[pInd]))
     path_lats, path_lons = zip(* allPaths[pInd])
-    colorInd = int(pInd%8)
+    colorInd = int(pInd%10)
     # print ("index: ", colorInd)
     gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
 
 # Draw
-gmap.draw("round1.html")
+gmap.draw("round2.html")
 # os.chdir(curr)

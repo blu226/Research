@@ -15,7 +15,7 @@ def compute_band_usage(lines, delivery_time, spec_lines):
                     band_usage[int(band) - 1] += 1
                 else:
                     band_usage[4] += int(int(band)/10)
-                    band_usage[int(band)%10] += 1
+                    band_usage[int(band)%10 - 1] += 1
 
 
     total = sum(band_usage)

@@ -111,7 +111,7 @@ def sort_bus_sims_min(bus_arr):
 
 #MAIN
 similarity_restraint = 500 #meters
-simulation_length = 180
+simulation_length = 150
 similarity_min = -1
 offset = 10
 
@@ -136,7 +136,7 @@ for day in days:
     buses = findfiles(path)
     buses.sort()
 
-    for startTime in range(660, 840, 180):
+    for startTime in range(690, 700, 150):
 
         f = open(filename, 'a')
         f.write("===================================================================================\n")
@@ -189,20 +189,20 @@ for day in days:
             else:
                 similarity = 0
 
-            if num_rows_w_data > 0.5 * simulation_length and num_rows_w_data_round2 > 0.5 * simulation_length and similarity > 30:
+            if num_rows_w_data > 0.7 * simulation_length and num_rows_w_data_round2 > 0.7 * simulation_length and similarity > 50:
                 write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data, num_rows_w_data_round2, simulation_length)
                 # copy_dataMule(bus_file, day, new_busID)
                 bus_sims.append([bus_file, similarity])
 
 
-    sorted_bus_sims = sort_bus_sims_min(bus_sims)
+        sorted_bus_sims = sort_bus_sims_max(bus_sims)
 
 
-    for bus in sorted_bus_sims:
-        copy_dataMule(bus[0], day, new_busID)
-        new_busID += 1
+        for bus in sorted_bus_sims:
+            copy_dataMule(bus[0], day, new_busID)
+            new_busID += 1
 
-
-    for i in sorted_bus_sims:
-        print("Bus:", i[0], "Sim:", i[1])
+        print("TIME:", startTime)
+        for i in sorted_bus_sims:
+            print("Bus:", i[0], "Sim:", i[1])
 

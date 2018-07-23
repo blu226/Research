@@ -61,8 +61,8 @@ def computeADJ_T_2(specBW, LINK_EXISTS):
 
                                     currSpec = currSpec - 1
 
-                                    # if ADJ_T[i, j, t, m] > consumedTime or ((abs(ADJ_T[i, j, t, m] - consumedTime) < 1) and spectRange[s] > spectRange[currSpec]):
-                                    if ADJ_T[i, j, t, m] > consumedTime:
+                                    if ADJ_T[i, j, t, m] > consumedTime or (ADJ_T[i, j, t, m] == consumedTime and spectRange[s] > spectRange[currSpec]):
+                                    #if ADJ_T[i, j, t, m] > consumedTime:
                                         ADJ_T[i, j, t, m] = consumedTime
                                         ADJ_E[i, j, t, m] = consumedEnergy
                                         Spectrum[i, j, t, m] = s + 1

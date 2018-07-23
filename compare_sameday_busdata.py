@@ -64,9 +64,9 @@ similarity_restraint = 500 #meters
 directory = "DateWiseRoutes/"
 days = os.listdir(directory)
 days.sort()
+days = ["2007-11-06/", "2007-11-06/"]
 
-
-for day in range(days):
+for day in days:
 
 
     filename = "Similarity_Files/bus_similarities_" + str(day) + ".txt"
@@ -82,7 +82,7 @@ for day in range(days):
 
 
     print(day)
-    for startTime in range(420,1200,30):
+    for startTime in [540,720,900]:
 
         f = open(filename, 'a')
         f.write("-----------------------------------------------------------------------------------\n")
