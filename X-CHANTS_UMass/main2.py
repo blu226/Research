@@ -35,8 +35,8 @@ with open(path_to_Day1_LLC + "LLC_Spectrum.txt", "r") as fs:
 with open(generated_messages_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
-specBW = pickle.load(open("../Bands_UMass" + str(max_nodes) +  path_to_LLC_arr[2] +"/" + path_to_LLC_arr[3] + "/specBW.pkl", "rb"))
-LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) +  path_to_LLC_arr[2] + "/" + path_to_LLC_arr[3] + "/LINK_EXISTS.pkl", "rb"))
+specBW = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/" +  path_to_LLC_arr[2] +"/" + path_to_LLC_arr[3] + "/specBW.pkl", "rb"))
+LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/" + path_to_LLC_arr[2] + "/" + path_to_LLC_arr[3] + "/LINK_EXISTS.pkl", "rb"))
 
 #run simulation
 print("Starting Simulation.")
