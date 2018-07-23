@@ -11,7 +11,7 @@ fp.close()
 
 id = 0
 message_file.write("ID\ts\td\tTTL\tsize\tgenT\n")
-while id < 100:
+while id < 300:
     # print(id)
     rand_line = random.choice(path_lines)
     path_lines.remove(rand_line)
@@ -32,11 +32,11 @@ while id < 100:
             if int(nodeId) >= NoOfSources + NoOfDataCenters:
                 generateMessage = True
 
-    t = random.randint(int(.1 * T), int(.25 * T))
+    t = random.randint(int(.1 * T), int(.5 * T))
 
     #rand = random.uniform(0, 1)
 
-    if generateMessage == True  and src < NoOfSources and  des >= NoOfSources and des < NoOfSources + NoOfDataCenters and genT <= .25 * T:
+    if generateMessage == True  and src < NoOfSources and  des >= NoOfSources and des < NoOfSources + NoOfDataCenters and genT <= .5 * T:
 
         p = random.uniform(0, 1)
 

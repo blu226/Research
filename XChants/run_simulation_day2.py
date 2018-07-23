@@ -71,11 +71,11 @@ if generate_files == "Y":
     print("Generate bus trajectories ---------------------- \n")
 
     set_max_nodes = True
-    max_nodes = 20
+    max_nodes = 30
     src_des_nodes = 12
     run_start_time = 1
 
-    mule_set = [20, 4, 8, 12, 16]
+    mule_set = [30, 2, 5, 25, 20, 15, 10]
 
     for max_mules in mule_set:
         for run in range(run_start_time, 2):
@@ -123,7 +123,7 @@ if generate_files == "Y":
                 f.write("link_exists_folder = '" + str(link_exists_folder) + "'\n")
                 f.write("delivery_file_name = " + '"delivery_day2.txt"' + "\n")
                 f.write("metrics_file_name = " + '"metrics_LLC_day2.txt"' + "\n")
-                f.write("VMIN = 300" + "\n")
+                f.write("VMIN = 350" + "\n")
                 f.write("VMAX = 700" + "\n")
                 f.write("wait_time = [0, 5]" + "\n")
                 f.write("run_start_time = " + str(run_start_time) + "\n")

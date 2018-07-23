@@ -55,7 +55,7 @@ def getSpecBW(directory, V, S, T):
         for j in range(V):
             for s in S:
                 for t in range(0, T, tau):
-                    specBW[i, j, s, t] = random.randint(minBW[s], maxBW[s])
+                    specBW[i, j, s, t] = minBW[s]
                     # getMinBWFromDMFiles(directory, i, j, s, t)
                     # print ("SpecBW: i= " + str(i) + " j= " + str(j) + " s= " + str(s) + " t= " + str(t) + " BW= " + str(specBW[i, j, s, t]))
     specBW_file = open(link_exists_folder + "specBW.pkl", 'wb')
