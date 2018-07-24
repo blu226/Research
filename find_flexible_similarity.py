@@ -111,9 +111,9 @@ def sort_bus_sims_min(bus_arr):
 
 #MAIN
 similarity_restraint = 500 #meters
-simulation_length = 240
+simulation_length = 180
 similarity_min = -1
-offset = 10
+offset = 5
 
 directory = "DateWiseRoutes/"
 # days = os.listdir(directory)
@@ -125,6 +125,8 @@ days = ["2007-11-06"]
 for day in days:
 
     bus_sims = []
+    if not os.path.exists("Similarity_Files"):
+        os.makedirs("Similarity_Files")
 
     filename = "Similarity_Files/bus_similarities_" + str(day) + ".txt"
     f = open(filename, 'w')
@@ -136,7 +138,7 @@ for day in days:
     buses = findfiles(path)
     buses.sort()
 
-    for startTime in range(660, 1000, 180):
+    for startTime in range(660, 840, 180):
 
         f = open(filename, 'a')
         f.write("===================================================================================\n")
@@ -189,13 +191,13 @@ for day in days:
             else:
                 similarity = 0
 
-            if num_rows_w_data > 0.7 * simulation_length and num_rows_w_data_round2 > 0.7 * simulation_length and similarity > 50:
+            if num_rows_w_data > 0.7 * simulation_length and num_rows_w_data_round2 > 0.7 * simulation_length and similarity > 0:
                 write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data, num_rows_w_data_round2, simulation_length)
                 # copy_dataMule(bus_file, day, new_busID)
                 bus_sims.append([bus_file, similarity])
 
 
-        sorted_bus_sims = sort_bus_sims_max(bus_sims)
+        sorted_bus_sims = sort_bus_sims_min(bus_sims)
 
 
         for bus in sorted_bus_sims:
