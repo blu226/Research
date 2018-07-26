@@ -114,7 +114,7 @@ with open(path_to_Day1_LLC + "delivered_messages_spectrum.txt", "w") as f:
 with open(path_to_Day1_LLC + "delivered_messages_spectrum.txt", "r") as f:
     del_spec_lines = f.readlines()
 
-delivery_times = [i for i in range(0, T + 10, 15)]
+delivery_times = [i for i in range(0, T + 10, 30)]
 
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\tOverhead\t\n")
@@ -122,6 +122,7 @@ metric_file.write("#t\tPDR\tLatency\tEnergy\tOverhead\t\n")
 for t in delivery_times:
     avg_pdr, avg_latency, avg_energy, overhead, mes_IDs = compute_metrics(lines, total_messages, t)
     band_usage = compute_band_usage(lines, t, del_spec_lines)
+    # band_usage = [0,0,0,0,0,0]
     message_info(mes_IDs,msg_lines)
     metric_file.write(
         str(t) + "\t" + str(avg_pdr) + "\t" + str(avg_latency) + "\t" + str(avg_energy) + "\t" + str(overhead) + "\t" +

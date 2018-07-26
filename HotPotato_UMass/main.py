@@ -104,4 +104,4 @@ def HP_simulation(dir,time):
 #
 # for day in days:
 
-HP_simulation('2007-11-06_2007-11-07/', 0)
+HP_simulation('2007-11-07/', 0)

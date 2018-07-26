@@ -10,12 +10,12 @@ def create_new_constants_file(day, V, T, directory, time, max_nodes):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
-    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [7275, 365, 2570,1857]\nspectPower = [4,0.1,4,10]\nepsilon = 0.5\n")
+    f.write("minBW = [6,11,20,50]\nmaxBW = [6,20,30,60]\nspectRange = [6104, 708, 3815,1283]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
 #     f.write("minBW = [50,20,11,6]\nmaxBW = [60,30,20,6]\nspectRange = [860,1200,500,3500]\nspectPower = [10,4,1,4]\nepsilon = 0.5\n")
 
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
-    f.write("TTL = 30\nminTTL=15\nmaxTau = 20\nM = [1,10,50,100,250,500]\n")
+    f.write("TTL = 30\nminTTL=15\nmaxTau = 20\nM = [1,10,50,100,250,500, 750]\n")
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
     f.write("max_nodes = " + str(max_nodes) + "\n")
     f.write("debug_message = -1\n")
@@ -24,7 +24,7 @@ def create_new_constants_file(day, V, T, directory, time, max_nodes):
 
 
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_X-CHANTS.txt\"\n"
-    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_X-CHANTS.txt\"\n"
+    metrics_file_name = "metrics_file_name = \"metrics_LLC_day" +str(day) + "_X-CHANTS_opt.txt\"\n"
     lex_data_file_name = "lex_data_directory = \"../DataMules/" + directory + "\"\n"
 
 
@@ -111,13 +111,11 @@ def run_simulation_files(day, V, T,directory,time, max_nodes):
 
 
         #print("Folder: Band" + str(mules) + " Band Type: " + str(ind) + " Round: " + str(run))
-
-        if ind == 0 and day == 2 and V == max_nodes:
-           os.system('python3 computeLINKEXISTS_UMass.py')
+        # if ind == 0 and day == 2 and V == max_nodes:
+        #    os.system('python3 computeLINKEXISTS_UMass.py')
         os.system('python3 STB_main_path.py')
-
-        os.system('python3 main2.py')
-        #os.system('python3 main_opt.py')
+        # os.system('python3 main2.py')
+        os.system('python3 main_opt.py')
         os.system('python3 metrics.py')
 
 
@@ -126,12 +124,12 @@ def run_simulation_files(day, V, T,directory,time, max_nodes):
 dir = "../DataMules/"
 
 # directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
-directorys = ['2007-11-06/']
+directorys = ['2007-11-01/']
 
 startTime = 840
 for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day1"
     # files = findfiles(path)
     # v = len(files)
-    for v in range(18, 8, -2):
-        run_simulation_files(2, v, 180, directorys[i], startTime, 19)
+    for v in range(21, 8, -2):
+        run_simulation_files(2, v, 240, directorys[i], startTime, 21)

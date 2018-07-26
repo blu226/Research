@@ -100,4 +100,4 @@ def spray_n_wait_simulation(dir,time):
 
     net.all_messages()
 
-spray_n_wait_simulation('2007-11-06_2007-11-07/', 0)
+spray_n_wait_simulation('2007-11-06/', 0)

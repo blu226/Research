@@ -1,7 +1,6 @@
 from constants import *
 
 def compute_overhead(time):
-    max_nodes = 23
     with open( "../Bands_UMass" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r") as f:
         generated_lines = f.readlines()[1:]
 
@@ -114,7 +113,6 @@ def compute_metrics(lines, total_messages, delivery_time):
     return delivered, latency, avg_energy, mes_IDs, unique_messages, overhead, band_usage
 
 #Main starts here
-max_nodes = 23
 msg_file = open("../Bands_UMass" + str(max_nodes) + "/" + Link_Exists_path.split("/")[2] + "/Day1/" + "generated_messages.txt", "r")
 total_messages = len(msg_file.readlines()[1:])
 
@@ -134,7 +132,7 @@ for line in lines:
     fsorted.write(line)
 fsorted.close()
 
-delivery_times = [i for i in range(0, T + 10, 15)]
+delivery_times = [i for i in range(0, T + 10, 30)]
 
 metric_file.write("#t\tPDR\tLatency\tEnergy\Overhead\n")
 for t in delivery_times:

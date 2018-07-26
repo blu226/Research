@@ -118,7 +118,7 @@ offset = 5
 directory = "DateWiseRoutes/"
 # days = os.listdir(directory)
 # days = ["2007-10-31", "2007-11-01", "2007-11-06", "2007-11-07"]
-days = ["2007-11-06"]
+days = ["2007-11-01"]
 # days.sort()
 
 
@@ -138,7 +138,7 @@ for day in days:
     buses = findfiles(path)
     buses.sort()
 
-    for startTime in range(660, 840, 180):
+    for startTime in range(480, 600, 180):
 
         f = open(filename, 'a')
         f.write("===================================================================================\n")
@@ -191,7 +191,7 @@ for day in days:
             else:
                 similarity = 0
 
-            if num_rows_w_data > 0.7 * simulation_length and num_rows_w_data_round2 > 0.7 * simulation_length and similarity > 0:
+            if num_rows_w_data > 0.6 * simulation_length and num_rows_w_data_round2 > 0.6 * simulation_length and similarity > 0:
                 write_to_file(bus_file, similarity, startTime, filename, num_rows_w_data, num_rows_w_data_round2, simulation_length)
                 # copy_dataMule(bus_file, day, new_busID)
                 bus_sims.append([bus_file, similarity])

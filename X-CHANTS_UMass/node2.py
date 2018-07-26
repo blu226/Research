@@ -1,6 +1,5 @@
 import pickle
 import math
-from computeHarvesine import *
 from constants import *
 from STB_help import *
 

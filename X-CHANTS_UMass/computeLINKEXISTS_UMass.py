@@ -3,7 +3,6 @@ import math
 
 from STB_help import *
 from constants import *
-from computeHarvesine import *
 
 def getIndex(ts, currTimeInFile1, currTimeInFile2, currIndexInFile1, currIndexInFile2, linesInFile1, linesInFile2):
     while currTimeInFile1 < ts and currIndexInFile1 < len(linesInFile1):

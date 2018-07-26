@@ -35,8 +35,8 @@ def readFile(fileName):
             lineStr = lineStr.split()
             # if count%2 == 0:
             # print(lineStr[3])
-            if(float(lineStr[0]) >= 840) and float(lineStr[0]) <= 1020:
-            # if (float(lineStr[0]) >= 660) and float(lineStr[0]) <= 840:
+            # if(float(lineStr[0]) >= 840) and float(lineStr[0]) <= 1020:
+            if (float(lineStr[0]) >= 660) and float(lineStr[0]) <= 840:
                 currPath.append((float(lineStr[2]), float(lineStr[3])))
 
                 count += 1
@@ -51,7 +51,7 @@ def readFile(fileName):
 
 allPaths = []
 #NOTE: RUN THIS ONE TIME
-directory = "DataMules/2007-11-06/Day1/"
+directory = "DataMules/2007-11-07/Day1/"
 #generateData(directory)
 #
 # folders = findfiles(directory)
@@ -81,8 +81,8 @@ numOfFiles = len(currFiles)
 for fInd in range(0, numOfFiles):
     filePath = directory + "/" + currFiles[fInd]
 
-    # if currFiles[fInd]  not in ["0.txt", "1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "7.txt", "8.txt"]:
-    if currFiles[fInd] in ["14.txt"]:
+    if currFiles[fInd]  not in ["0.txt", "1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "7.txt", "8.txt"]:
+    # if currFiles[fInd] in ["14.txt"]:
         currPath = readFile(filePath)
         allPaths.append(currPath)
 
@@ -111,7 +111,7 @@ for pInd in range(len(allPaths)):
     gmap.scatter(path_lats, path_lons, colors[colorInd], size=60, marker=False)
 
     # Draw
-    # gmap.draw(str(pInd) + "_" + "round2.html")
+    gmap.draw(str(pInd) + "_" + "round1.html")
     # os.chdir(curr)
 
-gmap.draw("14.html")
+gmap.draw("round1_all.html")

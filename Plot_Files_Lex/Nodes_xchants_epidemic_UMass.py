@@ -2,7 +2,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-time_epochs = 8
+time_epochs = 5
 runs = 1
 # 4 time stamps (15,30,45,60) and 10 runs
 Xchants = np.zeros(shape=(time_epochs,runs))
@@ -14,14 +14,14 @@ Epidemic_CBRS = np.zeros(shape=(time_epochs,runs))
 Epidemic_ISM = np.zeros(shape=(time_epochs,runs))
 
 folder_name = "../Bands_UMass"
-folder_nums = [9, 11, 13, 15, 17, 19]
+folder_nums = [12, 14, 16, 18, 20]
 band_folders = ["ALL", "TV", "ISM", "LTE", "CBRS"]
-p_id = 1  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 4  # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 t = 0
 for num_mules in folder_nums:
 
-    full_folder_name = folder_name + str(num_mules) + '/2007-11-06/'
+    full_folder_name = folder_name + str(num_mules) + '/2007-11-07/'
     folders = os.listdir(full_folder_name)
     folders.sort()
 
@@ -49,7 +49,7 @@ for num_mules in folder_nums:
                 if "ALL" == band and "XChants" == routing_folder:
                     metric_file = open(so_far_folder + "/" + band + "/" + routing_folder + "/metrics_LLC_day2_X-CHANTS.txt")
 
-                elif routing_folder == "Epidemic" and "ISM" not in band:
+                elif routing_folder == "Epidemic":
                     metric_file = open(so_far_folder + band + "/" + routing_folder + "/metrics_LLC_day2_Epi.txt")
 
                 if metric_file != "":
@@ -84,7 +84,7 @@ for num_mules in folder_nums:
 
 t = 0
 for num_mules in folder_nums:
-    metric_file = open("../Bands_UMass" + str(num_mules) +"/2007-11-06/Day2/ALL/XChants/metrics_LLC_day2_X-CHANTS_opt.txt", "r")
+    metric_file = open("../Bands_UMass" + str(num_mules) +"/2007-11-07/Day2/ALL/XChants/metrics_LLC_day2_X-CHANTS_opt.txt", "r")
     lines = metric_file.readlines()[1:]
     for line in lines:
         line_arr = line.strip().split("\t")
@@ -94,7 +94,16 @@ for num_mules in folder_nums:
             Xchants_pk[t][run] = line_arr[p_id]
 
     t += 1
-
+if p_id == 3:
+    for t in range(len(Xchants)):
+        for run in range(runs):
+            Xchants[t][run] = float(Xchants[t][run]) / 1000
+            Xchants_pk[t][run] = float(Xchants_pk[t][run])/1000
+            Epidemic_ALL[t][run] = float(Epidemic_ALL[t][run]) / 1000
+            Epidemic_CBRS[t][run] = float(Epidemic_CBRS[t][run]) / 1000
+            Epidemic_ISM[t][run] = float(Epidemic_ISM[t][run]) / 1000
+            Epidemic_LTE[t][run] = float(Epidemic_LTE[t][run]) / 1000
+            Epidemic_TV[t][run] = float(Epidemic_TV[t][run]) / 1000
 Xchants_mean = []
 Xchants_SD = []
 Xchants_mean_pk = []
@@ -126,31 +135,31 @@ for i in range(len(Xchants)):
     Epidemic_TV_mean.append(np.mean(Epidemic_TV[i]))
     Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
 
-x = np.array([0, 2, 4, 6, 8, 10, 12, 14])
+x = np.array([3, 5, 7, 9, 11])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
+plt.xticks(np.arange(3, 15, step=2))
 
 fig_name = "dummy.eps"
 
 if p_id == 1:
     plt.ylabel('Message Delivery Ratio', fontsize=25)
     plt.xlabel('Number of Buses', fontsize=25)
-    plt.ylim(0,1.4)
+    plt.ylim(0,1)
     plt.yticks(fontsize=25)
-    plt.xticks(np.arange(0, 15, step=2))
+    # plt.xticks(np.arange(0, 15, step=2))
     fig_name = "../Plots/pdr_nodes_UMass.eps"
 
 if p_id == 2:
     plt.ylabel('Network Delay (min)', fontsize=25)
     plt.xlabel('Number of Buses', fontsize=25)
-    plt.ylim(0, 130)
-    plt.xticks(np.arange(0, 15, step=2))
+    # plt.ylim(0, 130)
+    # plt.xticks(np.arange(0, 15, step=2))
     fig_name = "../Plots/latency_nodes_UMass.eps"
 
 if p_id == 3:
-    plt.ylabel('Energy Expenditure (J)', fontsize=25)
-    # plt.ylim(0, 4000)
-    plt.xticks(np.arange(0, 15, step=2))
+    plt.ylabel('Energy Expenditure (KJ)', fontsize=25)
+    # plt.xticks(np.arange(0, 15, step=2))
     plt.xlabel('Number of Buses', fontsize=25)
     fig_name = "../Plots/energy_nodes_UMass.eps"
 
@@ -158,28 +167,26 @@ if p_id == 3:
 if p_id == 4:
     plt.ylabel('Message overhead', fontsize=25)
     plt.xlabel('Number of Buses', fontsize=25)
-    plt.ylim(0, 105)
-    plt.xticks(np.arange(0, 15, step=2))
+    # plt.xticks(np.arange(0, 15, step=2))
     fig_name = "../Plots/overhead_nodes_UMass.eps"
 
-print(Xchants_mean_pk)
 
-plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Xchants_mean_pk, Xchants_SD_pk, marker='o', linestyle='-', linewidth=2)
+plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
 plt.errorbar(x, Epidemic_ALL_mean, Epidemic_ALL_SD, marker='*', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_CBRS_mean, Epidemic_CBRS_SD, marker='^', linestyle=':', linewidth=2)
 plt.errorbar(x, Epidemic_ISM_mean, Epidemic_ISM_SD, marker='D', linestyle='--', linewidth=2)
 plt.errorbar(x, Epidemic_LTE_mean, Epidemic_LTE_SD, marker='s', linestyle='-.', linewidth=2)
 plt.errorbar(x, Epidemic_TV_mean, Epidemic_TV_SD, marker='s', linestyle='-.', linewidth=2)
-
+ax = plt.subplot(111)
 if p_id == 1 :
-    plt.legend(["X-CHANT", "X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=15, ncol = 3)
+    ax.legend(["X-CHANT (Ideal)","X-CHANT", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper center", bbox_to_anchor=(0.77, .65),fontsize=13, ncol = 1, frameon=False)
 elif p_id == 2:
-    plt.legend(["X-CHANT", "X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper center", fontsize=15, ncol = 3)
+    ax.legend(["X-CHANT (Ideal)","X-CHANT", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper center", bbox_to_anchor=(0.2, 1.0),fontsize=14, ncol = 1, frameon=False)
 elif p_id == 3:
-    plt.legend(["X-CHANT", "X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="center", fontsize=15, ncol = 3)
+    ax.legend(["X-CHANT (Ideal)","X-CHANT", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper center", bbox_to_anchor=(0.7, 0.3),fontsize=14, ncol = 2, frameon=False)
 elif p_id ==4:
-    plt.legend(["X-CHANT", "X-CHANT (OPT)", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper left", fontsize=18, ncol=3)
+    ax.legend(["X-CHANT (Ideal)","X-CHANT", "S-ER", "CBRS", "ISM", "LTE", "TV"], loc="upper center", bbox_to_anchor=(0.2, 0.55),fontsize=13, ncol = 1, frameon=False)
 
 
 plt.tight_layout()

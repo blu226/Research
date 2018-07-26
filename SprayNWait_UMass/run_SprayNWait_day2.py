@@ -4,18 +4,18 @@ from STB_help import *
 #Take some inputs
 #number_of_runs = input("Input number of runs?  ")
 #generate_files = input("Do you want to generate the trajectory files?Y/N  ")
-def create_new_constants_file(day, V, T, directory, time):
+def create_new_constants_file(day, V, T, directory, time,max_nodes):
     os.system('rm constants.py')
     f = open("constants.py", "w")
     f.write("num_mess_replicas = 25\n")
     f.write("numSpec = 4\ndt = 1\ntau = 1\n")
-    f.write("minBW = [6,20,30,60]\nmaxBW = [6,20,30,60]\nspectRange = [3500,500,2300,850]\nspectPower = [1,1,1,1]\nepsilon = 0.5\n")
+    f.write("minBW = [6,20,30,60]\nmaxBW = [6,20,30,60]\nspectRange = [5270, 616, 3293,1102]\nspectPower = [4,1,4,10]\nepsilon = 0.5\n")
     f.write("t_sd = 0.5\nt_td = 1\nidle_channel_prob = 0.5\nswitching_delay = 0.001\nsensing_power = 0.04\nlambda_val = 1\nmessageBurst = [2, 5]\n\n")
     f.write("debug_message = -1\n")
     f.write("NoOfSources = 6\nNoOfDataCenters = 3\n")
-    f.write("TTL = 30\nminTTL=15\nmaxTau = 30\nM = [1,10,25,50,100,500,750,1000]\n")
+    f.write("TTL = 30\nminTTL=15\nmaxTau = 20\nM = [1,10,25,50,100,500,750]\n")
     NoOfDMs = V - 9
-    link_exists = "Link_Exists_path = '../Bands_UMass" + str(23) + "/" + directory + "Day2/" + "\'\n"
+    link_exists = "Link_Exists_path = '../Bands_UMass" + str(max_nodes) + "/" + directory + "Day2/" + "\'\n"
     delivery_file_name = "delivery_file_name = \"delivery_day" + str(day)+ "_SnW.txt\"\n"
     notDel = "notDelivered_file_name = \'not_delivered_messages_SnW.txt\'\n"
     file_day = "day = " + "\'" + directory + '\'\n'
@@ -29,7 +29,7 @@ def create_new_constants_file(day, V, T, directory, time):
     V_line = "V = " + str(V) + "\n"
     time_line = "startTime = " + str(time) + '\n'
     num_mess = "num_messages = 300\n"
-    message_line = "generated_messages_file = \'../Bands_UMass" + str(23) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
+    message_line = "generated_messages_file = \'../Bands_UMass" + str(max_nodes) + "/" + str(directory) + "Day1/generated_messages.txt\'\n"
     DataMule_path = "DataMule_path = \'../DataMules/\' +  day + \'Day2/\'" + "\n"
     pkl_line = "pkl_folder = lex_data_directory + \"Day" + str(day) + "_pkl/\"\n"
     f.write("consumedEnergyFile = \'energy_metrics.txt\'\n")
@@ -53,11 +53,11 @@ def create_new_constants_file(day, V, T, directory, time):
     f.write(pkl_line)
     f.close()
 
-def run_simulation_files(day, V, T,directory,time):
+def run_simulation_files(day, V, T,directory,time, max_nodes):
     print("_________________________________________________")
     print("Day: ", str(day), " V: ", str(V), " T: ", str(T))
 
-    create_new_constants_file(day, V, T,directory,time)
+    create_new_constants_file(day, V, T,directory,time,max_nodes)
     #getSrcDst(time, directory)
     link_exists_folder = "../Bands_UMass" + str(V) + "/" + directory + "Day2/"
 
@@ -90,7 +90,7 @@ def run_simulation_files(day, V, T,directory,time):
             path_to_folder = link_exists_folder + "CBRS/"
             print("\nCBRS --------------------------- ")
 
-        path_to_folder = path_to_folder + "SprayNWait5/"
+        path_to_folder = path_to_folder + "SprayNWait/"
 
         if not os.path.exists(path_to_folder):
             os.makedirs(path_to_folder)
@@ -115,11 +115,11 @@ def run_simulation_files(day, V, T,directory,time):
 dir = "../DataMules/"
 
 # directorys = ['2007-10-23/', '2007-10-24/', '2007-10-31/', '2007-11-01/', '2007-11-06/', '2007-11-07/']
-directorys = [ '2007-11-06/']
+directorys = [ '2007-11-01/']
 
 for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day2"
     # files = findfiles(path)
     # v = len(files)
-    for v in range(23, 8, -1):
-        run_simulation_files(2, v, 180, directorys[i], 0)
+    for v in range(21, 8, -2):
+        run_simulation_files(2, v, 240, directorys[i], 0, 21)

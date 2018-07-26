@@ -36,7 +36,7 @@ with open(generated_messages_file, "r") as fg:
     msg_lines = fg.readlines()[1:]
 
 specBW = pickle.load(open(link_exists_folder + "specBW.pkl", "rb"))
-LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/2007-11-06/Day2"  + "/LINK_EXISTS.pkl", "rb"))
+LINK_EXISTS = pickle.load(open("../Bands_UMass" + str(max_nodes) + "/" + path_to_LLC_arr[2] + "/Day2"  + "/LINK_EXISTS.pkl", "rb"))
 
 #run simulation
 print("Starting Simulation.")
