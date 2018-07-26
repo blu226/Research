@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 
-time_epochs = 5
+time_epochs = 8
 runs = 3
 
 Xchants = np.zeros(shape=(time_epochs, runs))
@@ -18,16 +18,17 @@ HotPotato_ALL = np.zeros(shape=(time_epochs, runs))
 
 
 
-days = [ "2007-11-01", "2007-11-07","2007-11-06"]
-folder_nums = [11, 13, 15,17, 19]
+days = [ "2007-11-01", "2007-11-07", "2007-11-06"]
+# days = ["2007-11-06"]
+
+folder_nums = [19]
 bands = ["ALL", "LTE", "TV", "CBRS", "ISM"]
 protocols = ["XChants", "Epidemic", "SprayNWait", "HotPotato"]
 
-p_id = 4 # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
+p_id = 1 # p_id = 1 for PDR, = 2 for latency, and 3 for Energy, and 4 for overhead
 
 
 #Get Data from metrics files
-t = 0
 for num_mules in folder_nums:
     for i in range(runs):
         directory = "../Bands_UMass" + str(num_mules) + "/" + days[i] + "/Day2/"
@@ -50,55 +51,51 @@ for num_mules in folder_nums:
 
                 if band == "ALL" or protocol == "Epidemic":
                     with open(directory_band_proto + metrics_file) as f:
-                        lines = f.readlines()[1:]
+                        lines = f.readlines()[2:]
 
+                    t = 0
 
                     for line in lines:
                         line_arr = line.strip().split()
 
+                        if line_arr[p_id] == "None":
+                            line_arr[p_id] = 0
 
-                        if "180" in line_arr:
+                        if "XChants" == protocol:
+                            if "ALL" == band:
+                                Xchants[t][i] = line_arr[p_id]
 
-                            if line_arr[p_id] == "None":
-                                line_arr[p_id] = 0
+                        elif "Epidemic" == protocol:
+                            if "ALL" == band:
+                                Epidemic_ALL[t][i] = line_arr[p_id]
+                            elif "LTE" == band:
+                                Epidemic_LTE[t][i] = line_arr[p_id]
+                            elif "TV" == band:
+                                Epidemic_TV[t][i] = line_arr[p_id]
+                            elif "CBRS" == band:
+                                Epidemic_CBRS[t][i] = line_arr[p_id]
+                            elif "ISM" == band:
+                                Epidemic_ISM[t][i] = line_arr[p_id]
 
-                            if "XChants" == protocol:
-                                if "ALL" == band:
-                                    Xchants[t][i] = line_arr[p_id]
+                        elif "SprayNWait" == protocol:
+                            if "ALL" == band:
+                                SprayNWait_ALL[t][i] = line_arr[p_id]
 
-                            elif "Epidemic" == protocol:
-                                if "ALL" == band:
-                                    Epidemic_ALL[t][i] = line_arr[p_id]
-                                elif "LTE" == band:
-                                    Epidemic_LTE[t][i] = line_arr[p_id]
-                                elif "TV" == band:
-                                    Epidemic_TV[t][i] = line_arr[p_id]
-                                elif "CBRS" == band:
-                                    Epidemic_CBRS[t][i] = line_arr[p_id]
-                                elif "ISM" == band:
-                                    Epidemic_ISM[t][i] = line_arr[p_id]
+                        elif "HotPotato" == protocol:
+                            if "ALL" == band:
+                                HotPotato_ALL[t][i] = line_arr[p_id]
+                        t += 1
 
-                            elif "SprayNWait" == protocol:
-                                if "ALL" == band:
-                                    SprayNWait_ALL[t][i] = line_arr[p_id]
-
-                            elif "HotPotato" == protocol:
-                                if "ALL" == band:
-                                    HotPotato_ALL[t][i] = line_arr[p_id]
-    t += 1
-
-t = 0
+time = 0
 for num_mules in folder_nums:
     for i in range(runs):
+        t = 0
         metric_file = open("../Bands_UMass" + str(num_mules) +"/" + days[i] + "/Day2/ALL/XChants/metrics_LLC_day2_X-CHANTS_opt.txt", "r")
-        lines = metric_file.readlines()[1:]
+        lines = metric_file.readlines()[2:]
         for line in lines:
             line_arr = line.strip().split("\t")
-
-            if "180" in line_arr[0]:
-
-                Xchants_pk[t][i] = line_arr[p_id]
-    t += 1
+            Xchants_pk[t][i] = line_arr[p_id]
+            t += 1
 
 if p_id == 3:
     for t in range(len(Xchants)):
@@ -153,47 +150,47 @@ for i in range(len(Xchants)):
     Epidemic_TV_SD.append(np.std(Epidemic_TV[i]))
 
 #Create plot
-x = np.array([3, 5, 7, 9, 11])
+x = np.array([30, 60, 90, 120, 150, 180])
 plt.xticks(fontsize=25)
 plt.yticks(fontsize=25)
-plt.xticks(np.arange(3, 12,step=2))
+plt.xticks(np.arange(30, 190,step=30))
 # plt.xlim(0,12)
 fig_name = "dummy.eps"
 
 if p_id == 1:
     plt.ylabel('Message delivery ratio', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.xlabel('Time (min)', fontsize=25)
     # plt.ylim(0,1.15)
-    fig_name = "../Plots/pdr_nodes_UMass.eps"
+    fig_name = "../Plots/pdr_time_UMass.eps"
 
 if p_id == 2:
     plt.ylabel('Latency (min)', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.xlabel('Time (min)', fontsize=25)
 
-    fig_name = "../Plots/latency_nodes_UMass.eps"
+    fig_name = "../Plots/latency_time_UMass.eps"
 
 if p_id == 3:
     plt.ylabel('Energy Expenditure (KJ)', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
-    plt.ylim(0, 38)
-    fig_name = "../Plots/energy_nodes_UMass.eps"
+    plt.xlabel('Time (min)', fontsize=25)
+    plt.ylim(0, 30)
+    fig_name = "../Plots/energy_time_UMass.eps"
 
 if p_id == 4:
     plt.ylabel('Message overhead', fontsize=25)
-    plt.xlabel('Number of Buses', fontsize=25)
+    plt.xlabel('Time (min)', fontsize=25)
     plt.ylim(0, 85)
-    fig_name = "../Plots/overhead_nodes_UMass.eps"
+    fig_name = "../Plots/overhead_time_UMass.eps"
 
 
-plt.errorbar(x, Epidemic_CBRS_mean, 0, marker='*', linestyle='-.', linewidth=2)
-plt.errorbar(x, Epidemic_ISM_mean, 0, marker='*', linestyle='-.', linewidth=2)
-plt.errorbar(x, Epidemic_LTE_mean, 0, marker='*', linestyle='-.', linewidth=2)
-plt.errorbar(x, Epidemic_TV_mean, 0, marker='*', linestyle='-.', linewidth=2)
-plt.errorbar(x, Epidemic_ALL_mean, 0, marker='*', linestyle='-.', linewidth=2)
-plt.errorbar(x, SprayNWait_ALL_mean, 0, marker='D', linestyle='--', linewidth=2)
-plt.errorbar(x, HotPotato_ALL_mean, 0, marker='^', linestyle='--', linewidth=2)
-plt.errorbar(x, Xchants_mean, 0, marker='o', linestyle='-', linewidth=2, color="#813a5c")
-plt.errorbar(x, Xchants_mean_pk, 0, marker='o', linestyle='--', linewidth=2, color="#49FF00")
+plt.errorbar(x, Epidemic_CBRS_mean[:6], 0, marker='*', linestyle='-.', linewidth=2)
+plt.errorbar(x, Epidemic_ISM_mean[:6], 0, marker='*', linestyle='-.', linewidth=2)
+plt.errorbar(x, Epidemic_LTE_mean[:6], 0, marker='*', linestyle='-.', linewidth=2)
+plt.errorbar(x, Epidemic_TV_mean[:6], 0, marker='*', linestyle='-.', linewidth=2)
+plt.errorbar(x, Epidemic_ALL_mean[:6], 0, marker='*', linestyle='-.', linewidth=2)
+plt.errorbar(x, SprayNWait_ALL_mean[:6], 0, marker='D', linestyle='--', linewidth=2)
+plt.errorbar(x, HotPotato_ALL_mean[:6], 0, marker='^', linestyle='--', linewidth=2)
+plt.errorbar(x, Xchants_mean[:6], 0, marker='o', linestyle='-', linewidth=2, color="#813a5c")
+plt.errorbar(x, Xchants_mean_pk[:6], 0, marker='o', linestyle='--', linewidth=2, color="#49FF00")
 
 # plt.errorbar(x, Xchants_mean_pk, Xchants_SD_pk, marker='o', linestyle='-', linewidth=2)
 # plt.errorbar(x, Xchants_mean, Xchants_SD, marker='o', linestyle='-', linewidth=2)
