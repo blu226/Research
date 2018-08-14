@@ -114,8 +114,8 @@ def run_simulation_files(day, V, T,directory,time, max_nodes):
         # if ind == 0 and day == 2 and V == max_nodes:
         #    os.system('python3 computeLINKEXISTS_UMass.py')
         os.system('python3 STB_main_path.py')
-        # os.system('python3 main2.py')
-        os.system('python3 main_opt.py')
+        os.system('python3 main2.py')
+        #os.system('python3 main_opt.py')
         os.system('python3 metrics.py')
 
 
@@ -131,5 +131,5 @@ for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day1"
     # files = findfiles(path)
     # v = len(files)
-    for v in range(21, 8, -2):
-        run_simulation_files(2, v, 240, directorys[i], startTime, 21)
+    for v in range(19, 8, -2):
+        run_simulation_files(2, v, 240, directorys[i], startTime, 19)

@@ -121,15 +121,15 @@ def run_simulation_files(day, V, T,directory,time, max_nodes):
 dir = "../DataMules/"
 
 directorys = ['2007-11-01/']
-startTime = 480
+startTime = 660
 for i in range(len(directorys)):
     # path = dir + directorys[i] + "Day1"
     # files = findfiles(path)
     # v = len(files)
     #
     # print(directorys[i])
-    for v in range(21, 8, -2):
-        run_simulation_files(1, v, 180, directorys[i], startTime, 21)
+    for v in range(19, 8, -2):
+        run_simulation_files(1, v, 180, directorys[i], startTime, 19)
 
 
 
